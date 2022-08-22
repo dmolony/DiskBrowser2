@@ -45,12 +45,13 @@ public class AppleTreeItem extends TreeItem<TreeFile>
     {
       firstTimeLeaf = false;
       TreeFile treeFile = getValue ();
+
       if (treeFile.isFile () || treeFile.isDirectory ())
         isLeaf = false;
       else
       {
         AppleFile appleFile = treeFile.getAppleFile ();
-        isLeaf = appleFile.isFile ();
+        isLeaf = !(appleFile.isDirectory () || appleFile.isFileSystem ());
       }
     }
 
@@ -79,7 +80,7 @@ public class AppleTreeItem extends TreeItem<TreeFile>
         //        System.out.println (appleFile);
       }
     }
-    else if (treeFile.isAppleFile ())
+    else if (treeFile.isAppleFileSystem () || treeFile.isAppleDirectory ())
     {
       for (AppleFile appleFile : treeFile.listAppleFiles ())
         children.add (new AppleTreeItem (new TreeFile (appleFile)));

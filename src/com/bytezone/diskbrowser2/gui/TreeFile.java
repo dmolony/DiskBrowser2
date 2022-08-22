@@ -31,7 +31,7 @@ public class TreeFile
   {
     this.path = null;
     this.file = null;
-    //    this.appleFile = appleFile;
+
     setAppleFile (appleFile);
   }
 
@@ -84,8 +84,8 @@ public class TreeFile
   String getName ()
   // ---------------------------------------------------------------------------------//
   {
-    if (name == null)     // temporary
-      return "Null";
+    //    if (name == null)     // temporary
+    //      return "Null";
     return name;
   }
 
@@ -95,7 +95,7 @@ public class TreeFile
   {
     this.appleFile = appleFile;
     name = appleFile.getName ();
-    System.out.printf ("[%s]%n", name);
+
     sortString = name.toLowerCase ();
     suffix = "";
     prefix = sortString;
@@ -126,16 +126,28 @@ public class TreeFile
   public boolean isFile ()
   // ---------------------------------------------------------------------------------//
   {
-    if (file == null)
-      return false;
-    return file.isFile ();
+    return file != null && file.isFile ();
   }
 
   // ---------------------------------------------------------------------------------//
   public boolean isAppleFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null;
+    return appleFile != null && appleFile.isFile ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public boolean isAppleFileSystem ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return appleFile != null && appleFile.isFileSystem ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public boolean isAppleDirectory ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return appleFile != null && appleFile.isDirectory ();
   }
 
   // ---------------------------------------------------------------------------------//

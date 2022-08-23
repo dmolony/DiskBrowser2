@@ -152,6 +152,14 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
   }
 
   // ---------------------------------------------------------------------------------//
+  public void addListener (TreeNodeListener listener)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (!listeners.contains (listener))
+      listeners.add (listener);
+  }
+
+  // ---------------------------------------------------------------------------------//
   interface TreeNodeListener
   // ---------------------------------------------------------------------------------//
   {

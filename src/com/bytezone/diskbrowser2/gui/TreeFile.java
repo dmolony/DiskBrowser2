@@ -59,7 +59,7 @@ public class TreeFile
   private void common ()
   // ---------------------------------------------------------------------------------//
   {
-    this.extensionNo = Utility.getExtensionNumber (path);
+    this.extensionNo = AppleTreeView.factory.getSuffixNumber (file.getName ());
 
     if (path.getNameCount () == 0)
       name = path.toString ();
@@ -75,7 +75,7 @@ public class TreeFile
     }
     else
     {
-      suffix = Utility.getExtension (extensionNo);
+      suffix = AppleTreeView.factory.getSuffix (file.getName ());
       prefix = sortString.substring (0, name.length () - suffix.length ());
     }
   }
@@ -84,8 +84,6 @@ public class TreeFile
   String getName ()
   // ---------------------------------------------------------------------------------//
   {
-    //    if (name == null)     // temporary
-    //      return "Null";
     return name;
   }
 
@@ -130,6 +128,13 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
+  public boolean isDirectory ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return file != null && file.isDirectory ();
+  }
+
+  // ---------------------------------------------------------------------------------//
   public boolean isAppleFile ()
   // ---------------------------------------------------------------------------------//
   {
@@ -151,12 +156,10 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isDirectory ()
+  public boolean isAppleDataFile ()
   // ---------------------------------------------------------------------------------//
   {
-    if (file == null)
-      return false;
-    return file.isDirectory ();
+    return appleFile != null && !(appleFile.isDirectory () || appleFile.isFileSystem ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -192,6 +195,13 @@ public class TreeFile
       e.printStackTrace ();
     }
     return -1;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  String getSortString ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return sortString;
   }
 
   // ---------------------------------------------------------------------------------//

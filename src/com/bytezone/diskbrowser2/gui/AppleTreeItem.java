@@ -1,5 +1,8 @@
 package com.bytezone.diskbrowser2.gui;
 
+import java.util.Comparator;
+import java.util.function.Function;
+
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
@@ -31,6 +34,7 @@ public class AppleTreeItem extends TreeItem<TreeFile>
     {
       firstTimeChildren = false;
       super.getChildren ().setAll (buildChildren ());
+      sort (this);
     }
 
     return super.getChildren ();
@@ -68,7 +72,8 @@ public class AppleTreeItem extends TreeItem<TreeFile>
     if (treeFile.isDirectory ())
     {
       for (TreeFile childFile : treeFile.listFiles ())
-        if (childFile.isDirectory () || Utility.isValidExtension (childFile.getName ()))
+        if (childFile.isDirectory ()
+            || AppleTreeView.factory.getSuffixNumber (childFile.getName ()) >= 0)
           children.add (new AppleTreeItem (childFile));
     }
     else if (treeFile.isFile ())
@@ -87,5 +92,19 @@ public class AppleTreeItem extends TreeItem<TreeFile>
     }
 
     return children;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private void sort (TreeItem<TreeFile> node)
+  // ---------------------------------------------------------------------------------//
+  {
+    node.getChildren ().sort (Comparator.comparing (new Function<TreeItem<TreeFile>, String> ()
+    {
+      @Override
+      public String apply (TreeItem<TreeFile> t)
+      {
+        return t.getValue ().getSortString ();
+      }
+    }));
   }
 }

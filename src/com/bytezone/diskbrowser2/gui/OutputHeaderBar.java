@@ -40,7 +40,8 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener, ShowLinesLi
   // ---------------------------------------------------------------------------------//
   {
     this.lineDisplayStatus = lineDisplayStatus;
-    updateNameLabel (lineDisplayStatus.truncateLines);
+    //    updateNameLabel (lineDisplayStatus.truncateLines);
+    updateNameLabel (false);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -51,6 +52,7 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener, ShowLinesLi
     this.nodeData = nodeData;
 
     //    rightLabel.setText (nodeData.isDataset () ? nodeData.getDisposition ().toString () : "");
-    updateNameLabel (lineDisplayStatus.truncateLines);
+    //    updateNameLabel (lineDisplayStatus.truncateLines);
+    updateNameLabel (false);
   }
 }

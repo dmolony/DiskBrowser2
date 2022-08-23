@@ -33,7 +33,12 @@ public class DiskBrowserApp extends AppBase
   private final OutputTabPane outputTabPane = new OutputTabPane ("Output");
   private final OutputTabPane outputTabPane2 = new OutputTabPane ("Output2");
 
+  private final DBStatusBar dbStatusBar = new DBStatusBar ();
+
   private DBStageManager dbStageManager;
+
+  private final FileMenu fileMenu = new FileMenu ("File");
+  //  private final ViewMenu viewMenu = new ViewMenu ("View");
 
   // ---------------------------------------------------------------------------------//
   @Override
@@ -65,6 +70,19 @@ public class DiskBrowserApp extends AppBase
         treePane,                                           //
         createBorderPane (outputHeaderBar, outputTabPane),
         createBorderPane (outputHeaderBar2, outputTabPane2));
+
+    fileMenu.setRootAction (e -> changeRootFolder ());
+
+    // font change listeners
+    fontManager.addFontChangeListener (appleTree);
+    fontManager.addFontChangeListener (outputTabPane);
+    fontManager.addFontChangeListener (dbStatusBar);
+
+    // treeview listeners
+    appleTree.addListener (fileMenu);
+    appleTree.addListener (outputTabPane.hexTab);
+    appleTree.addListener (outputTabPane.outputTab);
+    appleTree.addListener (outputHeaderBar);
 
     // ensure viewMenu (codepage) is set before xmitTree
     saveStateList.addAll (Arrays.asList (//
@@ -102,6 +120,19 @@ public class DiskBrowserApp extends AppBase
   {
     dbStageManager = new DBStageManager (stage);
     return dbStageManager;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void changeRootFolder ()
+  // ---------------------------------------------------------------------------------//
+  {
+    if (setRootFolder ())
+    {
+      treePane.setRootFolder (new AppleTreeItem (new TreeFile (new File (rootFolderName))));
+      dbStatusBar.setStatusMessage ("Root folder changed");
+    }
+    else
+      dbStatusBar.setStatusMessage ("Root folder unchanged");
   }
 
   // ---------------------------------------------------------------------------------//

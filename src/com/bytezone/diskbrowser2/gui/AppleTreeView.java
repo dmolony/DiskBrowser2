@@ -11,9 +11,13 @@ import com.bytezone.appbase.SaveState;
 import com.bytezone.filesystem.FileSystemFactory;
 
 import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
+import javafx.util.Callback;
 
 // ---------------------------------------------------------------------------------//
 public class AppleTreeView extends TreeView<TreeFile> implements SaveState, FontChangeListener
@@ -22,6 +26,21 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
   public static FileSystemFactory factory = new FileSystemFactory ();
   private static final String PREFS_LAST_PATH = "LastPath";
   private static String SEPARATOR = "/";
+
+  private final Image zipImage =
+      new Image (getClass ().getResourceAsStream ("/icons/zip-icon.png"));
+  private final Image diskImage = new Image (getClass ().getResourceAsStream ("/icons/disk.png"));
+  private final Image folderImage =
+      new Image (getClass ().getResourceAsStream ("/icons/folder-icon.png"));
+  //  private final Image xImage =
+  //      new Image (getClass ().getResourceAsStream ("/icons/X-green-icon.png"));
+  //  private final Image mImage =
+  //      new Image (getClass ().getResourceAsStream ("/icons/M-blue-icon.png"));
+  //  private final Image dImage =
+  //      new Image (getClass ().getResourceAsStream ("/icons/D-pink-icon.png"));
+  //  private final Image tImage =
+  //      new Image (getClass ().getResourceAsStream ("/icons/T-black-icon.png"));
+
   private Font font;
 
   private final MultipleSelectionModel<TreeItem<TreeFile>> model = getSelectionModel ();
@@ -54,6 +73,48 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
 
       for (TreeNodeListener listener : listeners)
         listener.treeNodeSelected (treeFile);
+    });
+
+    setCellFactory (new Callback<TreeView<TreeFile>, TreeCell<TreeFile>> ()
+    {
+      @Override
+      public TreeCell<TreeFile> call (TreeView<TreeFile> parm)
+      {
+        TreeCell<TreeFile> cell = new TreeCell<> ()
+        {
+          private final ImageView imageView = new ImageView ();
+
+          public void updateItem (TreeFile treeFile, boolean empty)
+          {
+            super.updateItem (treeFile, empty);
+            if (empty || treeFile == null)
+            {
+              setText (null);
+              setGraphic (null);
+            }
+            else
+            {
+              setText (treeFile.getName ());
+              setImageView (treeFile);
+              setGraphic (imageView);
+              setFont (font);
+            }
+          }
+
+          private void setImageView (TreeFile treeFile)
+          {
+            Image image =//
+                treeFile.isCompressedFile () ? zipImage ://
+                    treeFile.isDirectory () ? folderImage : //
+                        treeFile.isFile () ? diskImage :                                                       //
+                            null;
+
+            imageView.setImage (image);
+          }
+        };
+
+        return cell;
+      }
     });
   }
 

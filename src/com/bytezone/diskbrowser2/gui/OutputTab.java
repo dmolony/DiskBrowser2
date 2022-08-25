@@ -5,17 +5,19 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.bytezone.appbase.AppBase;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-class OutputTab extends DBTextTab implements    //
+class OutputTab extends DBTextTab implements      //
     ShowLinesListener,                            //
     FilterChangeListener,                         //
     OutputWriter,                                 //
@@ -53,7 +55,12 @@ class OutputTab extends DBTextTab implements    //
   {
     List<String> newLines = new ArrayList<> ();
 
-    if (treeFile.isAppleDataFile ())
+    if (treeFile.isAppleFileSystem ())
+    {
+      String catalog = ((AppleFileSystem) treeFile.getAppleFile ()).catalog ();
+      return Arrays.asList (catalog.split ("\n"));
+    }
+    else if (treeFile.isAppleDataFile ())
     {
       byte[] buffer = treeFile.getAppleFile ().read ();
       return Utility.getHexDumpLines (buffer, 0, Math.min (20000, buffer.length));
@@ -89,6 +96,7 @@ class OutputTab extends DBTextTab implements    //
   {
     this.lineDisplayStatus = lineDisplayStatus;
     textFormatter.setShowLineNumbers (lineDisplayStatus.showLines);
+
     refresh ();
   }
 
@@ -98,6 +106,7 @@ class OutputTab extends DBTextTab implements    //
   // ---------------------------------------------------------------------------------//
   {
     textFormatter.setFilter (filterStatus);
+
     refresh ();
   }
 

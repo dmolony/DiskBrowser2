@@ -13,11 +13,11 @@ import javafx.scene.text.Text;
 class DBTextFormatter implements TextFormatter
 // -----------------------------------------------------------------------------------//
 {
-  final List<Text> textList = new ArrayList<> ();
-  final Color baseColor = Color.GREEN;
-  final Color numberColor = Color.LIGHTSEAGREEN;
-  boolean showLineNumbers;
-  Font font;
+  protected final List<Text> textList = new ArrayList<> ();
+  protected final Color baseColor = Color.GREEN;
+  protected final Color numberColor = Color.LIGHTSEAGREEN;
+  protected boolean showLineNumbers;
+  protected Font font;
 
   private final FilterStatus filterStatus = new FilterStatus ();
 
@@ -96,6 +96,7 @@ class DBTextFormatter implements TextFormatter
 
       addTextNewLine (line, baseColor);
     }
+
     removeLastNewLine ();
   }
 
@@ -120,6 +121,7 @@ class DBTextFormatter implements TextFormatter
       else
         addTextNewLine (line, baseColor);
     }
+
     removeLastNewLine ();
   }
 

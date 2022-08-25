@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.function.Function;
 
 import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -66,30 +65,22 @@ public class AppleTreeItem extends TreeItem<TreeFile>
   private ObservableList<AppleTreeItem> buildChildren ()
   // ---------------------------------------------------------------------------------//
   {
-    TreeFile treeFile = getValue ();
+    TreeFile parent = getValue ();
     ObservableList<AppleTreeItem> children = FXCollections.observableArrayList ();
 
-    if (treeFile.isDirectory ())
+    if (parent.isDirectory ())
     {
-      for (TreeFile childFile : treeFile.listFiles ())
-        if (childFile.isDirectory ()
-            || AppleTreeView.factory.getSuffixNumber (childFile.getName ()) >= 0)
-          children.add (new AppleTreeItem (childFile));
+      for (TreeFile treeFile : parent.listFiles ())
+        if (treeFile.isDirectory ()
+            || AppleTreeView.factory.getSuffixNumber (treeFile.getName ()) >= 0)
+          children.add (new AppleTreeItem (treeFile));
     }
-    else if (treeFile.isFile ())
-    {
-      AppleFileSystem fs = AppleTreeView.factory.getFileSystem (treeFile.getFile ());
-      for (AppleFile appleFile : fs.getFiles ())
-      {
-        children.add (new AppleTreeItem (new TreeFile (appleFile)));
-        //        System.out.println (appleFile);
-      }
-    }
-    else if (treeFile.isAppleFileSystem () || treeFile.isAppleDirectory ())
-    {
-      for (AppleFile appleFile : treeFile.listAppleFiles ())
-        children.add (new AppleTreeItem (new TreeFile (appleFile)));
-    }
+    else if (parent.isFile () && !parent.isAppleFileSystem ())
+      parent.setAppleFile (AppleTreeView.factory.getFileSystem (parent.getFile ()));
+
+    if (parent.isAppleFileSystem () || parent.isAppleDirectory ())
+      for (TreeFile treeFile : parent.listAppleFiles ())
+        children.add (new AppleTreeItem (treeFile));
 
     return children;
   }

@@ -7,14 +7,13 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener, ShowLinesLi
 // -----------------------------------------------------------------------------------//
 {
   private LineDisplayStatus lineDisplayStatus;
-  private TreeFile nodeData;
-  //  private CatalogEntry catalogEntry;
+  private TreeFile treeFile;
 
   // ---------------------------------------------------------------------------------//
   void updateNameLabel (boolean truncateLines)
   // ---------------------------------------------------------------------------------//
   {
-    if (nodeData == null)// || !nodeData.isDataset () || catalogEntry == null)
+    if (treeFile == null)
     {
       leftLabel.setText ("");
       return;
@@ -31,7 +30,7 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener, ShowLinesLi
     //        leftLabel.setText (memberName);
     //    }
     //    else
-    leftLabel.setText (indicator + nodeData.getName ());
+    leftLabel.setText (indicator + treeFile.getCatalogLine ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -49,7 +48,7 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener, ShowLinesLi
   public void treeNodeSelected (TreeFile nodeData)
   // ---------------------------------------------------------------------------------//
   {
-    this.nodeData = nodeData;
+    this.treeFile = nodeData;
 
     //    rightLabel.setText (nodeData.isDataset () ? nodeData.getDisposition ().toString () : "");
     //    updateNameLabel (lineDisplayStatus.truncateLines);

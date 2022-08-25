@@ -9,12 +9,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 
 // -----------------------------------------------------------------------------------//
-public class DBStatusBar extends StatusBar
+public class DBStatusBar extends StatusBar implements FilterChangeListener, ShowLinesListener
 // -----------------------------------------------------------------------------------//
 {
   private FilterStatus filterStatus;
-  private boolean expandJclInclude;
-  private String codePageName;
   private final Label statusDisplay = new Label ();
 
   // ---------------------------------------------------------------------------------//
@@ -36,31 +34,22 @@ public class DBStatusBar extends StatusBar
   }
 
   // ---------------------------------------------------------------------------------//
-  //  @Override
-  //  public void setFilter (FilterStatus filterStatus)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    this.filterStatus = filterStatus;
-  //    setStatusText ();
-  //  }
+  @Override
+  public void setFilter (FilterStatus filterStatus)
+  // ---------------------------------------------------------------------------------//
+  {
+    this.filterStatus = filterStatus;
+    setStatusText ();
+  }
 
   // ---------------------------------------------------------------------------------//
-  //  @Override
-  //  public void showLinesSelected (LineDisplayStatus lineDisplayStatus)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    this.expandJclInclude = lineDisplayStatus.expandInclude;
-  //    setStatusText ();
-  //  }
-
+  @Override
+  public void showLinesSelected (LineDisplayStatus lineDisplayStatus)
   // ---------------------------------------------------------------------------------//
-  //  @Override
-  //  public void selectCodePage (String codePageName)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    this.codePageName = codePageName;
-  //    setStatusText ();
-  //  }
+  {
+    //    this.expandJclInclude = lineDisplayStatus.expandInclude;
+    setStatusText ();
+  }
 
   // ---------------------------------------------------------------------------------//
   private void setStatusText ()
@@ -72,10 +61,6 @@ public class DBStatusBar extends StatusBar
     String showText = (filterStatus.filterActive && !filterStatus.filterValue.isEmpty ())
         ? filterStatus.filterExclusion ? "Filtered lines" : "All lines" : "All lines";
 
-    String includeText = expandJclInclude ? "ON" : "OFF";
-
-    statusDisplay
-        .setText (String.format ("Filter: %-20s Show: %-20s JCL Include: %-12s Codepage: %-6s",
-            filterText, showText, includeText, codePageName));
+    statusDisplay.setText (String.format ("Filter: %-20s Show: %-20s", filterText, showText));
   }
 }

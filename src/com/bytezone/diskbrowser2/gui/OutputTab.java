@@ -1,18 +1,24 @@
 package com.bytezone.diskbrowser2.gui;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bytezone.appbase.AppBase;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
-import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.AppleFile;
 
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
 class OutputTab extends DBTextTab implements    //
     ShowLinesListener,                            //
-    //    FilterChangeListener,                         //
-    //    OutputWriter,                                 //
+    FilterChangeListener,                         //
+    OutputWriter,                                 //
     TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
@@ -24,14 +30,13 @@ class OutputTab extends DBTextTab implements    //
 
   LineDisplayStatus lineDisplayStatus;
   private TreeFile treeFile;                    // the item to display
+  private AppleFile appleFile;
 
   // ---------------------------------------------------------------------------------//
   public OutputTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
-
-    //    textFormatter = new TextFormatterJcl ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -48,58 +53,34 @@ class OutputTab extends DBTextTab implements    //
   {
     List<String> newLines = new ArrayList<> ();
 
-    if (treeFile.isFile ())
+    if (treeFile.isAppleDataFile ())
     {
-      newLines.add ("--> File");
-      if (treeFile.isAppleFileSystem ())
-        newLines.add ("also fs");
-    }
-    else if (treeFile.isDirectory ())
-    {
-      newLines.add ("--> Directory");
-    }
-    else if (treeFile.isAppleFileSystem ())
-    {
-      newLines.add ("--> AppleFileSystem");
-
-      for (String line : (((AppleFileSystem) treeFile.getAppleFile ()).toText ()).split ("\n"))
-        newLines.add (line);
-    }
-    else if (treeFile.isAppleDirectory ())
-    {
-      newLines.add ("--> AppleDirectory");
-    }
-    else if (treeFile.isAppleDataFile ())
-    {
-      newLines.add ("--> AppleFile");
       byte[] buffer = treeFile.getAppleFile ().read ();
-
-      for (String line : Utility.getHexDumpLines (buffer, 0, buffer.length))
-        newLines.add (line);
+      return Utility.getHexDumpLines (buffer, 0, Math.min (20000, buffer.length));
     }
 
     return newLines;
   }
 
   // ---------------------------------------------------------------------------------//
-  //  @Override
-  //  public void write (File file)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    if (file == null)
-  //      return;
-  //
-  //    try (BufferedWriter output = new BufferedWriter (new FileWriter (file)))
-  //    {
-  //      for (String line : getLines (0))
-  //        output.write (line + "\n");
-  //      AppBase.showAlert (AlertType.INFORMATION, "Success", "File Saved: " + file.getName ());
-  //    }
-  //    catch (IOException e)
-  //    {
-  //      AppBase.showAlert (AlertType.ERROR, "Error", "File Error: " + e.getMessage ());
-  //    }
-  //  }
+  @Override
+  public void write (File file)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (file == null)
+      return;
+
+    try (BufferedWriter output = new BufferedWriter (new FileWriter (file)))
+    {
+      for (String line : getLines (0))
+        output.write (line + "\n");
+      AppBase.showAlert (AlertType.INFORMATION, "Success", "File Saved: " + file.getName ());
+    }
+    catch (IOException e)
+    {
+      AppBase.showAlert (AlertType.ERROR, "Error", "File Error: " + e.getMessage ());
+    }
+  }
 
   // ---------------------------------------------------------------------------------//
   @Override
@@ -112,13 +93,13 @@ class OutputTab extends DBTextTab implements    //
   }
 
   // ---------------------------------------------------------------------------------//
-  //  @Override
-  //  public void setFilter (FilterStatus filterStatus)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    textFormatter.setFilter (filterStatus);
-  //    refresh ();
-  //  }
+  @Override
+  public void setFilter (FilterStatus filterStatus)
+  // ---------------------------------------------------------------------------------//
+  {
+    textFormatter.setFilter (filterStatus);
+    refresh ();
+  }
 
   // ---------------------------------------------------------------------------------//
   @Override
@@ -126,6 +107,7 @@ class OutputTab extends DBTextTab implements    //
   // ---------------------------------------------------------------------------------//
   {
     this.treeFile = treeFile;
+    appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
 
     refresh ();
   }

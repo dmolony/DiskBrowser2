@@ -19,7 +19,7 @@ class DBTextFormatter implements TextFormatter
   boolean showLineNumbers;
   Font font;
 
-  //  private final FilterStatus filterStatus = new FilterStatus ();
+  private final FilterStatus filterStatus = new FilterStatus ();
 
   // ---------------------------------------------------------------------------------//
   @Override
@@ -40,10 +40,10 @@ class DBTextFormatter implements TextFormatter
   {
     textList.clear ();
 
-    //    if (filterStatus.filterValue.isEmpty () || !filterStatus.filterActive)
-    plainFormat (lines);
-    //    else
-    //      filterFormat (lines);
+    if (filterStatus.filterValue.isEmpty () || !filterStatus.filterActive)
+      plainFormat (lines);
+    else
+      filterFormat (lines);
 
     return textList;
   }
@@ -71,18 +71,18 @@ class DBTextFormatter implements TextFormatter
   }
 
   // ---------------------------------------------------------------------------------//
-  //  public void setFilter (FilterStatus filterStatus)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    this.filterStatus.copy (filterStatus);
-  //  }
-  //
-  //  // ---------------------------------------------------------------------------------//
-  //  public boolean usingFilter ()
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    return !filterStatus.filterValue.isEmpty () && filterStatus.filterActive;
-  //  }
+  public void setFilter (FilterStatus filterStatus)
+  // ---------------------------------------------------------------------------------//
+  {
+    this.filterStatus.copy (filterStatus);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public boolean usingFilter ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return !filterStatus.filterValue.isEmpty () && filterStatus.filterActive;
+  }
 
   // ---------------------------------------------------------------------------------//
   void plainFormat (List<String> lines)
@@ -100,28 +100,28 @@ class DBTextFormatter implements TextFormatter
   }
 
   // ---------------------------------------------------------------------------------//
-  //  void filterFormat (List<String> lines)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    int lineNo = 1;
-  //    for (String line : lines)
-  //    {
-  //      if (showLineNumbers)
-  //        addText (String.format ("%06d ", lineNo++), numberColor);
-  //
-  //      if (highlight (line, filterStatus.filterValue, Color.RED))
-  //        continue;
-  //
-  //      if (filterStatus.filterExclusion)
-  //      {
-  //        if (showLineNumbers)
-  //          textList.remove (textList.size () - 1);
-  //      }
-  //      else
-  //        addTextNewLine (line, baseColor);
-  //    }
-  //    removeLastNewLine ();
-  //  }
+  void filterFormat (List<String> lines)
+  // ---------------------------------------------------------------------------------//
+  {
+    int lineNo = 1;
+    for (String line : lines)
+    {
+      if (showLineNumbers)
+        addText (String.format ("%06d ", lineNo++), numberColor);
+
+      if (highlight (line, filterStatus.filterValue, Color.RED))
+        continue;
+
+      if (filterStatus.filterExclusion)
+      {
+        if (showLineNumbers)
+          textList.remove (textList.size () - 1);
+      }
+      else
+        addTextNewLine (line, baseColor);
+    }
+    removeLastNewLine ();
+  }
 
   // ---------------------------------------------------------------------------------//
   boolean highlight (String line, String text, Color color)

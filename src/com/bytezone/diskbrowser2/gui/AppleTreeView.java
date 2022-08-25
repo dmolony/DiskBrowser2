@@ -49,7 +49,8 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
       }
 
       TreeFile treeFile = newSel.getValue ();
-      //      AppleTreeItem treeItem = (AppleTreeItem) newSel;
+      if (treeFile.isFile () && !treeFile.isAppleFileSystem ())
+        treeFile.setAppleFile (factory.getFileSystem (treeFile.getFile ()));
 
       for (TreeNodeListener listener : listeners)
         listener.treeNodeSelected (treeFile);

@@ -88,6 +88,13 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
+  String getCatalogLine ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return appleFile == null ? name : appleFile.getCatalogLine ();
+  }
+
+  // ---------------------------------------------------------------------------------//
   void setAppleFile (AppleFile appleFile)
   // ---------------------------------------------------------------------------------//
   {
@@ -176,10 +183,15 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  public List<AppleFile> listAppleFiles ()
+  public List<TreeFile> listAppleFiles ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile.getFiles ();
+    List<TreeFile> fileList = new ArrayList<> ();
+
+    for (AppleFile file : appleFile.getFiles ())
+      fileList.add (new TreeFile (file));
+
+    return fileList;
   }
 
   // ---------------------------------------------------------------------------------//

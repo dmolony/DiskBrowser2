@@ -6,6 +6,7 @@ import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.AppBase;
 import com.bytezone.appbase.StageManager;
+import com.bytezone.appbase.StatusBar;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -33,12 +35,13 @@ public class DiskBrowserApp extends AppBase
   private final OutputTabPane outputTabPane = new OutputTabPane ("Output");
   private final OutputTabPane outputTabPane2 = new OutputTabPane ("Output2");
 
+  private final FilterManager filterManager = new FilterManager ();
   private final DBStatusBar dbStatusBar = new DBStatusBar ();
 
   private DBStageManager dbStageManager;
 
   private final FileMenu fileMenu = new FileMenu ("File");
-  //  private final ViewMenu viewMenu = new ViewMenu ("View");
+  private final ViewMenu viewMenu = new ViewMenu ("View");
 
   // ---------------------------------------------------------------------------------//
   @Override
@@ -71,24 +74,43 @@ public class DiskBrowserApp extends AppBase
         createBorderPane (outputHeaderBar, outputTabPane),
         createBorderPane (outputHeaderBar2, outputTabPane2));
 
+    // menu listeners
+    viewMenu.setExclusiveFilterAction (e -> filterManager.toggleFilterExclusion ());
+    viewMenu.setFilterAction (e -> filterManager.showWindow ());
+    viewMenu.setFontAction (e -> fontManager.showWindow ());
     fileMenu.setRootAction (e -> changeRootFolder ());
+
+    // lines listeners
+    viewMenu.addShowLinesListener (dbStatusBar);
+    viewMenu.addShowLinesListener (outputHeaderBar);
+    viewMenu.addShowLinesListener (outputTabPane.outputTab);
 
     // font change listeners
     fontManager.addFontChangeListener (appleTree);
     fontManager.addFontChangeListener (outputTabPane);
     fontManager.addFontChangeListener (dbStatusBar);
 
+    // filter change listeners (filter parameters)
+    filterManager.addFilterListener (dbStatusBar);
+    //    filterManager.addFilterListener (tableHeaderBar);
+    //    filterManager.addFilterListener (outputTabPane.outputTab);
+    //    filterManager.addFilterListener (xmitTable);
+
     // treeview listeners
     appleTree.addListener (fileMenu);
+    appleTree.addListener (outputTabPane.metaTab);
     appleTree.addListener (outputTabPane.hexTab);
     appleTree.addListener (outputTabPane.outputTab);
     appleTree.addListener (outputHeaderBar);
 
+    // add menus
+    menuBar.getMenus ().addAll (fileMenu, viewMenu);
+
+    fileMenu.setOutputWriter (outputTabPane.outputTab);
+
     // ensure viewMenu (codepage) is set before xmitTree
     saveStateList.addAll (Arrays.asList (//
-        //            filterManager, //
-        outputTabPane, outputTabPane2, //fileMenu, viewMenu,
-        appleTree, fontManager));
+        filterManager, outputTabPane, outputTabPane2, fileMenu, viewMenu, appleTree, fontManager));
 
     return splitPane;
   }
@@ -120,6 +142,53 @@ public class DiskBrowserApp extends AppBase
   {
     dbStageManager = new DBStageManager (stage);
     return dbStageManager;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  protected StatusBar getStatusBar ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return dbStatusBar;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  protected void keyPressed (KeyEvent keyEvent)
+  // ---------------------------------------------------------------------------------//
+  {
+    super.keyPressed (keyEvent);
+
+    switch (keyEvent.getCode ())
+    {
+      case M:       // meta
+      case X:       // hex
+      case O:       // output
+        outputTabPane.keyPressed (keyEvent);
+        keyEvent.consume ();
+        break;
+
+      //      case H:       // headers
+      //      case M:       // members
+      //      case C:       // comments
+      //        tableTabPane.keyPressed (keyEvent);
+      //        keyEvent.consume ();
+      //        break;
+
+      case COMMA:
+      case PERIOD:
+        fontManager.keyPressed (keyEvent);
+        keyEvent.consume ();
+        break;
+
+      case F:
+        filterManager.keyPressed (keyEvent);
+        keyEvent.consume ();
+        break;
+
+      default:
+        break;
+    }
   }
 
   // ---------------------------------------------------------------------------------//

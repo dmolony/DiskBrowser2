@@ -5,24 +5,24 @@ import java.util.List;
 
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-class HexTab extends DBTextTab implements TreeNodeListener
+public class MetaTab extends DBTextTab implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
-  private static final int MAX_HEX_BYTES = 0x20_000;
-
   TreeFile treeFile;
   AppleFile appleFile;
 
   // ---------------------------------------------------------------------------------//
-  public HexTab (String title, KeyCode keyCode)
+  public MetaTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
-    textFormatter = new TextFormatterHex ();
+
+    //    textFormatter = new TextFormatterHex ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -30,13 +30,42 @@ class HexTab extends DBTextTab implements TreeNodeListener
   List<String> getLines ()
   // ---------------------------------------------------------------------------------//
   {
-    List<String> lines = new ArrayList<> ();
+    List<String> newLines = new ArrayList<> ();
 
-    if (appleFile == null)
-      return lines;
+    if (treeFile == null)
+      return newLines;
 
-    byte[] buffer = appleFile.read ();
-    return Utility.getHexDumpLines (buffer, 0, Math.min (MAX_HEX_BYTES, buffer.length));
+    if (treeFile.isFile ())
+    {
+      newLines.add ("--> File");
+      if (treeFile.isAppleFileSystem ())
+      {
+        newLines.add ("--> AppleFileSystem");
+        for (String line : (((AppleFileSystem) treeFile.getAppleFile ()).toText ()).split ("\n"))
+          newLines.add (line);
+      }
+    }
+    else if (treeFile.isDirectory ())
+    {
+      newLines.add ("--> Directory");
+    }
+    else if (treeFile.isAppleFileSystem ())
+    {
+      newLines.add ("--> AppleFileSystem");
+
+      for (String line : (((AppleFileSystem) treeFile.getAppleFile ()).toText ()).split ("\n"))
+        newLines.add (line);
+    }
+    else if (treeFile.isAppleDirectory ())
+    {
+      newLines.add ("--> AppleDirectory");
+    }
+    else if (treeFile.isAppleDataFile ())
+    {
+      newLines.add ("--> AppleDataFile");
+    }
+
+    return newLines;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -45,7 +74,7 @@ class HexTab extends DBTextTab implements TreeNodeListener
   // ---------------------------------------------------------------------------------//
   {
     this.treeFile = treeFile;
-    appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
+    appleFile = treeFile.getAppleFile ();
 
     refresh ();
   }

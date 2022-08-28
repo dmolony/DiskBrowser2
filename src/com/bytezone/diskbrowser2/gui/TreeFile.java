@@ -89,7 +89,7 @@ public class TreeFile
   void setAppleFile (AppleFile appleFile)
   // ---------------------------------------------------------------------------------//
   {
-    assert isFile ();
+    assert isLocalFile ();
     this.appleFile = appleFile;
   }
 
@@ -129,21 +129,21 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isFile ()
+  public boolean isLocalFile ()
   // ---------------------------------------------------------------------------------//
   {
     return file != null && file.isFile ();
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isCompressedFile ()
+  public boolean isCompressedLocalFile ()
   // ---------------------------------------------------------------------------------//
   {
     return file != null && (suffix.equals ("zip") || suffix.equals ("gz"));
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isDirectory ()
+  public boolean isLocalDirectory ()
   // ---------------------------------------------------------------------------------//
   {
     return file != null && file.isDirectory ();
@@ -164,21 +164,21 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isAppleDirectory ()
+  public boolean isAppleFolder ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null && appleFile.isDirectory ();
+    return appleFile != null && appleFile.isFolder ();
   }
 
   // ---------------------------------------------------------------------------------//
   public boolean isAppleDataFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null && !(appleFile.isDirectory () || appleFile.isFileSystem ());
+    return appleFile != null && !appleFile.isFolder () && !appleFile.isFileSystem ();
   }
 
   // ---------------------------------------------------------------------------------//
-  public List<TreeFile> listFiles ()
+  public List<TreeFile> listLocalFiles ()
   // ---------------------------------------------------------------------------------//
   {
     List<TreeFile> fileList = new ArrayList<> ();
@@ -203,7 +203,7 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  public long getFileSize ()
+  public long getLocalFileSize ()
   // ---------------------------------------------------------------------------------//
   {
     try
@@ -235,11 +235,11 @@ public class TreeFile
 
     if (extensionNo >= 0)
     {
-      fileSizeText = String.format ("%,d", getFileSize ());
+      fileSizeText = String.format ("%,d", getLocalFileSize ());
       suffixText = suffix.substring (1);
     }
 
-    if (isFile ())
+    if (isLocalFile ())
     {
       text.append (String.format ("Path ............ %s%n", path.toString ()));
       text.append (String.format ("Name ............ %s%n", name));

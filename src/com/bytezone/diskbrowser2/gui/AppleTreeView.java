@@ -1,6 +1,5 @@
 package com.bytezone.diskbrowser2.gui;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,14 +46,7 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
   private final List<TreeNodeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
-  public AppleTreeView (String rootFolderName)
-  // ---------------------------------------------------------------------------------//
-  {
-    this (new AppleTreeItem (new TreeFile (new File (rootFolderName))));
-  }
-
-  // ---------------------------------------------------------------------------------//
-  public AppleTreeView (TreeItem<TreeFile> root)
+  public AppleTreeView (AppleTreeItem root)
   // ---------------------------------------------------------------------------------//
   {
     super (root);
@@ -68,7 +60,7 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
       }
 
       TreeFile treeFile = newSel.getValue ();
-      if (treeFile.isFile () && !treeFile.isAppleFileSystem ())
+      if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
         treeFile.setAppleFile (factory.getFileSystem (treeFile.getFile ()));
 
       for (TreeNodeListener listener : listeners)
@@ -87,6 +79,7 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
           public void updateItem (TreeFile treeFile, boolean empty)
           {
             super.updateItem (treeFile, empty);
+
             if (empty || treeFile == null)
             {
               setText (null);
@@ -103,13 +96,14 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
 
           private void setImageView (TreeFile treeFile)
           {
-            Image image =//
-                treeFile.isCompressedFile () ? zipImage ://
-                    treeFile.isDirectory () ? folderImage : //
-                        treeFile.isFile () ? diskImage :                                                       //
-                            null;
-
-            imageView.setImage (image);
+            if (treeFile.isCompressedLocalFile ())
+              imageView.setImage (zipImage);
+            else if (treeFile.isLocalDirectory ())
+              imageView.setImage (folderImage);
+            else if (treeFile.isLocalFile ())
+              imageView.setImage (diskImage);
+            else
+              imageView.setImage (null);
           }
         };
 

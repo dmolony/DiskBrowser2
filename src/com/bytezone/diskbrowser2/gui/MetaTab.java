@@ -35,9 +35,9 @@ public class MetaTab extends DBTextTab implements TreeNodeListener
     if (treeFile == null)
       return newLines;
 
-    if (treeFile.isFile ())
+    if (treeFile.isLocalFile ())
     {
-      newLines.add ("--> File");
+      newLines.add ("--> PC File");
       if (treeFile.isAppleFileSystem ())
       {
         newLines.add ("--> AppleFileSystem");
@@ -45,9 +45,9 @@ public class MetaTab extends DBTextTab implements TreeNodeListener
           newLines.add (line);
       }
     }
-    else if (treeFile.isDirectory ())
+    else if (treeFile.isLocalDirectory ())
     {
-      newLines.add ("--> Directory");
+      newLines.add ("--> PC Directory");
     }
     else if (treeFile.isAppleFileSystem ())
     {
@@ -56,9 +56,9 @@ public class MetaTab extends DBTextTab implements TreeNodeListener
       for (String line : (((AppleFileSystem) treeFile.getAppleFile ()).toText ()).split ("\n"))
         newLines.add (line);
     }
-    else if (treeFile.isAppleDirectory ())
+    else if (treeFile.isAppleFolder ())
     {
-      newLines.add ("--> AppleDirectory");
+      newLines.add ("--> AppleFolder");
     }
     else if (treeFile.isAppleDataFile ())
     {

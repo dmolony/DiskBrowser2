@@ -25,7 +25,8 @@ public class DiskBrowserApp extends AppBase
 {
   private static final String PREFS_ROOT_FOLDER = "RootFolder";
 
-  private String rootFolderName;
+  //  private String rootFolderName;
+  private File rootFolder;
 
   private AppleTreeView appleTree;
 
@@ -63,8 +64,8 @@ public class DiskBrowserApp extends AppBase
     // get root folder
     validateRootFolderOrExit ();
 
-    appleTree = new AppleTreeView (rootFolderName);
-    treePane = new TreePane (appleTree);
+    treePane = new TreePane (rootFolder);
+    appleTree = treePane.getTree ();
 
     OutputHeaderBar outputHeaderBar = new OutputHeaderBar ();
     OutputHeaderBar outputHeaderBar2 = new OutputHeaderBar ();
@@ -92,9 +93,7 @@ public class DiskBrowserApp extends AppBase
 
     // filter change listeners (filter parameters)
     filterManager.addFilterListener (dbStatusBar);
-    //    filterManager.addFilterListener (tableHeaderBar);
-    //    filterManager.addFilterListener (outputTabPane.outputTab);
-    //    filterManager.addFilterListener (xmitTable);
+    filterManager.addFilterListener (outputTabPane.outputTab);
 
     // treeview listeners
     appleTree.addListener (fileMenu);
@@ -197,7 +196,7 @@ public class DiskBrowserApp extends AppBase
   {
     if (setRootFolder ())
     {
-      treePane.setRootFolder (new AppleTreeItem (new TreeFile (new File (rootFolderName))));
+      treePane.setRootFolder (new AppleTreeItem (new TreeFile (rootFolder)));
       dbStatusBar.setStatusMessage ("Root folder changed");
     }
     else
@@ -208,7 +207,7 @@ public class DiskBrowserApp extends AppBase
   private void validateRootFolderOrExit ()
   // ---------------------------------------------------------------------------------//
   {
-    rootFolderName = prefs.get (PREFS_ROOT_FOLDER, "");
+    String rootFolderName = prefs.get (PREFS_ROOT_FOLDER, "");
     if (rootFolderName.isEmpty ())
     {
       AppBase.showAlert (AlertType.INFORMATION, "Apple folder",
@@ -218,9 +217,9 @@ public class DiskBrowserApp extends AppBase
     }
     else
     {
-      File file = new File (rootFolderName);
-      if (!file.exists ())
-        rootFolderName = "";
+      rootFolder = new File (rootFolderName);
+      if (!rootFolder.exists ())
+        rootFolder = null;
     }
 
     if (rootFolderName.isEmpty () && !setRootFolder ())
@@ -234,13 +233,14 @@ public class DiskBrowserApp extends AppBase
   private boolean setRootFolder ()
   // ---------------------------------------------------------------------------------//
   {
+    String rootFolderName = rootFolder == null ? "" : rootFolder.getAbsolutePath ();
     DirectoryChooser directoryChooser = new DirectoryChooser ();
     directoryChooser.setTitle ("Set Apple file folder");
 
     if (rootFolderName.isEmpty ())
       directoryChooser.setInitialDirectory (new File (System.getProperty ("user.home")));
     else
-      directoryChooser.setInitialDirectory (new File (rootFolderName));
+      directoryChooser.setInitialDirectory (rootFolder);
 
     File file = directoryChooser.showDialog (null);
     if (file != null && file.isDirectory () && !file.getAbsolutePath ().equals (rootFolderName))

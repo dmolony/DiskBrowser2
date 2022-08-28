@@ -29,6 +29,7 @@ class TreePane extends BorderPane
     AppleTreeItem root = new AppleTreeItem (new TreeFile (rootFolder));
     root.setExpanded (true);
     createTree (root);
+    System.out.println ("********************************************");
     tree = new AppleTreeView (root);
     showTotals ();
 
@@ -111,16 +112,6 @@ class TreePane extends BorderPane
   {
     return parent.getChildren ().size () > 0;
   }
-
-  // ---------------------------------------------------------------------------------//
-  //  private TreeItem<TreeFile> createTreeRoot ()
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    TreeItem<TreeFile> root = new TreeItem<> (new TreeFile (rootFolder));
-  //    root.setExpanded (true);
-  //
-  //    return root;
-  //  }
 
   // ---------------------------------------------------------------------------------//
   void showTotals ()

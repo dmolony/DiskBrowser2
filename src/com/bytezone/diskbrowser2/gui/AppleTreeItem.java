@@ -33,15 +33,20 @@ public class AppleTreeItem extends TreeItem<TreeFile>
   public ObservableList<TreeItem<TreeFile>> getChildren ()
   // ---------------------------------------------------------------------------------//
   {
+    TreeFile treeFile = getValue ();
+    if (treeFile.isLocalDirectory ())     // already built
+      return super.getChildren ();
+
     if (firstTimeChildren)
     {
       firstTimeChildren = false;
-      TreeFile treeFile = getValue ();
 
-      if (treeFile.isLocalFile ())      // all local files should be file systems
+      if (super.getChildren ().size () == 0)
       {
-        treeFile.setAppleFile (AppleTreeView.factory.getFileSystem (treeFile.getFile ()));
-        super.getChildren ().setAll (buildChildren ());
+        if (treeFile.isLocalFile ())      // all local files should be file systems
+          treeFile.setAppleFile (AppleTreeView.factory.getFileSystem (treeFile.getFile ()));
+
+        super.getChildren ().setAll (buildChildren (treeFile));
       }
     }
 
@@ -49,26 +54,19 @@ public class AppleTreeItem extends TreeItem<TreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  private ObservableList<AppleTreeItem> buildChildren ()
+  private ObservableList<AppleTreeItem> buildChildren (TreeFile parent)
   // ---------------------------------------------------------------------------------//
   {
-    TreeFile parent = getValue ();
     ObservableList<AppleTreeItem> children = FXCollections.observableArrayList ();
 
-    if (parent.isLocalDirectory ())
-    {
-      for (TreeFile treeFile : parent.listLocalFiles ())
-        if (treeFile.isLocalDirectory ()
-            || AppleTreeView.factory.getSuffixNumber (treeFile.getName ()) >= 0)
-          children.add (new AppleTreeItem (treeFile));
-    }
-
     if (parent.isAppleFileSystem () || parent.isAppleFolder ())
-    {
       for (TreeFile treeFile : parent.listAppleFiles ())
+      {
         children.add (new AppleTreeItem (treeFile));
-    }
+        //        System.out.println (treeFile.getName ());
+      }
 
+    System.out.printf ("building: %4d in %s%n", children.size (), parent.getName ());
     return children;
   }
 

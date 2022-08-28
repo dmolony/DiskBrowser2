@@ -19,8 +19,8 @@ class TreePane extends BorderPane
   private final String home = System.getProperty ("user.home");
   private final AppleTreeView tree;
   private final HeaderBar treeHeaderBar = new HeaderBar ();
-  private final int suffixTypes = com.bytezone.utility.Utility.getSuffixes ().size ();
-  private int[] extensionTotals = new int[suffixTypes];
+  private int[] extensionTotals = new int[AppleTreeView.factory.getTotalSuffixes ()];
+  private int totalFilesIgnored;
 
   // ---------------------------------------------------------------------------------//
   public TreePane (File rootFolder)
@@ -29,13 +29,14 @@ class TreePane extends BorderPane
     AppleTreeItem root = new AppleTreeItem (new TreeFile (rootFolder));
     root.setExpanded (true);
     createTree (root);
-    System.out.println ("********************************************");
-    tree = new AppleTreeView (root);
+
     showTotals ();
 
+    tree = new AppleTreeView (root);
     setCenter (tree);
+
     setTop (treeHeaderBar);
-    setFolderName ();
+    setTreeHeaderBarName ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -50,16 +51,18 @@ class TreePane extends BorderPane
   // ---------------------------------------------------------------------------------//
   {
     tree.setRootFolder (treeItem);
-    setFolderName ();
+    setTreeHeaderBarName ();
   }
 
   // ---------------------------------------------------------------------------------//
-  void setFolderName ()
+  void setTreeHeaderBarName ()
   // ---------------------------------------------------------------------------------//
   {
     String pathName = tree.getRoot ().getValue ().getFile ().toPath ().toString ();
+
     if (pathName.startsWith (home))
       pathName = pathName.replace (home, "~");
+
     treeHeaderBar.leftLabel.setText (pathName);
   }
 
@@ -67,6 +70,10 @@ class TreePane extends BorderPane
   private void createTree (AppleTreeItem rootItem)
   // ---------------------------------------------------------------------------------//
   {
+    // Build the entire tree down to the local file/folder level. The only files included are
+    // ones that appear to be AppleFileSystem files. They will be expanded when they
+    // are selected.
+
     try (DirectoryStream<Path> directoryStream =
         Files.newDirectoryStream (rootItem.getValue ().getPath ()))
     {
@@ -76,20 +83,22 @@ class TreePane extends BorderPane
           continue;
 
         boolean isDirectory = Files.isDirectory (path);
-        int extensionNo = com.bytezone.utility.Utility.getSuffixNo (path.toFile ().getName ());
+        String fileName = path.toFile ().getName ();
+        int extensionNo = AppleTreeView.factory.getSuffixNumber (fileName);
         if (!isDirectory && extensionNo < 0)
+        {
+          //          System.out.println (fileName);
+          ++totalFilesIgnored;
           continue;
+        }
 
         AppleTreeItem newItem = new AppleTreeItem (new TreeFile (path));
 
         if (isDirectory)
         {
           createTree (newItem);
-          if (hasChildren (newItem))
-          {
+          if (newItem.getChildren ().size () > 0)     // ignore empty folders
             rootItem.getChildren ().add (newItem);
-            //            sort (newItem);
-          }
         }
         else if (Files.isRegularFile (path))
         {
@@ -97,20 +106,15 @@ class TreePane extends BorderPane
           extensionTotals[extensionNo]++;
         }
         else
-          System.out.println ("Unexpected file type");
+          System.out.println ("Unexpected file type - " + path);
       }
     }
     catch (IOException ex)
     {
       ex.printStackTrace ();
     }
-  }
 
-  // ---------------------------------------------------------------------------------//
-  private boolean hasChildren (AppleTreeItem parent)
-  // ---------------------------------------------------------------------------------//
-  {
-    return parent.getChildren ().size () > 0;
+    sort (rootItem);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -118,14 +122,16 @@ class TreePane extends BorderPane
   // ---------------------------------------------------------------------------------//
   {
     List<String> suffixes = com.bytezone.utility.Utility.getSuffixes ();
-    int total = 0;
+    int totalFilesAccepted = 0;
+
     for (int i = 0; i < extensionTotals.length; i++)
     {
       String extension = suffixes.get (i);
       System.out.printf ("%2d  %-4s  %,6d%n", i, extension, extensionTotals[i]);
-      total += extensionTotals[i];
+      totalFilesAccepted += extensionTotals[i];
     }
-    System.out.printf ("        %,8d%n", total);
+
+    System.out.printf ("        %,8d  (%,d ignored)%n", totalFilesAccepted, totalFilesIgnored);
   }
 
   // ---------------------------------------------------------------------------------//

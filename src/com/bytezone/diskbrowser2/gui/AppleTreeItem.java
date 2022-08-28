@@ -1,8 +1,5 @@
 package com.bytezone.diskbrowser2.gui;
 
-import java.util.Comparator;
-import java.util.function.Function;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
@@ -48,6 +45,8 @@ public class AppleTreeItem extends TreeItem<TreeFile>
 
         super.getChildren ().setAll (buildChildren (treeFile));
       }
+      else
+        System.out.println ("Unexpected result in getChildren()");
     }
 
     return super.getChildren ();
@@ -61,26 +60,11 @@ public class AppleTreeItem extends TreeItem<TreeFile>
 
     if (parent.isAppleFileSystem () || parent.isAppleFolder ())
       for (TreeFile treeFile : parent.listAppleFiles ())
-      {
         children.add (new AppleTreeItem (treeFile));
-        //        System.out.println (treeFile.getName ());
-      }
+    else
+      System.out.println ("Unexpected result in buildChildren()");
 
-    System.out.printf ("building: %4d in %s%n", children.size (), parent.getName ());
+    //    System.out.printf ("building: %4d in %s%n", children.size (), parent.getName ());
     return children;
-  }
-
-  // ---------------------------------------------------------------------------------//
-  private void sort (TreeItem<TreeFile> node)
-  // ---------------------------------------------------------------------------------//
-  {
-    node.getChildren ().sort (Comparator.comparing (new Function<TreeItem<TreeFile>, String> ()
-    {
-      @Override
-      public String apply (TreeItem<TreeFile> t)
-      {
-        return t.getValue ().getSortString ();
-      }
-    }));
   }
 }

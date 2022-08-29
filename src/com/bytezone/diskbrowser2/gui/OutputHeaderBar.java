@@ -3,7 +3,7 @@ package com.bytezone.diskbrowser2.gui;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
 // -----------------------------------------------------------------------------------//
-class OutputHeaderBar extends HeaderBar implements TreeNodeListener, ShowLinesListener
+class OutputHeaderBar extends HeaderBar implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
   private LineDisplayStatus lineDisplayStatus;
@@ -31,16 +31,6 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener, ShowLinesLi
     //    }
     //    else
     leftLabel.setText (indicator + treeFile.getCatalogLine ());
-  }
-
-  // ---------------------------------------------------------------------------------//
-  @Override
-  public void showLinesSelected (LineDisplayStatus lineDisplayStatus)
-  // ---------------------------------------------------------------------------------//
-  {
-    this.lineDisplayStatus = lineDisplayStatus;
-    //    updateNameLabel (lineDisplayStatus.truncateLines);
-    updateNameLabel (false);
   }
 
   // ---------------------------------------------------------------------------------//

@@ -7,6 +7,32 @@ import java.util.List;
 public class Utility
 // ---------------------------------------------------------------------------------//
 {
+  private static final int MAX_SHORT = 0xFFFF;
+
+  // ---------------------------------------------------------------------------------//
+  public static int unsignedShort (byte[] buffer, int ptr)
+  // ---------------------------------------------------------------------------------//
+  {
+    try
+    {
+      return (buffer[ptr] & 0xFF)             //
+          | ((buffer[ptr + 1] & 0xFF) << 8);
+    }
+    catch (ArrayIndexOutOfBoundsException e)
+    {
+      System.out.printf ("Index out of range (unsignedShort): %d > %d%n", ptr, buffer.length);
+      return 0;
+    }
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public static int signedShort (byte[] buffer, int ptr)
+  // ---------------------------------------------------------------------------------//
+  {
+    int val = unsignedShort (buffer, ptr);
+
+    return ((val & 0x8000) == 0) ? val : val - MAX_SHORT - 1;
+  }
 
   // ---------------------------------------------------------------------------------//
   public static List<String> getHexDumpLines (byte[] b, int displayOffset)

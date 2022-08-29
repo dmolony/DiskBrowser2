@@ -9,16 +9,23 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.bytezone.appbase.AppBase;
+import com.bytezone.appleformat.ApplesoftBasicProgram;
+import com.bytezone.appleformat.BasicPreferences;
+import com.bytezone.appleformat.BasicProgram;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.FileDos;
+import com.bytezone.filesystem.FileProdos;
+import com.bytezone.filesystem.FsDos;
+import com.bytezone.filesystem.FsProdos;
 
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
 class OutputTab extends DBTextTab implements      //
-    ShowLinesListener,                            //
+    //    ShowLinesListener,                            //
     FilterChangeListener,                         //
     OutputWriter,                                 //
     TreeNodeListener
@@ -30,15 +37,25 @@ class OutputTab extends DBTextTab implements      //
   //  private static final String TRUNCATE_MESSAGE_2 =
   //      "***      To see the entire file, use File -> Save Output      ***";
 
-  LineDisplayStatus lineDisplayStatus;
+  //  LineDisplayStatus lineDisplayStatus;
   private TreeFile treeFile;                    // the item to display
   private AppleFile appleFile;
+  private BasicPreferences basicPreferences = new BasicPreferences ();
 
   // ---------------------------------------------------------------------------------//
   public OutputTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
+
+    BasicProgram.setBasicPreferences (basicPreferences);
+    basicPreferences.showAllXref = false;
+    basicPreferences.showGosubGoto = true;
+    basicPreferences.showCalls = true;
+    basicPreferences.showSymbols = true;
+    basicPreferences.showFunctions = true;
+    basicPreferences.showConstants = true;
+    basicPreferences.showDuplicateSymbols = true;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -62,11 +79,57 @@ class OutputTab extends DBTextTab implements      //
     }
     else if (treeFile.isAppleDataFile ())
     {
+      appleFile = treeFile.getAppleFile ();
+      AppleFileSystem fileSystem = appleFile.getFileSystem ();
+
+      if (fileSystem instanceof FsDos)
+      {
+        switch (((FileDos) appleFile).getFileType ())
+        {
+          case 2:
+            return getDosApplesoftLines ();
+        }
+      }
+      else if (fileSystem instanceof FsProdos)
+      {
+        switch (((FileProdos) appleFile).getFileType ())
+        {
+          case 0xFC:
+            return getProdosApplesoftLines ();
+        }
+      }
+
       byte[] buffer = treeFile.getAppleFile ().read ();
       return Utility.getHexDumpLines (buffer, 0, Math.min (20000, buffer.length));
     }
 
     return newLines;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private List<String> getDosApplesoftLines ()
+  // ---------------------------------------------------------------------------------//
+  {
+    byte[] buffer = appleFile.read ();
+    int length = Utility.unsignedShort (buffer, 0);
+    byte[] exactBuffer = new byte[length];
+    System.arraycopy (buffer, 2, exactBuffer, 0, length);
+    ApplesoftBasicProgram basic = new ApplesoftBasicProgram (appleFile.getName (), exactBuffer);
+
+    return Arrays.asList (basic.getText ().split ("\n"));
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private List<String> getProdosApplesoftLines ()
+  // ---------------------------------------------------------------------------------//
+  {
+    byte[] buffer = appleFile.read ();
+    int length = ((FileProdos) appleFile).getLength ();
+    byte[] exactBuffer = new byte[length];
+    System.arraycopy (buffer, 0, exactBuffer, 0, length);
+    ApplesoftBasicProgram basic = new ApplesoftBasicProgram (appleFile.getName (), exactBuffer);
+
+    return Arrays.asList (basic.getText ().split ("\n"));
   }
 
   // ---------------------------------------------------------------------------------//
@@ -90,15 +153,15 @@ class OutputTab extends DBTextTab implements      //
   }
 
   // ---------------------------------------------------------------------------------//
-  @Override
-  public void showLinesSelected (LineDisplayStatus lineDisplayStatus)
-  // ---------------------------------------------------------------------------------//
-  {
-    this.lineDisplayStatus = lineDisplayStatus;
-    textFormatter.setShowLineNumbers (lineDisplayStatus.showLines);
-
-    refresh ();
-  }
+  //  @Override
+  //  public void showLinesSelected (LineDisplayStatus lineDisplayStatus)
+  //  // ---------------------------------------------------------------------------------//
+  //  {
+  //    this.lineDisplayStatus = lineDisplayStatus;
+  //    textFormatter.setShowLineNumbers (lineDisplayStatus.showLines);
+  //
+  //    refresh ();
+  //  }
 
   // ---------------------------------------------------------------------------------//
   @Override

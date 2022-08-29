@@ -9,7 +9,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 
 // -----------------------------------------------------------------------------------//
-public class DBStatusBar extends StatusBar implements FilterChangeListener, ShowLinesListener
+public class DBStatusBar extends StatusBar implements FilterChangeListener
 // -----------------------------------------------------------------------------------//
 {
   private FilterStatus filterStatus;
@@ -39,15 +39,6 @@ public class DBStatusBar extends StatusBar implements FilterChangeListener, Show
   // ---------------------------------------------------------------------------------//
   {
     this.filterStatus = filterStatus;
-    setStatusText ();
-  }
-
-  // ---------------------------------------------------------------------------------//
-  @Override
-  public void showLinesSelected (LineDisplayStatus lineDisplayStatus)
-  // ---------------------------------------------------------------------------------//
-  {
-    //    this.expandJclInclude = lineDisplayStatus.expandInclude;
     setStatusText ();
   }
 

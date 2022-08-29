@@ -25,7 +25,6 @@ public class DiskBrowserApp extends AppBase
 {
   private static final String PREFS_ROOT_FOLDER = "RootFolder";
 
-  //  private String rootFolderName;
   private File rootFolder;
 
   private AppleTreeView appleTree;
@@ -81,11 +80,6 @@ public class DiskBrowserApp extends AppBase
     viewMenu.setFontAction (e -> fontManager.showWindow ());
     fileMenu.setRootAction (e -> changeRootFolder ());
 
-    // lines listeners
-    viewMenu.addShowLinesListener (dbStatusBar);
-    viewMenu.addShowLinesListener (outputHeaderBar);
-    viewMenu.addShowLinesListener (outputTabPane.outputTab);
-
     // font change listeners
     fontManager.addFontChangeListener (appleTree);
     fontManager.addFontChangeListener (outputTabPane);
@@ -109,7 +103,7 @@ public class DiskBrowserApp extends AppBase
 
     // ensure viewMenu (codepage) is set before xmitTree
     saveStateList.addAll (Arrays.asList (//
-        filterManager, outputTabPane, outputTabPane2, fileMenu, viewMenu, appleTree, fontManager));
+        filterManager, outputTabPane, outputTabPane2, fileMenu, appleTree, fontManager));
 
     return splitPane;
   }
@@ -167,13 +161,6 @@ public class DiskBrowserApp extends AppBase
         keyEvent.consume ();
         break;
 
-      //      case H:       // headers
-      //      case M:       // members
-      //      case C:       // comments
-      //        tableTabPane.keyPressed (keyEvent);
-      //        keyEvent.consume ();
-      //        break;
-
       case COMMA:
       case PERIOD:
         fontManager.keyPressed (keyEvent);
@@ -210,9 +197,9 @@ public class DiskBrowserApp extends AppBase
     String rootFolderName = prefs.get (PREFS_ROOT_FOLDER, "");
     if (rootFolderName.isEmpty ())
     {
-      AppBase.showAlert (AlertType.INFORMATION, "Apple folder",
-          "The Apple file folder has not yet been defined. Please choose the "
-              + "TOP LEVEL FOLDER where you store your Apple files. This folder "
+      AppBase.showAlert (AlertType.INFORMATION, "Disk Image Folder",
+          "The Disk Image file folder has not yet been defined. Please choose the "
+              + "TOP LEVEL FOLDER where you store your Disk Image files. This folder "
               + "may contain subfolders. It can also be changed at any time.");
     }
     else

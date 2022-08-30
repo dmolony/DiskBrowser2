@@ -40,7 +40,7 @@ public class AppleTreeItem extends TreeItem<TreeFile>
 
       if (super.getChildren ().size () == 0)
       {
-        // same test as in the selection listener
+        // same test as in the selection listener (when down arrow happens first)
         if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
           treeFile.setAppleFile (AppleTreeView.factory.getFileSystem (treeFile.getFile ()));
 

@@ -6,11 +6,10 @@ import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 class OutputHeaderBar extends HeaderBar implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
-  private LineDisplayStatus lineDisplayStatus;
   private TreeFile treeFile;
 
   // ---------------------------------------------------------------------------------//
-  void updateNameLabel (boolean truncateLines)
+  void updateNameLabel ()
   // ---------------------------------------------------------------------------------//
   {
     if (treeFile == null)
@@ -19,18 +18,7 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener
       return;
     }
 
-    String indicator = truncateLines ? "<-" : "";
-
-    //    if (nodeData.isPartitionedDataset ())
-    //    {
-    //      String memberName = indicator + catalogEntry.getMemberName ();
-    //      if (catalogEntry.isAlias ())
-    //        leftLabel.setText (memberName + " -> " + catalogEntry.getAliasName ());
-    //      else
-    //        leftLabel.setText (memberName);
-    //    }
-    //    else
-    leftLabel.setText (indicator + treeFile.getCatalogLine ());
+    leftLabel.setText (treeFile.getCatalogLine ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -40,8 +28,6 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener
   {
     this.treeFile = nodeData;
 
-    //    rightLabel.setText (nodeData.isDataset () ? nodeData.getDisposition ().toString () : "");
-    //    updateNameLabel (lineDisplayStatus.truncateLines);
-    updateNameLabel (false);
+    updateNameLabel ();
   }
 }

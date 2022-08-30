@@ -71,13 +71,21 @@ public class Utility
 
         hexLine.append (String.format ("%02X ", b[z]));
 
-        int c = b[z] & 0xFF;
-        textLine.append (c < 0x40 || c == 0xFF || c == 0x85 ? '.' : (char) c);
+        int c = b[z] & 0x7F;
+        textLine.append (c < 0x40 ? '.' : (char) c);
       }
       lines.add (String.format ("%06X  %-48s %s", displayOffset + ptr, hexLine.toString (),
           textLine.toString ()));
     }
 
     return lines;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public static void dump (byte[] buffer)
+  // ---------------------------------------------------------------------------------//
+  {
+    for (String line : getHexDumpLines (buffer, 0))
+      System.out.println (line);
   }
 }

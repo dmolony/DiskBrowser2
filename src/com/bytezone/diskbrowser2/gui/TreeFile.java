@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 
 // -----------------------------------------------------------------------------------//
 public class TreeFile
@@ -16,6 +17,7 @@ public class TreeFile
   private File file;
   private Path path;
   private AppleFile appleFile;
+  private List<AppleFileSystem> skipFiles = new ArrayList<> ();
 
   private int extensionNo;
 
@@ -90,7 +92,22 @@ public class TreeFile
   // ---------------------------------------------------------------------------------//
   {
     assert isLocalFile ();
+    assert this.appleFile == null;
+
     this.appleFile = appleFile;
+
+    while (true)
+    {
+      List<AppleFile> files = this.appleFile.getFiles ();
+      if (files.size () == 1                        //
+          && files.get (0).isFileSystem ())         // contains exactly one file system
+      {
+        skipFiles.add ((AppleFileSystem) this.appleFile);
+        this.appleFile = files.get (0);                   // skip level
+      }
+      else
+        break;
+    }
   }
 
   // ---------------------------------------------------------------------------------//

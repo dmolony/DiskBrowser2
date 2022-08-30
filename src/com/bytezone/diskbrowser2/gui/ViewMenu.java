@@ -14,20 +14,9 @@ import javafx.scene.input.KeyCombination;
 class ViewMenu extends Menu //implements SaveState
 // -----------------------------------------------------------------------------------//
 {
-  private static final boolean SHIFT = true;
-  private static final boolean NO_SHIFT = !SHIFT;
-
-  //  private final List<ShowLinesListener> showLinesListeners = new ArrayList<> ();
-  //  private final LineDisplayStatus lineDisplayStatus = new LineDisplayStatus ();
-
   private final MenuItem fontMenuItem = new MenuItem ("Set Font...");
   private final MenuItem filterMenuItem = new MenuItem ("Set PDS Filter...");
   private final CheckMenuItem exclusiveFilterMenuItem = new CheckMenuItem ("Exclusive Filter");
-
-  //  private final CheckMenuItem showLinesMenuItem;
-  //  private final CheckMenuItem stripLinesMenuItem;
-  //  private final CheckMenuItem truncateMenuItem;
-  //  private final CheckMenuItem expandIncludeMenuItem;
 
   // ---------------------------------------------------------------------------------//
   public ViewMenu (String name)
@@ -73,68 +62,4 @@ class ViewMenu extends Menu //implements SaveState
   {
     exclusiveFilterMenuItem.setOnAction (action);
   }
-
-  // ---------------------------------------------------------------------------------//
-  private CheckMenuItem addCheckMenuItem (String name, KeyCode keyCode,
-      EventHandler<ActionEvent> action)
-  // ---------------------------------------------------------------------------------//
-  {
-    return addCheckMenuItem (name, keyCode, NO_SHIFT, action);
-  }
-
-  // ---------------------------------------------------------------------------------//
-  private CheckMenuItem addCheckMenuItem (String name, KeyCode keyCode, boolean shift,
-      EventHandler<ActionEvent> action)
-  // ---------------------------------------------------------------------------------//
-  {
-    CheckMenuItem menuItem = new CheckMenuItem (name);
-    getItems ().add (menuItem);
-
-    if (keyCode != null)
-      if (shift)
-        menuItem.setAccelerator (new KeyCodeCombination (keyCode, KeyCombination.SHORTCUT_DOWN,
-            KeyCombination.SHIFT_DOWN));
-      else
-        menuItem.setAccelerator (new KeyCodeCombination (keyCode, KeyCombination.SHORTCUT_DOWN));
-
-    menuItem.setOnAction (action);
-
-    return menuItem;
-  }
-
-  // ---------------------------------------------------------------------------------//
-  //  private void notifyLinesListeners ()
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    LineDisplayStatus copy = new LineDisplayStatus (lineDisplayStatus);
-  //
-  //    for (ShowLinesListener listener : showLinesListeners)
-  //      listener.showLinesSelected (copy);
-  //  }
-
-  // ---------------------------------------------------------------------------------//
-  //  @Override
-  //  public void restore (Preferences prefs)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    lineDisplayStatus.restore (prefs);
-  //
-  //    notifyLinesListeners ();
-  //  }
-
-  // ---------------------------------------------------------------------------------//
-  //  @Override
-  //  public void save (Preferences prefs)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    lineDisplayStatus.save (prefs);
-  //  }
-
-  // ---------------------------------------------------------------------------------//
-  //  public void addShowLinesListener (ShowLinesListener listener)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    if (!showLinesListeners.contains (listener))
-  //      showLinesListeners.add (listener);
-  //  }
 }

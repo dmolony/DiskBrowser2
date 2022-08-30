@@ -112,11 +112,10 @@ class OutputTab extends DBTextTab implements      //
   {
     byte[] buffer = appleFile.read ();
     int length = Utility.unsignedShort (buffer, 0);
-    byte[] exactBuffer = new byte[length];
-    System.arraycopy (buffer, 2, exactBuffer, 0, length);
-    ApplesoftBasicProgram basic = new ApplesoftBasicProgram (appleFile.getName (), exactBuffer);
+    ApplesoftBasicProgram basic =
+        new ApplesoftBasicProgram (appleFile.getName (), buffer, 2, length);
 
-    return Arrays.asList (basic.getText ().split ("\n"));
+    return List.of (basic.getText ().split ("\n"));
   }
 
   // ---------------------------------------------------------------------------------//
@@ -125,11 +124,10 @@ class OutputTab extends DBTextTab implements      //
   {
     byte[] buffer = appleFile.read ();
     int length = ((FileProdos) appleFile).getLength ();
-    byte[] exactBuffer = new byte[length];
-    System.arraycopy (buffer, 0, exactBuffer, 0, length);
-    ApplesoftBasicProgram basic = new ApplesoftBasicProgram (appleFile.getName (), exactBuffer);
+    ApplesoftBasicProgram basic =
+        new ApplesoftBasicProgram (appleFile.getName (), buffer, 0, length);
 
-    return Arrays.asList (basic.getText ().split ("\n"));
+    return List.of (basic.getText ().split ("\n"));
   }
 
   // ---------------------------------------------------------------------------------//

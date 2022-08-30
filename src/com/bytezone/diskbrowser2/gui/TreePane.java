@@ -82,10 +82,10 @@ class TreePane extends BorderPane
         if (Files.isHidden (path))
           continue;
 
-        boolean isDirectory = Files.isDirectory (path);
+        boolean isLocalDirectory = Files.isDirectory (path);
         String fileName = path.toFile ().getName ();
         int extensionNo = AppleTreeView.factory.getSuffixNumber (fileName);
-        if (!isDirectory && extensionNo < 0)
+        if (!isLocalDirectory && extensionNo < 0)
         {
           //          System.out.println (fileName);
           ++totalFilesIgnored;
@@ -94,7 +94,7 @@ class TreePane extends BorderPane
 
         AppleTreeItem newItem = new AppleTreeItem (new TreeFile (path));
 
-        if (isDirectory)
+        if (isLocalDirectory)
         {
           createTree (newItem);
           if (newItem.getChildren ().size () > 0)     // ignore empty folders

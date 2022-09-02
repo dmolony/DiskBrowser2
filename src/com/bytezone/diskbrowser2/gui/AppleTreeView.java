@@ -61,7 +61,8 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
 
       TreeFile treeFile = newSel.getValue ();
 
-      // same test as in AppleTreeItem.getChildren() (when item selection is first)
+      // same test as in AppleTreeItem.getChildren()
+      // when item selection happens first we do this one
       if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
         treeFile.setAppleFile (factory.getFileSystem (treeFile.getFile ()));
 
@@ -196,6 +197,7 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
         int row = getRow (optionalNode.get ());
         model.select (row);
         scrollTo (model.getSelectedIndex ());
+        //        System.out.println (model.getSelectedIndex ());
       }
     }
   }

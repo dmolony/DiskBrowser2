@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.Fs2img;
 
 // -----------------------------------------------------------------------------------//
 public class TreeFile
@@ -94,20 +95,25 @@ public class TreeFile
     assert isLocalFile ();
     assert this.appleFile == null;
 
-    this.appleFile = appleFile;
-
-    while (true)
+    //    while (true)
+    //    {
+    //      List<AppleFile> files = this.appleFile.getFiles ();
+    //      if (files.size () == 1                        //
+    //          && files.get (0).isFileSystem ())         // contains exactly one file system
+    //      {
+    //        skipFiles.add ((AppleFileSystem) this.appleFile);
+    //        this.appleFile = files.get (0);                   // skip level
+    //      }
+    //      else
+    //        break;
+    //    }
+    if (appleFile instanceof Fs2img fs)
     {
-      List<AppleFile> files = this.appleFile.getFiles ();
-      if (files.size () == 1                        //
-          && files.get (0).isFileSystem ())         // contains exactly one file system
-      {
-        skipFiles.add ((AppleFileSystem) this.appleFile);
-        this.appleFile = files.get (0);                   // skip level
-      }
-      else
-        break;
+      skipFiles.add (fs);
+      this.appleFile = fs.getFiles ().get (0);            // skip level
     }
+    else
+      this.appleFile = appleFile;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -271,6 +277,15 @@ public class TreeFile
     {
       text.append ("\n\n");
       text.append (appleFile.catalog ());
+    }
+
+    if (skipFiles.size () > 0)
+    {
+      for (AppleFileSystem fs : skipFiles)
+      {
+        text.append ("\n");
+        text.append (fs.toText ());
+      }
     }
 
     return text.toString ();

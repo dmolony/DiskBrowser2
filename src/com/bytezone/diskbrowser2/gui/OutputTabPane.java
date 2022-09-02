@@ -8,9 +8,10 @@ import javafx.scene.input.KeyCode;
 class OutputTabPane extends TabPaneBase
 // -----------------------------------------------------------------------------------//
 {
-  final HexTab hexTab = new HexTab ("Hex", KeyCode.X);
-  final OutputTab outputTab = new OutputTab ("Output", KeyCode.O);
+  final HexTab hexTab = new HexTab ("Hex", KeyCode.H);
+  final OutputTab outputTab = new OutputTab ("Data", KeyCode.D);
   final MetaTab metaTab = new MetaTab ("Meta", KeyCode.M);
+  final GraphicsTab graphicsTab = new GraphicsTab ("Graphics", KeyCode.G);
 
   // ---------------------------------------------------------------------------------//
   OutputTabPane (String prefsId)
@@ -21,6 +22,7 @@ class OutputTabPane extends TabPaneBase
     add (metaTab);
     add (hexTab);
     add (outputTab);
+    add (graphicsTab);
 
     setDefaultTab (2);
   }

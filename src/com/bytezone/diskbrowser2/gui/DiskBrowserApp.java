@@ -33,7 +33,7 @@ public class DiskBrowserApp extends AppBase
   private final SplitPane splitPane = new SplitPane ();
   private TreePane treePane;
   private final OutputTabPane outputTabPane = new OutputTabPane ("Output");
-  private final OutputTabPane outputTabPane2 = new OutputTabPane ("Output2");
+  private final ExtrasTabPane extrasTabPane = new ExtrasTabPane ("Extras");
 
   private final FilterManager filterManager = new FilterManager ();
   private final DBStatusBar dbStatusBar = new DBStatusBar ();
@@ -67,12 +67,12 @@ public class DiskBrowserApp extends AppBase
     appleTree = treePane.getTree ();
 
     OutputHeaderBar outputHeaderBar = new OutputHeaderBar ();
-    OutputHeaderBar outputHeaderBar2 = new OutputHeaderBar ();
+    OutputHeaderBar extrasHeaderBar = new OutputHeaderBar ();
 
     splitPane.getItems ().addAll (                          //
         treePane,                                           //
         createBorderPane (outputHeaderBar, outputTabPane),
-        createBorderPane (outputHeaderBar2, outputTabPane2));
+        createBorderPane (extrasHeaderBar, extrasTabPane));
 
     // menu listeners
     viewMenu.setExclusiveFilterAction (e -> filterManager.toggleFilterExclusion ());
@@ -103,7 +103,7 @@ public class DiskBrowserApp extends AppBase
 
     // ensure viewMenu (codepage) is set before xmitTree
     saveStateList.addAll (Arrays.asList (//
-        filterManager, outputTabPane, outputTabPane2, fileMenu, appleTree, fontManager));
+        filterManager, outputTabPane, extrasTabPane, fileMenu, appleTree, fontManager));
 
     return splitPane;
   }
@@ -155,9 +155,16 @@ public class DiskBrowserApp extends AppBase
     switch (keyEvent.getCode ())
     {
       case M:       // meta
-      case X:       // hex
-      case O:       // output
+      case H:       // hex
+      case D:       // data
+      case G:       // graphics
         outputTabPane.keyPressed (keyEvent);
+        keyEvent.consume ();
+        break;
+
+      case O:       // options
+      case L:       // layout
+        extrasTabPane.keyPressed (keyEvent);
         keyEvent.consume ();
         break;
 

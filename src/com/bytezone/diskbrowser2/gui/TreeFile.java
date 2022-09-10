@@ -231,12 +231,18 @@ public class TreeFile
   {
     try
     {
+      if (path == null)
+      {
+        System.out.println ("null path");
+        return -1;
+      }
       return Files.size (path);
     }
     catch (IOException e)
     {
       e.printStackTrace ();
     }
+
     return -1;
   }
 

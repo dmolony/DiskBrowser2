@@ -24,7 +24,7 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
 {
   public static FileSystemFactory factory = new FileSystemFactory ();
   private static final String PREFS_LAST_PATH = "LastPath";
-  private static String SEPARATOR = "/";
+  private static String SEPARATOR = "|";
 
   private final Image zipImage =
       new Image (getClass ().getResourceAsStream ("/icons/zip-icon.png"));
@@ -130,7 +130,7 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
     TreeItem<TreeFile> node = getRoot ();
     Optional<TreeItem<TreeFile>> optionalNode = Optional.empty ();
 
-    String[] chunks = path.split (SEPARATOR);
+    String[] chunks = path.split ("\\" + SEPARATOR);
 
     for (int i = 2; i < chunks.length; i++)
     {

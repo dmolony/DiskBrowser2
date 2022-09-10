@@ -9,11 +9,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.bytezone.appbase.AppBase;
-import com.bytezone.appleformat.ApplesoftBasicProgram;
-import com.bytezone.appleformat.BasicPreferences;
-import com.bytezone.appleformat.BasicProgram;
-import com.bytezone.appleformat.Text;
-import com.bytezone.appleformat.TextPreferences;
+import com.bytezone.appleformat.assembler.AssemblerPreferences;
+import com.bytezone.appleformat.assembler.AssemblerProgram;
+import com.bytezone.appleformat.basic.ApplesoftBasicProgram;
+import com.bytezone.appleformat.basic.BasicPreferences;
+import com.bytezone.appleformat.basic.BasicProgram;
+import com.bytezone.appleformat.graphics.GraphicsPreferences;
+import com.bytezone.appleformat.graphics.HiResImage;
+import com.bytezone.appleformat.text.Text;
+import com.bytezone.appleformat.text.TextPreferences;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
@@ -26,10 +30,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-class OutputTab extends DBTextTab implements      //
-    FilterChangeListener,                         //
-    OutputWriter,                                 //
-    TreeNodeListener
+class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter, TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
   private static final int MAX_LINES = 2500;
@@ -43,6 +44,8 @@ class OutputTab extends DBTextTab implements      //
 
   private BasicPreferences basicPreferences = new BasicPreferences ();
   private TextPreferences textPreferences = new TextPreferences ();
+  private GraphicsPreferences graphicsPreferences = new GraphicsPreferences ();
+  private AssemblerPreferences assemblerPreferences = new AssemblerPreferences ();
 
   // ---------------------------------------------------------------------------------//
   public OutputTab (String title, KeyCode keyCode)
@@ -63,6 +66,9 @@ class OutputTab extends DBTextTab implements      //
     Text.setTextPreferences (textPreferences);
 
     textPreferences.showHeader = false;
+
+    HiResImage.setGraphicsPreferences (graphicsPreferences);
+    AssemblerProgram.setAssemblerPreferences (assemblerPreferences);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -95,6 +101,8 @@ class OutputTab extends DBTextTab implements      //
         {
           case 0:
             return getDosTextLines ();
+          case 4:
+            return getDosAssemblerLines ();
           case 2:
             return getDosApplesoftLines ();
         }
@@ -138,6 +146,22 @@ class OutputTab extends DBTextTab implements      //
     Text text = new Text (appleFile.getName (), buffer);
 
     return List.of (text.getText ().split ("\n"));
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private List<String> getDosAssemblerLines ()
+  // ---------------------------------------------------------------------------------//
+  {
+    byte[] buffer = appleFile.read ();
+    int address = Utility.unsignedShort (buffer, 0);
+    int length = Utility.unsignedShort (buffer, 2);
+
+    //    Utility.dump (buffer);
+
+    AssemblerProgram assembler =
+        new AssemblerProgram (appleFile.getName (), buffer, 4, length, address);
+
+    return List.of (assembler.getText ().split ("\n"));
   }
 
   // ---------------------------------------------------------------------------------//

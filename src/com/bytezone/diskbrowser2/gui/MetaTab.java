@@ -33,7 +33,10 @@ public class MetaTab extends DBTextTab implements TreeNodeListener
     List<String> newLines = new ArrayList<> ();
 
     if (treeFile == null)
+    {
+      newLines.add ("No tree");
       return newLines;
+    }
 
     if (treeFile.isLocalFile ())
     {
@@ -63,6 +66,8 @@ public class MetaTab extends DBTextTab implements TreeNodeListener
     else if (treeFile.isAppleDataFile ())
     {
       newLines.add ("--> AppleDataFile");
+      AppleFile appleFile = treeFile.getAppleFile ();
+      newLines.add (appleFile.toString ());
     }
 
     return newLines;

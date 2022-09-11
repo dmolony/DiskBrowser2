@@ -14,6 +14,7 @@ import com.bytezone.appleformat.assembler.AssemblerProgram;
 import com.bytezone.appleformat.basic.ApplesoftBasicProgram;
 import com.bytezone.appleformat.basic.BasicPreferences;
 import com.bytezone.appleformat.basic.BasicProgram;
+import com.bytezone.appleformat.basic.IntegerBasicProgram;
 import com.bytezone.appleformat.graphics.GraphicsPreferences;
 import com.bytezone.appleformat.graphics.HiResImage;
 import com.bytezone.appleformat.text.Text;
@@ -54,7 +55,6 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
     super (title, keyCode);
 
     BasicProgram.setBasicPreferences (basicPreferences);
-
     basicPreferences.showAllXref = false;
     basicPreferences.showGosubGoto = true;
     basicPreferences.showCalls = true;
@@ -64,11 +64,13 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
     basicPreferences.showDuplicateSymbols = true;
 
     Text.setTextPreferences (textPreferences);
-
-    textPreferences.showHeader = false;
+    textPreferences.showHeader = true;
 
     HiResImage.setGraphicsPreferences (graphicsPreferences);
+
     AssemblerProgram.setAssemblerPreferences (assemblerPreferences);
+    assemblerPreferences.showStrings = false;
+    assemblerPreferences.showTargets = false;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -101,10 +103,13 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
         {
           case 0:
             return getDosTextLines ();
-          case 4:
-            return getDosAssemblerLines ();
+          case 1:
+            return getDosIntegerBasic ();
           case 2:
             return getDosApplesoftLines ();
+          case 4:
+          case 16:
+            return getDosAssemblerLines ();
         }
       }
       else if (fileSystem instanceof FsProdos)
@@ -133,6 +138,17 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
     int length = Utility.unsignedShort (buffer, 0);
     ApplesoftBasicProgram basic =
         new ApplesoftBasicProgram (appleFile.getName (), buffer, 2, length);
+
+    return List.of (basic.getText ().split ("\n"));
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private List<String> getDosIntegerBasic ()
+  // ---------------------------------------------------------------------------------//
+  {
+    byte[] buffer = appleFile.read ();
+    int length = Utility.unsignedShort (buffer, 0);
+    IntegerBasicProgram basic = new IntegerBasicProgram (appleFile.getName (), buffer, 2, length);
 
     return List.of (basic.getText ().split ("\n"));
   }

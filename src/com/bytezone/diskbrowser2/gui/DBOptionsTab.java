@@ -1,19 +1,16 @@
 package com.bytezone.diskbrowser2.gui;
 
-import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
-import com.bytezone.filesystem.AppleFile;
+import com.bytezone.appbase.TabBase;
 
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsTab extends DBOptionsTab implements TreeNodeListener
+public class DBOptionsTab extends TabBase
 // -----------------------------------------------------------------------------------//
 {
-  private TreeFile treeFile;                    // the item to display
-  private AppleFile appleFile;
 
   // ---------------------------------------------------------------------------------//
-  public OptionsTab (String title, KeyCode keyCode)
+  public DBOptionsTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
@@ -28,16 +25,5 @@ public class OptionsTab extends DBOptionsTab implements TreeNodeListener
       return;
 
     setValid (true);
-  }
-
-  // ---------------------------------------------------------------------------------//
-  @Override
-  public void treeNodeSelected (TreeFile treeFile)
-  // ---------------------------------------------------------------------------------//
-  {
-    this.treeFile = treeFile;
-    appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
-
-    refresh ();
   }
 }

@@ -67,7 +67,7 @@ public class DiskBrowserApp extends AppBase
     appleTree = treePane.getTree ();
 
     OutputHeaderBar outputHeaderBar = new OutputHeaderBar ();
-    OutputHeaderBar extrasHeaderBar = new OutputHeaderBar ();
+    ExtrasHeaderBar extrasHeaderBar = new ExtrasHeaderBar ();
 
     splitPane.getItems ().addAll (                          //
         treePane,                                           //
@@ -94,7 +94,9 @@ public class DiskBrowserApp extends AppBase
     appleTree.addListener (outputTabPane.metaTab);
     appleTree.addListener (outputTabPane.hexTab);
     appleTree.addListener (outputTabPane.outputTab);
+    appleTree.addListener (outputTabPane.graphicsTab);
     appleTree.addListener (outputHeaderBar);
+    appleTree.addListener (extrasHeaderBar);
 
     // add menus
     menuBar.getMenus ().addAll (fileMenu, viewMenu);
@@ -164,6 +166,7 @@ public class DiskBrowserApp extends AppBase
 
       case O:       // options
       case L:       // layout
+      case I:       // include
         extrasTabPane.keyPressed (keyEvent);
         keyEvent.consume ();
         break;

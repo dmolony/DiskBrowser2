@@ -9,34 +9,47 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
+import com.bytezone.diskbrowser2.gui.FilterPanel.FilterListener;
+
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.BorderPane;
 
 // -----------------------------------------------------------------------------------//
-class TreePane extends BorderPane
+class TreePane extends BorderPane implements FilterListener
 // -----------------------------------------------------------------------------------//
 {
   private final String home = System.getProperty ("user.home");
-  private final AppleTreeView tree;
   private final HeaderBar treeHeaderBar = new HeaderBar ();
-  private int[] extensionTotals = new int[AppleTreeView.factory.getTotalSuffixes ()];
+
+  private int[] extensionTotals = new int[AppleTreeView.factory.getSuffixesSize ()];
   private int totalFilesIgnored;
+
+  private final AppleTreeView tree;
+  private AppleTreeItem root;
+  private File rootFolder;
+
+  private FilterPanel filterPanel;
 
   // ---------------------------------------------------------------------------------//
   public TreePane (File rootFolder)
   // ---------------------------------------------------------------------------------//
   {
-    AppleTreeItem root = new AppleTreeItem (new TreeFile (rootFolder));
-    root.setExpanded (true);
-    createTree (root);
+    this.rootFolder = rootFolder;
+    //    root = new AppleTreeItem (new TreeFile (rootFolder));
+    //    root.setExpanded (true);
 
-    showTotals ();
+    root = createTreeRoot ();             // creates an AppleTreeItem from rootFolder
+    createTree (root);                    // builds all the tree nodes
+    tree = new AppleTreeView (root);      // creates the actual tree
 
-    tree = new AppleTreeView (root);
     setCenter (tree);
 
     setTop (treeHeaderBar);
     setTreeHeaderBarName ();
+    showTotals ();
+
+    filterPanel = new FilterPanel (extensionTotals);
+    filterPanel.addListener (this);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -87,7 +100,6 @@ class TreePane extends BorderPane
         int extensionNo = AppleTreeView.factory.getSuffixNumber (fileName);
         if (!isLocalDirectory && extensionNo < 0)
         {
-          //          System.out.println (fileName);
           ++totalFilesIgnored;
           continue;
         }
@@ -115,6 +127,57 @@ class TreePane extends BorderPane
     }
 
     sort (rootItem);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private AppleTreeItem createTreeRoot ()
+  // ---------------------------------------------------------------------------------//
+  {
+    AppleTreeItem root = new AppleTreeItem (new TreeFile (rootFolder));
+    root.setExpanded (true);
+
+    return root;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  FilterPanel getFilterPanel ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return filterPanel;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void filterChanged ()
+  // ---------------------------------------------------------------------------------//
+  {
+    if (filterPanel.filtersActive ())
+    {
+      AppleTreeItem filteredRoot = createTreeRoot ();
+      createFilteredTree (root, filteredRoot);
+      tree.setRoot (filteredRoot);
+    }
+    else
+      tree.setRoot (root);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private void createFilteredTree (AppleTreeItem root, AppleTreeItem filteredRoot)
+  // ---------------------------------------------------------------------------------//
+  {
+    for (TreeItem<TreeFile> child : root.getChildren ())
+    {
+      AppleTreeItem filteredChild = new AppleTreeItem (child.getValue ());
+
+      createFilteredTree ((AppleTreeItem) child, filteredChild);
+
+      TreeFile filePath = filteredChild.getValue ();
+
+      if (filePath.isLocalFile () && filterPanel.isMatch (filePath))
+        filteredRoot.getChildren ().add (filteredChild);
+      else if (filePath.isLocalDirectory () && filteredChild.getChildren ().size () > 0)
+        filteredRoot.getChildren ().add (filteredChild);
+    }
   }
 
   // ---------------------------------------------------------------------------------//

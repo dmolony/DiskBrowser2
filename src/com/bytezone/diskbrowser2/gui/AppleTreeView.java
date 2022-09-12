@@ -197,7 +197,6 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
         int row = getRow (optionalNode.get ());
         model.select (row);
         scrollTo (model.getSelectedIndex ());
-        //        System.out.println (model.getSelectedIndex ());
       }
     }
   }

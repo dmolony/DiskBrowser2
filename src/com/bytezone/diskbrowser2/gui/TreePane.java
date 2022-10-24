@@ -74,7 +74,7 @@ class TreePane extends BorderPane implements FilterListener
     String pathName = tree.getRoot ().getValue ().getFile ().toPath ().toString ();
 
     if (pathName.startsWith (home))
-      pathName = pathName.replace (home, "~");
+      pathName = pathName.replaceFirst (home, "~");
 
     treeHeaderBar.leftLabel.setText (pathName);
   }

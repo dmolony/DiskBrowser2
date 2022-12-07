@@ -35,8 +35,6 @@ class TreePane extends BorderPane implements FilterListener
   // ---------------------------------------------------------------------------------//
   {
     this.rootFolder = rootFolder;
-    //    root = new AppleTreeItem (new TreeFile (rootFolder));
-    //    root.setExpanded (true);
 
     root = createTreeRoot ();             // creates an AppleTreeItem from the root folder
     createTree (root);                    // adds all the tree nodes to the root

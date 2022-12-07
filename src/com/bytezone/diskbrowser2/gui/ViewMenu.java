@@ -15,7 +15,7 @@ class ViewMenu extends Menu //implements SaveState
 // -----------------------------------------------------------------------------------//
 {
   private final MenuItem fontMenuItem = new MenuItem ("Set Font...");
-  private final MenuItem filterMenuItem = new MenuItem ("Set PDS Filter...");
+  private final MenuItem filterMenuItem = new MenuItem ("Set Text Filter...");
   private final CheckMenuItem exclusiveFilterMenuItem = new CheckMenuItem ("Exclusive Filter");
 
   // ---------------------------------------------------------------------------------//

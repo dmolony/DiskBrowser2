@@ -55,7 +55,7 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
     super (title, keyCode);
 
     BasicProgram.setBasicPreferences (basicPreferences);
-    basicPreferences.showAllXref = false;
+    basicPreferences.showAllXref = true;
     basicPreferences.showGosubGoto = true;
     basicPreferences.showCalls = true;
     basicPreferences.showSymbols = true;
@@ -89,7 +89,12 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
 
     if (treeFile.isAppleFileSystem ())
     {
-      String catalog = ((AppleFileSystem) treeFile.getAppleFile ()).catalog ();
+      String catalog = treeFile.getAppleFile ().catalog ();
+      return Arrays.asList (catalog.split ("\n"));
+    }
+    else if (treeFile.isAppleFolder ())
+    {
+      String catalog = treeFile.getAppleFile ().catalog ();
       return Arrays.asList (catalog.split ("\n"));
     }
     else if (treeFile.isAppleDataFile ())
@@ -137,7 +142,7 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
     byte[] buffer = appleFile.read ();
     int length = Utility.unsignedShort (buffer, 0);
     ApplesoftBasicProgram basic =
-        new ApplesoftBasicProgram (appleFile.getName (), buffer, 2, length);
+        new ApplesoftBasicProgram (appleFile.getFileName (), buffer, 2, length);
 
     return List.of (basic.getText ().split ("\n"));
   }
@@ -148,7 +153,8 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
   {
     byte[] buffer = appleFile.read ();
     int length = Utility.unsignedShort (buffer, 0);
-    IntegerBasicProgram basic = new IntegerBasicProgram (appleFile.getName (), buffer, 2, length);
+    IntegerBasicProgram basic =
+        new IntegerBasicProgram (appleFile.getFileName (), buffer, 2, length);
 
     return List.of (basic.getText ().split ("\n"));
   }
@@ -159,7 +165,7 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
   {
     byte[] buffer = appleFile.read ();
 
-    Text text = new Text (appleFile.getName (), buffer);
+    Text text = new Text (appleFile.getFileName (), buffer);
 
     return List.of (text.getText ().split ("\n"));
   }
@@ -172,10 +178,8 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
     int address = Utility.unsignedShort (buffer, 0);
     int length = Utility.unsignedShort (buffer, 2);
 
-    //    Utility.dump (buffer);
-
     AssemblerProgram assembler =
-        new AssemblerProgram (appleFile.getName (), buffer, 4, length, address);
+        new AssemblerProgram (appleFile.getFileName (), buffer, 4, length, address);
 
     return List.of (assembler.getText ().split ("\n"));
   }
@@ -187,7 +191,7 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
     byte[] buffer = appleFile.read ();
     int length = ((FileProdos) appleFile).getLength ();
     ApplesoftBasicProgram basic =
-        new ApplesoftBasicProgram (appleFile.getName (), buffer, 0, length);
+        new ApplesoftBasicProgram (appleFile.getFileName (), buffer, 0, length);
 
     return List.of (basic.getText ().split ("\n"));
   }
@@ -196,9 +200,7 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
   private List<String> getProdosTextLines ()
   // ---------------------------------------------------------------------------------//
   {
-    byte[] buffer = appleFile.read ();
-    int length = ((FileProdos) appleFile).getLength ();
-    Text text = new Text (appleFile.getName (), buffer);
+    Text text = new Text (appleFile.getFileName (), appleFile.read ());
 
     return List.of (text.getText ().split ("\n"));
   }
@@ -235,10 +237,10 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter,
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (TreeFile treeFile)
+  public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.treeFile = treeFile;
+    this.treeFile = appleTreeItem.getValue ();
     appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
 
     refresh ();

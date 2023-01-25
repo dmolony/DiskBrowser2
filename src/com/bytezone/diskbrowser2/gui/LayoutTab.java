@@ -21,10 +21,10 @@ public class LayoutTab extends DBGraphicsTab implements TreeNodeListener
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (TreeFile treeFile)
+  public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.treeFile = treeFile;
+    this.treeFile = appleTreeItem.getValue ();
     appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
 
     refresh ();

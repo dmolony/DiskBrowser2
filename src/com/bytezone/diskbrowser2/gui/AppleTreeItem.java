@@ -31,6 +31,7 @@ public class AppleTreeItem extends TreeItem<TreeFile>
   // ---------------------------------------------------------------------------------//
   {
     TreeFile treeFile = getValue ();
+
     if (treeFile.isLocalDirectory ())     // already built
       return super.getChildren ();
 
@@ -38,12 +39,12 @@ public class AppleTreeItem extends TreeItem<TreeFile>
     {
       firstTimeChildren = false;
 
-      if (super.getChildren ().size () == 0)
+      if (super.getChildren ().size () == 0)        // this MUST be zero - remove later
       {
-        // same test as in the selection listener
-        // when down arrow happens first we do this one
+        // same test as in the AppleTreeView selection listener
+        // if down arrow happens first then we do this one
         if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
-          treeFile.setAppleFile (AppleTreeView.factory.getFileSystem (treeFile.getFile ()));
+          treeFile.setAppleFileSystem ();
 
         super.getChildren ().setAll (buildChildren (treeFile));
       }

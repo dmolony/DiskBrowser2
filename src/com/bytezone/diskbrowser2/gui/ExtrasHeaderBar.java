@@ -23,10 +23,10 @@ public class ExtrasHeaderBar extends HeaderBar implements TreeNodeListener
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (TreeFile nodeData)
+  public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.treeFile = nodeData;
+    this.treeFile = appleTreeItem.getValue ();
 
     updateNameLabel ();
   }

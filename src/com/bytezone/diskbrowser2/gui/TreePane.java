@@ -69,7 +69,7 @@ class TreePane extends BorderPane implements FilterListener
   void setTreeHeaderBarName ()
   // ---------------------------------------------------------------------------------//
   {
-    String pathName = tree.getRoot ().getValue ().getFile ().toPath ().toString ();
+    String pathName = tree.getRoot ().getValue ().getLocalFile ().toPath ().toString ();
 
     if (pathName.startsWith (home))
       pathName = pathName.replaceFirst (home, "~");
@@ -102,7 +102,7 @@ class TreePane extends BorderPane implements FilterListener
           continue;
         }
 
-        AppleTreeItem newItem = new AppleTreeItem (new TreeFile (path));
+        AppleTreeItem newItem = new AppleTreeItem (new TreeFile (path.toFile ()));
 
         if (isLocalDirectory)
         {

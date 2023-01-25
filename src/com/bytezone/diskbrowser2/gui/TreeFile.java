@@ -9,16 +9,43 @@ import java.util.List;
 
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
-import com.bytezone.filesystem.Fs2img;
+
+import javafx.scene.image.Image;
 
 // -----------------------------------------------------------------------------------//
 public class TreeFile
 //-----------------------------------------------------------------------------------//
 {
-  private File file;
+  private static final Image zipImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/zip-icon.png"));
+  private static final Image diskImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/disk.png"));
+  private static final Image folderImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/folder-icon.png"));
+  private static final Image xImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-X-lg-icon.png"));
+  private static final Image mImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-M-blue-icon.png"));
+
+  private static final Image dosTextImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-T-pink-icon.png"));
+  private static final Image dosApplesoftImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-A-pink-icon.png"));
+  private static final Image dosBinaryImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-B-pink-icon.png"));
+  private static final Image dosIntegerImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-I-pink-icon.png"));
+  private static final Image dosXImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-X-pink-icon.png"));
+
+  private static final Image tImage =
+      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-T-black-icon.png"));
+
+  private File file;                    // local folder or local file with valid extension
   private Path path;
   private AppleFile appleFile;
-  private List<AppleFileSystem> skipFiles = new ArrayList<> ();
+
+  //  private List<AppleFileSystem> skipFiles = new ArrayList<> ();
 
   private int extensionNo;
 
@@ -36,7 +63,12 @@ public class TreeFile
     this.file = null;
 
     this.appleFile = appleFile;
-    name = appleFile.getName ();
+
+    // hybrid disks have two file systems, so use the file system name to differentiate them
+    if (appleFile.isFileSystem () && ((AppleFileSystem) appleFile).isHybrid ())
+      name = ((AppleFileSystem) appleFile).getFileSystemName ();
+    else
+      name = appleFile.getFileName ();
 
     sortString = name.toLowerCase ();
     suffix = "";
@@ -44,30 +76,15 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
+  // File will be either a local folder or a local file with a valid suffix. A folder's
+  // children will be populated, but a file will only be converted to an AppleFileSystem
+  // when the tree node is expanded or selected. See setAppleFileSystem() below.
+  // ---------------------------------------------------------------------------------//
   public TreeFile (File file)
   // ---------------------------------------------------------------------------------//
   {
     this.path = file.toPath ();
     this.file = file;
-
-    common ();
-  }
-
-  // ---------------------------------------------------------------------------------//
-  public TreeFile (Path path)
-  // ---------------------------------------------------------------------------------//
-  {
-    this.path = path;
-    this.file = path.toFile ();
-
-    common ();
-  }
-
-  // ---------------------------------------------------------------------------------//
-  private void common ()
-  // ---------------------------------------------------------------------------------//
-  {
-    this.extensionNo = AppleTreeView.factory.getSuffixNumber (file.getName ());
 
     if (path.getNameCount () == 0)
       name = path.toString ();
@@ -76,24 +93,29 @@ public class TreeFile
 
     sortString = name.toLowerCase ();
 
-    if (extensionNo < 0)
+    if (file.isDirectory ())
     {
       suffix = "";
       prefix = sortString;
+      extensionNo = -1;
     }
     else
     {
       suffix = AppleTreeView.factory.getSuffix (file.getName ());
       prefix = sortString.substring (0, name.length () - suffix.length ());
+      extensionNo = AppleTreeView.factory.getSuffixNumber (file.getName ());
     }
   }
 
+  // Called when a local file is selected or expanded.
   // ---------------------------------------------------------------------------------//
-  void setAppleFile (AppleFile appleFile)
+  void setAppleFileSystem ()
   // ---------------------------------------------------------------------------------//
   {
     assert isLocalFile ();
-    assert this.appleFile == null;
+    assert appleFile == null;
+
+    appleFile = AppleTreeView.factory.getFileSystem (path);
 
     //    while (true)
     //    {
@@ -107,13 +129,13 @@ public class TreeFile
     //      else
     //        break;
     //    }
-    if (appleFile instanceof Fs2img fs)
-    {
-      skipFiles.add (fs);
-      this.appleFile = fs.getFiles ().get (0);            // skip level
-    }
-    else
-      this.appleFile = appleFile;
+    //    if (appleFile instanceof Fs2img fs)
+    //    {
+    //      skipFiles.add (fs);
+    //      this.appleFile = fs.getFiles ().get (0);            // skip level
+    //    }
+    //    else
+    //    this.appleFile = appleFileSystem;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -145,7 +167,7 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  File getFile ()
+  File getLocalFile ()
   // ---------------------------------------------------------------------------------//
   {
     return file;
@@ -156,6 +178,82 @@ public class TreeFile
   // ---------------------------------------------------------------------------------//
   {
     return path;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  Image getImage ()
+  // ---------------------------------------------------------------------------------//
+  {
+    if (isCompressedLocalFile ())
+      return zipImage;
+    if (isLocalDirectory () || isAppleFolder ())
+      return folderImage;
+    if (isLocalFile () || isAppleFileSystem ())
+      return diskImage;
+
+    String fileSystemName = appleFile.getFileSystem ().getFileSystemName ();
+
+    if (fileSystemName.startsWith ("Dos"))
+    {
+      return switch (appleFile.getFileType ())
+      {
+        case 0x04 -> dosBinaryImage;
+        case 0x01 -> dosIntegerImage;
+        case 0x02 -> dosApplesoftImage;
+        case 0x00 -> dosTextImage;
+        case 0x08 -> dosXImage;
+        case 0x10 -> dosXImage;
+        case 0x20 -> dosXImage;
+        case 0x40 -> dosXImage;
+        default -> throw new IllegalArgumentException (
+            "Unexpected value: " + appleFile.getFileTypeText ());
+      };
+    }
+
+    if (fileSystemName.startsWith ("Pro"))
+    {
+      return switch (appleFile.getFileType ())
+      {
+        case 0x00 -> xImage;
+        case 0x01 -> xImage;
+        default -> xImage;
+      };
+    }
+
+    if (fileSystemName.startsWith ("CPM"))
+    {
+      return switch (appleFile.getFileTypeText ())
+      {
+        case "COM" -> tImage;
+        case "PRN" -> tImage;
+        case "DOC" -> tImage;
+        case "BAS" -> tImage;
+        case "ASM" -> tImage;
+        case "OVR" -> tImage;
+        case "MAC" -> tImage;
+        default -> tImage;
+      };
+    }
+
+    if (fileSystemName.startsWith ("Pas"))
+    {
+      return switch (appleFile.getFileType ())
+      {
+        case 0 -> mImage;
+        case 1 -> mImage;
+        case 2 -> mImage;
+        case 3 -> mImage;
+        case 4 -> mImage;
+        case 5 -> mImage;
+        case 6 -> mImage;
+        case 7 -> mImage;
+        case 8 -> mImage;
+        default -> throw new IllegalArgumentException (
+            "Unexpected value: " + appleFile.getFileType ());
+      };
+    }
+
+    return xImage;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -208,17 +306,17 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  public List<TreeFile> listLocalFiles ()
-  // ---------------------------------------------------------------------------------//
-  {
-    List<TreeFile> fileList = new ArrayList<> ();
-
-    for (File file : this.file.listFiles ())
-      if (!file.isHidden ())
-        fileList.add (new TreeFile (file));
-
-    return fileList;
-  }
+  //  public List<TreeFile> listLocalFiles ()
+  //  // ---------------------------------------------------------------------------------//
+  //  {
+  //    List<TreeFile> fileList = new ArrayList<> ();
+  //
+  //    for (File file : this.file.listFiles ())
+  //      if (!file.isHidden ())
+  //        fileList.add (new TreeFile (file));
+  //
+  //    return fileList;
+  //  }
 
   // ---------------------------------------------------------------------------------//
   public List<TreeFile> listAppleFiles ()
@@ -292,14 +390,14 @@ public class TreeFile
       text.append (appleFile.catalog ());
     }
 
-    if (skipFiles.size () > 0)
-    {
-      for (AppleFileSystem fs : skipFiles)
-      {
-        text.append ("\n");
-        text.append (fs.toText ());
-      }
-    }
+    //    if (skipFiles.size () > 0)
+    //    {
+    //      for (AppleFileSystem fs : skipFiles)
+    //      {
+    //        text.append ("\n");
+    //        text.append (fs.toText ());
+    //      }
+    //    }
 
     return text.toString ();
   }

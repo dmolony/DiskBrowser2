@@ -13,7 +13,6 @@ import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
@@ -26,11 +25,11 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
   private static final String PREFS_LAST_PATH = "LastPath";
   private static String SEPARATOR = "|";
 
-  private final Image zipImage =
-      new Image (getClass ().getResourceAsStream ("/icons/zip-icon.png"));
-  private final Image diskImage = new Image (getClass ().getResourceAsStream ("/icons/disk.png"));
-  private final Image folderImage =
-      new Image (getClass ().getResourceAsStream ("/icons/folder-icon.png"));
+  //  private final Image zipImage =
+  //      new Image (getClass ().getResourceAsStream ("/icons/zip-icon.png"));
+  //  private final Image diskImage = new Image (getClass ().getResourceAsStream ("/icons/disk.png"));
+  //  private final Image folderImage =
+  //      new Image (getClass ().getResourceAsStream ("/icons/folder-icon.png"));
   //  private final Image xImage =
   //      new Image (getClass ().getResourceAsStream ("/icons/X-green-icon.png"));
   //  private final Image mImage =
@@ -59,15 +58,16 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
         return;
       }
 
+      // newSel is a TreeItem<TreeFile>
       TreeFile treeFile = newSel.getValue ();
 
       // same test as in AppleTreeItem.getChildren()
-      // when item selection happens first we do this one
+      // if item selection happens first then we do this one
       if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
-        treeFile.setAppleFile (factory.getFileSystem (treeFile.getFile ()));
+        newSel.getChildren ();          // force the disk to be read
 
       for (TreeNodeListener listener : listeners)
-        listener.treeNodeSelected (treeFile);
+        listener.treeNodeSelected ((AppleTreeItem) newSel);
     });
 
     setCellFactory (new Callback<TreeView<TreeFile>, TreeCell<TreeFile>> ()
@@ -91,22 +91,10 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
             else
             {
               setText (treeFile.getName ());
-              setImageView (treeFile);
+              imageView.setImage (treeFile.getImage ());
               setGraphic (imageView);
               setFont (font);
             }
-          }
-
-          private void setImageView (TreeFile treeFile)
-          {
-            if (treeFile.isCompressedLocalFile ())
-              imageView.setImage (zipImage);
-            else if (treeFile.isLocalDirectory ())
-              imageView.setImage (folderImage);
-            else if (treeFile.isLocalFile ())
-              imageView.setImage (diskImage);
-            else
-              imageView.setImage (null);
           }
         };
 
@@ -222,6 +210,6 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
   interface TreeNodeListener
   // ---------------------------------------------------------------------------------//
   {
-    public void treeNodeSelected (TreeFile treeFile);
+    public void treeNodeSelected (AppleTreeItem appleTreeItem);
   }
 }

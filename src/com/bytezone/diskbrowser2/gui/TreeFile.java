@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.ProdosConstants;
 
 import javafx.scene.image.Image;
 
@@ -16,30 +17,51 @@ import javafx.scene.image.Image;
 public class TreeFile
 //-----------------------------------------------------------------------------------//
 {
+  private static String prodos = "-lg-icon.png";
+  private static String pascal = "-blue-icon.png";
+  private static String dos = "-pink-icon.png";
+  private static String cpm = "-black-icon.png";
+
   private static final Image zipImage =
       new Image (TreeFile.class.getResourceAsStream ("/resources/zip-icon.png"));
   private static final Image diskImage =
       new Image (TreeFile.class.getResourceAsStream ("/resources/disk.png"));
   private static final Image folderImage =
       new Image (TreeFile.class.getResourceAsStream ("/resources/folder-icon.png"));
-  private static final Image xImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-X-lg-icon.png"));
-  private static final Image mImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-M-blue-icon.png"));
 
-  private static final Image dosTextImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-T-pink-icon.png"));
-  private static final Image dosApplesoftImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-A-pink-icon.png"));
-  private static final Image dosBinaryImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-B-pink-icon.png"));
-  private static final Image dosIntegerImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-I-pink-icon.png"));
-  private static final Image dosXImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-X-pink-icon.png"));
+  // Prodos
+  private static final Image prodosTextImage = get ("T" + prodos);
+  private static final Image prodosPicImage = get ("P" + prodos);
+  private static final Image prodosBasicImage = get ("A" + prodos);
+  private static final Image prodosBinaryImage = get ("B" + prodos);
+  private static final Image prodosSysImage = get ("S" + prodos);
+  private static final Image prodosXImage = get ("X" + prodos);
 
-  private static final Image tImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-T-black-icon.png"));
+  // Pascal
+  private static final Image pascalCodeImage = get ("C" + pascal);
+  private static final Image pascalTextImage = get ("T" + pascal);
+  private static final Image pascalDataImage = get ("D" + pascal);
+  private static final Image pascalGrafImage = get ("G" + pascal);
+  private static final Image pascalPhotoImage = get ("P" + pascal);
+  private static final Image pascalInfoImage = get ("I" + pascal);
+  private static final Image pascalXImage = get ("X" + pascal);
+
+  // Dos
+  private static final Image dosTextImage = get ("T" + dos);
+  private static final Image dosApplesoftImage = get ("A" + dos);
+  private static final Image dosBinaryImage = get ("B" + dos);
+  private static final Image dosIntegerImage = get ("I" + dos);
+  private static final Image dosXImage = get ("X" + dos);
+
+  // CPM
+  private static final Image cpmComImage = get ("C" + cpm);
+  private static final Image cpmPrnImage = get ("P" + cpm);
+  private static final Image cpmDocImage = get ("D" + cpm);
+  private static final Image cpmBasImage = get ("B" + cpm);
+  private static final Image cpmAsmImage = get ("A" + cpm);
+  private static final Image cpmOvrImage = get ("O" + cpm);
+  private static final Image cpmMacImage = get ("M" + cpm);
+  private static final Image cpmXImage = get ("X" + cpm);
 
   private File file;                    // local folder or local file with valid extension
   private Path path;
@@ -186,8 +208,10 @@ public class TreeFile
   {
     if (isCompressedLocalFile ())
       return zipImage;
+
     if (isLocalDirectory () || isAppleFolder ())
       return folderImage;
+
     if (isLocalFile () || isAppleFileSystem ())
       return diskImage;
 
@@ -214,9 +238,14 @@ public class TreeFile
     {
       return switch (appleFile.getFileType ())
       {
-        case 0x00 -> xImage;
-        case 0x01 -> xImage;
-        default -> xImage;
+        case 0x00 -> prodosXImage;
+        case ProdosConstants.FILE_TYPE_TEXT -> prodosTextImage;
+        case ProdosConstants.FILE_TYPE_APPLESOFT_BASIC -> prodosBasicImage;
+        case ProdosConstants.FILE_TYPE_BINARY -> prodosBinaryImage;
+        case ProdosConstants.FILE_TYPE_SYS -> prodosSysImage;
+        case ProdosConstants.FILE_TYPE_PIC -> prodosPicImage;
+        case ProdosConstants.FILE_TYPE_PNT -> prodosPicImage;
+        default -> prodosXImage;
       };
     }
 
@@ -224,14 +253,14 @@ public class TreeFile
     {
       return switch (appleFile.getFileTypeText ())
       {
-        case "COM" -> tImage;
-        case "PRN" -> tImage;
-        case "DOC" -> tImage;
-        case "BAS" -> tImage;
-        case "ASM" -> tImage;
-        case "OVR" -> tImage;
-        case "MAC" -> tImage;
-        default -> tImage;
+        case "COM" -> cpmComImage;
+        case "PRN" -> cpmPrnImage;
+        case "DOC" -> cpmDocImage;
+        case "BAS" -> cpmBasImage;
+        case "ASM" -> cpmAsmImage;
+        case "OVR" -> cpmOvrImage;
+        case "MAC" -> cpmMacImage;
+        default -> cpmXImage;
       };
     }
 
@@ -239,21 +268,21 @@ public class TreeFile
     {
       return switch (appleFile.getFileType ())
       {
-        case 0 -> mImage;
-        case 1 -> mImage;
-        case 2 -> mImage;
-        case 3 -> mImage;
-        case 4 -> mImage;
-        case 5 -> mImage;
-        case 6 -> mImage;
-        case 7 -> mImage;
-        case 8 -> mImage;
+        case 0 -> pascalXImage;           // Volume
+        case 1 -> pascalXImage;           // Bad
+        case 2 -> pascalCodeImage;
+        case 3 -> pascalTextImage;
+        case 4 -> pascalInfoImage;
+        case 5 -> pascalDataImage;
+        case 6 -> pascalGrafImage;
+        case 7 -> pascalPhotoImage;
+        case 8 -> pascalXImage;           // Secure directory
         default -> throw new IllegalArgumentException (
             "Unexpected value: " + appleFile.getFileType ());
       };
     }
 
-    return xImage;
+    return pascalXImage;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -400,6 +429,13 @@ public class TreeFile
     //    }
 
     return text.toString ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private static Image get (String icon)
+  // ---------------------------------------------------------------------------------//
+  {
+    return new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-" + icon));
   }
 
   // ---------------------------------------------------------------------------------//

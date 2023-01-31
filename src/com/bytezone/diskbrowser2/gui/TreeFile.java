@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.ProdosConstants;
@@ -63,9 +64,11 @@ public class TreeFile
   private static final Image cpmMacImage = get ("M" + cpm);
   private static final Image cpmXImage = get ("X" + cpm);
 
-  private File file;                    // local folder or local file with valid extension
+  private File localFile;                    // local folder or local file with valid extension
   private Path path;
+
   private AppleFile appleFile;
+  private FormattedAppleFile formattedAppleFile;
 
   //  private List<AppleFileSystem> skipFiles = new ArrayList<> ();
 
@@ -82,7 +85,7 @@ public class TreeFile
   // ---------------------------------------------------------------------------------//
   {
     this.path = null;
-    this.file = null;
+    this.localFile = null;
 
     this.appleFile = appleFile;
 
@@ -106,7 +109,7 @@ public class TreeFile
   // ---------------------------------------------------------------------------------//
   {
     this.path = file.toPath ();
-    this.file = file;
+    this.localFile = file;
 
     if (path.getNameCount () == 0)
       name = path.toString ();
@@ -123,9 +126,9 @@ public class TreeFile
     }
     else
     {
-      suffix = AppleTreeView.factory.getSuffix (file.getName ());
+      suffix = AppleTreeView.fileSystemFactory.getSuffix (file.getName ());
       prefix = sortString.substring (0, name.length () - suffix.length ());
-      extensionNo = AppleTreeView.factory.getSuffixNumber (file.getName ());
+      extensionNo = AppleTreeView.fileSystemFactory.getSuffixNumber (file.getName ());
     }
   }
 
@@ -137,7 +140,7 @@ public class TreeFile
     assert isLocalFile ();
     assert appleFile == null;
 
-    appleFile = AppleTreeView.factory.getFileSystem (path);
+    appleFile = AppleTreeView.fileSystemFactory.getFileSystem (path);
 
     //    while (true)
     //    {
@@ -189,10 +192,21 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
+  FormattedAppleFile getFormattedAppleFile ()
+  // ---------------------------------------------------------------------------------//
+  {
+    if (formattedAppleFile == null && appleFile != null)
+      formattedAppleFile =
+          AppleTreeView.formattedAppleFileFactory.getFormattedAppleFile (appleFile);
+
+    return formattedAppleFile;
+  }
+
+  // ---------------------------------------------------------------------------------//
   File getLocalFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return file;
+    return localFile;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -289,21 +303,21 @@ public class TreeFile
   public boolean isLocalFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return file != null && file.isFile ();
+    return localFile != null && localFile.isFile ();
   }
 
   // ---------------------------------------------------------------------------------//
   public boolean isCompressedLocalFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return file != null && (suffix.equals ("zip") || suffix.equals ("gz"));
+    return localFile != null && (suffix.equals ("zip") || suffix.equals ("gz"));
   }
 
   // ---------------------------------------------------------------------------------//
   public boolean isLocalDirectory ()
   // ---------------------------------------------------------------------------------//
   {
-    return file != null && file.isDirectory ();
+    return localFile != null && localFile.isDirectory ();
   }
 
   // ---------------------------------------------------------------------------------//

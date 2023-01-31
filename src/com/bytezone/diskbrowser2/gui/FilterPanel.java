@@ -45,7 +45,7 @@ public class FilterPanel extends VBox
 
     getChildren ().addAll (labelFilter, textFilter);
 
-    List<String> suffixes = AppleTreeView.factory.getSuffixes ();
+    List<String> suffixes = AppleTreeView.fileSystemFactory.getSuffixes ();
     for (int i = 0; i < suffixes.size (); i++)
       addCheckBox (suffixes.get (i).substring (1), extensionTotals[i] > 0);
   }

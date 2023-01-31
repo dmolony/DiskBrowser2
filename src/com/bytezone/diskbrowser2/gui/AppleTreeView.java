@@ -7,6 +7,7 @@ import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.FontChangeListener;
 import com.bytezone.appbase.SaveState;
+import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.filesystem.FileSystemFactory;
 
 import javafx.scene.control.MultipleSelectionModel;
@@ -21,7 +22,9 @@ import javafx.util.Callback;
 public class AppleTreeView extends TreeView<TreeFile> implements SaveState, FontChangeListener
 // ---------------------------------------------------------------------------------//
 {
-  public static FileSystemFactory factory = new FileSystemFactory ();
+  static FileSystemFactory fileSystemFactory = new FileSystemFactory ();
+  static FormattedAppleFileFactory formattedAppleFileFactory = new FormattedAppleFileFactory ();
+
   private static final String PREFS_LAST_PATH = "LastPath";
   private static String SEPARATOR = "|";
 

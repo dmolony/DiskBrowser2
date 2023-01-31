@@ -21,7 +21,7 @@ class TreePane extends BorderPane implements FilterListener
   private final String home = System.getProperty ("user.home");
   private final HeaderBar treeHeaderBar = new HeaderBar ();
 
-  private int[] extensionTotals = new int[AppleTreeView.factory.getSuffixesSize ()];
+  private int[] extensionTotals = new int[AppleTreeView.fileSystemFactory.getSuffixesSize ()];
   private int totalFilesIgnored;
 
   private final AppleTreeView tree;
@@ -95,7 +95,7 @@ class TreePane extends BorderPane implements FilterListener
 
         boolean isLocalDirectory = Files.isDirectory (path);
         String fileName = path.toFile ().getName ();
-        int extensionNo = AppleTreeView.factory.getSuffixNumber (fileName);
+        int extensionNo = AppleTreeView.fileSystemFactory.getSuffixNumber (fileName);
         if (!isLocalDirectory && extensionNo < 0)
         {
           ++totalFilesIgnored;

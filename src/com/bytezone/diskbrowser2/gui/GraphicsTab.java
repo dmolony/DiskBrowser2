@@ -1,13 +1,13 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.TabBase;
-import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
+import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-public class GraphicsTab extends TabBase implements TreeNodeListener
+public class GraphicsTab extends TabBase
 // -----------------------------------------------------------------------------------//
 {
   private TreeFile treeFile;                    // the item to display
@@ -32,12 +32,11 @@ public class GraphicsTab extends TabBase implements TreeNodeListener
   }
 
   // ---------------------------------------------------------------------------------//
-  @Override
-  public void treeNodeSelected (AppleTreeItem appleTreeItem)
+  public void setFormatter (FormattedAppleFile formattedAppleFile)
   // ---------------------------------------------------------------------------------//
   {
-    this.treeFile = appleTreeItem.getValue ();
-    appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
+    //    treeFile = appleTreeItem.getValue ();
+    //    appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
 
     refresh ();
   }

@@ -140,7 +140,7 @@ class FilterManager implements SaveState
   void keyPressed (KeyEvent keyEvent)
   // ---------------------------------------------------------------------------------//
   {
-    if (keyEvent.getCode () == KeyCode.F && !keyEvent.isMetaDown ())
+    if (keyEvent.getCode () == KeyCode.S && !keyEvent.isMetaDown ())
     {
       if (keyEvent.isShiftDown ())
       {

@@ -26,13 +26,6 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
 // -----------------------------------------------------------------------------------//
 {
   private static final int MAX_LINES = 2500;
-  //  private static final String TRUNCATE_MESSAGE_1 =
-  //      "*** Output truncated at %,d lines to improve rendering time ***";
-  //  private static final String TRUNCATE_MESSAGE_2 =
-  //      "***      To see the entire file, use File -> Save Output      ***";
-
-  //  private TreeFile treeFile;                    // the item to display
-  //  private AppleFile appleFile;
 
   private BasicPreferences basicPreferences = new BasicPreferences ();
   private TextPreferences textPreferences = new TextPreferences ();
@@ -79,38 +72,11 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
   // ---------------------------------------------------------------------------------//
   {
     List<String> newLines = new ArrayList<> ();
-    //
-    //    if (treeFile.isAppleFileSystem ())
-    //    {
-    //      String catalog = treeFile.getAppleFile ().catalog ();
-    //      return Arrays.asList (catalog.split ("\n"));
-    //    }
-    //    else if (treeFile.isAppleFolder ())
-    //    {
-    //      String catalog = treeFile.getAppleFile ().catalog ();
-    //      return Arrays.asList (catalog.split ("\n"));
-    //    }
-    //    else if (treeFile.isAppleDataFile ())
-    //    {
-    //      appleFile = treeFile.getAppleFile ();
-    //      AppleFileSystem fileSystem = appleFile.getFileSystem ();
-    //
-    //      if (fileSystem instanceof FsDos)
-    //      {
-    //        AppleFileFormatter formatter = factory.getDosFormatter ((FileDos) appleFile);
+
     for (String line : formattedAppleFile.getText ().split ("\n"))
       newLines.add (line);
+
     return newLines;
-    //      }
-    //      else if (fileSystem instanceof FsProdos)
-    //      {
-    //      }
-    //
-    //      byte[] buffer = treeFile.getAppleFile ().read ();
-    //      return Utility.getHexDumpLines (buffer, 0, Math.min (20000, buffer.length));
-    //    }
-    //
-    //    return newLines;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -144,11 +110,9 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setFormatter (FormattedAppleFile formattedAppleFile)
+  public void setFormattedAppleFile (FormattedAppleFile formattedAppleFile)
   // ---------------------------------------------------------------------------------//
   {
-    //    treeFile = appleTreeItem.getValue ();
-    //    appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
     this.formattedAppleFile = formattedAppleFile;
 
     refresh ();

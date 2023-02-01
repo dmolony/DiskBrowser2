@@ -12,15 +12,15 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
   final HexTab hexTab = new HexTab ("Hex", KeyCode.H);
-  final OutputTab outputTab = new OutputTab ("Data", KeyCode.D);
+  final OutputTab outputTab = new OutputTab ("Formatted", KeyCode.F);
   final MetaTab metaTab = new MetaTab ("Meta", KeyCode.M);
   final GraphicsTab graphicsTab = new GraphicsTab ("Graphics", KeyCode.G);
+  final ExtrasTab extrasTab = new ExtrasTab ("Extras", KeyCode.E);
 
   private TreeFile treeFile;                    // the item to display
   private AppleFile appleFile;
 
   private FormattedAppleFile formattedAppleFile;
-  //  private FormattedAppleFileFactory factory = new FormattedAppleFileFactory ();
 
   // ---------------------------------------------------------------------------------//
   OutputTabPane (String prefsId)
@@ -28,12 +28,13 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
   {
     super (prefsId);
 
-    add (metaTab);
-    add (hexTab);
     add (outputTab);
     add (graphicsTab);
+    add (hexTab);
+    add (metaTab);
+    add (extrasTab);
 
-    setDefaultTab (2);
+    setDefaultTab (0);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -45,25 +46,12 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
     appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
 
     System.out.println ("selected: " + appleTreeItem);
-
-    //    if (treeFile.isAppleFileSystem ())
-    //    {
-    //      //      String catalog = treeFile.getAppleFile ().catalog ();
-    //      //      return Arrays.asList (catalog.split ("\n"));
-    //    }
-    //    else if (treeFile.isAppleFolder ())
-    //    {
-    //      //      String catalog = treeFile.getAppleFile ().catalog ();
-    //      //      return Arrays.asList (catalog.split ("\n"));
-    //    }
-    //    else if (treeFile.isAppleDataFile ())
-    //    {
     formattedAppleFile = treeFile.getFormattedAppleFile ();
-    //    }
 
-    outputTab.setFormatter (formattedAppleFile);
-    hexTab.setFormatter (formattedAppleFile);
-    metaTab.setFormatter (formattedAppleFile);
-    graphicsTab.setFormatter (formattedAppleFile);
+    outputTab.setFormattedAppleFile (formattedAppleFile);
+    hexTab.setFormattedAppleFile (formattedAppleFile);
+    metaTab.setFormattedAppleFile (formattedAppleFile);
+    graphicsTab.setFormattedAppleFile (formattedAppleFile);
+    extrasTab.setFormattedAppleFile (formattedAppleFile);
   }
 }

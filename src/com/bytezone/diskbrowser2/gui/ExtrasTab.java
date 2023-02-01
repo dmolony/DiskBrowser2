@@ -1,21 +1,19 @@
 package com.bytezone.diskbrowser2.gui;
 
-import com.bytezone.appbase.TabBase;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bytezone.appleformat.FormattedAppleFile;
-import com.bytezone.filesystem.AppleFile;
 
 import javafx.scene.input.KeyCode;
 
-// -----------------------------------------------------------------------------------//
-public class GraphicsTab extends TabBase
-// -----------------------------------------------------------------------------------//
+public class ExtrasTab extends DBTextTab
 {
-  private TreeFile treeFile;                    // the item to display
-  private AppleFile appleFile;
+  private static final int MAX_LINES = 2500;
   private FormattedAppleFile formattedAppleFile;
 
   // ---------------------------------------------------------------------------------//
-  public GraphicsTab (String title, KeyCode keyCode)
+  public ExtrasTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
@@ -23,13 +21,22 @@ public class GraphicsTab extends TabBase
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void update ()
+  List<String> getLines ()
   // ---------------------------------------------------------------------------------//
   {
-    if (isValid ())
-      return;
+    return formattedAppleFile == null ? new ArrayList<> () : getLines (MAX_LINES);
+  }
 
-    setValid (true);
+  // ---------------------------------------------------------------------------------//
+  private List<String> getLines (int maxLines)
+  // ---------------------------------------------------------------------------------//
+  {
+    List<String> newLines = new ArrayList<> ();
+
+    //    for (String line : formattedAppleFile.getText ().split ("\n"))
+    //      newLines.add (line);
+
+    return newLines;
   }
 
   // ---------------------------------------------------------------------------------//

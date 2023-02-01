@@ -13,8 +13,6 @@ class HexTab extends DBTextTab
 {
   private static final int MAX_HEX_BYTES = 0x20_000;
 
-  //  TreeFile treeFile;
-  //  AppleFile appleFile;
   private FormattedAppleFile formattedAppleFile;
 
   // ---------------------------------------------------------------------------------//
@@ -35,19 +33,18 @@ class HexTab extends DBTextTab
     if (formattedAppleFile == null)
       return lines;
 
-    //    byte[] buffer = appleFile.read ();
-    //    return Utility.getHexDumpLines (buffer, 0, Math.min (MAX_HEX_BYTES, buffer.length));
-    for (String line : formattedAppleFile.getHex ().split ("\n"))
-      lines.add (line);
-    return lines;
+    byte[] buffer = formattedAppleFile.getBuffer ();
+
+    if (buffer == null)
+      return lines;
+
+    return Utility.getHexDumpLines (buffer, 0, Math.min (MAX_HEX_BYTES, buffer.length));
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setFormatter (FormattedAppleFile formattedAppleFile)
+  public void setFormattedAppleFile (FormattedAppleFile formattedAppleFile)
   // ---------------------------------------------------------------------------------//
   {
-    //    this.treeFile = appleTreeItem.getValue ();
-    //    appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
     this.formattedAppleFile = formattedAppleFile;
 
     refresh ();

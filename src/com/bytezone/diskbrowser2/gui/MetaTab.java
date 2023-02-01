@@ -34,8 +34,8 @@ public class MetaTab extends DBTextTab
     if (formattedAppleFile == null)
       return lines;
 
-    for (String line : formattedAppleFile.getMeta ().split ("\n"))
-      lines.add (line);
+    //    for (String line : formattedAppleFile.getMeta ().split ("\n"))
+    //      lines.add (line);
     return lines;
 
     //    if (treeFile == null)
@@ -80,7 +80,7 @@ public class MetaTab extends DBTextTab
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setFormatter (FormattedAppleFile formattedAppleFile)
+  public void setFormattedAppleFile (FormattedAppleFile formattedAppleFile)
   // ---------------------------------------------------------------------------------//
   {
     //    this.treeFile = appleTreeItem.getValue ();

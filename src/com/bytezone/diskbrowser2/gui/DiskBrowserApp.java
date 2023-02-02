@@ -159,7 +159,7 @@ public class DiskBrowserApp extends AppBase
     {
       case M:       // meta
       case H:       // hex
-      case F:       // data
+      case D:       // data
       case G:       // graphics
       case E:       // extras
         outputTabPane.keyPressed (keyEvent);
@@ -179,7 +179,7 @@ public class DiskBrowserApp extends AppBase
         keyEvent.consume ();
         break;
 
-      case S:
+      case F:
         filterManager.keyPressed (keyEvent);
         keyEvent.consume ();
         break;

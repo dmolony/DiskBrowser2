@@ -10,6 +10,7 @@ import java.util.List;
 import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 import com.bytezone.filesystem.ProdosConstants;
 
 import javafx.scene.image.Image;
@@ -36,6 +37,7 @@ public class TreeFile
   private static final Image prodosBasicImage = get ("A" + prodos);
   private static final Image prodosBinaryImage = get ("B" + prodos);
   private static final Image prodosSysImage = get ("S" + prodos);
+  private static final Image prodosVarsImage = get ("V" + prodos);
   private static final Image prodosXImage = get ("X" + prodos);
 
   // Pascal
@@ -229,9 +231,9 @@ public class TreeFile
     if (isLocalFile () || isAppleFileSystem ())
       return diskImage;
 
-    String fileSystemName = appleFile.getFileSystem ().getFileSystemName ();
+    FileSystemType fileSystemType = appleFile.getFileSystem ().getFileSystemType ();
 
-    if (fileSystemName.startsWith ("Dos"))
+    if (fileSystemType == FileSystemType.DOS)
     {
       return switch (appleFile.getFileType ())
       {
@@ -248,7 +250,7 @@ public class TreeFile
       };
     }
 
-    if (fileSystemName.startsWith ("Pro"))
+    if (fileSystemType == FileSystemType.PRODOS)
     {
       return switch (appleFile.getFileType ())
       {
@@ -259,11 +261,13 @@ public class TreeFile
         case ProdosConstants.FILE_TYPE_SYS -> prodosSysImage;
         case ProdosConstants.FILE_TYPE_PIC -> prodosPicImage;
         case ProdosConstants.FILE_TYPE_PNT -> prodosPicImage;
+        case ProdosConstants.FILE_TYPE_INTEGER_BASIC_VARS -> prodosVarsImage;
+        case ProdosConstants.FILE_TYPE_APPLESOFT_BASIC_VARS -> prodosVarsImage;
         default -> prodosXImage;
       };
     }
 
-    if (fileSystemName.startsWith ("CPM"))
+    if (fileSystemType == FileSystemType.CPM)
     {
       return switch (appleFile.getFileTypeText ())
       {
@@ -278,7 +282,7 @@ public class TreeFile
       };
     }
 
-    if (fileSystemName.startsWith ("Pas"))
+    if (fileSystemType == FileSystemType.PASCAL)
     {
       return switch (appleFile.getFileType ())
       {

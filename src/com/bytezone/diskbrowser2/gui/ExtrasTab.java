@@ -7,7 +7,9 @@ import com.bytezone.appleformat.FormattedAppleFile;
 
 import javafx.scene.input.KeyCode;
 
+// -----------------------------------------------------------------------------------//
 public class ExtrasTab extends DBTextTab
+// -----------------------------------------------------------------------------------//
 {
   private static final int MAX_LINES = 2500;
   private FormattedAppleFile formattedAppleFile;
@@ -33,8 +35,8 @@ public class ExtrasTab extends DBTextTab
   {
     List<String> newLines = new ArrayList<> ();
 
-    //    for (String line : formattedAppleFile.getText ().split ("\n"))
-    //      newLines.add (line);
+    for (String line : formattedAppleFile.getExtras ().split ("\n"))
+      newLines.add (line);
 
     return newLines;
   }

@@ -67,7 +67,6 @@ public class AppleTreeItem extends TreeItem<TreeFile>
     else
       System.out.println ("Unexpected result in buildChildren()");
 
-    //    System.out.printf ("building: %4d in %s%n", children.size (), parent.getName ());
     return children;
   }
 }

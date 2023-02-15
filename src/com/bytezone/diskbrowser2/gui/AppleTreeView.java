@@ -93,7 +93,7 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
             }
             else
             {
-              setText (treeFile.getName ());
+              setText (treeFile.toString ());
               imageView.setImage (treeFile.getImage ());
               setGraphic (imageView);
               setFont (font);

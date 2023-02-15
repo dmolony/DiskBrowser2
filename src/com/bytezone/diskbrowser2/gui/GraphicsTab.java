@@ -1,13 +1,12 @@
 package com.bytezone.diskbrowser2.gui;
 
-import com.bytezone.appbase.TabBase;
 import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-public class GraphicsTab extends TabBase
+public class GraphicsTab extends DBGraphicsTab
 // -----------------------------------------------------------------------------------//
 {
   private TreeFile treeFile;                    // the item to display
@@ -30,6 +29,11 @@ public class GraphicsTab extends TabBase
       return;
 
     setValid (true);
+
+    if (formattedAppleFile != null)
+    {
+      formattedAppleFile.writeGraphics (canvas.getGraphicsContext2D ());
+    }
   }
 
   // ---------------------------------------------------------------------------------//

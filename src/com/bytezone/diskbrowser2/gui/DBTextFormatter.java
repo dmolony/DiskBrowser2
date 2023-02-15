@@ -16,7 +16,7 @@ class DBTextFormatter implements TextFormatter
   protected final List<Text> textList = new ArrayList<> ();
   protected final Color baseColor = Color.GREEN;
   protected final Color numberColor = Color.LIGHTSEAGREEN;
-  protected boolean showLineNumbers = false;
+  protected boolean showLineNumbers = true;
   protected Font font;
 
   private final FilterStatus filterStatus = new FilterStatus ();

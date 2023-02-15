@@ -461,6 +461,16 @@ public class TreeFile
   public String toString ()
   // ---------------------------------------------------------------------------------//
   {
+    try
+    {
+      if (isAppleDataFile ())
+        return String.format ("%03d %s", appleFile.getTotalBlocks (), name);
+    }
+    catch (UnsupportedOperationException e)       // unfinished - NuFX files
+    {
+
+    }
+
     return name;
   }
 }

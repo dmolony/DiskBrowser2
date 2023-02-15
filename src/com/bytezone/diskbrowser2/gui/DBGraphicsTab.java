@@ -3,6 +3,7 @@ package com.bytezone.diskbrowser2.gui;
 import com.bytezone.appbase.TabBase;
 
 import javafx.geometry.Insets;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 
@@ -10,13 +11,15 @@ import javafx.scene.input.KeyCode;
 public class DBGraphicsTab extends TabBase
 // -----------------------------------------------------------------------------------//
 {
-  private final ScrollPane scrollPane = new ScrollPane ();
+  protected final Canvas canvas = new Canvas ();
+  protected final ScrollPane scrollPane = new ScrollPane (canvas);
 
   // ---------------------------------------------------------------------------------//
   public DBGraphicsTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
+
     scrollPane.setPadding (new Insets (5, 5, 5, 5));
     scrollPane.setStyle ("-fx-background: white;-fx-border-color: lightgray;");
 

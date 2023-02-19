@@ -38,7 +38,10 @@ class HexTab extends DBTextTab
     if (buffer == null)
       return lines;
 
-    return Utility.getHexDumpLines (buffer, 0, Math.min (MAX_HEX_BYTES, buffer.length));
+    int offset = formattedAppleFile.getOffset ();
+    int length = formattedAppleFile.getLength ();
+
+    return Utility.getHexDumpLines (buffer, offset, Math.min (MAX_HEX_BYTES, length));
   }
 
   // ---------------------------------------------------------------------------------//

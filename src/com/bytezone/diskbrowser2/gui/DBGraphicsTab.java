@@ -4,8 +4,10 @@ import com.bytezone.appbase.TabBase;
 
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 // -----------------------------------------------------------------------------------//
 public class DBGraphicsTab extends TabBase
@@ -24,6 +26,19 @@ public class DBGraphicsTab extends TabBase
     scrollPane.setStyle ("-fx-background: white;-fx-border-color: lightgray;");
 
     setContent (scrollPane);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  protected void clear ()
+  // ---------------------------------------------------------------------------------//
+  {
+    canvas.setWidth (1);
+    canvas.setHeight (1);
+
+    GraphicsContext gc = canvas.getGraphicsContext2D ();
+
+    gc.setFill (Color.WHITE);
+    gc.fillRect (0, 0, 1, 1);
   }
 
   // ---------------------------------------------------------------------------------//

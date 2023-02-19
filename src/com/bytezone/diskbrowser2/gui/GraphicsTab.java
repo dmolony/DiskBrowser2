@@ -30,10 +30,10 @@ public class GraphicsTab extends DBGraphicsTab
 
     setValid (true);
 
-    if (formattedAppleFile != null)
-    {
+    if (formattedAppleFile == null)
+      clear ();
+    else
       formattedAppleFile.writeGraphics (canvas.getGraphicsContext2D ());
-    }
   }
 
   // ---------------------------------------------------------------------------------//

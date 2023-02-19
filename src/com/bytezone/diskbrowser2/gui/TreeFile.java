@@ -93,7 +93,7 @@ public class TreeFile
 
     // hybrid disks have two file systems, so use the file system name to differentiate them
     if (appleFile.isFileSystem () && ((AppleFileSystem) appleFile).isHybrid ())
-      name = ((AppleFileSystem) appleFile).getFileSystemName ();
+      name = ((AppleFileSystem) appleFile).getFileSystemType ().toString ();
     else
       name = appleFile.getFileName ();
 

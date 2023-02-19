@@ -28,20 +28,6 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
   private static final String PREFS_LAST_PATH = "LastPath";
   private static String SEPARATOR = "|";
 
-  //  private final Image zipImage =
-  //      new Image (getClass ().getResourceAsStream ("/icons/zip-icon.png"));
-  //  private final Image diskImage = new Image (getClass ().getResourceAsStream ("/icons/disk.png"));
-  //  private final Image folderImage =
-  //      new Image (getClass ().getResourceAsStream ("/icons/folder-icon.png"));
-  //  private final Image xImage =
-  //      new Image (getClass ().getResourceAsStream ("/icons/X-green-icon.png"));
-  //  private final Image mImage =
-  //      new Image (getClass ().getResourceAsStream ("/icons/M-blue-icon.png"));
-  //  private final Image dImage =
-  //      new Image (getClass ().getResourceAsStream ("/icons/D-pink-icon.png"));
-  //  private final Image tImage =
-  //      new Image (getClass ().getResourceAsStream ("/icons/T-black-icon.png"));
-
   private Font font;
 
   private final MultipleSelectionModel<TreeItem<TreeFile>> model = getSelectionModel ();
@@ -61,8 +47,7 @@ public class AppleTreeView extends TreeView<TreeFile> implements SaveState, Font
         return;
       }
 
-      // newSel is a TreeItem<TreeFile>
-      TreeFile treeFile = newSel.getValue ();
+      TreeFile treeFile = newSel.getValue ();       // newSel is a TreeItem<TreeFile>
 
       // same test as in AppleTreeItem.getChildren()
       // if item selection happens first then we do this one

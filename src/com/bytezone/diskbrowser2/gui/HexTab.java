@@ -11,7 +11,7 @@ import javafx.scene.input.KeyCode;
 class HexTab extends DBTextTab
 // -----------------------------------------------------------------------------------//
 {
-  private static final int MAX_HEX_BYTES = 0x20_000;
+  private static final int MAX_HEX_BYTES = 0x10_000;
 
   private FormattedAppleFile formattedAppleFile;
 

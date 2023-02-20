@@ -73,8 +73,19 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
   {
     List<String> newLines = new ArrayList<> ();
 
-    for (String line : formattedAppleFile.getText ().split ("\n"))
+    int lineNo = 0;
+    String[] lines = formattedAppleFile.getText ().split ("\n");
+    for (String line : lines)
+    {
+      if (lineNo++ > MAX_LINES)
+      {
+        newLines.add ("");
+        newLines.add ("**** File too large ****");
+        newLines.add (String.format ("**** %,d lines omitted ****", lines.length - MAX_LINES));
+        break;
+      }
       newLines.add (line);
+    }
 
     return newLines;
   }

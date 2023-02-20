@@ -464,7 +464,8 @@ public class TreeFile
     try
     {
       if (isAppleDataFile ())
-        return String.format ("%03d %s", appleFile.getTotalBlocks (), name);
+        return String.format ("%s %03d %s", appleFile.getFileTypeText (),
+            appleFile.getTotalBlocks (), name);
     }
     catch (UnsupportedOperationException e)       // unfinished - NuFX files
     {

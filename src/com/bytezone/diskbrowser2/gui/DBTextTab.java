@@ -7,6 +7,7 @@ import com.bytezone.appbase.TextTabBase;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,6 +32,10 @@ public abstract class DBTextTab extends TextTabBase
 
     scrollPane.setPadding (new Insets (5, 5, 5, 5));
     scrollPane.setStyle ("-fx-background: white;-fx-border-color: lightgray;");
+    scrollPane.widthProperty ().addListener ( (obs, oldVal, newVal) ->
+    {
+      textFlow.setMaxWidth (scrollPane.getWidth () - 40);
+    });
 
     setContent (scrollPane);
   }
@@ -50,6 +55,10 @@ public abstract class DBTextTab extends TextTabBase
     setValid (true);
 
     textFlow.getChildren ().setAll (textFormatter.format (getLines ()));
+
+    //    textFlow.setMaxWidth (Control.USE_PREF_SIZE);
+    scrollPane.setHbarPolicy (ScrollBarPolicy.NEVER);
+    //    textFlow.setMaxWidth (500);
 
     scrollPane.setVvalue (0);
     scrollPane.setHvalue (0);

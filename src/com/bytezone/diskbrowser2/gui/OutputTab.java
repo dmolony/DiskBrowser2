@@ -50,7 +50,7 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
     basicPreferences.showDuplicateSymbols = true;
 
     Text.setTextPreferences (textPreferences);
-    textPreferences.showHeader = true;
+    //    textPreferences.showHeader = true;
 
     HiResImage.setGraphicsPreferences (graphicsPreferences);
 

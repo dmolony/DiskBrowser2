@@ -7,14 +7,16 @@ import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
+import javafx.scene.control.TreeItem;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
 public class MetaTab extends DBTextTab
 // -----------------------------------------------------------------------------------//
 {
+  AppleTreeItem appleTreeItem;
   TreeFile treeFile;
-  //  AppleFile appleFile;
+  AppleFile appleFile;
   private FormattedAppleFile formattedAppleFile;
 
   // ---------------------------------------------------------------------------------//
@@ -33,61 +35,73 @@ public class MetaTab extends DBTextTab
   {
     List<String> newLines = new ArrayList<> ();
 
-    //    if (formattedAppleFile == null)
-    //      return newLines;
-
-    //    for (String line : formattedAppleFile.getMeta ().split ("\n"))
-    //      lines.add (line);
-    //    return lines;
-
-    if (treeFile == null)
-    {
-      newLines.add ("No tree");
+    if (appleTreeItem == null)
       return newLines;
-    }
 
-    if (treeFile.isLocalFile ())
+    TreeItem<TreeFile> item = appleTreeItem;
+    while (true)
     {
-      newLines.add ("--> PC File");
-      if (treeFile.isAppleFileSystem ())
-      {
-        newLines.add ("--> AppleFileSystem");
-        for (String line : (((AppleFileSystem) treeFile.getAppleFile ()).toText ()).split ("\n"))
-          newLines.add (line);
-      }
-    }
-    else if (treeFile.isLocalDirectory ())
-    {
-      newLines.add ("--> PC Directory");
-    }
-    else if (treeFile.isAppleFileSystem ())
-    {
-      newLines.add ("--> AppleFileSystem");
-
-      for (String line : (((AppleFileSystem) treeFile.getAppleFile ()).toText ()).split ("\n"))
-        newLines.add (line);
-    }
-    else if (treeFile.isAppleFolder ())
-    {
-      newLines.add ("--> AppleFolder");
-    }
-    else if (treeFile.isAppleDataFile ())
-    {
-      newLines.add ("--> AppleDataFile");
-      AppleFile appleFile = treeFile.getAppleFile ();
-      newLines.add (appleFile.toString ());
+      TreeFile tf = item.getValue ();
+      show (tf, newLines);
+      item = item.getParent ();
+      if (item == null)
+        break;
     }
 
     return newLines;
   }
 
   // ---------------------------------------------------------------------------------//
+  private void show (TreeFile treeFile, List<String> newLines)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (treeFile == null)
+    {
+      newLines.add ("No tree");
+      return;
+    }
+
+    AppleFile appleFile = treeFile.getAppleFile ();
+
+    if (treeFile.isLocalFile ())
+    {
+      if (treeFile.isAppleFileSystem ())
+      {
+        newLines.add ("\n--> AppleFileSystem");
+        for (String line : (((AppleFileSystem) treeFile.getAppleFile ()).toText ()).split ("\n"))
+          newLines.add (line);
+      }
+    }
+    else
+    {
+      if (treeFile.isAppleFileSystem ())
+      {
+        newLines.add ("\n--> AppleFileSystem : " + appleFile.getFileSystemType ());
+
+        for (String line : (((AppleFileSystem) appleFile).toText ()).split ("\n"))
+          newLines.add (line);
+      }
+      else if (treeFile.isAppleFolder ())
+      {
+        newLines.add ("\n--> AppleFolder");
+        newLines.add (appleFile.toString ());
+      }
+      else if (treeFile.isAppleDataFile ())
+      {
+        newLines.add ("\n--> AppleDataFile");
+        newLines.add (appleFile.toString ());
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------------//
   public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.treeFile = appleTreeItem.getValue ();
-    //    appleFile = treeFile.getAppleFile ();
-    //    this.formattedAppleFile = formattedAppleFile;
+    this.appleTreeItem = appleTreeItem;
+    treeFile = appleTreeItem.getValue ();
+    appleFile = treeFile.getAppleFile ();
+    formattedAppleFile = treeFile.getFormattedAppleFile ();
 
     refresh ();
   }

@@ -22,6 +22,9 @@ public class AppleTreeItem extends TreeItem<TreeFile>
   public boolean isLeaf ()
   // ---------------------------------------------------------------------------------//
   {
+    //    System.out.printf ("%s%n", getValue ().getName ());
+    //    System.out.printf ("%s%n", getValue ().isAppleDataFile ());
+    //    return getValue ().isAppleFile () && !getValue ().isAppleContainer ();
     return getValue ().isAppleDataFile ();
   }
 
@@ -61,7 +64,7 @@ public class AppleTreeItem extends TreeItem<TreeFile>
   {
     ObservableList<AppleTreeItem> children = FXCollections.observableArrayList ();
 
-    if (parent.isAppleFileSystem () || parent.isAppleFolder ())
+    if (parent.isAppleContainer ())
       for (TreeFile treeFile : parent.listAppleFiles ())
         children.add (new AppleTreeItem (treeFile));
     else

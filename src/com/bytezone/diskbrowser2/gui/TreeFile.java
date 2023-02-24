@@ -94,6 +94,8 @@ public class TreeFile
     // hybrid disks have two file systems, so use the file system name to differentiate them
     if (appleFile.isFileSystem () && ((AppleFileSystem) appleFile).isHybrid ())
       name = ((AppleFileSystem) appleFile).getFileSystemType ().toString ();
+    else if (appleFile.isFork ())
+      name = appleFile.getFileName ();
     else
       name = appleFile.getFileName ();
 
@@ -245,8 +247,7 @@ public class TreeFile
         case 0x10 -> dosXImage;
         case 0x20 -> dosXImage;
         case 0x40 -> dosXImage;
-        default -> throw new IllegalArgumentException (
-            "Unexpected value: " + appleFile.getFileTypeText ());
+        default -> dosXImage;
       };
     }
 
@@ -295,8 +296,7 @@ public class TreeFile
         case 6 -> pascalGrafImage;
         case 7 -> pascalPhotoImage;
         case 8 -> pascalXImage;           // Secure directory
-        default -> throw new IllegalArgumentException (
-            "Unexpected value: " + appleFile.getFileType ());
+        default -> pascalXImage;
       };
     }
 
@@ -346,10 +346,26 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
+  public boolean isAppleForkedFile ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return appleFile != null && appleFile.isForkedFile ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public boolean isAppleContainer ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return appleFile != null
+        && (appleFile.isFileSystem () || appleFile.isFolder () || appleFile.isForkedFile ());
+  }
+
+  // ---------------------------------------------------------------------------------//
   public boolean isAppleDataFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null && !appleFile.isFolder () && !appleFile.isFileSystem ();
+    return appleFile != null
+        && !(appleFile.isFolder () || appleFile.isFileSystem () || appleFile.isForkedFile ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -463,13 +479,14 @@ public class TreeFile
   {
     try
     {
-      if (isAppleDataFile ())
-        return String.format ("%s %03d %s", appleFile.getFileTypeText (),
-            appleFile.getTotalBlocks (), name);
+      if (isAppleFile ())
+        return appleFile.isFork () ? appleFile.getFileName ()       // DATA or RESOURCE
+            : String.format ("%s %03d %s",                          // full file details
+                appleFile.getFileTypeText (), appleFile.getTotalBlocks (), name);
     }
     catch (UnsupportedOperationException e)       // unfinished - NuFX files
     {
-
+      e.printStackTrace ();
     }
 
     return name;

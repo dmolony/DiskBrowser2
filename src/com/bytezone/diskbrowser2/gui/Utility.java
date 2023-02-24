@@ -74,6 +74,7 @@ public class Utility
         int c = b[z] & 0x7F;
         textLine.append (c < 0x40 ? '.' : (char) c);
       }
+
       lines.add (String.format ("%06X  %-48s %s", displayOffset + ptr, hexLine.toString (),
           textLine.toString ()));
     }

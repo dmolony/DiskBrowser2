@@ -91,11 +91,10 @@ public class TreeFile
 
     this.appleFile = appleFile;
 
-    // hybrid disks have two file systems, so use the file system name to differentiate them
+    // hybrid disks have two file systems, so use the file system name 
+    // to differentiate them
     if (appleFile.isFileSystem () && ((AppleFileSystem) appleFile).isHybrid ())
       name = ((AppleFileSystem) appleFile).getFileSystemType ().toString ();
-    else if (appleFile.isFork ())
-      name = appleFile.getFileName ();
     else
       name = appleFile.getFileName ();
 
@@ -356,16 +355,16 @@ public class TreeFile
   public boolean isAppleContainer ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null
-        && (appleFile.isFileSystem () || appleFile.isFolder () || appleFile.isForkedFile ());
+    return appleFile != null && (appleFile.isFileSystem () || appleFile.isFolder ()
+        || appleFile.isForkedFile ());
   }
 
   // ---------------------------------------------------------------------------------//
   public boolean isAppleDataFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null
-        && !(appleFile.isFolder () || appleFile.isFileSystem () || appleFile.isForkedFile ());
+    return appleFile != null && !(appleFile.isFolder () || appleFile.isFileSystem ()
+        || appleFile.isForkedFile ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -480,9 +479,11 @@ public class TreeFile
     try
     {
       if (isAppleFile ())
+      {
         return appleFile.isFork () ? appleFile.getFileName ()       // DATA or RESOURCE
             : String.format ("%s %03d %s",                          // full file details
                 appleFile.getFileTypeText (), appleFile.getTotalBlocks (), name);
+      }
     }
     catch (UnsupportedOperationException e)       // unfinished - NuFX files
     {

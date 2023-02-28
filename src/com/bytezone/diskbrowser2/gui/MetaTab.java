@@ -61,7 +61,7 @@ public class MetaTab extends DBTextTab
     {
       if (treeFile.isAppleFileSystem ())
       {
-        lines.add (frameHeader ("AppleFileSystem : " + appleFile.getFileSystemType ()));
+        lines.add (frameHeader ("AppleFileSystem"));
         for (String line : (((AppleFileSystem) appleFile).toText ()).split ("\n"))
           lines.add (line);
       }
@@ -70,13 +70,18 @@ public class MetaTab extends DBTextTab
     {
       if (treeFile.isAppleFileSystem ())
       {
-        lines.add (frameHeader ("Embedded AppleFileSystem : " + appleFile.getFileSystemType ()));
+        lines.add (frameHeader ("Embedded AppleFileSystem"));
         for (String line : (((AppleFileSystem) appleFile).toText ()).split ("\n"))
           lines.add (line);
       }
       else if (treeFile.isAppleFolder ())
       {
         lines.add (frameHeader ("AppleFolder"));
+        lines.add (appleFile.toString ());
+      }
+      else if (treeFile.isAppleForkedFile ())
+      {
+        lines.add (frameHeader ("AppleForkedFile"));
         lines.add (appleFile.toString ());
       }
       else if (treeFile.isAppleDataFile ())

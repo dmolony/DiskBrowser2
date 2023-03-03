@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.KeyCode;
@@ -60,40 +59,23 @@ public class MetaTab extends DBTextTab
     if (treeFile.isLocalFile ())                    // PC files and folders
     {
       if (treeFile.isAppleFileSystem ())
-      {
-        lines.add (frameHeader ("AppleFileSystem"));
-        for (String line : (((AppleFileSystem) appleFile).toText ()).split ("\n"))
-          lines.add (line);
-      }
+        lines.add (frameHeader ("AppleFileSystem", appleFile));
     }
     else                                            // Apple files
     {
       if (treeFile.isAppleFileSystem ())
-      {
-        lines.add (frameHeader ("Embedded AppleFileSystem"));
-        for (String line : (((AppleFileSystem) appleFile).toText ()).split ("\n"))
-          lines.add (line);
-      }
+        lines.add (frameHeader ("Embedded AppleFileSystem", appleFile));
       else if (treeFile.isAppleFolder ())
-      {
-        lines.add (frameHeader ("AppleFolder"));
-        lines.add (appleFile.toString ());
-      }
+        lines.add (frameHeader ("AppleFolder", appleFile));
       else if (treeFile.isAppleForkedFile ())
-      {
-        lines.add (frameHeader ("AppleForkedFile"));
-        lines.add (appleFile.toString ());
-      }
+        lines.add (frameHeader ("AppleForkedFile", appleFile));
       else if (treeFile.isAppleDataFile ())
-      {
-        lines.add (frameHeader ("AppleDataFile"));
-        lines.add (appleFile.toString ());
-      }
+        lines.add (frameHeader ("AppleDataFile", appleFile));
     }
   }
 
   // ---------------------------------------------------------------------------------//
-  private String frameHeader (String header)
+  private String frameHeader (String header, AppleFile appleFile)
   // ---------------------------------------------------------------------------------//
   {
     StringBuilder text = new StringBuilder ();
@@ -105,6 +87,9 @@ public class MetaTab extends DBTextTab
     text.append (header);
     text.append ("\n");
     text.append (HEADER);
+    text.append ("\n");
+
+    text.append (appleFile.toString ());
 
     return text.toString ();
   }

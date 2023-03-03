@@ -480,9 +480,15 @@ public class TreeFile
     {
       if (isAppleFile ())
       {
-        return appleFile.isFork () ? appleFile.getFileName ()       // DATA or RESOURCE
-            : String.format ("%s %03d %s",                          // full file details
-                appleFile.getFileTypeText (), appleFile.getTotalBlocks (), name);
+        if (appleFile.isFork ())
+          return appleFile.getFileName ();          // DATA or RESOURCE
+
+        if (true)
+          return String.format ("%s %03d %s",         // full file details
+              appleFile.getFileTypeText (), appleFile.getTotalBlocks (), name);
+        else
+          return String.format ("%-30s %s %03d",         // full file details
+              name, appleFile.getFileTypeText (), appleFile.getTotalBlocks ());
       }
     }
     catch (UnsupportedOperationException e)       // unfinished - NuFX files

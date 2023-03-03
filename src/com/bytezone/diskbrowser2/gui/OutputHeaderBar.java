@@ -18,7 +18,8 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener
       return;
     }
 
-    leftLabel.setText (treeFile.getCatalogLine ());
+    //    leftLabel.setText (treeFile.getCatalogLine ());
+    leftLabel.setText (treeFile.toString ());
   }
 
   // ---------------------------------------------------------------------------------//

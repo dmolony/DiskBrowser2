@@ -41,11 +41,11 @@ public class MetaTab extends DBTextTab
       return lines;
 
     TreeItem<TreeFile> item = appleTreeItem;
-    while (item != null)
-    {
-      show (item.getValue (), lines);
-      item = item.getParent ();
-    }
+    //    while (item != null)
+    //    {
+    show (item.getValue (), lines);
+    //      item = item.getParent ();
+    //    }
 
     return lines;
   }

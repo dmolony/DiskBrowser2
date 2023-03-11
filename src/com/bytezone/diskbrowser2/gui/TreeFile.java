@@ -184,7 +184,8 @@ public class TreeFile
   String getCatalogLine ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile == null ? name : appleFile.getCatalogLine ();
+    //    return appleFile == null ? name : appleFile.getCatalogLine ();
+    return name;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -449,7 +450,7 @@ public class TreeFile
     if (isAppleFile ())
     {
       text.append ("\n\n");
-      text.append (appleFile.catalog ());
+      text.append (appleFile.toString ());
     }
 
     //    if (skipFiles.size () > 0)

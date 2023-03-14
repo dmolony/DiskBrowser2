@@ -20,7 +20,6 @@ public class FilterPanel extends VBox
   private List<CheckBox> checkBoxes = new ArrayList<> ();
   final ToggleGroup group = new ToggleGroup ();
   private final Label labelFilter = new Label ("Filter");
-  //  private TreeView<TreeFile> treeView;
   private final List<FilterListener> listeners = new ArrayList<> ();
   private String filterValue = "";
   private int extensionsSelected;

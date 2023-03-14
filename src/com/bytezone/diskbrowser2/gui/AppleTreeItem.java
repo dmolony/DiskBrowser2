@@ -65,50 +65,57 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  private ObservableList<AppleTreeItem> buildChildren (AppleTreeFile parent)
+  private ObservableList<TreeItem<AppleTreeFile>> buildChildren (AppleTreeFile parent)
   // ---------------------------------------------------------------------------------//
   {
-    ObservableList<AppleTreeItem> children = FXCollections.observableArrayList ();
+    ObservableList<TreeItem<AppleTreeFile>> children =
+        FXCollections.observableArrayList ();
 
-    if (parent.isAppleContainer ())
-    {
-      for (AppleTreeFile treeFile : parent.listAppleFiles ())
+    assert parent.isAppleContainer ();
+
+    for (AppleTreeFile treeFile : parent.listAppleFiles ())
+      if (treeFile.hasSubdirectories ())        // must be a FsNuFX
       {
-        if (treeFile.hasSubdirectories ())
-        {
-          String[] folderList = ((FileNuFX) treeFile.getAppleFile ()).getPathFolders ();
-          AppleTreeItem ati = findTreeItem (children, folderList[0]);
-
-          if (ati == null)
-          {
-            AppleFile appleFile = new FolderNuFX (
-                (FsNuFX) treeFile.getAppleFile ().getFileSystem (), folderList[0]);
-            AppleTreeFile tf = new AppleTreeFile (appleFile);
-            AppleTreeItem ti = new AppleTreeItem (tf);
-            children.add (ti);
-            ti.getChildren ().add (new AppleTreeItem (treeFile));
-          }
-          else
-            ati.getChildren ().add (new AppleTreeItem (treeFile));
-        }
-        else
-          children.add (new AppleTreeItem (treeFile));
+        TreeItem<AppleTreeFile> targetFolder = findTreeItem (children, treeFile);
+        targetFolder.getChildren ().add (new AppleTreeItem (treeFile));
       }
-    }
-    else
-      System.out.println ("Unexpected result in buildChildren()");
+      else
+        children.add (new AppleTreeItem (treeFile));
 
     return children;
   }
 
+  // Walk the namePath, creating any folders that don't exist
   // ---------------------------------------------------------------------------------//
-  private AppleTreeItem findTreeItem (ObservableList<AppleTreeItem> items, String name)
+  private TreeItem<AppleTreeFile>
+      findTreeItem (ObservableList<TreeItem<AppleTreeFile>> items, AppleTreeFile treeFile)
   // ---------------------------------------------------------------------------------//
   {
-    for (AppleTreeItem appleTreeItem : items)
-      if (appleTreeItem.getValue ().getName ().equals (name))
-        return appleTreeItem;
+    TreeItem<AppleTreeFile> target = null;      // the folder at the end of the path
 
-    return null;
+    FileNuFX fileNuFX = (FileNuFX) treeFile.getAppleFile ();
+    String[] namePath = fileNuFX.getPathFolders ();
+    FsNuFX fs = (FsNuFX) fileNuFX.getFileSystem ();
+
+    loop: for (String name : namePath)
+    {
+      for (TreeItem<AppleTreeFile> ati : items)
+        if (ati.getValue ().getName ().equals (name))
+        {
+          items = ati.getChildren ();
+          target = ati;
+          continue loop;
+        }
+
+      AppleFile af = new FolderNuFX (fs, name);
+      AppleTreeFile tf = new AppleTreeFile (af);
+      AppleTreeItem ati = new AppleTreeItem (tf);
+
+      items.add (ati);
+      items = ati.getChildren ();
+      target = ati;
+    }
+
+    return target;
   }
 }

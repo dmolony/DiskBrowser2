@@ -11,6 +11,7 @@ import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
+import com.bytezone.filesystem.FileNuFX;
 import com.bytezone.filesystem.ProdosConstants;
 
 import javafx.scene.image.Image;
@@ -72,8 +73,6 @@ public class AppleTreeFile
   private AppleFile appleFile;
   private FormattedAppleFile formattedAppleFile;
 
-  //  private List<AppleFileSystem> skipFiles = new ArrayList<> ();
-
   private int extensionNo;
 
   private String name;
@@ -111,6 +110,8 @@ public class AppleTreeFile
   public AppleTreeFile (File file)
   // ---------------------------------------------------------------------------------//
   {
+    assert !file.isHidden ();
+
     this.path = file.toPath ();
     this.localFile = file;
 
@@ -135,35 +136,15 @@ public class AppleTreeFile
     }
   }
 
-  // Called when a local file is selected or expanded.
+  // Called when a local file (without a file system) is selected or expanded.
   // ---------------------------------------------------------------------------------//
-  void setAppleFileSystem ()
+  void readAppleFileSystem ()
   // ---------------------------------------------------------------------------------//
   {
     assert isLocalFile ();
     assert appleFile == null;
 
     appleFile = AppleTreeView.fileSystemFactory.getFileSystem (path);
-
-    //    while (true)
-    //    {
-    //      List<AppleFile> files = this.appleFile.getFiles ();
-    //      if (files.size () == 1                        //
-    //          && files.get (0).isFileSystem ())         // contains exactly one file system
-    //      {
-    //        skipFiles.add ((AppleFileSystem) this.appleFile);
-    //        this.appleFile = files.get (0);                   // skip level
-    //      }
-    //      else
-    //        break;
-    //    }
-    //    if (appleFile instanceof Fs2img fs)
-    //    {
-    //      skipFiles.add (fs);
-    //      this.appleFile = fs.getFiles ().get (0);            // skip level
-    //    }
-    //    else
-    //    this.appleFile = appleFileSystem;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -363,22 +344,21 @@ public class AppleTreeFile
   public boolean isAppleDataFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null && !(appleFile.isFolder () || appleFile.isFileSystem ()
-        || appleFile.isForkedFile ());
+    return appleFile != null && !isAppleContainer ();
   }
 
   // ---------------------------------------------------------------------------------//
-  //  public List<TreeFile> listLocalFiles ()
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    List<TreeFile> fileList = new ArrayList<> ();
-  //
-  //    for (File file : this.file.listFiles ())
-  //      if (!file.isHidden ())
-  //        fileList.add (new TreeFile (file));
-  //
-  //    return fileList;
-  //  }
+  public boolean hasSubdirectories ()
+  // ---------------------------------------------------------------------------------//
+  {
+    if (appleFile == null || appleFile.getFileSystemType () != FileSystemType.NUFX)
+      return false;
+
+    if (appleFile instanceof FileNuFX nufx)
+      return nufx.getFullFileName ().indexOf (nufx.getSeparator ()) > 0;
+
+    return false;
+  }
 
   // ---------------------------------------------------------------------------------//
   List<AppleTreeFile> listAppleFiles ()
@@ -451,15 +431,6 @@ public class AppleTreeFile
       text.append ("\n\n");
       text.append (appleFile.toString ());
     }
-
-    //    if (skipFiles.size () > 0)
-    //    {
-    //      for (AppleFileSystem fs : skipFiles)
-    //      {
-    //        text.append ("\n");
-    //        text.append (fs.toText ());
-    //      }
-    //    }
 
     return text.toString ();
   }

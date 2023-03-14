@@ -19,7 +19,7 @@ import javafx.scene.text.Font;
 import javafx.util.Callback;
 
 // ---------------------------------------------------------------------------------//
-public class AppleTreeView extends TreeView<AppleTreeFile>
+class AppleTreeView extends TreeView<AppleTreeFile>
     implements SaveState, FontChangeListener
 // ---------------------------------------------------------------------------------//
 {
@@ -32,34 +32,18 @@ public class AppleTreeView extends TreeView<AppleTreeFile>
 
   private Font font;
 
-  private final MultipleSelectionModel<TreeItem<AppleTreeFile>> model =
-      getSelectionModel ();
+  private final MultipleSelectionModel<TreeItem<AppleTreeFile>> model;
   private final List<TreeNodeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
-  public AppleTreeView (AppleTreeItem root)
+  AppleTreeView (AppleTreeItem root)
   // ---------------------------------------------------------------------------------//
   {
     super (root);
 
-    model.selectedItemProperty ().addListener ( (obs, oldSel, newSel) ->
-    {
-      if (newSel == null)
-      {
-        System.out.println ("Should never happen - newSel is null");
-        return;
-      }
-
-      AppleTreeFile treeFile = newSel.getValue ();      // newSel is a TreeItem<TreeFile>
-
-      // same test as in AppleTreeItem.getChildren()
-      // if item selection happens first then we do this one
-      if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
-        newSel.getChildren ();          // force the disk to be read
-
-      for (TreeNodeListener listener : listeners)
-        listener.treeNodeSelected ((AppleTreeItem) newSel);
-    });
+    model = getSelectionModel ();
+    model.selectedItemProperty ()
+        .addListener ( (obs, oldSel, newSel) -> itemSelected ((AppleTreeItem) newSel));
 
     setCellFactory (new Callback<TreeView<AppleTreeFile>, TreeCell<AppleTreeFile>> ()
     {
@@ -95,7 +79,29 @@ public class AppleTreeView extends TreeView<AppleTreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setRootFolder (AppleTreeItem appleTreeItem)
+  private void itemSelected (AppleTreeItem appleTreeItem)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (appleTreeItem == null)
+    {
+      System.out.println ("Should never happen - appleTreeItem is null");
+      return;
+    }
+
+    AppleTreeFile treeFile = appleTreeItem.getValue ();
+
+    // same test as in AppleTreeItem.getChildren()
+    // if item selection happens first then we do this one
+
+    if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
+      appleTreeItem.getChildren ();          // force the file to be processed
+
+    for (TreeNodeListener listener : listeners)
+      listener.treeNodeSelected (appleTreeItem);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void setRootFolder (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
     setRoot (appleTreeItem);
@@ -103,7 +109,7 @@ public class AppleTreeView extends TreeView<AppleTreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  Optional<TreeItem<AppleTreeFile>> getNode (String path)
+  private Optional<TreeItem<AppleTreeFile>> getNode (String path)
   // ---------------------------------------------------------------------------------//
   {
     TreeItem<AppleTreeFile> node = getRoot ();
@@ -139,7 +145,7 @@ public class AppleTreeView extends TreeView<AppleTreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  String getSelectedItemPath ()
+  private String getSelectedItemPath ()
   // ---------------------------------------------------------------------------------//
   {
     StringBuilder pathBuilder = new StringBuilder ();
@@ -191,7 +197,7 @@ public class AppleTreeView extends TreeView<AppleTreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  public void addListener (TreeNodeListener listener)
+  void addListener (TreeNodeListener listener)
   // ---------------------------------------------------------------------------------//
   {
     if (!listeners.contains (listener))

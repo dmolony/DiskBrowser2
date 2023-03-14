@@ -5,13 +5,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
 // -----------------------------------------------------------------------------------//
-public class AppleTreeItem extends TreeItem<TreeFile>
+public class AppleTreeItem extends TreeItem<AppleTreeFile>
 // -----------------------------------------------------------------------------------//
 {
   private boolean firstTimeChildren = true;
 
   // ---------------------------------------------------------------------------------//
-  public AppleTreeItem (TreeFile file)
+  public AppleTreeItem (AppleTreeFile file)
   // ---------------------------------------------------------------------------------//
   {
     super (file);
@@ -30,10 +30,10 @@ public class AppleTreeItem extends TreeItem<TreeFile>
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public ObservableList<TreeItem<TreeFile>> getChildren ()
+  public ObservableList<TreeItem<AppleTreeFile>> getChildren ()
   // ---------------------------------------------------------------------------------//
   {
-    TreeFile treeFile = getValue ();
+    AppleTreeFile treeFile = getValue ();
 
     if (treeFile.isLocalDirectory ())     // already built
       return super.getChildren ();
@@ -59,13 +59,13 @@ public class AppleTreeItem extends TreeItem<TreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  private ObservableList<AppleTreeItem> buildChildren (TreeFile parent)
+  private ObservableList<AppleTreeItem> buildChildren (AppleTreeFile parent)
   // ---------------------------------------------------------------------------------//
   {
     ObservableList<AppleTreeItem> children = FXCollections.observableArrayList ();
 
     if (parent.isAppleContainer ())
-      for (TreeFile treeFile : parent.listAppleFiles ())
+      for (AppleTreeFile treeFile : parent.listAppleFiles ())
         children.add (new AppleTreeItem (treeFile));
     else
       System.out.println ("Unexpected result in buildChildren()");

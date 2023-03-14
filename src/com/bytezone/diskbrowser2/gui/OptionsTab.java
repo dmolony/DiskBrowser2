@@ -9,7 +9,7 @@ import javafx.scene.input.KeyCode;
 public class OptionsTab extends DBOptionsTab implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
-  private TreeFile treeFile;                    // the item to display
+  private AppleTreeFile treeFile;                    // the item to display
   private AppleFile appleFile;
 
   // ---------------------------------------------------------------------------------//

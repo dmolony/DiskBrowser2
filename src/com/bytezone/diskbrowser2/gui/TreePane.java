@@ -102,7 +102,7 @@ class TreePane extends BorderPane implements FilterListener
           continue;
         }
 
-        AppleTreeItem newItem = new AppleTreeItem (new TreeFile (path.toFile ()));
+        AppleTreeItem newItem = new AppleTreeItem (new AppleTreeFile (path.toFile ()));
 
         if (isLocalDirectory)
         {
@@ -131,7 +131,7 @@ class TreePane extends BorderPane implements FilterListener
   private AppleTreeItem createTreeRoot ()
   // ---------------------------------------------------------------------------------//
   {
-    AppleTreeItem root = new AppleTreeItem (new TreeFile (rootFolder));
+    AppleTreeItem root = new AppleTreeItem (new AppleTreeFile (rootFolder));
     root.setExpanded (true);
 
     return root;
@@ -163,13 +163,13 @@ class TreePane extends BorderPane implements FilterListener
   private void createFilteredTree (AppleTreeItem root, AppleTreeItem filteredRoot)
   // ---------------------------------------------------------------------------------//
   {
-    for (TreeItem<TreeFile> child : root.getChildren ())
+    for (TreeItem<AppleTreeFile> child : root.getChildren ())
     {
       AppleTreeItem filteredChild = new AppleTreeItem (child.getValue ());
 
       createFilteredTree ((AppleTreeItem) child, filteredChild);
 
-      TreeFile filePath = filteredChild.getValue ();
+      AppleTreeFile filePath = filteredChild.getValue ();
 
       if (filePath.isLocalFile () && filterPanel.isMatch (filePath))
         filteredRoot.getChildren ().add (filteredChild);
@@ -199,10 +199,10 @@ class TreePane extends BorderPane implements FilterListener
   private void sort (AppleTreeItem node)
   // ---------------------------------------------------------------------------------//
   {
-    node.getChildren ().sort (Comparator.comparing (new Function<TreeItem<TreeFile>, String> ()
+    node.getChildren ().sort (Comparator.comparing (new Function<TreeItem<AppleTreeFile>, String> ()
     {
       @Override
-      public String apply (TreeItem<TreeFile> t)
+      public String apply (TreeItem<AppleTreeFile> t)
       {
         return t.getValue ().getSortString ();
       }

@@ -17,7 +17,7 @@ public class MetaTab extends DBTextTab
       "===================================================================";
   private static final String SPACES = "                                  ";
   AppleTreeItem appleTreeItem;
-  TreeFile treeFile;
+  AppleTreeFile treeFile;
   AppleFile appleFile;
   private FormattedAppleFile formattedAppleFile;
 
@@ -40,7 +40,7 @@ public class MetaTab extends DBTextTab
     if (appleTreeItem == null)
       return lines;
 
-    TreeItem<TreeFile> item = appleTreeItem;
+    TreeItem<AppleTreeFile> item = appleTreeItem;
     //    while (item != null)
     //    {
     show (item.getValue (), lines);
@@ -51,7 +51,7 @@ public class MetaTab extends DBTextTab
   }
 
   // ---------------------------------------------------------------------------------//
-  private void show (TreeFile treeFile, List<String> lines)
+  private void show (AppleTreeFile treeFile, List<String> lines)
   // ---------------------------------------------------------------------------------//
   {
     AppleFile appleFile = treeFile.getAppleFile ();

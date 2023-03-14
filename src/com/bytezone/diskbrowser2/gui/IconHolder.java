@@ -73,7 +73,7 @@ class IconHolder
   //  }
 
   // ---------------------------------------------------------------------------------//
-  Image getFolderIconImage (TreeFile fileItem)
+  Image getFolderIconImage (AppleTreeFile fileItem)
   // ---------------------------------------------------------------------------------//
   {
     if (fileItem.isCompressedLocalFile ())

@@ -6,7 +6,7 @@ import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 class OutputHeaderBar extends HeaderBar implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
-  private TreeFile treeFile;
+  private AppleTreeFile treeFile;
 
   // ---------------------------------------------------------------------------------//
   void updateNameLabel ()

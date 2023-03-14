@@ -107,7 +107,7 @@ public class FilterPanel extends VBox
   }
 
   // ---------------------------------------------------------------------------------//
-  boolean isMatch (TreeFile value)
+  boolean isMatch (AppleTreeFile value)
   // ---------------------------------------------------------------------------------//
   {
     if (!filterValue.isEmpty () && !value.getName ().contains (filterValue))

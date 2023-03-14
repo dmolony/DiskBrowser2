@@ -9,7 +9,7 @@ import javafx.scene.input.KeyCode;
 public class GraphicsTab extends DBGraphicsTab
 // -----------------------------------------------------------------------------------//
 {
-  private TreeFile treeFile;                    // the item to display
+  private AppleTreeFile treeFile;                    // the item to display
   private AppleFile appleFile;
   private FormattedAppleFile formattedAppleFile;
 

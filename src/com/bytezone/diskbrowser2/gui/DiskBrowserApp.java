@@ -195,7 +195,7 @@ public class DiskBrowserApp extends AppBase
   {
     if (setRootFolder ())
     {
-      treePane.setRootFolder (new AppleTreeItem (new TreeFile (rootFolder)));
+      treePane.setRootFolder (new AppleTreeItem (new AppleTreeFile (rootFolder)));
       dbStatusBar.setStatusMessage ("Root folder changed");
     }
     else

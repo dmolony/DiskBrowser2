@@ -16,8 +16,8 @@ import com.bytezone.filesystem.ProdosConstants;
 import javafx.scene.image.Image;
 
 // -----------------------------------------------------------------------------------//
-public class TreeFile
-//-----------------------------------------------------------------------------------//
+public class AppleTreeFile
+// -----------------------------------------------------------------------------------//
 {
   private static String prodos = "-lg-icon.png";
   private static String pascal = "-blue-icon.png";
@@ -25,11 +25,11 @@ public class TreeFile
   private static String cpm = "-black-icon.png";
 
   private static final Image zipImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/zip-icon.png"));
+      new Image (AppleTreeFile.class.getResourceAsStream ("/resources/zip-icon.png"));
   private static final Image diskImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/disk.png"));
+      new Image (AppleTreeFile.class.getResourceAsStream ("/resources/disk.png"));
   private static final Image folderImage =
-      new Image (TreeFile.class.getResourceAsStream ("/resources/folder-icon.png"));
+      new Image (AppleTreeFile.class.getResourceAsStream ("/resources/folder-icon.png"));
 
   // Prodos
   private static final Image prodosTextImage = get ("T" + prodos);
@@ -66,7 +66,7 @@ public class TreeFile
   private static final Image cpmMacImage = get ("M" + cpm);
   private static final Image cpmXImage = get ("X" + cpm);
 
-  private File localFile;                    // local folder or local file with valid extension
+  private File localFile;         // local folder or local file with valid extension
   private Path path;
 
   private AppleFile appleFile;
@@ -83,7 +83,7 @@ public class TreeFile
   private String sortString;
 
   // ---------------------------------------------------------------------------------//
-  public TreeFile (AppleFile appleFile)
+  public AppleTreeFile (AppleFile appleFile)
   // ---------------------------------------------------------------------------------//
   {
     this.path = null;
@@ -108,7 +108,7 @@ public class TreeFile
   // children will be populated, but a file will only be converted to an AppleFileSystem
   // when the tree node is expanded or selected. See setAppleFileSystem() below.
   // ---------------------------------------------------------------------------------//
-  public TreeFile (File file)
+  public AppleTreeFile (File file)
   // ---------------------------------------------------------------------------------//
   {
     this.path = file.toPath ();
@@ -184,7 +184,6 @@ public class TreeFile
   String getCatalogLine ()
   // ---------------------------------------------------------------------------------//
   {
-    //    return appleFile == null ? name : appleFile.getCatalogLine ();
     return name;
   }
 
@@ -382,19 +381,19 @@ public class TreeFile
   //  }
 
   // ---------------------------------------------------------------------------------//
-  public List<TreeFile> listAppleFiles ()
+  List<AppleTreeFile> listAppleFiles ()
   // ---------------------------------------------------------------------------------//
   {
-    List<TreeFile> fileList = new ArrayList<> ();
+    List<AppleTreeFile> fileList = new ArrayList<> ();
 
     for (AppleFile file : appleFile.getFiles ())
-      fileList.add (new TreeFile (file));
+      fileList.add (new AppleTreeFile (file));
 
     return fileList;
   }
 
   // ---------------------------------------------------------------------------------//
-  public long getLocalFileSize ()
+  private long getLocalFileSize ()
   // ---------------------------------------------------------------------------------//
   {
     try
@@ -422,7 +421,7 @@ public class TreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  public String toDetailedString ()
+  private String toDetailedString ()
   // ---------------------------------------------------------------------------------//
   {
     StringBuilder text = new StringBuilder ();
@@ -469,7 +468,8 @@ public class TreeFile
   private static Image get (String icon)
   // ---------------------------------------------------------------------------------//
   {
-    return new Image (TreeFile.class.getResourceAsStream ("/resources/Letter-" + icon));
+    return new Image (
+        AppleTreeFile.class.getResourceAsStream ("/resources/Letter-" + icon));
   }
 
   // ---------------------------------------------------------------------------------//
@@ -484,19 +484,16 @@ public class TreeFile
         if (appleFile.isFork ())
           return appleFile.getFileName ();          // DATA or RESOURCE
 
-        if (true)
-          return String.format ("%s %03d %s",         // full file details
-              appleFile.getFileTypeText (), appleFile.getTotalBlocks (), name);
-        else
-          return String.format ("%-30s %s %03d",         // full file details
-              name, appleFile.getFileTypeText (), appleFile.getTotalBlocks ());
+        return String.format ("%s %03d %s",         // full file details
+            appleFile.getFileTypeText (), appleFile.getTotalBlocks (), name);
       }
+      else
+        return name;
     }
     catch (UnsupportedOperationException e)       // unfinished - NuFX files
     {
       e.printStackTrace ();
+      return name;
     }
-
-    return name;
   }
 }

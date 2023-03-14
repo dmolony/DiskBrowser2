@@ -19,18 +19,21 @@ import javafx.scene.text.Font;
 import javafx.util.Callback;
 
 // ---------------------------------------------------------------------------------//
-public class AppleTreeView extends TreeView<AppleTreeFile> implements SaveState, FontChangeListener
+public class AppleTreeView extends TreeView<AppleTreeFile>
+    implements SaveState, FontChangeListener
 // ---------------------------------------------------------------------------------//
 {
   static FileSystemFactory fileSystemFactory = new FileSystemFactory ();
-  static FormattedAppleFileFactory formattedAppleFileFactory = new FormattedAppleFileFactory ();
+  static FormattedAppleFileFactory formattedAppleFileFactory =
+      new FormattedAppleFileFactory ();
 
   private static final String PREFS_LAST_PATH = "LastPath";
   private static String SEPARATOR = "|";
 
   private Font font;
 
-  private final MultipleSelectionModel<TreeItem<AppleTreeFile>> model = getSelectionModel ();
+  private final MultipleSelectionModel<TreeItem<AppleTreeFile>> model =
+      getSelectionModel ();
   private final List<TreeNodeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
@@ -47,7 +50,7 @@ public class AppleTreeView extends TreeView<AppleTreeFile> implements SaveState,
         return;
       }
 
-      AppleTreeFile treeFile = newSel.getValue ();       // newSel is a TreeItem<TreeFile>
+      AppleTreeFile treeFile = newSel.getValue ();      // newSel is a TreeItem<TreeFile>
 
       // same test as in AppleTreeItem.getChildren()
       // if item selection happens first then we do this one
@@ -122,7 +125,8 @@ public class AppleTreeView extends TreeView<AppleTreeFile> implements SaveState,
   }
 
   // ---------------------------------------------------------------------------------//
-  private Optional<TreeItem<AppleTreeFile>> search (TreeItem<AppleTreeFile> parentNode, String name)
+  private Optional<TreeItem<AppleTreeFile>> search (TreeItem<AppleTreeFile> parentNode,
+      String name)
   // ---------------------------------------------------------------------------------//
   {
     parentNode.setExpanded (true);

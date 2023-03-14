@@ -20,7 +20,8 @@ public class Utility
     }
     catch (ArrayIndexOutOfBoundsException e)
     {
-      System.out.printf ("Index out of range (unsignedShort): %d > %d%n", ptr, buffer.length);
+      System.out.printf ("Index out of range (unsignedShort): %d > %d%n", ptr,
+          buffer.length);
       return 0;
     }
   }
@@ -49,7 +50,8 @@ public class Utility
   }
 
   // ---------------------------------------------------------------------------------//
-  public static List<String> getHexDumpLines (byte[] b, int offset, int length, int displayOffset)
+  public static List<String> getHexDumpLines (byte[] b, int offset, int length,
+      int displayOffset)
   // ---------------------------------------------------------------------------------//
   {
     final int lineSize = 16;
@@ -75,8 +77,8 @@ public class Utility
         textLine.append (c < 0x40 ? '.' : (char) c);
       }
 
-      lines.add (String.format ("%06X  %-48s %s", displayOffset + ptr, hexLine.toString (),
-          textLine.toString ()));
+      lines.add (String.format ("%06X  %-48s %s", displayOffset + ptr,
+          hexLine.toString (), textLine.toString ()));
     }
 
     return lines;

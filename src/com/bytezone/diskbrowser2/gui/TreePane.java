@@ -21,7 +21,8 @@ class TreePane extends BorderPane implements FilterListener
   private final String home = System.getProperty ("user.home");
   private final HeaderBar treeHeaderBar = new HeaderBar ();
 
-  private int[] extensionTotals = new int[AppleTreeView.fileSystemFactory.getSuffixesSize ()];
+  private int[] extensionTotals =
+      new int[AppleTreeView.fileSystemFactory.getSuffixesSize ()];
   private int totalFilesIgnored;
 
   private final AppleTreeView tree;
@@ -36,9 +37,9 @@ class TreePane extends BorderPane implements FilterListener
   {
     this.rootFolder = rootFolder;
 
-    root = createTreeRoot ();             // creates an AppleTreeItem from the root folder
-    createTree (root);                    // adds all the tree nodes to the root
-    tree = new AppleTreeView (root);      // creates the actual tree
+    root = createTreeRoot ();           // creates an AppleTreeItem from the root folder
+    createTree (root);                  // adds all the tree nodes to the root
+    tree = new AppleTreeView (root);    // creates the actual tree
 
     setCenter (tree);
 
@@ -81,9 +82,9 @@ class TreePane extends BorderPane implements FilterListener
   private void createTree (AppleTreeItem rootItem)
   // ---------------------------------------------------------------------------------//
   {
-    // Build the entire tree down to the local file/folder level. The only files included are
-    // ones that appear to be AppleFileSystem files. They will be expanded when they
-    // are selected.
+    // Build the entire tree down to the local file/folder level. The only files
+    // included are ones that appear to be AppleFileSystem files. They will be 
+    // expanded when they are selected.
 
     try (DirectoryStream<Path> directoryStream =
         Files.newDirectoryStream (rootItem.getValue ().getPath ()))
@@ -192,20 +193,22 @@ class TreePane extends BorderPane implements FilterListener
       totalFilesAccepted += extensionTotals[i];
     }
 
-    System.out.printf ("        %,8d  (%,d ignored)%n", totalFilesAccepted, totalFilesIgnored);
+    System.out.printf ("        %,8d  (%,d ignored)%n", totalFilesAccepted,
+        totalFilesIgnored);
   }
 
   // ---------------------------------------------------------------------------------//
   private void sort (AppleTreeItem node)
   // ---------------------------------------------------------------------------------//
   {
-    node.getChildren ().sort (Comparator.comparing (new Function<TreeItem<AppleTreeFile>, String> ()
-    {
-      @Override
-      public String apply (TreeItem<AppleTreeFile> t)
-      {
-        return t.getValue ().getSortString ();
-      }
-    }));
+    node.getChildren ()
+        .sort (Comparator.comparing (new Function<TreeItem<AppleTreeFile>, String> ()
+        {
+          @Override
+          public String apply (TreeItem<AppleTreeFile> t)
+          {
+            return t.getValue ().getSortString ();
+          }
+        }));
   }
 }

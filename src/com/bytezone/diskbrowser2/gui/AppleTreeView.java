@@ -91,7 +91,7 @@ class AppleTreeView extends TreeView<AppleTreeFile>
     AppleTreeFile treeFile = appleTreeItem.getValue ();
 
     // same test as in AppleTreeItem.getChildren()
-    // if item selection happens first then we do this one
+    // if the item is selected BEFORE it is opened then we do this one
 
     if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
       appleTreeItem.getChildren ();          // force the file to be processed

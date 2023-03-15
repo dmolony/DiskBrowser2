@@ -27,9 +27,6 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
   public boolean isLeaf ()
   // ---------------------------------------------------------------------------------//
   {
-    //    System.out.printf ("%s%n", getValue ().getName ());
-    //    System.out.printf ("%s%n", getValue ().isAppleDataFile ());
-    //    return getValue ().isAppleFile () && !getValue ().isAppleContainer ();
     return getValue ().isAppleDataFile ();
   }
 
@@ -46,19 +43,15 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
     if (firstTimeChildren)
     {
       firstTimeChildren = false;
+      assert super.getChildren ().size () == 0;
 
-      if (super.getChildren ().size () == 0)        // this MUST be zero - remove later
-      {
-        // same test as in the AppleTreeView selection listener
-        // if down arrow happens first then we do this one
+      // same test as in AppleTreeView.itemSelected()
+      // if the item is opened BEFORE it is selected then we do this one
 
-        if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
-          treeFile.readAppleFileSystem ();
+      if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
+        treeFile.readAppleFileSystem ();
 
-        super.getChildren ().setAll (buildChildren (treeFile));
-      }
-      else
-        System.out.println ("Unexpected result in getChildren()");
+      super.getChildren ().setAll (buildChildren (treeFile));
     }
 
     return super.getChildren ();
@@ -74,10 +67,11 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
     assert parent.isAppleContainer ();
 
     for (AppleTreeFile treeFile : parent.listAppleFiles ())
-      if (treeFile.hasSubdirectories ())        // must be a FsNuFX
+      if (treeFile.hasSubdirectories ())                    // must contain a FileNuFX
       {
         TreeItem<AppleTreeFile> targetFolder = findTreeItem (children, treeFile);
         targetFolder.getChildren ().add (new AppleTreeItem (treeFile));
+        targetFolder.getValue ().getAppleFile ().addFile (treeFile.getAppleFile ());
       }
       else
         children.add (new AppleTreeItem (treeFile));

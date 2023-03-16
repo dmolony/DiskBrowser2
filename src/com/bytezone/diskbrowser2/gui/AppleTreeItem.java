@@ -1,9 +1,8 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.FileNuFX;
-import com.bytezone.filesystem.FolderNuFX;
-import com.bytezone.filesystem.FsNuFX;
+import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.Folder;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -87,11 +86,10 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
   {
     TreeItem<AppleTreeFile> target = null;      // the folder at the end of the path
 
-    FileNuFX fileNuFX = (FileNuFX) treeFile.getAppleFile ();
-    String[] namePath = fileNuFX.getPathFolders ();
-    FsNuFX fs = (FsNuFX) fileNuFX.getFileSystem ();
+    AppleFile file = treeFile.getAppleFile ();
+    AppleFileSystem fs = file.getFileSystem ();
 
-    loop: for (String name : namePath)
+    loop: for (String name : file.getPathFolders ())
     {
       for (TreeItem<AppleTreeFile> ati : items)
         if (ati.getValue ().getName ().equals (name))
@@ -101,7 +99,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
           continue loop;
         }
 
-      AppleFile af = new FolderNuFX (fs, name);
+      AppleFile af = new Folder (fs, name);
       AppleTreeFile tf = new AppleTreeFile (af);
       AppleTreeItem ati = new AppleTreeItem (tf);
 

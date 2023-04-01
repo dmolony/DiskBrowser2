@@ -70,7 +70,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
       {
         TreeItem<AppleTreeFile> targetFolder = findTreeItem (children, treeFile);
         targetFolder.getChildren ().add (new AppleTreeItem (treeFile));
-        targetFolder.getValue ().getAppleFile ().addFile (treeFile.getAppleFile ());
+        //  targetFolder.getValue ().getAppleFile ().addFile (treeFile.getAppleFile ());
       }
       else
         children.add (new AppleTreeItem (treeFile));
@@ -87,7 +87,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
     TreeItem<AppleTreeFile> target = null;      // the folder at the end of the path
 
     AppleFile file = treeFile.getAppleFile ();
-    AppleFileSystem fs = file.getFileSystem ();
+    AppleFileSystem fs = file.getParentFileSystem ();
 
     loop: for (String name : file.getPathFolders ())
     {

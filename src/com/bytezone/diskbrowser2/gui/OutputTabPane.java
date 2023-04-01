@@ -36,7 +36,8 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
   public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    FormattedAppleFile formattedAppleFile = appleTreeItem.getValue ().getFormattedAppleFile ();
+    FormattedAppleFile formattedAppleFile =
+        appleTreeItem.getValue ().getFormattedAppleFile ();
 
     outputTab.setFormattedAppleFile (formattedAppleFile);
     graphicsTab.setFormattedAppleFile (formattedAppleFile);

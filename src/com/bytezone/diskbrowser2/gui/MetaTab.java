@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.KeyCode;
@@ -19,6 +20,7 @@ public class MetaTab extends DBTextTab
   AppleTreeItem appleTreeItem;
   AppleTreeFile treeFile;
   AppleFile appleFile;
+  AppleFileSystem appleFileSystem;
   private FormattedAppleFile formattedAppleFile;
 
   // ---------------------------------------------------------------------------------//
@@ -89,7 +91,11 @@ public class MetaTab extends DBTextTab
     text.append (HEADER);
     text.append ("\n");
 
-    text.append (appleFile.toString ());
+    if (appleFile != null)
+      text.append (appleFile.toString ());
+
+    if (appleFileSystem != null)
+      text.append (appleFileSystem.toString ());
 
     return text.toString ();
   }
@@ -102,6 +108,7 @@ public class MetaTab extends DBTextTab
 
     treeFile = appleTreeItem.getValue ();
     appleFile = treeFile.getAppleFile ();
+    appleFileSystem = treeFile.getAppleFileSystem ();
     formattedAppleFile = treeFile.getFormattedAppleFile ();
 
     refresh ();

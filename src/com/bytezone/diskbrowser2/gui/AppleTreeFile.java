@@ -87,17 +87,12 @@ public class AppleTreeFile
   public AppleTreeFile (AppleFileSystem appleFileSystem)
   // ---------------------------------------------------------------------------------//
   {
-    //    this.path = null;
-    //    this.localFile = null;
-
     this.appleFileSystem = appleFileSystem;
 
-    // hybrid disks have two file systems, so use the file system name 
-    // to differentiate them
     if (appleFileSystem.isHybrid ())
-      name = appleFile.getFileSystemType ().toString ();
+      name = appleFileSystem.getFileSystemType ().toString ();
     else
-      name = appleFile.getFileName ();
+      name = appleFileSystem.getFileName ();
 
     sortString = name.toLowerCase ();
     suffix = "";
@@ -108,9 +103,6 @@ public class AppleTreeFile
   public AppleTreeFile (AppleFile appleFile)
   // ---------------------------------------------------------------------------------//
   {
-    //    this.path = null;
-    //    this.localFile = null;
-
     this.appleFile = appleFile;
 
     name = appleFile.getFileName ();
@@ -118,6 +110,9 @@ public class AppleTreeFile
     sortString = name.toLowerCase ();
     suffix = "";
     prefix = sortString;
+
+    if (appleFile.isEmbeddedFileSystem ())
+      appleFileSystem = appleFile.getEmbeddedFileSystem ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -207,6 +202,10 @@ public class AppleTreeFile
     if (formattedAppleFile == null && appleFile != null)
       formattedAppleFile =
           AppleTreeView.formattedAppleFileFactory.getFormattedAppleFile (appleFile);
+
+    if (formattedAppleFile == null && appleFileSystem != null)
+      formattedAppleFile =
+          AppleTreeView.formattedAppleFileFactory.getFormattedAppleFile (appleFileSystem);
 
     return formattedAppleFile;
   }
@@ -394,12 +393,22 @@ public class AppleTreeFile
     List<AppleTreeFile> fileList = new ArrayList<> ();
 
     if (appleFileSystem != null)
+    {
       for (AppleFile file : appleFileSystem.getFiles ())
         fileList.add (new AppleTreeFile (file));
 
+      for (AppleFileSystem fs : appleFileSystem.getFileSystems ())
+        fileList.add (new AppleTreeFile (fs));
+    }
+
     if (appleFile != null && appleFile instanceof AppleContainer ac)
+    {
       for (AppleFile file : ac.getFiles ())
         fileList.add (new AppleTreeFile (file));
+
+      for (AppleFileSystem fs : ac.getFileSystems ())
+        fileList.add (new AppleTreeFile (fs));
+    }
 
     return fileList;
   }
@@ -476,6 +485,17 @@ public class AppleTreeFile
   }
 
   // ---------------------------------------------------------------------------------//
+  public void dump ()
+  // ---------------------------------------------------------------------------------//
+  {
+    System.out.printf ("--------------------------------------------------------%n");
+    System.out.printf ("LocalFile ............ %s%n", localFile);
+    System.out.printf ("Path ................. %s%n", path);
+    System.out.printf ("AppleFile ............ %s%n", appleFile.getFileName ());
+    System.out.printf ("AppleFileSystem ...... %s%n", appleFileSystem.getFileName ());
+  }
+
+  // ---------------------------------------------------------------------------------//
   @Override
   public String toString ()
   // ---------------------------------------------------------------------------------//
@@ -484,7 +504,7 @@ public class AppleTreeFile
     {
       if (isAppleFile ())
       {
-        if (appleFile.isFork ())
+        if (appleFile.isFork () || appleFile.isFolder ())
           return appleFile.getFileName ();          // DATA or RESOURCE
 
         return String.format ("%s %03d %s",         // full file details

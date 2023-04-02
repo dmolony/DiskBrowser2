@@ -66,11 +66,15 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
     assert parent.isAppleContainer ();
 
     for (AppleTreeFile treeFile : parent.listAppleFiles ())
-      if (treeFile.hasSubdirectories ())                    // must contain a FileNuFX
+      if (treeFile.hasSubdirectories ())    // must be FileNuFX, ZIP, GZIP etc
       {
+        // find or create the folder path
         TreeItem<AppleTreeFile> targetFolder = findTreeItem (children, treeFile);
         targetFolder.getChildren ().add (new AppleTreeItem (treeFile));
-        //  targetFolder.getValue ().getAppleFile ().addFile (treeFile.getAppleFile ());
+
+        // add children to the Folder (so that the Catalog works)
+        Folder folder = (Folder) targetFolder.getValue ().getAppleFile ();
+        folder.addFile (treeFile.getAppleFile ());
       }
       else
         children.add (new AppleTreeItem (treeFile));
@@ -81,7 +85,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
   // Walk the namePath, creating any folders that don't exist
   // ---------------------------------------------------------------------------------//
   private TreeItem<AppleTreeFile>
-      findTreeItem (ObservableList<TreeItem<AppleTreeFile>> items, AppleTreeFile treeFile)
+      findTreeItem (ObservableList<TreeItem<AppleTreeFile>> children, AppleTreeFile treeFile)
   // ---------------------------------------------------------------------------------//
   {
     TreeItem<AppleTreeFile> target = null;      // the folder at the end of the path
@@ -91,10 +95,10 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
 
     loop: for (String name : file.getPathFolders ())
     {
-      for (TreeItem<AppleTreeFile> ati : items)
+      for (TreeItem<AppleTreeFile> ati : children)
         if (ati.getValue ().getName ().equals (name))
         {
-          items = ati.getChildren ();
+          children = ati.getChildren ();
           target = ati;
           continue loop;
         }
@@ -103,8 +107,8 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
       AppleTreeFile tf = new AppleTreeFile (af);
       AppleTreeItem ati = new AppleTreeItem (tf);
 
-      items.add (ati);
-      items = ati.getChildren ();
+      children.add (ati);
+      children = ati.getChildren ();
       target = ati;
     }
 

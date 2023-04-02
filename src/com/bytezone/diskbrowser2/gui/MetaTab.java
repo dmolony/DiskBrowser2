@@ -56,46 +56,44 @@ public class MetaTab extends DBTextTab
   private void show (AppleTreeFile treeFile, List<String> lines)
   // ---------------------------------------------------------------------------------//
   {
-    AppleFile appleFile = treeFile.getAppleFile ();
-
     if (treeFile.isLocalFile ())                    // PC files and folders
     {
       if (treeFile.isAppleFileSystem ())
-        lines.add (frameHeader ("AppleFileSystem", appleFile));
+        lines.add (frameHeader ("AppleFileSystem"));
     }
     else                                            // Apple files
     {
       if (treeFile.isAppleFileSystem ())
-        lines.add (frameHeader ("Embedded AppleFileSystem", appleFile));
+        lines.add (frameHeader ("Embedded AppleFileSystem"));
       else if (treeFile.isAppleFolder ())
-        lines.add (frameHeader ("AppleFolder", appleFile));
+        lines.add (frameHeader ("AppleFolder"));
       else if (treeFile.isAppleForkedFile ())
-        lines.add (frameHeader ("AppleForkedFile", appleFile));
+        lines.add (frameHeader ("AppleForkedFile"));
       else if (treeFile.isAppleDataFile ())
-        lines.add (frameHeader ("AppleDataFile", appleFile));
+        lines.add (frameHeader ("AppleDataFile"));
     }
+
+    if (appleFile != null)
+      lines.add (appleFile.toString ());
+
+    if (appleFileSystem != null)
+      lines.add (appleFileSystem.toString ());
   }
 
   // ---------------------------------------------------------------------------------//
-  private String frameHeader (String header, AppleFile appleFile)
+  private String frameHeader (String headingText)
   // ---------------------------------------------------------------------------------//
   {
     StringBuilder text = new StringBuilder ();
 
     text.append (HEADER);
     text.append ("\n");
-    int padding = (HEADER.length () - header.length ()) / 2;
+    int padding = (HEADER.length () - headingText.length ()) / 2;
     text.append (SPACES.substring (0, padding));
-    text.append (header);
+    text.append (headingText);
     text.append ("\n");
     text.append (HEADER);
     text.append ("\n");
-
-    if (appleFile != null)
-      text.append (appleFile.toString ());
-
-    if (appleFileSystem != null)
-      text.append (appleFileSystem.toString ());
 
     return text.toString ();
   }

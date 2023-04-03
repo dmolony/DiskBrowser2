@@ -504,7 +504,8 @@ public class AppleTreeFile
     {
       if (isAppleFile ())
       {
-        if (appleFile.isFork () || appleFile.isFolder ())
+        if (appleFile.isFork () || appleFile.isFolder ()
+            || appleFile.isEmbeddedFileSystem ())
           return appleFile.getFileName ();          // DATA or RESOURCE
 
         return String.format ("%s %03d %s",         // full file details

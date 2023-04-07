@@ -10,9 +10,10 @@ import java.util.List;
 import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleContainer;
 import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFilePath;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
-import com.bytezone.filesystem.FileNuFX;
+import com.bytezone.filesystem.ForkedFile;
 import com.bytezone.filesystem.ProdosConstants;
 
 import javafx.scene.image.Image;
@@ -332,7 +333,7 @@ public class AppleTreeFile
   public boolean isAppleFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null && appleFile.isFile ();
+    return appleFile != null;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -363,25 +364,26 @@ public class AppleTreeFile
     if (appleFileSystem != null)
       return true;
 
-    return appleFile != null && (appleFile.isFolder () || appleFile.isForkedFile ());
+    //    return appleFile != null && (appleFile.isFolder () || appleFile.isForkedFile ());
+    return appleFile != null && (appleFile instanceof AppleContainer);
   }
 
   // ---------------------------------------------------------------------------------//
   public boolean isAppleDataFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null && !isAppleContainer ();
+    return appleFile != null && !isAppleContainer () && !isAppleForkedFile ();
   }
 
   // ---------------------------------------------------------------------------------//
   public boolean hasSubdirectories ()
   // ---------------------------------------------------------------------------------//
   {
-    if (appleFile == null || appleFile.getFileSystemType () != FileSystemType.NUFX)
-      return false;
+    //    if (appleFile == null || appleFile.getFileSystemType () != FileSystemType.NUFX)
+    //      return false;
 
-    if (appleFile instanceof FileNuFX nufx)
-      return nufx.getFullFileName ().indexOf (nufx.getSeparator ()) > 0;
+    if (appleFile instanceof AppleFilePath afp)
+      return afp.getFullFileName ().indexOf (afp.getSeparator ()) > 0;
 
     return false;
   }
@@ -409,6 +411,10 @@ public class AppleTreeFile
       for (AppleFileSystem fs : ac.getFileSystems ())
         fileList.add (new AppleTreeFile (fs));
     }
+
+    if (appleFile != null && appleFile.isForkedFile ())
+      for (AppleFile file : ((ForkedFile) appleFile).getForks ())
+        fileList.add (new AppleTreeFile (file));
 
     return fileList;
   }
@@ -504,8 +510,7 @@ public class AppleTreeFile
     {
       if (isAppleFile ())
       {
-        if (appleFile.isFork () || appleFile.isFolder ()
-            || appleFile.isEmbeddedFileSystem ())
+        if (appleFile.isFolder () || appleFile.isEmbeddedFileSystem ())
           return appleFile.getFileName ();          // DATA or RESOURCE
 
         return String.format ("%s %03d %s",         // full file details
@@ -514,7 +519,7 @@ public class AppleTreeFile
       else
         return name;
     }
-    catch (UnsupportedOperationException e)       // unfinished - NuFX files
+    catch (UnsupportedOperationException e)      // is this needed?
     {
       e.printStackTrace ();
       return name;

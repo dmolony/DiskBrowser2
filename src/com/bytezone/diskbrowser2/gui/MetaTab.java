@@ -7,7 +7,6 @@ import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
-import javafx.scene.control.TreeItem;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
@@ -42,42 +41,34 @@ public class MetaTab extends DBTextTab
     if (appleTreeItem == null)
       return lines;
 
-    TreeItem<AppleTreeFile> item = appleTreeItem;
-    //    while (item != null)
-    //    {
-    show (item.getValue (), lines);
-    //      item = item.getParent ();
-    //    }
-
-    return lines;
-  }
-
-  // ---------------------------------------------------------------------------------//
-  private void show (AppleTreeFile treeFile, List<String> lines)
-  // ---------------------------------------------------------------------------------//
-  {
-    if (treeFile.isLocalFile ())                    // PC files and folders
-    {
-      if (treeFile.isAppleFileSystem ())
-        lines.add (frameHeader ("AppleFileSystem"));
-    }
-    else                                            // Apple files
-    {
-      if (treeFile.isAppleFileSystem ())
-        lines.add (frameHeader ("Embedded AppleFileSystem"));
-      else if (treeFile.isAppleFolder ())
-        lines.add (frameHeader ("AppleFolder"));
-      else if (treeFile.isAppleForkedFile ())
-        lines.add (frameHeader ("AppleForkedFile"));
-      else if (treeFile.isAppleDataFile ())
-        lines.add (frameHeader ("AppleDataFile"));
-    }
+    attachHeader (lines);
 
     if (appleFile != null)
       lines.add (appleFile.toString ());
 
     if (appleFileSystem != null)
       lines.add (appleFileSystem.toString ());
+
+    return lines;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private void attachHeader (List<String> lines)
+  // ---------------------------------------------------------------------------------//
+  {
+    //    if (treeFile.isLocalFile ())                    // PC files and folders
+    //    {
+    //    }
+    if (treeFile.isAppleFileSystem ())
+      lines.add (frameHeader ("AppleFileSystem"));
+    else if (treeFile.isAppleFolder ())
+      lines.add (frameHeader ("AppleFolder"));
+    else if (treeFile.isAppleForkedFile ())
+      lines.add (frameHeader ("ForkedFile"));
+    else if (treeFile.isAppleDataFile ())
+      lines.add (frameHeader ("DataFile"));
+    else
+      lines.add (frameHeader ("Unknown"));
   }
 
   // ---------------------------------------------------------------------------------//

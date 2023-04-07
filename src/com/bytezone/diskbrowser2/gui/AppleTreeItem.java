@@ -1,6 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFilePath;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.Folder;
 
@@ -63,7 +64,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
     ObservableList<TreeItem<AppleTreeFile>> children =
         FXCollections.observableArrayList ();
 
-    assert parent.isAppleContainer ();
+    assert parent.isAppleContainer () || parent.isAppleForkedFile ();
 
     for (AppleTreeFile treeFile : parent.listAppleFiles ())
       if (treeFile.hasSubdirectories ())    // must be FileNuFX, ZIP, GZIP etc
@@ -84,8 +85,8 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
 
   // Walk the namePath, creating any folders that don't exist
   // ---------------------------------------------------------------------------------//
-  private TreeItem<AppleTreeFile>
-      findTreeItem (ObservableList<TreeItem<AppleTreeFile>> children, AppleTreeFile treeFile)
+  private TreeItem<AppleTreeFile> findTreeItem (
+      ObservableList<TreeItem<AppleTreeFile>> children, AppleTreeFile treeFile)
   // ---------------------------------------------------------------------------------//
   {
     TreeItem<AppleTreeFile> target = null;      // the folder at the end of the path
@@ -93,7 +94,9 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
     AppleFile file = treeFile.getAppleFile ();
     AppleFileSystem fs = file.getParentFileSystem ();
 
-    loop: for (String name : file.getPathFolders ())
+    assert file instanceof AppleFilePath;
+
+    loop: for (String name : ((AppleFilePath) file).getPathFolders ())
     {
       for (TreeItem<AppleTreeFile> ati : children)
         if (ati.getValue ().getName ().equals (name))

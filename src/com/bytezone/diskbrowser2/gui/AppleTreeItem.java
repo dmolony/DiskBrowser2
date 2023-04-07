@@ -96,7 +96,11 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
 
     assert file instanceof AppleFilePath;
 
-    loop: for (String name : ((AppleFilePath) file).getPathFolders ())
+    String fullName = ((AppleFilePath) file).getFullFileName ();
+    char separator = ((AppleFilePath) file).getSeparator ();
+    String[] folders = Utility.getPathFolders (fullName, separator);
+
+    loop: for (String name : folders)
     {
       for (TreeItem<AppleTreeFile> ati : children)
         if (ati.getValue ().getName ().equals (name))

@@ -85,6 +85,19 @@ public class Utility
   }
 
   // ---------------------------------------------------------------------------------//
+  public static String[] getPathFolders (String fileName, char separator)
+  // ---------------------------------------------------------------------------------//
+  {
+    String[] pathItems = fileName.split ("\\" + separator);
+    String[] pathFolders = new String[pathItems.length - 1];
+
+    for (int i = 0; i < pathFolders.length; i++)
+      pathFolders[i] = pathItems[i];
+
+    return pathFolders;
+  }
+
+  // ---------------------------------------------------------------------------------//
   public static void dump (byte[] buffer)
   // ---------------------------------------------------------------------------------//
   {

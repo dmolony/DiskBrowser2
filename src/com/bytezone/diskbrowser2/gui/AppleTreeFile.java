@@ -12,9 +12,7 @@ import com.bytezone.filesystem.AppleContainer;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFilePath;
 import com.bytezone.filesystem.AppleFileSystem;
-import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 import com.bytezone.filesystem.ForkedFile;
-import com.bytezone.filesystem.ProdosConstants;
 
 import javafx.scene.image.Image;
 
@@ -22,53 +20,6 @@ import javafx.scene.image.Image;
 public class AppleTreeFile
 // -----------------------------------------------------------------------------------//
 {
-  private static String prodos = "-lg-icon.png";
-  private static String pascal = "-blue-icon.png";
-  private static String dos = "-pink-icon.png";
-  private static String cpm = "-black-icon.png";
-
-  private static final Image zipImage =
-      new Image (AppleTreeFile.class.getResourceAsStream ("/resources/zip-icon.png"));
-  private static final Image diskImage =
-      new Image (AppleTreeFile.class.getResourceAsStream ("/resources/disk.png"));
-  private static final Image folderImage =
-      new Image (AppleTreeFile.class.getResourceAsStream ("/resources/folder-icon.png"));
-
-  // Prodos
-  private static final Image prodosTextImage = get ("T" + prodos);
-  private static final Image prodosPicImage = get ("P" + prodos);
-  private static final Image prodosBasicImage = get ("A" + prodos);
-  private static final Image prodosBinaryImage = get ("B" + prodos);
-  private static final Image prodosSysImage = get ("S" + prodos);
-  private static final Image prodosVarsImage = get ("V" + prodos);
-  private static final Image prodosXImage = get ("X" + prodos);
-
-  // Pascal
-  private static final Image pascalCodeImage = get ("C" + pascal);
-  private static final Image pascalTextImage = get ("T" + pascal);
-  private static final Image pascalDataImage = get ("D" + pascal);
-  private static final Image pascalGrafImage = get ("G" + pascal);
-  private static final Image pascalPhotoImage = get ("P" + pascal);
-  private static final Image pascalInfoImage = get ("I" + pascal);
-  private static final Image pascalXImage = get ("X" + pascal);
-
-  // Dos
-  private static final Image dosTextImage = get ("T" + dos);
-  private static final Image dosApplesoftImage = get ("A" + dos);
-  private static final Image dosBinaryImage = get ("B" + dos);
-  private static final Image dosIntegerImage = get ("I" + dos);
-  private static final Image dosXImage = get ("X" + dos);
-
-  // CPM
-  private static final Image cpmComImage = get ("C" + cpm);
-  private static final Image cpmPrnImage = get ("P" + cpm);
-  private static final Image cpmDocImage = get ("D" + cpm);
-  private static final Image cpmBasImage = get ("B" + cpm);
-  private static final Image cpmAsmImage = get ("A" + cpm);
-  private static final Image cpmOvrImage = get ("O" + cpm);
-  private static final Image cpmMacImage = get ("M" + cpm);
-  private static final Image cpmXImage = get ("X" + cpm);
-
   private File localFile;         // local folder or local file with valid extension
   private Path path;
 
@@ -83,6 +34,8 @@ public class AppleTreeFile
   private String suffix;
 
   private String sortString;
+
+  private static IconMaker icons = new IconMaker ();
 
   // ---------------------------------------------------------------------------------//
   public AppleTreeFile (AppleFileSystem appleFileSystem)
@@ -230,82 +183,15 @@ public class AppleTreeFile
   // ---------------------------------------------------------------------------------//
   {
     if (isCompressedLocalFile ())
-      return zipImage;
+      return icons.zipImage;
 
     if (isLocalDirectory () || isAppleFolder ())
-      return folderImage;
+      return icons.folderImage;
 
     if (isLocalFile () || isAppleFileSystem ())
-      return diskImage;
+      return icons.diskImage;
 
-    FileSystemType fileSystemType = appleFile.getFileSystemType ();
-
-    if (fileSystemType == FileSystemType.DOS)
-    {
-      return switch (appleFile.getFileType ())
-      {
-        case 0x04 -> dosBinaryImage;
-        case 0x01 -> dosIntegerImage;
-        case 0x02 -> dosApplesoftImage;
-        case 0x00 -> dosTextImage;
-        case 0x08 -> dosXImage;
-        case 0x10 -> dosXImage;
-        case 0x20 -> dosXImage;
-        case 0x40 -> dosXImage;
-        default -> dosXImage;
-      };
-    }
-
-    if (fileSystemType == FileSystemType.PRODOS)
-    {
-      return switch (appleFile.getFileType ())
-      {
-        case 0x00 -> prodosXImage;
-        case ProdosConstants.FILE_TYPE_TEXT -> prodosTextImage;
-        case ProdosConstants.FILE_TYPE_APPLESOFT_BASIC -> prodosBasicImage;
-        case ProdosConstants.FILE_TYPE_BINARY -> prodosBinaryImage;
-        case ProdosConstants.FILE_TYPE_SYS -> prodosSysImage;
-        case ProdosConstants.FILE_TYPE_PIC -> prodosPicImage;
-        case ProdosConstants.FILE_TYPE_PNT -> prodosPicImage;
-        case ProdosConstants.FILE_TYPE_INTEGER_BASIC_VARS -> prodosVarsImage;
-        case ProdosConstants.FILE_TYPE_APPLESOFT_BASIC_VARS -> prodosVarsImage;
-        default -> prodosXImage;
-      };
-    }
-
-    if (fileSystemType == FileSystemType.CPM)
-    {
-      return switch (appleFile.getFileTypeText ())
-      {
-        case "COM" -> cpmComImage;
-        case "PRN" -> cpmPrnImage;
-        case "DOC" -> cpmDocImage;
-        case "BAS" -> cpmBasImage;
-        case "ASM" -> cpmAsmImage;
-        case "OVR" -> cpmOvrImage;
-        case "MAC" -> cpmMacImage;
-        default -> cpmXImage;
-      };
-    }
-
-    if (fileSystemType == FileSystemType.PASCAL)
-    {
-      return switch (appleFile.getFileType ())
-      {
-        case 0 -> pascalXImage;           // Volume
-        case 1 -> pascalXImage;           // Bad
-        case 2 -> pascalCodeImage;
-        case 3 -> pascalTextImage;
-        case 4 -> pascalInfoImage;
-        case 5 -> pascalDataImage;
-        case 6 -> pascalGrafImage;
-        case 7 -> pascalPhotoImage;
-        case 8 -> pascalXImage;           // Secure directory
-        default -> pascalXImage;
-      };
-    }
-
-    return pascalXImage;
+    return icons.getImage (appleFile);
   }
 
   // ---------------------------------------------------------------------------------//

@@ -64,10 +64,10 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
     ObservableList<TreeItem<AppleTreeFile>> children =
         FXCollections.observableArrayList ();
 
-    assert parent.isAppleContainer () || parent.isAppleForkedFile ();
+    assert parent.isAppleContainer ();// || parent.isAppleForkedFile ();
 
     for (AppleTreeFile treeFile : parent.listAppleFiles ())
-      if (treeFile.hasSubdirectories ())    // must be FileNuFX, ZIP, GZIP etc
+      if (treeFile.hasSubdirectories ())    // ApplePath with a separator in the name
       {
         // find or create the folder path
         TreeItem<AppleTreeFile> targetFolder = findTreeItem (children, treeFile);

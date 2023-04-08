@@ -90,7 +90,7 @@ public class AppleTreeFile
   {
     this.appleFileSystem = appleFileSystem;
 
-    if (appleFileSystem.isHybrid ())
+    if (appleFileSystem.isHybrid ())            // one of two file systems in FsHybrid
       name = appleFileSystem.getFileSystemType ().toString ();
     else
       name = appleFileSystem.getFileName ();
@@ -365,23 +365,21 @@ public class AppleTreeFile
       return true;
 
     //    return appleFile != null && (appleFile.isFolder () || appleFile.isForkedFile ());
-    return appleFile != null && (appleFile instanceof AppleContainer);
+    return appleFile != null
+        && (appleFile instanceof AppleContainer || appleFile.isForkedFile ());
   }
 
   // ---------------------------------------------------------------------------------//
   public boolean isAppleDataFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null && !isAppleContainer () && !isAppleForkedFile ();
+    return appleFile != null && !isAppleContainer ();// && !isAppleForkedFile ();
   }
 
   // ---------------------------------------------------------------------------------//
   public boolean hasSubdirectories ()
   // ---------------------------------------------------------------------------------//
   {
-    //    if (appleFile == null || appleFile.getFileSystemType () != FileSystemType.NUFX)
-    //      return false;
-
     if (appleFile instanceof AppleFilePath afp)
       return afp.getFullFileName ().indexOf (afp.getSeparator ()) > 0;
 
@@ -392,31 +390,34 @@ public class AppleTreeFile
   List<AppleTreeFile> listAppleFiles ()
   // ---------------------------------------------------------------------------------//
   {
-    List<AppleTreeFile> fileList = new ArrayList<> ();
+    List<AppleTreeFile> children = new ArrayList<> ();
 
     if (appleFileSystem != null)
     {
       for (AppleFile file : appleFileSystem.getFiles ())
-        fileList.add (new AppleTreeFile (file));
+        children.add (new AppleTreeFile (file));
 
       for (AppleFileSystem fs : appleFileSystem.getFileSystems ())
-        fileList.add (new AppleTreeFile (fs));
+        children.add (new AppleTreeFile (fs));
     }
 
-    if (appleFile != null && appleFile instanceof AppleContainer ac)
+    if (appleFile != null)
     {
-      for (AppleFile file : ac.getFiles ())
-        fileList.add (new AppleTreeFile (file));
+      if (appleFile instanceof AppleContainer ac)
+      {
+        for (AppleFile file : ac.getFiles ())
+          children.add (new AppleTreeFile (file));
 
-      for (AppleFileSystem fs : ac.getFileSystems ())
-        fileList.add (new AppleTreeFile (fs));
+        for (AppleFileSystem fs : ac.getFileSystems ())
+          children.add (new AppleTreeFile (fs));
+      }
+
+      if (appleFile.isForkedFile ())
+        for (AppleFile file : ((ForkedFile) appleFile).getForks ())
+          children.add (new AppleTreeFile (file));
     }
 
-    if (appleFile != null && appleFile.isForkedFile ())
-      for (AppleFile file : ((ForkedFile) appleFile).getForks ())
-        fileList.add (new AppleTreeFile (file));
-
-    return fileList;
+    return children;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -506,23 +507,10 @@ public class AppleTreeFile
   public String toString ()
   // ---------------------------------------------------------------------------------//
   {
-    try
-    {
-      if (isAppleFile ())
-      {
-        if (appleFile.isFolder () || appleFile.isEmbeddedFileSystem ())
-          return appleFile.getFileName ();          // DATA or RESOURCE
+    if (isAppleFile () && !(appleFile.isFolder () || appleFile.isEmbeddedFileSystem ()))
+      return String.format ("%s %03d %s", appleFile.getFileTypeText (),
+          appleFile.getTotalBlocks (), name);
 
-        return String.format ("%s %03d %s",         // full file details
-            appleFile.getFileTypeText (), appleFile.getTotalBlocks (), name);
-      }
-      else
-        return name;
-    }
-    catch (UnsupportedOperationException e)      // is this needed?
-    {
-      e.printStackTrace ();
-      return name;
-    }
+    return name;
   }
 }

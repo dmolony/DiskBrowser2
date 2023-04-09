@@ -64,7 +64,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
     ObservableList<TreeItem<AppleTreeFile>> children =
         FXCollections.observableArrayList ();
 
-    assert parent.isAppleContainer ();// || parent.isAppleForkedFile ();
+    assert parent.isAppleContainer ();
 
     for (AppleTreeFile treeFile : parent.listAppleFiles ())
       if (treeFile.hasSubdirectories ())    // ApplePath with a separator in the name

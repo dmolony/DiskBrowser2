@@ -3,7 +3,6 @@ package com.bytezone.diskbrowser2.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
@@ -16,11 +15,11 @@ public class MetaTab extends DBTextTab
   private static final String HEADER =
       "===================================================================";
   private static final String SPACES = "                                  ";
+
   AppleTreeItem appleTreeItem;
   AppleTreeFile treeFile;
   AppleFile appleFile;
   AppleFileSystem appleFileSystem;
-  private FormattedAppleFile formattedAppleFile;
 
   // ---------------------------------------------------------------------------------//
   public MetaTab (String title, KeyCode keyCode)
@@ -49,6 +48,10 @@ public class MetaTab extends DBTextTab
     if (appleFileSystem != null)
       lines.add (appleFileSystem.toString ());
 
+    if (appleFile != null && appleFile.isEmbeddedFileSystem ()
+        && appleFile.getEmbeddedFileSystem () != appleFileSystem)
+      System.out.println ("mismatch");
+
     return lines;
   }
 
@@ -56,9 +59,6 @@ public class MetaTab extends DBTextTab
   private void attachHeader (List<String> lines)
   // ---------------------------------------------------------------------------------//
   {
-    //    if (treeFile.isLocalFile ())                    // PC files and folders
-    //    {
-    //    }
     if (treeFile.isAppleFileSystem ())
       lines.add (frameHeader ("AppleFileSystem"));
     else if (treeFile.isAppleFolder ())
@@ -67,6 +67,8 @@ public class MetaTab extends DBTextTab
       lines.add (frameHeader ("ForkedFile"));
     else if (treeFile.isAppleDataFile ())
       lines.add (frameHeader ("DataFile"));
+    else if (treeFile.isLocalDirectory ())
+      lines.add (frameHeader ("Local Folder"));
     else
       lines.add (frameHeader ("Unknown"));
   }
@@ -98,7 +100,6 @@ public class MetaTab extends DBTextTab
     treeFile = appleTreeItem.getValue ();
     appleFile = treeFile.getAppleFile ();
     appleFileSystem = treeFile.getAppleFileSystem ();
-    formattedAppleFile = treeFile.getFormattedAppleFile ();
 
     refresh ();
   }

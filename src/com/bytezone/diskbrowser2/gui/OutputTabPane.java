@@ -41,9 +41,10 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
 
     outputTab.setFormattedAppleFile (formattedAppleFile);
     graphicsTab.setFormattedAppleFile (formattedAppleFile);
-    hexTab.setFormattedAppleFile (formattedAppleFile);
+    //    hexTab.setFormattedAppleFile (formattedAppleFile);
     extrasTab.setFormattedAppleFile (formattedAppleFile);
 
+    hexTab.setAppleTreeItem (appleTreeItem);
     metaTab.setAppleTreeItem (appleTreeItem);
   }
 }

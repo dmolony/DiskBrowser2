@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.appleformat.FormattedAppleFile;
+import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.input.KeyCode;
 
@@ -14,6 +16,10 @@ class HexTab extends DBTextTab
   private static final int MAX_HEX_BYTES = 0x10_000;
 
   private FormattedAppleFile formattedAppleFile;
+  AppleTreeItem appleTreeItem;
+  AppleTreeFile treeFile;
+  AppleFile appleFile;
+  AppleFileSystem appleFileSystem;
 
   // ---------------------------------------------------------------------------------//
   public HexTab (String title, KeyCode keyCode)
@@ -30,25 +36,42 @@ class HexTab extends DBTextTab
   {
     List<String> lines = new ArrayList<> ();
 
-    if (formattedAppleFile == null)
-      return lines;
+    byte[] buffer = null;
+    int offset = 0;
+    int length = 0;
 
-    byte[] buffer = formattedAppleFile.getBuffer ();
+    if (appleFile != null && appleFile.isEmbeddedFileSystem ())
+    {
+      buffer = appleFile.read ();
+      offset = 0;
+      length = buffer.length;
+    }
+    else
+    {
+      if (formattedAppleFile == null)
+        return lines;
 
-    if (buffer == null)
-      return lines;
+      buffer = formattedAppleFile.getBuffer ();
+      if (buffer == null)
+        return lines;
 
-    int offset = formattedAppleFile.getOffset ();
-    int length = formattedAppleFile.getLength ();
+      offset = formattedAppleFile.getOffset ();
+      length = formattedAppleFile.getLength ();
+    }
 
     return Utility.getHexDumpLines (buffer, offset, Math.min (MAX_HEX_BYTES, length));
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setFormattedAppleFile (FormattedAppleFile formattedAppleFile)
+  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.formattedAppleFile = formattedAppleFile;
+    this.appleTreeItem = appleTreeItem;
+
+    treeFile = appleTreeItem.getValue ();
+    appleFile = treeFile.getAppleFile ();
+    appleFileSystem = treeFile.getAppleFileSystem ();
+    formattedAppleFile = treeFile.getFormattedAppleFile ();
 
     refresh ();
   }

@@ -20,6 +20,8 @@ import javafx.scene.image.Image;
 public class AppleTreeFile
 // -----------------------------------------------------------------------------------//
 {
+  private static IconMaker icons = new IconMaker ();
+
   private File localFile;         // local folder or local file with valid extension
   private Path path;
 
@@ -34,8 +36,6 @@ public class AppleTreeFile
   private String suffix;
 
   private String sortString;
-
-  private static IconMaker icons = new IconMaker ();
 
   // ---------------------------------------------------------------------------------//
   public AppleTreeFile (AppleFileSystem appleFileSystem)
@@ -103,6 +103,7 @@ public class AppleTreeFile
     }
   }
 
+  // ---------------------------------------------------------------------------------//
   // Called when a local file (without a file system) is selected or expanded.
   // ---------------------------------------------------------------------------------//
   void readAppleFileSystem ()
@@ -367,14 +368,6 @@ public class AppleTreeFile
     }
 
     return text.toString ();
-  }
-
-  // ---------------------------------------------------------------------------------//
-  private static Image get (String icon)
-  // ---------------------------------------------------------------------------------//
-  {
-    return new Image (
-        AppleTreeFile.class.getResourceAsStream ("/resources/Letter-" + icon));
   }
 
   // ---------------------------------------------------------------------------------//

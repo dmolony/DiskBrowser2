@@ -28,7 +28,6 @@ class FilterManager implements SaveState
 
   private final TextField filterTextField = new TextField ();
   private final CheckBox filterExclusionCheckBox = new CheckBox ();
-  //  private final CheckBox filterReverseCheckBox = new CheckBox ();
 
   private final FilterStatus filterStatus = new FilterStatus ();
   private final FilterStatus savedFilterStatus = new FilterStatus ();
@@ -48,7 +47,6 @@ class FilterManager implements SaveState
     filterTextField.selectAll ();
 
     filterExclusionCheckBox.setSelected (filterStatus.filterExclusion);
-    //    filterReverseCheckBox.setSelected (filterStatus.filterReverse);
 
     stage.show ();
     stage.toFront ();
@@ -59,14 +57,11 @@ class FilterManager implements SaveState
   // ---------------------------------------------------------------------------------//
   {
     if (!filterStatus.filterValue.equals (filterTextField.getText ())
-        || filterStatus.filterExclusion != filterExclusionCheckBox.isSelected ()
-    //        || filterStatus.filterReverse != filterReverseCheckBox.isSelected ()
-    )
+        || filterStatus.filterExclusion != filterExclusionCheckBox.isSelected ())
     {
       filterStatus.set (                            //
           filterTextField.getText (),               //
           filterExclusionCheckBox.isSelected (),    //
-          //          filterReverseCheckBox.isSelected (),      //
           !filterTextField.getText ().isEmpty ());
 
       notifyListeners ();
@@ -144,7 +139,6 @@ class FilterManager implements SaveState
     {
       if (keyEvent.isShiftDown ())
       {
-        //        filterStatus.filterReverse = !filterStatus.filterReverse;
       }
       else
         filterStatus.filterActive = !filterStatus.filterActive;

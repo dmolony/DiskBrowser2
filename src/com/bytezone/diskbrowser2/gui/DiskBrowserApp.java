@@ -78,6 +78,7 @@ public class DiskBrowserApp extends AppBase
     viewMenu.setExclusiveFilterAction (e -> filterManager.toggleFilterExclusion ());
     viewMenu.setFilterAction (e -> filterManager.showWindow ());
     viewMenu.setFontAction (e -> fontManager.showWindow ());
+    //    viewMenu.setLineWrapAction (e -> outputTabPane.toggleLineWrap ());
     fileMenu.setRootAction (e -> changeRootFolder ());
 
     // font change listeners
@@ -88,6 +89,7 @@ public class DiskBrowserApp extends AppBase
     // filter change listeners (filter parameters)
     filterManager.addFilterListener (dbStatusBar);
     filterManager.addFilterListener (outputTabPane.outputTab);
+    filterManager.addFilterListener (viewMenu);
 
     // treeview listeners
     appleTree.addListener (fileMenu);
@@ -99,14 +101,17 @@ public class DiskBrowserApp extends AppBase
     appleTree.addListener (outputHeaderBar);
     appleTree.addListener (extrasHeaderBar);
 
+    // tab change listeners
+    outputTabPane.addTabChangeListener (viewMenu);
+
     // add menus
     menuBar.getMenus ().addAll (fileMenu, viewMenu);
 
     fileMenu.setOutputWriter (outputTabPane.outputTab);
 
-    // ensure viewMenu (codepage) is set before xmitTree
-    saveStateList.addAll (Arrays.asList (//
-        filterManager, outputTabPane, extrasTabPane, fileMenu, appleTree, fontManager));
+    saveStateList.addAll (Arrays.asList (   //
+        filterManager, outputTabPane, extrasTabPane, fileMenu, viewMenu, appleTree,
+        fontManager));
 
     return splitPane;
   }
@@ -242,7 +247,8 @@ public class DiskBrowserApp extends AppBase
       directoryChooser.setInitialDirectory (rootFolder);
 
     File file = directoryChooser.showDialog (null);
-    if (file != null && file.isDirectory () && !file.getAbsolutePath ().equals (rootFolderName))
+    if (file != null && file.isDirectory ()
+        && !file.getAbsolutePath ().equals (rootFolderName))
     {
       rootFolderName = file.getAbsolutePath ();
       prefs.put (PREFS_ROOT_FOLDER, rootFolderName);

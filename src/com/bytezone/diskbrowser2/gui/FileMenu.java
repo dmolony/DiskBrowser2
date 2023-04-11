@@ -50,8 +50,10 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
     super (name);
 
     getItems ().addAll (rootMenuItem, new SeparatorMenuItem (), aboutMenuItem);
-    rootMenuItem.setAccelerator (new KeyCodeCombination (KeyCode.R, KeyCombination.SHORTCUT_DOWN));
-    saveMenuItem.setAccelerator (new KeyCodeCombination (KeyCode.S, KeyCombination.SHORTCUT_DOWN));
+    rootMenuItem.setAccelerator (
+        new KeyCodeCombination (KeyCode.R, KeyCombination.SHORTCUT_DOWN));
+    saveMenuItem.setAccelerator (
+        new KeyCodeCombination (KeyCode.S, KeyCombination.SHORTCUT_DOWN));
 
     extractMenuItem.setOnAction (e -> extractFile ());
     saveMenuItem.setOnAction (e -> saveFile ());
@@ -78,7 +80,7 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
   // ---------------------------------------------------------------------------------//
   {
     AppBase.showAlert (AlertType.INFORMATION, "About DiskBrowserApp",
-        "Version: 1.0.0\nReleased: 7 January 2023\nAuthor: Denis Molony");
+        "Version: 1.0.0\nReleased: 1 January 2024\nAuthor: Denis Molony");
   }
 
   // ---------------------------------------------------------------------------------//
@@ -133,7 +135,8 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
       {
         Files.write (Paths.get (file.getAbsolutePath ()), buffer);
         extractFolderName = file.getParent ();
-        AppBase.showAlert (AlertType.INFORMATION, "Success", "File Extracted: " + file.getName ());
+        AppBase.showAlert (AlertType.INFORMATION, "Success",
+            "File Extracted: " + file.getName ());
       }
       catch (IOException e)
       {
@@ -150,7 +153,8 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
     if (!new File (saveFolderName).exists ())
       saveFolderName = System.getProperty ("user.home");
 
-    extractFolderName = prefs.get (PREFS_EXTRACT_FOLDER, System.getProperty ("user.home"));
+    extractFolderName =
+        prefs.get (PREFS_EXTRACT_FOLDER, System.getProperty ("user.home"));
     if (!new File (extractFolderName).exists ())
       extractFolderName = System.getProperty ("user.home");
   }

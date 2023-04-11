@@ -50,7 +50,6 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
     basicPreferences.showDuplicateSymbols = true;
 
     Text.setTextPreferences (textPreferences);
-    //    textPreferences.showHeader = true;
 
     HiResImage.setGraphicsPreferences (graphicsPreferences);
 
@@ -81,7 +80,8 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
       {
         newLines.add ("");
         newLines.add ("**** File too large ****");
-        newLines.add (String.format ("**** %,d lines omitted ****", lines.length - MAX_LINES));
+        newLines.add (
+            String.format ("**** %,d lines omitted ****", lines.length - MAX_LINES));
         break;
       }
       newLines.add (line);
@@ -102,7 +102,8 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
     {
       for (String line : getLines (0))
         output.write (line + "\n");
-      AppBase.showAlert (AlertType.INFORMATION, "Success", "File Saved: " + file.getName ());
+      AppBase.showAlert (AlertType.INFORMATION, "Success",
+          "File Saved: " + file.getName ());
     }
     catch (IOException e)
     {

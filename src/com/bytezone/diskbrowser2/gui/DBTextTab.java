@@ -1,9 +1,11 @@
 package com.bytezone.diskbrowser2.gui;
 
 import java.util.List;
+import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.TextTabBase;
 
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -17,10 +19,21 @@ import javafx.scene.text.TextFlow;
 public abstract class DBTextTab extends TextTabBase
 // -----------------------------------------------------------------------------------//
 {
+  private static final String PREFS_LINE_WRAP = "LineWrap";
+
+  private static final int PAD = 40;
+
   private final TextFlow textFlow = new TextFlow ();
   private final ScrollPane scrollPane = new ScrollPane (textFlow);
 
   DBTextFormatter textFormatter = new DBTextFormatter ();
+  private boolean lineWrap;
+
+  // line wrapping
+  ChangeListener<? super Number> cl = (obs, oldVal, newVal) ->
+  {
+    setWrap ();
+  };
 
   // ---------------------------------------------------------------------------------//
   public DBTextTab (String title, KeyCode keyCode)
@@ -32,10 +45,8 @@ public abstract class DBTextTab extends TextTabBase
 
     scrollPane.setPadding (new Insets (5, 5, 5, 5));
     scrollPane.setStyle ("-fx-background: white;-fx-border-color: lightgray;");
-    scrollPane.widthProperty ().addListener ( (obs, oldVal, newVal) ->
-    {
-      textFlow.setMaxWidth (scrollPane.getWidth () - 40);
-    });
+    scrollPane.setHbarPolicy (ScrollBarPolicy.NEVER);
+    scrollPane.widthProperty ().addListener (cl);
 
     setContent (scrollPane);
   }
@@ -57,11 +68,38 @@ public abstract class DBTextTab extends TextTabBase
     textFlow.getChildren ().setAll (textFormatter.format (getLines ()));
 
     //    textFlow.setMaxWidth (Control.USE_PREF_SIZE);
-    scrollPane.setHbarPolicy (ScrollBarPolicy.NEVER);
+    //    scrollPane.setHbarPolicy (ScrollBarPolicy.NEVER);
     //    textFlow.setMaxWidth (500);
 
     scrollPane.setVvalue (0);
     scrollPane.setHvalue (0);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void toggleLineWrap ()
+  // ---------------------------------------------------------------------------------//
+  {
+    lineWrap = !lineWrap;
+    setWrap ();
+
+    refresh ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private void setWrap ()
+  // ---------------------------------------------------------------------------------//
+  {
+    if (lineWrap)
+      textFlow.setMaxWidth (scrollPane.getWidth () - PAD);
+    else
+      textFlow.setMaxWidth (9999);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  boolean getLineWrap ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return lineWrap;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -75,5 +113,25 @@ public abstract class DBTextTab extends TextTabBase
 
     for (Node node : textFlow.getChildren ())
       ((Text) node).setFont (font);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void restore (Preferences prefs)
+  // ---------------------------------------------------------------------------------//
+  {
+    super.restore (prefs);
+
+    lineWrap = prefs.getBoolean (PREFS_LINE_WRAP + getText (), false);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void save (Preferences prefs)
+  // ---------------------------------------------------------------------------------//
+  {
+    prefs.putBoolean (PREFS_LINE_WRAP + getText (), lineWrap);
+
+    super.save (prefs);
   }
 }

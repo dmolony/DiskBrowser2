@@ -78,7 +78,6 @@ public class DiskBrowserApp extends AppBase
     viewMenu.setExclusiveFilterAction (e -> filterManager.toggleFilterExclusion ());
     viewMenu.setFilterAction (e -> filterManager.showWindow ());
     viewMenu.setFontAction (e -> fontManager.showWindow ());
-    //    viewMenu.setLineWrapAction (e -> outputTabPane.toggleLineWrap ());
     fileMenu.setRootAction (e -> changeRootFolder ());
 
     // font change listeners
@@ -110,8 +109,7 @@ public class DiskBrowserApp extends AppBase
     fileMenu.setOutputWriter (outputTabPane.outputTab);
 
     saveStateList.addAll (Arrays.asList (   //
-        filterManager, outputTabPane, extrasTabPane, fileMenu, viewMenu, appleTree,
-        fontManager));
+        filterManager, outputTabPane, extrasTabPane, fileMenu, appleTree, fontManager));
 
     return splitPane;
   }

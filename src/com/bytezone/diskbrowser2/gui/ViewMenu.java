@@ -1,8 +1,5 @@
 package com.bytezone.diskbrowser2.gui;
 
-import java.util.prefs.Preferences;
-
-import com.bytezone.appbase.SaveState;
 import com.bytezone.appbase.TabChangeListener;
 
 import javafx.collections.ObservableList;
@@ -17,11 +14,9 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 
 // -----------------------------------------------------------------------------------//
-class ViewMenu extends Menu implements SaveState, FilterChangeListener, TabChangeListener
+class ViewMenu extends Menu implements FilterChangeListener, TabChangeListener
 // -----------------------------------------------------------------------------------//
 {
-  private static final String PREFS_LINE_WRAP = "LineWrap";
-
   private final MenuItem fontMenuItem = new MenuItem ("Set Font...");
   private final MenuItem filterMenuItem = new MenuItem ("Set Text Filter...");
   private final CheckMenuItem exclusiveFilterMenuItem =
@@ -83,22 +78,6 @@ class ViewMenu extends Menu implements SaveState, FilterChangeListener, TabChang
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void restore (Preferences prefs)
-  // ---------------------------------------------------------------------------------//
-  {
-    lineWrapMenuItem.setSelected (prefs.getInt (PREFS_LINE_WRAP, 0) == 1 ? true : false);
-  }
-
-  // ---------------------------------------------------------------------------------//
-  @Override
-  public void save (Preferences prefs)
-  // ---------------------------------------------------------------------------------//
-  {
-    prefs.putInt (PREFS_LINE_WRAP, lineWrapMenuItem.isSelected () ? 1 : 0);
-  }
-
-  // ---------------------------------------------------------------------------------//
-  @Override
   public void setFilter (FilterStatus filterStatus)
   // ---------------------------------------------------------------------------------//
   {
@@ -122,10 +101,12 @@ class ViewMenu extends Menu implements SaveState, FilterChangeListener, TabChang
     {
       lineWrapMenuItem.setDisable (false);
       currentTab = textTab;
-      boolean lineWrap = currentTab.getLineWrap ();
-      lineWrapMenuItem.setSelected (lineWrap);
+      lineWrapMenuItem.setSelected (currentTab.getLineWrap ());
     }
     else
+    {
       lineWrapMenuItem.setDisable (true);
+      currentTab = null;
+    }
   }
 }

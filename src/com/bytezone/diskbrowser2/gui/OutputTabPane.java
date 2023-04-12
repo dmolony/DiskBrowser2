@@ -27,8 +27,6 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
     add (hexTab);
     add (extrasTab);
     add (metaTab);
-
-    setDefaultTab (0);
   }
 
   // ---------------------------------------------------------------------------------//

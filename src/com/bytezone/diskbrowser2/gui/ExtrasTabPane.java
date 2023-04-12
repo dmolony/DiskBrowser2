@@ -21,7 +21,5 @@ class ExtrasTabPane extends TabPaneBase
     add (filterTab);
     add (optionsTab);
     add (layoutTab);
-
-    setDefaultTab (0);
   }
 }

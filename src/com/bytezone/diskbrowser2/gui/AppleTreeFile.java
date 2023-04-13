@@ -162,6 +162,10 @@ public class AppleTreeFile
       formattedAppleFile =
           AppleTreeView.formattedAppleFileFactory.getFormattedAppleFile (appleFileSystem);
 
+    if (formattedAppleFile == null && localFile != null)
+      formattedAppleFile =
+          AppleTreeView.formattedAppleFileFactory.getFormattedAppleFile (localFile);
+
     return formattedAppleFile;
   }
 

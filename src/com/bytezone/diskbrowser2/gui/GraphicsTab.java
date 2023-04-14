@@ -13,6 +13,8 @@ import javafx.scene.paint.Color;
 public class GraphicsTab extends DBGraphicsTab
 // -----------------------------------------------------------------------------------//
 {
+  private static final double SCALE = 2.5;
+
   private AppleTreeFile treeFile;                    // the item to display
   private AppleFile appleFile;
   private FormattedAppleFile formattedAppleFile;
@@ -34,68 +36,42 @@ public class GraphicsTab extends DBGraphicsTab
 
     setValid (true);
 
-    if (formattedAppleFile == null)
-      clear ();
-    else
-    {
-      Image image = formattedAppleFile.writeImage ();
-      if (image == null)
-        System.out.println ("image null");
-      else
-        resize (image, 3);              // convert Image to Canvas while scaling
-    }
+    // convert Image to Canvas while scaling
+    if (formattedAppleFile != null)
+      resize (formattedAppleFile.getImage (), SCALE);
   }
 
   // ---------------------------------------------------------------------------------//
-  private void resize (Image image, int factor)
+  private void resize (Image image, double scale)
   // ---------------------------------------------------------------------------------//
   {
-    int width = (int) image.getWidth ();
-    int height = (int) image.getHeight ();
+    double width = image.getWidth ();
+    double height = image.getHeight ();
 
-    canvas.setWidth (width * factor);
-    canvas.setHeight (height * factor);
+    canvas.setWidth (width * scale);
+    canvas.setHeight (height * scale);
+    clearCanvas ();
 
     GraphicsContext gc = canvas.getGraphicsContext2D ();
-    PixelReader pr = image.getPixelReader ();
+    PixelReader pixelReader = image.getPixelReader ();
 
-    int wy = 0;
+    double wy = 0;
 
     for (int y = 0; y < height; y++)
     {
-      int wx = 0;
+      double wx = 0;
 
       for (int x = 0; x < width; x++)
       {
-        Color c = pr.getColor (x, y);
+        Color c = pixelReader.getColor (x, y);
         gc.setFill (c);
-        gc.fillRect (wx, wy, factor, factor);
-        wx += factor;
+        gc.fillRect (wx, wy, scale, scale);
+        wx += scale;
       }
 
-      wy += factor;
+      wy += scale;
     }
   }
-
-  // ---------------------------------------------------------------------------------//
-  //  private WritableImage resize (Image oldImage, int factor)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    int width = (int) oldImage.getWidth ();
-  //    int height = (int) oldImage.getHeight ();
-  //
-  //    WritableImage newImage = new WritableImage (width * factor, height * factor);
-  //    PixelReader pr = oldImage.getPixelReader ();
-  //    PixelWriter pw = newImage.getPixelWriter ();
-  //    int wx = 0;
-  //    int wy = 0;
-  //
-  //    for (int y = 0; y < height; y++)
-  //      for (int x = 0; x < width; x++)
-  //      {
-  //        Color c = pr.getColor (x, y);
-  //      }
-  //  }
 
   // ---------------------------------------------------------------------------------//
   public void setFormattedAppleFile (FormattedAppleFile formattedAppleFile)

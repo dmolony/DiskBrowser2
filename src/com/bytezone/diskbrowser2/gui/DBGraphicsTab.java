@@ -48,13 +48,13 @@ public class DBGraphicsTab extends TabBase
     gc.fillRect (0, 0, canvas.getWidth (), canvas.getHeight ());
   }
 
-  // convert Image to Canvas while scaling
   // ---------------------------------------------------------------------------------//
-  protected void resize (Image image, double scale)
+  protected void drawImage (Image image, double scale)
   // ---------------------------------------------------------------------------------//
   {
     canvas.setWidth (image.getWidth () * scale);
     canvas.setHeight (image.getHeight () * scale);
+
     clearCanvas (Color.WHITE);
 
     GraphicsContext gc = canvas.getGraphicsContext2D ();
@@ -71,6 +71,7 @@ public class DBGraphicsTab extends TabBase
 
     setValid (true);
 
+    // scroll to top/left corner
     scrollPane.setVvalue (0);
     scrollPane.setHvalue (0);
   }

@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
@@ -34,22 +35,30 @@ public class DBGraphicsTab extends TabBase
   {
     canvas.setWidth (1);
     canvas.setHeight (1);
-    clearCanvas ();
-
-    //    GraphicsContext gc = canvas.getGraphicsContext2D ();
-    //
-    //    gc.setFill (Color.WHITE);
-    //    gc.fillRect (0, 0, 1, 1);
+    clearCanvas (Color.WHITE);
   }
 
   // ---------------------------------------------------------------------------------//
-  protected void clearCanvas ()
+  protected void clearCanvas (Color fillColor)
   // ---------------------------------------------------------------------------------//
   {
     GraphicsContext gc = canvas.getGraphicsContext2D ();
 
-    gc.setFill (Color.WHITE);
+    gc.setFill (fillColor);
     gc.fillRect (0, 0, canvas.getWidth (), canvas.getHeight ());
+  }
+
+  // convert Image to Canvas while scaling
+  // ---------------------------------------------------------------------------------//
+  protected void resize (Image image, double scale)
+  // ---------------------------------------------------------------------------------//
+  {
+    canvas.setWidth (image.getWidth () * scale);
+    canvas.setHeight (image.getHeight () * scale);
+    clearCanvas (Color.WHITE);
+
+    GraphicsContext gc = canvas.getGraphicsContext2D ();
+    gc.drawImage (image, 0, 0, canvas.getWidth (), canvas.getHeight ());
   }
 
   // ---------------------------------------------------------------------------------//

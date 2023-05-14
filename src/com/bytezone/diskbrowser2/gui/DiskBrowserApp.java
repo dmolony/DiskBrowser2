@@ -248,6 +248,7 @@ public class DiskBrowserApp extends AppBase
     if (file != null && file.isDirectory ()
         && !file.getAbsolutePath ().equals (rootFolderName))
     {
+      rootFolder = file;
       rootFolderName = file.getAbsolutePath ();
       prefs.put (PREFS_ROOT_FOLDER, rootFolderName);
       return true;

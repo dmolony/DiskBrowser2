@@ -14,7 +14,6 @@ import com.bytezone.appleformat.assembler.AssemblerProgram;
 import com.bytezone.appleformat.basic.BasicPreferences;
 import com.bytezone.appleformat.basic.BasicProgram;
 import com.bytezone.appleformat.graphics.GraphicsPreferences;
-import com.bytezone.appleformat.graphics.HiResImage;
 import com.bytezone.appleformat.text.Text;
 import com.bytezone.appleformat.text.TextPreferences;
 
@@ -51,7 +50,7 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
 
     Text.setTextPreferences (textPreferences);
 
-    HiResImage.setGraphicsPreferences (graphicsPreferences);
+    //    HiResImage.setGraphicsPreferences (graphicsPreferences);
 
     AssemblerProgram.setAssemblerPreferences (assemblerPreferences);
     assemblerPreferences.showStrings = false;

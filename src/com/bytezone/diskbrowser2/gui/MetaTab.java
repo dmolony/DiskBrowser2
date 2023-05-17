@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.FileProdos.ForkType;
 
 import javafx.scene.input.KeyCode;
 
@@ -17,7 +18,8 @@ public class MetaTab extends DBTextTab
   private static final String SPACES = "                                  ";
 
   AppleTreeItem appleTreeItem;
-  AppleTreeFile treeFile;
+  AppleTreeFile appleTreeFile;
+
   AppleFile appleFile;
   AppleFileSystem appleFileSystem;
 
@@ -59,15 +61,18 @@ public class MetaTab extends DBTextTab
   private void attachHeader (List<String> lines)
   // ---------------------------------------------------------------------------------//
   {
-    if (treeFile.isAppleFileSystem ())
-      lines.add (frameHeader ("AppleFileSystem"));
-    else if (treeFile.isAppleFolder ())
-      lines.add (frameHeader ("AppleFolder"));
-    else if (treeFile.isAppleForkedFile ())
-      lines.add (frameHeader ("ForkedFile"));
-    else if (treeFile.isAppleDataFile ())
-      lines.add (frameHeader ("DataFile"));
-    else if (treeFile.isLocalDirectory ())
+    if (appleTreeFile.isAppleFileSystem ())
+      lines.add (frameHeader ("Apple File System"));
+    else if (appleTreeFile.isAppleFolder ())
+      lines.add (frameHeader ("Apple Folder"));
+    else if (appleTreeFile.isAppleForkedFile ())
+      lines.add (frameHeader ("Forked File"));
+    else if (appleTreeFile.isAppleFork ())
+      lines.add (frameHeader (
+          (appleFile.getForkType () == ForkType.DATA ? "Data" : "Resource") + " Fork"));
+    else if (appleTreeFile.isAppleDataFile ())
+      lines.add (frameHeader ("Data File"));
+    else if (appleTreeFile.isLocalDirectory ())
       lines.add (frameHeader ("Local Folder"));
     else
       lines.add (frameHeader ("Unknown"));
@@ -97,9 +102,9 @@ public class MetaTab extends DBTextTab
   {
     this.appleTreeItem = appleTreeItem;
 
-    treeFile = appleTreeItem.getValue ();
-    appleFile = treeFile.getAppleFile ();
-    appleFileSystem = treeFile.getAppleFileSystem ();
+    appleTreeFile = appleTreeItem.getValue ();
+    appleFile = appleTreeFile.getAppleFile ();
+    appleFileSystem = appleTreeFile.getAppleFileSystem ();
 
     refresh ();
   }

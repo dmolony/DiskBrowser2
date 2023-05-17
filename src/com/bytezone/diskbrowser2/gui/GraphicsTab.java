@@ -29,8 +29,11 @@ public class GraphicsTab extends DBGraphicsTab
 
     setValid (true);
 
-    if (formattedAppleFile != null && formattedAppleFile.getImage () != null)
-      drawImage (formattedAppleFile.getImage (), SCALE);
+    if (formattedAppleFile != null)
+    {
+      if (formattedAppleFile.getImage () != null)
+        drawImage (formattedAppleFile.getImage (), SCALE);
+    }
   }
 
   // ---------------------------------------------------------------------------------//

@@ -1,16 +1,14 @@
 package com.bytezone.diskbrowser2.gui;
 
-import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
-import com.bytezone.filesystem.AppleFile;
+import com.bytezone.appleformat.ProdosConstants;
 
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsTab extends DBOptionsTab implements TreeNodeListener
+public class OptionsTab extends DBOptionsTab
 // -----------------------------------------------------------------------------------//
 {
-  private AppleTreeFile treeFile;                    // the item to display
-  private AppleFile appleFile;
+  OptionsPaneApplesoft optionsPaneApplesoft = new OptionsPaneApplesoft ();
 
   // ---------------------------------------------------------------------------------//
   public OptionsTab (String title, KeyCode keyCode)
@@ -28,15 +26,85 @@ public class OptionsTab extends DBOptionsTab implements TreeNodeListener
       return;
 
     setValid (true);
+
+    if (appleFile == null)
+    {
+      setContent (null);
+      return;
+    }
+
+    switch (appleFile.getFileSystemType ())
+    {
+      case PRODOS:
+        switch (appleFile.getFileType ())
+        {
+          case ProdosConstants.FILE_TYPE_TEXT:
+            setContent (null);
+            System.out.println ("text options");
+            break;
+
+          case ProdosConstants.FILE_TYPE_BINARY:
+            setContent (null);
+            System.out.println ("binary options");
+            break;
+
+          case ProdosConstants.FILE_TYPE_APPLESOFT_BASIC:
+            setContent (optionsPaneApplesoft);
+            System.out.println ("applesoft options");
+            break;
+
+          default:
+            setContent (null);
+            System.out.println ("no options for PRODOS type " + appleFile.getFileType ());
+        }
+        break;
+
+      case DOS:
+        switch (appleFile.getFileType ())
+        {
+          case 0:             // text
+            setContent (null);
+            System.out.println ("text options");
+            break;
+
+          case 1:             // integer basic
+            setContent (null);
+            System.out.println ("integer basic options");
+            break;
+
+          case 2:             // applesoft basic
+            setContent (optionsPaneApplesoft);
+            System.out.println ("applesoft options");
+            break;
+
+          case 4:             // binary
+            setContent (null);
+            System.out.println ("binary options");
+            break;
+
+          default:
+            setContent (null);
+            System.out.println ("no options for DOS type: " + appleFile.getFileType ());
+        }
+        break;
+
+      default:
+        setContent (null);
+        System.out.println ("no options for FS type: " + appleFile.getFileSystemType ());
+        break;
+    }
   }
 
   // ---------------------------------------------------------------------------------//
-  @Override
-  public void treeNodeSelected (AppleTreeItem appleTreeItem)
+  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.treeFile = appleTreeItem.getValue ();
-    appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
+    this.appleTreeItem = appleTreeItem;
+
+    treeFile = appleTreeItem.getValue ();
+    appleFile = treeFile.getAppleFile ();
+    appleFileSystem = treeFile.getAppleFileSystem ();
+    formattedAppleFile = treeFile.getFormattedAppleFile ();
 
     refresh ();
   }

@@ -1,11 +1,12 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.TabPaneBase;
+import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
 import javafx.scene.input.KeyCode;
 
 //-----------------------------------------------------------------------------------//
-class ExtrasTabPane extends TabPaneBase
+class ExtrasTabPane extends TabPaneBase implements TreeNodeListener
 //-----------------------------------------------------------------------------------//
 {
   final FilterTab filterTab = new FilterTab ("Include", KeyCode.I);
@@ -18,8 +19,18 @@ class ExtrasTabPane extends TabPaneBase
   {
     super (prefsId);
 
-    add (filterTab);
-    add (optionsTab);
-    add (layoutTab);
+    add (filterTab);        // filters which file extensions to show
+    add (optionsTab);       // display options for each file type
+    add (layoutTab);        // disk layout
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void treeNodeSelected (AppleTreeItem appleTreeItem)
+  // ---------------------------------------------------------------------------------//
+  {
+    filterTab.setAppleTreeItem (appleTreeItem);
+    optionsTab.setAppleTreeItem (appleTreeItem);
+    layoutTab.setAppleTreeItem (appleTreeItem);
   }
 }

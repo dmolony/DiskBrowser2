@@ -1,7 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.TabPaneBase;
-import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
 import javafx.scene.input.KeyCode;
@@ -34,13 +33,9 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
   public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    FormattedAppleFile formattedAppleFile =
-        appleTreeItem.getValue ().getFormattedAppleFile ();
-
-    outputTab.setFormattedAppleFile (formattedAppleFile);
-    graphicsTab.setFormattedAppleFile (formattedAppleFile);
-    extrasTab.setFormattedAppleFile (formattedAppleFile);
-
+    outputTab.setAppleTreeItem (appleTreeItem);
+    graphicsTab.setAppleTreeItem (appleTreeItem);
+    extrasTab.setAppleTreeItem (appleTreeItem);
     hexTab.setAppleTreeItem (appleTreeItem);
     metaTab.setAppleTreeItem (appleTreeItem);
   }

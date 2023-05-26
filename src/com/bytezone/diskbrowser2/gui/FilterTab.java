@@ -24,4 +24,18 @@ public class FilterTab extends DBOptionsTab
 
     setValid (true);
   }
+
+  // ---------------------------------------------------------------------------------//
+  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
+  // ---------------------------------------------------------------------------------//
+  {
+    this.appleTreeItem = appleTreeItem;
+
+    treeFile = appleTreeItem.getValue ();
+    appleFile = treeFile.getAppleFile ();
+    appleFileSystem = treeFile.getAppleFileSystem ();
+    formattedAppleFile = treeFile.getFormattedAppleFile ();
+
+    refresh ();
+  }
 }

@@ -1,6 +1,9 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.TabBase;
+import com.bytezone.appleformat.FormattedAppleFile;
+import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.input.KeyCode;
 
@@ -8,6 +11,11 @@ import javafx.scene.input.KeyCode;
 public class DBOptionsTab extends TabBase
 // -----------------------------------------------------------------------------------//
 {
+  protected FormattedAppleFile formattedAppleFile;
+  protected AppleTreeItem appleTreeItem;
+  protected AppleTreeFile treeFile;
+  protected AppleFile appleFile;
+  protected AppleFileSystem appleFileSystem;
 
   // ---------------------------------------------------------------------------------//
   public DBOptionsTab (String title, KeyCode keyCode)

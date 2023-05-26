@@ -92,11 +92,8 @@ public class DiskBrowserApp extends AppBase
 
     // treeview listeners
     appleTree.addListener (fileMenu);
-    //    appleTree.addListener (outputTabPane.metaTab);
-    //    appleTree.addListener (outputTabPane.hexTab);
-    //    appleTree.addListener (outputTabPane.outputTab);
-    //    appleTree.addListener (outputTabPane.graphicsTab);
     appleTree.addListener (outputTabPane);
+    appleTree.addListener (extrasTabPane);
     appleTree.addListener (outputHeaderBar);
     appleTree.addListener (extrasHeaderBar);
 

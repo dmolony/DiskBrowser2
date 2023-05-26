@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.appleformat.FormattedAppleFile;
+import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.input.KeyCode;
 
@@ -12,7 +14,12 @@ public class ExtrasTab extends DBTextTab
 // -----------------------------------------------------------------------------------//
 {
   private static final int MAX_LINES = 2500;
+
   private FormattedAppleFile formattedAppleFile;
+  AppleTreeItem appleTreeItem;
+  AppleTreeFile treeFile;
+  AppleFile appleFile;
+  AppleFileSystem appleFileSystem;
 
   // ---------------------------------------------------------------------------------//
   public ExtrasTab (String title, KeyCode keyCode)
@@ -42,10 +49,15 @@ public class ExtrasTab extends DBTextTab
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setFormattedAppleFile (FormattedAppleFile formattedAppleFile)
+  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.formattedAppleFile = formattedAppleFile;
+    this.appleTreeItem = appleTreeItem;
+
+    treeFile = appleTreeItem.getValue ();
+    appleFile = treeFile.getAppleFile ();
+    appleFileSystem = treeFile.getAppleFileSystem ();
+    formattedAppleFile = treeFile.getFormattedAppleFile ();
 
     refresh ();
   }

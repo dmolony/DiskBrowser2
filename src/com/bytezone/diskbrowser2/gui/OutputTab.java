@@ -9,13 +9,12 @@ import java.util.List;
 
 import com.bytezone.appbase.AppBase;
 import com.bytezone.appleformat.FormattedAppleFile;
+import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.appleformat.assembler.AssemblerPreferences;
-import com.bytezone.appleformat.assembler.AssemblerProgram;
-import com.bytezone.appleformat.basic.BasicPreferences;
-import com.bytezone.appleformat.basic.BasicProgram;
-import com.bytezone.appleformat.graphics.GraphicsPreferences;
-import com.bytezone.appleformat.text.Text;
+import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
 import com.bytezone.appleformat.text.TextPreferences;
+import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
@@ -26,12 +25,18 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
 {
   private static final int MAX_LINES = 2500;
 
-  private BasicPreferences basicPreferences = new BasicPreferences ();
-  private TextPreferences textPreferences = new TextPreferences ();
-  private GraphicsPreferences graphicsPreferences = new GraphicsPreferences ();
-  private AssemblerPreferences assemblerPreferences = new AssemblerPreferences ();
+  private ApplesoftBasicPreferences basicPreferences =
+      FormattedAppleFileFactory.basicPreferences;
+  private TextPreferences textPreferences = FormattedAppleFileFactory.textPreferences;
+  //  private GraphicsPreferences graphicsPreferences = new GraphicsPreferences ();
+  private AssemblerPreferences assemblerPreferences =
+      FormattedAppleFileFactory.assemblerPreferences;
 
   private FormattedAppleFile formattedAppleFile;
+  AppleTreeItem appleTreeItem;
+  AppleTreeFile treeFile;
+  AppleFile appleFile;
+  AppleFileSystem appleFileSystem;
 
   // ---------------------------------------------------------------------------------//
   public OutputTab (String title, KeyCode keyCode)
@@ -39,7 +44,7 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
   {
     super (title, keyCode);
 
-    BasicProgram.setBasicPreferences (basicPreferences);
+    basicPreferences.alignAssign = true;
     basicPreferences.showAllXref = true;
     basicPreferences.showGosubGoto = true;
     basicPreferences.showCalls = true;
@@ -48,11 +53,6 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
     basicPreferences.showConstants = true;
     basicPreferences.showDuplicateSymbols = true;
 
-    Text.setTextPreferences (textPreferences);
-
-    //    HiResImage.setGraphicsPreferences (graphicsPreferences);
-
-    AssemblerProgram.setAssemblerPreferences (assemblerPreferences);
     assemblerPreferences.showStrings = false;
     assemblerPreferences.showTargets = false;
   }
@@ -121,10 +121,15 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setFormattedAppleFile (FormattedAppleFile formattedAppleFile)
+  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.formattedAppleFile = formattedAppleFile;
+    this.appleTreeItem = appleTreeItem;
+
+    treeFile = appleTreeItem.getValue ();
+    appleFile = treeFile.getAppleFile ();
+    appleFileSystem = treeFile.getAppleFileSystem ();
+    formattedAppleFile = treeFile.getFormattedAppleFile ();
 
     refresh ();
   }

@@ -1,6 +1,11 @@
 package com.bytezone.diskbrowser2.gui;
 
+import java.util.prefs.Preferences;
+
 import com.bytezone.appbase.TabBase;
+import com.bytezone.appleformat.FormattedAppleFile;
+import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
@@ -14,6 +19,12 @@ import javafx.scene.paint.Color;
 public class DBGraphicsTab extends TabBase
 // -----------------------------------------------------------------------------------//
 {
+  protected FormattedAppleFile formattedAppleFile;
+  protected AppleTreeItem appleTreeItem;
+  protected AppleTreeFile treeFile;
+  protected AppleFile appleFile;
+  protected AppleFileSystem appleFileSystem;
+
   protected final Canvas canvas = new Canvas ();
   protected final ScrollPane scrollPane = new ScrollPane (canvas);
 
@@ -74,5 +85,22 @@ public class DBGraphicsTab extends TabBase
     // scroll to top/left corner
     scrollPane.setVvalue (0);
     scrollPane.setHvalue (0);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void restore (Preferences prefs)
+  // ---------------------------------------------------------------------------------//
+  {
+    super.restore (prefs);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void save (Preferences prefs)
+  // ---------------------------------------------------------------------------------//
+  {
+
+    super.save (prefs);
   }
 }

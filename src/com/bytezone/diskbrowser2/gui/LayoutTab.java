@@ -1,7 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
-import com.bytezone.filesystem.AppleFile;
 
 import javafx.scene.input.KeyCode;
 
@@ -9,8 +8,6 @@ import javafx.scene.input.KeyCode;
 public class LayoutTab extends DBGraphicsTab implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
-  private AppleTreeFile treeFile;                    // the item to display
-  private AppleFile appleFile;
 
   // ---------------------------------------------------------------------------------//
   public LayoutTab (String title, KeyCode keyCode)
@@ -26,6 +23,20 @@ public class LayoutTab extends DBGraphicsTab implements TreeNodeListener
   {
     this.treeFile = appleTreeItem.getValue ();
     appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
+
+    refresh ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
+  // ---------------------------------------------------------------------------------//
+  {
+    this.appleTreeItem = appleTreeItem;
+
+    treeFile = appleTreeItem.getValue ();
+    appleFile = treeFile.getAppleFile ();
+    appleFileSystem = treeFile.getAppleFileSystem ();
+    formattedAppleFile = treeFile.getFormattedAppleFile ();
 
     refresh ();
   }

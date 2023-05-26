@@ -45,7 +45,7 @@ public abstract class DBTextTab extends TextTabBase
 
     scrollPane.setPadding (new Insets (5, 5, 5, 5));
     scrollPane.setStyle ("-fx-background: white;-fx-border-color: lightgray;");
-    scrollPane.setHbarPolicy (ScrollBarPolicy.NEVER);
+    scrollPane.setHbarPolicy (ScrollBarPolicy.AS_NEEDED);
     scrollPane.widthProperty ().addListener (cl);
 
     setContent (scrollPane);
@@ -92,7 +92,7 @@ public abstract class DBTextTab extends TextTabBase
     if (lineWrap)
       textFlow.setMaxWidth (scrollPane.getWidth () - PAD);
     else
-      textFlow.setMaxWidth (9999);
+      textFlow.setMaxWidth (99999);
   }
 
   // ---------------------------------------------------------------------------------//

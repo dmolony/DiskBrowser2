@@ -40,7 +40,7 @@ class HexTab extends DBTextTab
     int offset = 0;
     int length = 0;
 
-    if (appleFile != null && appleFile.isEmbeddedFileSystem ())
+    if (appleFile != null && appleFile.hasEmbeddedFileSystem ())
     {
       buffer = appleFile.read ();
       offset = 0;

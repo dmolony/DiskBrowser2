@@ -12,6 +12,7 @@ import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.appleformat.assembler.AssemblerPreferences;
 import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
+import com.bytezone.appleformat.graphics.GraphicsPreferences;
 import com.bytezone.appleformat.text.TextPreferences;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
@@ -28,7 +29,8 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
   private ApplesoftBasicPreferences basicPreferences =
       FormattedAppleFileFactory.basicPreferences;
   private TextPreferences textPreferences = FormattedAppleFileFactory.textPreferences;
-  //  private GraphicsPreferences graphicsPreferences = new GraphicsPreferences ();
+  private GraphicsPreferences graphicsPreferences =
+      FormattedAppleFileFactory.graphicsPreferences;
   private AssemblerPreferences assemblerPreferences =
       FormattedAppleFileFactory.assemblerPreferences;
 

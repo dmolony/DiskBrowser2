@@ -65,7 +65,7 @@ public class AppleTreeFile
     suffix = "";
     prefix = sortString;
 
-    if (appleFile.isEmbeddedFileSystem ())
+    if (appleFile.hasEmbeddedFileSystem ())
       appleFileSystem = appleFile.getEmbeddedFileSystem ();
   }
 
@@ -397,7 +397,7 @@ public class AppleTreeFile
   public String toString ()
   // ---------------------------------------------------------------------------------//
   {
-    if (isAppleFile () && !(appleFile.isFolder () || appleFile.isEmbeddedFileSystem ()))
+    if (isAppleFile () && !(appleFile.isFolder () || appleFile.hasEmbeddedFileSystem ()))
       return String.format ("%s %03d %s", appleFile.getFileTypeText (),
           appleFile.getTotalBlocks (), name);
 

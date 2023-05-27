@@ -50,7 +50,7 @@ public class MetaTab extends DBTextTab
     if (appleFileSystem != null)
       lines.add (appleFileSystem.toString ());
 
-    if (appleFile != null && appleFile.isEmbeddedFileSystem ()
+    if (appleFile != null && appleFile.hasEmbeddedFileSystem ()
         && appleFile.getEmbeddedFileSystem () != appleFileSystem)
       System.out.println ("mismatch");
 

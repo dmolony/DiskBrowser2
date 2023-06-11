@@ -5,6 +5,8 @@ import com.bytezone.appleformat.assembler.AssemblerPreferences;
 import com.bytezone.appleformat.assembler.AssemblerProgram;
 import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
 import com.bytezone.appleformat.basic.ApplesoftBasicProgram;
+import com.bytezone.appleformat.graphics.Graphics;
+import com.bytezone.appleformat.graphics.GraphicsPreferences;
 import com.bytezone.appleformat.text.Text;
 import com.bytezone.appleformat.text.TextPreferences;
 
@@ -16,12 +18,13 @@ public class OptionsTab extends DBOptionsTab
 {
   ApplesoftBasicPreferences applesoftBasicPreferences =
       ApplesoftBasicProgram.basicPreferences;
-  //  GraphicsPreferences graphicsPreferences =
+  GraphicsPreferences graphicsPreferences = Graphics.graphicsPreferences;
   AssemblerPreferences assemblerPreferences = AssemblerProgram.assemblerPreferences;
   TextPreferences textPreferences = Text.textPreferences;
 
   OptionsPaneApplesoft optionsPaneApplesoft =
       new OptionsPaneApplesoft (applesoftBasicPreferences);
+  OptionsPaneGraphics optionsPaneGraphics = new OptionsPaneGraphics (graphicsPreferences);
   OptionsPaneAssembler optionsPaneAssembler =
       new OptionsPaneAssembler (assemblerPreferences);
   OptionsPaneText optionsPaneText = new OptionsPaneText (textPreferences);

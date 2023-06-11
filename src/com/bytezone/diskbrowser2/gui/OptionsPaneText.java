@@ -2,10 +2,8 @@ package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appleformat.text.TextPreferences;
 
-import javafx.scene.layout.StackPane;
-
 //-----------------------------------------------------------------------------------//
-public class OptionsPaneText extends StackPane
+public class OptionsPaneText extends OptionsPane
 //-----------------------------------------------------------------------------------//
 {
   TextPreferences textPreferences;

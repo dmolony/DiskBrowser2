@@ -72,6 +72,12 @@ public class OptionsTab extends DBOptionsTab
             System.out.println ("applesoft options");
             break;
 
+          case ProdosConstants.FILE_TYPE_PIC:
+          case ProdosConstants.FILE_TYPE_PNT:
+            setContent (optionsPaneGraphics);
+            System.out.println ("graphics options");
+            break;
+
           default:
             setContent (null);
             System.out.println ("no options for PRODOS type " + appleFile.getFileType ());

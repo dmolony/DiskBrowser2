@@ -1,6 +1,12 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appleformat.ProdosConstants;
+import com.bytezone.appleformat.assembler.AssemblerPreferences;
+import com.bytezone.appleformat.assembler.AssemblerProgram;
+import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
+import com.bytezone.appleformat.basic.ApplesoftBasicProgram;
+import com.bytezone.appleformat.text.Text;
+import com.bytezone.appleformat.text.TextPreferences;
 
 import javafx.scene.input.KeyCode;
 
@@ -8,7 +14,17 @@ import javafx.scene.input.KeyCode;
 public class OptionsTab extends DBOptionsTab
 // -----------------------------------------------------------------------------------//
 {
-  OptionsPaneApplesoft optionsPaneApplesoft = new OptionsPaneApplesoft ();
+  ApplesoftBasicPreferences applesoftBasicPreferences =
+      ApplesoftBasicProgram.basicPreferences;
+  //  GraphicsPreferences graphicsPreferences =
+  AssemblerPreferences assemblerPreferences = AssemblerProgram.assemblerPreferences;
+  TextPreferences textPreferences = Text.textPreferences;
+
+  OptionsPaneApplesoft optionsPaneApplesoft =
+      new OptionsPaneApplesoft (applesoftBasicPreferences);
+  OptionsPaneAssembler optionsPaneAssembler =
+      new OptionsPaneAssembler (assemblerPreferences);
+  OptionsPaneText optionsPaneText = new OptionsPaneText (textPreferences);
 
   // ---------------------------------------------------------------------------------//
   public OptionsTab (String title, KeyCode keyCode)
@@ -39,12 +55,12 @@ public class OptionsTab extends DBOptionsTab
         switch (appleFile.getFileType ())
         {
           case ProdosConstants.FILE_TYPE_TEXT:
-            setContent (null);
+            setContent (optionsPaneText);
             System.out.println ("text options");
             break;
 
           case ProdosConstants.FILE_TYPE_BINARY:
-            setContent (null);
+            setContent (optionsPaneAssembler);
             System.out.println ("binary options");
             break;
 
@@ -63,7 +79,7 @@ public class OptionsTab extends DBOptionsTab
         switch (appleFile.getFileType ())
         {
           case 0:             // text
-            setContent (null);
+            setContent (optionsPaneText);
             System.out.println ("text options");
             break;
 
@@ -78,13 +94,48 @@ public class OptionsTab extends DBOptionsTab
             break;
 
           case 4:             // binary
-            setContent (null);
+            setContent (optionsPaneAssembler);
             System.out.println ("binary options");
             break;
 
           default:
             setContent (null);
             System.out.println ("no options for DOS type: " + appleFile.getFileType ());
+        }
+        break;
+
+      case PASCAL:
+        switch (appleFile.getFileType ())
+        {
+          case 2:             // code
+            setContent (null);
+            System.out.println ("Pascal CODE options");
+            break;
+
+          case 3:             // text
+            setContent (optionsPaneText);
+            System.out.println ("text options");
+            break;
+
+          default:
+            setContent (null);
+            System.out
+                .println ("no options for PASCAL type: " + appleFile.getFileType ());
+        }
+        break;
+
+      case CPM:
+        switch (appleFile.getFileTypeText ())           // no file type value
+        {
+          case "TXT":
+            setContent (optionsPaneText);
+            System.out.println ("CPM text options");
+            break;
+
+          default:
+            setContent (null);
+            System.out
+                .println ("no options for CPM type: " + appleFile.getFileTypeText ());
         }
         break;
 

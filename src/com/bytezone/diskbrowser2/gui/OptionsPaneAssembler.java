@@ -1,19 +1,19 @@
 package com.bytezone.diskbrowser2.gui;
 
-import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
+import com.bytezone.appleformat.assembler.AssemblerPreferences;
 
 import javafx.scene.layout.StackPane;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsPaneApplesoft extends StackPane
+public class OptionsPaneAssembler extends StackPane
 // -----------------------------------------------------------------------------------//
 {
-  ApplesoftBasicPreferences applesoftBasicPreferences;
+  AssemblerPreferences assemblerPreferences;
 
   // ---------------------------------------------------------------------------------//
-  public OptionsPaneApplesoft (ApplesoftBasicPreferences applesoftBasicPreferences)
+  public OptionsPaneAssembler (AssemblerPreferences assemblerPreferences)
   // ---------------------------------------------------------------------------------//
   {
-    this.applesoftBasicPreferences = applesoftBasicPreferences;
+    this.assemblerPreferences = assemblerPreferences;
   }
 }

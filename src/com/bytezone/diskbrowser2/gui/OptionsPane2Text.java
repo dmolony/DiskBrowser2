@@ -24,6 +24,7 @@ public class OptionsPane2Text extends DataPane
     String[] labels = { "Show offsets", "Show .S as Merlin" };
 
     createLabelsVertical (labels, 0, 0, HPos.RIGHT);
-    checkBoxes = createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER));
+    checkBoxes =
+        createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER, true));
   }
 }

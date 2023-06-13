@@ -24,6 +24,7 @@ public class OptionsPane2Assembler extends DataPane
     String[] labels = { "Show targets", "Show strings", "Offset from zero" };
 
     createLabelsVertical (labels, 0, 0, HPos.RIGHT);
-    checkBoxes = createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER));
+    checkBoxes =
+        createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER, true));
   }
 }

@@ -27,6 +27,7 @@ public class OptionsPane2Applesoft extends DataPane
         "Show symbols", "Show constants", "Show functions", "Show duplicate symbols", };
 
     createLabelsVertical (labels, 0, 0, HPos.RIGHT);
-    checkBoxes = createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER));
+    checkBoxes =
+        createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER, true));
   }
 }

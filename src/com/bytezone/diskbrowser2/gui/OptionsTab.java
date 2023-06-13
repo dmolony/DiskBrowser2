@@ -59,23 +59,19 @@ public class OptionsTab extends DBOptionsTab
         {
           case ProdosConstants.FILE_TYPE_TEXT:
             setContent (optionsPaneText);
-            System.out.println ("text options");
             break;
 
           case ProdosConstants.FILE_TYPE_BINARY:
             setContent (optionsPaneAssembler);
-            System.out.println ("binary options");
             break;
 
           case ProdosConstants.FILE_TYPE_APPLESOFT_BASIC:
             setContent (optionsPaneApplesoft);
-            System.out.println ("applesoft options");
             break;
 
           case ProdosConstants.FILE_TYPE_PIC:
           case ProdosConstants.FILE_TYPE_PNT:
             setContent (optionsPaneGraphics);
-            System.out.println ("graphics options");
             break;
 
           default:
@@ -89,7 +85,6 @@ public class OptionsTab extends DBOptionsTab
         {
           case 0:             // text
             setContent (optionsPaneText);
-            System.out.println ("text options");
             break;
 
           case 1:             // integer basic
@@ -99,12 +94,10 @@ public class OptionsTab extends DBOptionsTab
 
           case 2:             // applesoft basic
             setContent (optionsPaneApplesoft);
-            System.out.println ("applesoft options");
             break;
 
           case 4:             // binary
             setContent (optionsPaneAssembler);
-            System.out.println ("binary options");
             break;
 
           default:
@@ -123,7 +116,6 @@ public class OptionsTab extends DBOptionsTab
 
           case 3:             // text
             setContent (optionsPaneText);
-            System.out.println ("text options");
             break;
 
           default:
@@ -138,7 +130,6 @@ public class OptionsTab extends DBOptionsTab
         {
           case "TXT":
             setContent (optionsPaneText);
-            System.out.println ("CPM text options");
             break;
 
           default:

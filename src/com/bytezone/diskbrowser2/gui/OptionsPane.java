@@ -1,10 +1,15 @@
 package com.bytezone.diskbrowser2.gui;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsPane extends StackPane
+public abstract class OptionsPane extends BorderPane
 // -----------------------------------------------------------------------------------//
 {
   Button okButton = getButton ("OK");
@@ -14,7 +19,13 @@ public class OptionsPane extends StackPane
   public OptionsPane ()
   // ---------------------------------------------------------------------------------//
   {
-    getChildren ().add (okButton);
+    okButton.setDefaultButton (true);
+    cancelButton.setCancelButton (true);
+
+    setBottom (okButton);
+    setMargin (okButton, new Insets (10, 10, 10, 10));
+
+    setCenter (createPane ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -26,4 +37,27 @@ public class OptionsPane extends StackPane
 
     return button;
   }
+
+  // ---------------------------------------------------------------------------------//
+  protected CheckBox[] addCheckBoxes (GridPane gridPane, String[] labelNames, int col,
+      int row)
+  // ---------------------------------------------------------------------------------//
+  {
+    CheckBox[] checkBoxes = new CheckBox[labelNames.length];
+    int count = 0;
+
+    for (String labelName : labelNames)
+    {
+      checkBoxes[count] = new CheckBox ();
+
+      gridPane.add (new Label (labelName), col, row);
+      gridPane.add (checkBoxes[count++], col + 1, row++);
+    }
+
+    return checkBoxes;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  abstract Pane createPane ();
+  // ---------------------------------------------------------------------------------//
 }

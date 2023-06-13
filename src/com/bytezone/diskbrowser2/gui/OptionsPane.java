@@ -26,6 +26,9 @@ public abstract class OptionsPane extends BorderPane
     setMargin (okButton, new Insets (10, 10, 10, 10));
 
     setCenter (createPane ());
+
+    //    scrollPane.setPadding (new Insets (5, 5, 5, 5));
+    setStyle ("-fx-background: white;-fx-border-color: lightgray;");
   }
 
   // ---------------------------------------------------------------------------------//

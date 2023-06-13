@@ -1,14 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
+import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.appleformat.ProdosConstants;
-import com.bytezone.appleformat.assembler.AssemblerPreferences;
-import com.bytezone.appleformat.assembler.AssemblerProgram;
-import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
-import com.bytezone.appleformat.basic.ApplesoftBasicProgram;
-import com.bytezone.appleformat.graphics.Graphics;
-import com.bytezone.appleformat.graphics.GraphicsPreferences;
-import com.bytezone.appleformat.text.Text;
-import com.bytezone.appleformat.text.TextPreferences;
 
 import javafx.scene.input.KeyCode;
 
@@ -16,18 +9,20 @@ import javafx.scene.input.KeyCode;
 public class OptionsTab extends DBOptionsTab
 // -----------------------------------------------------------------------------------//
 {
-  ApplesoftBasicPreferences applesoftBasicPreferences =
-      ApplesoftBasicProgram.basicPreferences;
-  GraphicsPreferences graphicsPreferences = Graphics.graphicsPreferences;
-  AssemblerPreferences assemblerPreferences = AssemblerProgram.assemblerPreferences;
-  TextPreferences textPreferences = Text.textPreferences;
+  //  ApplesoftBasicPreferences applesoftBasicPreferences =
+  //      ApplesoftBasicProgram.basicPreferences;
+  //  GraphicsPreferences graphicsPreferences = Graphics.graphicsPreferences;
+  //  AssemblerPreferences assemblerPreferences = AssemblerProgram.assemblerPreferences;
+  //  TextPreferences textPreferences = Text.textPreferences;
 
   OptionsPaneApplesoft optionsPaneApplesoft =
-      new OptionsPaneApplesoft (applesoftBasicPreferences);
-  OptionsPaneGraphics optionsPaneGraphics = new OptionsPaneGraphics (graphicsPreferences);
+      new OptionsPaneApplesoft (FormattedAppleFileFactory.basicPreferences);
+  OptionsPaneGraphics optionsPaneGraphics =
+      new OptionsPaneGraphics (FormattedAppleFileFactory.graphicsPreferences);
   OptionsPaneAssembler optionsPaneAssembler =
-      new OptionsPaneAssembler (assemblerPreferences);
-  OptionsPaneText optionsPaneText = new OptionsPaneText (textPreferences);
+      new OptionsPaneAssembler (FormattedAppleFileFactory.assemblerPreferences);
+  OptionsPaneText optionsPaneText =
+      new OptionsPaneText (FormattedAppleFileFactory.textPreferences);
 
   // ---------------------------------------------------------------------------------//
   public OptionsTab (String title, KeyCode keyCode)

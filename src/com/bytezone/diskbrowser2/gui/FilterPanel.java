@@ -31,7 +31,6 @@ public class FilterPanel extends VBox
   {
     super (20);
 
-    //    this.treeView = treeView;
     totalExtensions = extensionTotals.length;
 
     setAlignment (Pos.CENTER_LEFT);

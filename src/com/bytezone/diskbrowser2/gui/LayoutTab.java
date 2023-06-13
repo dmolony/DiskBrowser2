@@ -8,7 +8,6 @@ import javafx.scene.input.KeyCode;
 public class LayoutTab extends DBGraphicsTab implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
-
   // ---------------------------------------------------------------------------------//
   public LayoutTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//

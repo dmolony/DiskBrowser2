@@ -1,5 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
+import com.bytezone.appleformat.Preferences;
 import com.bytezone.appleformat.graphics.GraphicsPreferences;
 
 import javafx.scene.control.CheckBox;
@@ -27,5 +28,14 @@ public class OptionsPaneGraphics extends OptionsPane
   {
     GridPane gridPane = new GridPane ();
     return gridPane;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void preferenceChanged (Preferences preferences)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (preferences instanceof GraphicsPreferences graphicsPreferences)
+      System.out.println (graphicsPreferences);
   }
 }

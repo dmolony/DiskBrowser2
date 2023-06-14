@@ -17,9 +17,10 @@ public class OptionsPane2Text extends DataPane
   public OptionsPane2Text ()
   // ---------------------------------------------------------------------------------//
   {
-    super (2, 5, 20);                           // columns, rows, row height
+    super (2, 5, 20);                         // columns, rows, row height
 
-    setColumnConstraints (150, 30);             // column widths
+    setColumnConstraints (150, 30);           // column widths
+    setPadding (defaultInsets);               // only the root pane has insets
 
     String[] labels = { "Show offsets", "Show .S as Merlin" };
 

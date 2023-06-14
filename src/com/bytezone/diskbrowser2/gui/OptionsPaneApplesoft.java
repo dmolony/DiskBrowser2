@@ -16,6 +16,7 @@ public class OptionsPaneApplesoft extends OptionsPane
   // ---------------------------------------------------------------------------------//
   {
     this.applesoftBasicPreferences = applesoftBasicPreferences;
+    optionsPane2Applesoft.set (applesoftBasicPreferences);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -24,6 +25,7 @@ public class OptionsPaneApplesoft extends OptionsPane
   // ---------------------------------------------------------------------------------//
   {
     optionsPane2Applesoft = new OptionsPane2Applesoft ();
+
     return optionsPane2Applesoft;
   }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import com.bytezone.appbase.AppBase;
 import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.appleformat.FormattedAppleFileFactory;
+import com.bytezone.appleformat.Preferences;
 import com.bytezone.appleformat.assembler.AssemblerPreferences;
 import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
 import com.bytezone.appleformat.graphics.GraphicsPreferences;
@@ -21,7 +22,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
+class OutputTab extends DBTextTab
+    implements FilterChangeListener, OutputWriter, PreferenceChangeListener
 // -----------------------------------------------------------------------------------//
 {
   private static final int MAX_LINES = 2500;
@@ -132,6 +134,23 @@ class OutputTab extends DBTextTab implements FilterChangeListener, OutputWriter
     appleFile = treeFile.getAppleFile ();
     appleFileSystem = treeFile.getAppleFileSystem ();
     formattedAppleFile = treeFile.getFormattedAppleFile ();
+
+    refresh ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void preferenceChanged (Preferences preferences)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (preferences instanceof GraphicsPreferences graphicsPreferences)
+      System.out.println (graphicsPreferences);
+    if (preferences instanceof ApplesoftBasicPreferences basicPreferences)
+      System.out.println (basicPreferences);
+    if (preferences instanceof AssemblerPreferences assemblerPreferences)
+      System.out.println (assemblerPreferences);
+    if (preferences instanceof TextPreferences textPreferences)
+      System.out.println (textPreferences);
 
     refresh ();
   }

@@ -1,10 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
-import com.bytezone.appleformat.Preferences;
 import com.bytezone.appleformat.graphics.GraphicsPreferences;
 
-import javafx.scene.control.CheckBox;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 //-----------------------------------------------------------------------------------//
@@ -12,7 +9,7 @@ public class OptionsPaneGraphics extends OptionsPane
 //-----------------------------------------------------------------------------------//
 {
   GraphicsPreferences graphicsPreferences;
-  CheckBox[] checkBoxes;
+  OptionsPane2Graphics optionsPane2Graphics;
 
   // ---------------------------------------------------------------------------------//
   public OptionsPaneGraphics (GraphicsPreferences graphicsPreferences)
@@ -26,16 +23,8 @@ public class OptionsPaneGraphics extends OptionsPane
   Pane createPane ()
   // ---------------------------------------------------------------------------------//
   {
-    GridPane gridPane = new GridPane ();
-    return gridPane;
-  }
+    optionsPane2Graphics = new OptionsPane2Graphics ();
 
-  // ---------------------------------------------------------------------------------//
-  @Override
-  public void preferenceChanged (Preferences preferences)
-  // ---------------------------------------------------------------------------------//
-  {
-    if (preferences instanceof GraphicsPreferences graphicsPreferences)
-      System.out.println (graphicsPreferences);
+    return optionsPane2Graphics;
   }
 }

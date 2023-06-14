@@ -1,6 +1,11 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appleformat.FormattedAppleFile;
+import com.bytezone.appleformat.Preferences;
+import com.bytezone.appleformat.assembler.AssemblerPreferences;
+import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
+import com.bytezone.appleformat.graphics.GraphicsPreferences;
+import com.bytezone.appleformat.text.TextPreferences;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
@@ -9,7 +14,7 @@ import com.bytezone.filesystem.ProdosConstants;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-public class GraphicsTab extends DBGraphicsTab
+public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListener
 // -----------------------------------------------------------------------------------//
 {
   private static final double SCALE = 2;
@@ -68,6 +73,23 @@ public class GraphicsTab extends DBGraphicsTab
     appleFile = treeFile.getAppleFile ();
     appleFileSystem = treeFile.getAppleFileSystem ();
     formattedAppleFile = treeFile.getFormattedAppleFile ();
+
+    refresh ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void preferenceChanged (Preferences preferences)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (preferences instanceof GraphicsPreferences graphicsPreferences)
+      System.out.println (graphicsPreferences);
+    if (preferences instanceof ApplesoftBasicPreferences basicPreferences)
+      System.out.println (basicPreferences);
+    if (preferences instanceof AssemblerPreferences assemblerPreferences)
+      System.out.println (assemblerPreferences);
+    if (preferences instanceof TextPreferences textPreferences)
+      System.out.println (textPreferences);
 
     refresh ();
   }

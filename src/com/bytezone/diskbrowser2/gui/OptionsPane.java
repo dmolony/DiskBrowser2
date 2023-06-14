@@ -6,7 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 // -----------------------------------------------------------------------------------//
-public abstract class OptionsPane extends BorderPane implements PreferenceChangeListener
+public abstract class OptionsPane extends BorderPane
 // -----------------------------------------------------------------------------------//
 {
   Button okButton = getButton ("OK");

@@ -3,25 +3,18 @@ package com.bytezone.diskbrowser2.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bytezone.appbase.DataLayout;
 import com.bytezone.appbase.DataPane;
-import com.bytezone.appleformat.assembler.AssemblerPreferences;
-
-import javafx.geometry.HPos;
-import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
+import com.bytezone.appleformat.graphics.GraphicsPreferences;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsPane2Assembler extends DataPane
+public class OptionsPane2Graphics extends DataPane
 // -----------------------------------------------------------------------------------//
 {
-  private CheckBox[] checkBoxes;
-
-  AssemblerPreferences assemblerPreferences;
+  GraphicsPreferences graphicsPreferences;
   List<PreferenceChangeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
-  public OptionsPane2Assembler ()
+  public OptionsPane2Graphics ()
   // ---------------------------------------------------------------------------------//
   {
     super (2, 5, 20);                         // columns, rows, row height
@@ -29,11 +22,11 @@ public class OptionsPane2Assembler extends DataPane
     setColumnConstraints (150, 30);           // column widths
     setPadding (defaultInsets);               // only the root pane has insets
 
-    String[] labels = { "Show targets", "Show strings", "Offset from zero" };
-
-    createLabelsVertical (labels, 0, 0, HPos.RIGHT);
-    checkBoxes =
-        createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER, true));
+    //    String[] labels = { "Show targets", "Show strings", "Offset from zero" };
+    //
+    //    createLabelsVertical (labels, 0, 0, HPos.RIGHT);
+    //    checkBoxes =
+    //        createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER, true));
   }
 
   // ---------------------------------------------------------------------------------//
@@ -49,6 +42,6 @@ public class OptionsPane2Assembler extends DataPane
   // ---------------------------------------------------------------------------------//
   {
     for (PreferenceChangeListener listener : listeners)
-      listener.preferenceChanged (assemblerPreferences);
+      listener.preferenceChanged (graphicsPreferences);
   }
 }

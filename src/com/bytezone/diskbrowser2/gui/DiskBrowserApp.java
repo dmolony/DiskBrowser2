@@ -101,6 +101,11 @@ public class DiskBrowserApp extends AppBase
     outputTabPane.addTabChangeListener (viewMenu);
     extrasTabPane.addTabChangeListener (extrasHeaderBar);
 
+    // preference change listeners
+    extrasTabPane.optionsTab.addListener (outputTabPane.outputTab);
+    extrasTabPane.optionsTab.addListener (outputTabPane.graphicsTab);
+    extrasTabPane.optionsTab.addListener (outputTabPane.extrasTab);
+
     // add menus
     menuBar.getMenus ().addAll (fileMenu, viewMenu);
 

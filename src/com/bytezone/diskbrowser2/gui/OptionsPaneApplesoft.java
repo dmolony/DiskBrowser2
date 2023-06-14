@@ -1,6 +1,5 @@
 package com.bytezone.diskbrowser2.gui;
 
-import com.bytezone.appleformat.Preferences;
 import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
 
 import javafx.scene.layout.Pane;
@@ -28,14 +27,5 @@ public class OptionsPaneApplesoft extends OptionsPane
     optionsPane2Applesoft = new OptionsPane2Applesoft ();
 
     return optionsPane2Applesoft;
-  }
-
-  // ---------------------------------------------------------------------------------//
-  @Override
-  public void preferenceChanged (Preferences preferences)
-  // ---------------------------------------------------------------------------------//
-  {
-    if (preferences instanceof ApplesoftBasicPreferences basicPreferences)
-      System.out.println (basicPreferences);
   }
 }

@@ -1,7 +1,11 @@
 package com.bytezone.diskbrowser2.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bytezone.appbase.DataLayout;
 import com.bytezone.appbase.DataPane;
+import com.bytezone.appleformat.text.TextPreferences;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -12,6 +16,9 @@ public class OptionsPane2Text extends DataPane
 // -----------------------------------------------------------------------------------//
 {
   private CheckBox[] checkBoxes;
+
+  TextPreferences textPreferences;
+  List<PreferenceChangeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
   public OptionsPane2Text ()
@@ -27,5 +34,21 @@ public class OptionsPane2Text extends DataPane
     createLabelsVertical (labels, 0, 0, HPos.RIGHT);
     checkBoxes =
         createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER, true));
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void addListener (PreferenceChangeListener listener)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (!listeners.contains (listener))
+      listeners.add (listener);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void notifyListeners ()
+  // ---------------------------------------------------------------------------------//
+  {
+    for (PreferenceChangeListener listener : listeners)
+      listener.preferenceChanged (textPreferences);
   }
 }

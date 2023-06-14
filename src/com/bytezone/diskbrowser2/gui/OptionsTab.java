@@ -9,12 +9,6 @@ import javafx.scene.input.KeyCode;
 public class OptionsTab extends DBOptionsTab
 // -----------------------------------------------------------------------------------//
 {
-  //  ApplesoftBasicPreferences applesoftBasicPreferences =
-  //      ApplesoftBasicProgram.basicPreferences;
-  //  GraphicsPreferences graphicsPreferences = Graphics.graphicsPreferences;
-  //  AssemblerPreferences assemblerPreferences = AssemblerProgram.assemblerPreferences;
-  //  TextPreferences textPreferences = Text.textPreferences;
-
   OptionsPaneApplesoft optionsPaneApplesoft =
       new OptionsPaneApplesoft (FormattedAppleFileFactory.basicPreferences);
   OptionsPaneGraphics optionsPaneGraphics =
@@ -139,6 +133,16 @@ public class OptionsTab extends DBOptionsTab
         System.out.println ("no options for FS type: " + appleFile.getFileSystemType ());
         break;
     }
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void addListener (PreferenceChangeListener listener)
+  // ---------------------------------------------------------------------------------//
+  {
+    optionsPaneApplesoft.optionsPane2Applesoft.addListener (listener);
+    optionsPaneAssembler.optionsPane2Assembler.addListener (listener);
+    optionsPaneGraphics.optionsPane2Graphics.addListener (listener);
+    optionsPaneText.optionsPane2Text.addListener (listener);
   }
 
   // ---------------------------------------------------------------------------------//

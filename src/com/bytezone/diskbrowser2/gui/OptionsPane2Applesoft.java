@@ -1,5 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.appbase.DataLayout;
@@ -24,7 +25,7 @@ public class OptionsPane2Applesoft extends DataPane
   private RadioButton[] radioButtons;
 
   ApplesoftBasicPreferences applesoftBasicPreferences;
-  List<PreferenceChangeListener> listeners;
+  List<PreferenceChangeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
   public OptionsPane2Applesoft ()

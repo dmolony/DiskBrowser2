@@ -14,7 +14,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsPaneApplesoft extends OptionsPane2
+public class OptionsPaneApplesoft extends PreferencesPane
 // -----------------------------------------------------------------------------------//
 {
   private CheckBox[] checkBoxes1;
@@ -28,7 +28,7 @@ public class OptionsPaneApplesoft extends OptionsPane2
   public OptionsPaneApplesoft ()
   // ---------------------------------------------------------------------------------//
   {
-    super (2, 20, 20);                        // columns, rows, row height
+    super (2, 20);                            // columns, rows
 
     setColumnConstraints (150, 30);           // column widths
     setPadding (defaultInsets);               // only the root pane has insets
@@ -53,7 +53,7 @@ public class OptionsPaneApplesoft extends OptionsPane2
       }
     });
 
-    String[] labels1 = { "Split REM", "Split DIM", "Align assign", "Show caret",
+    String[] labels1 = { "Split REM", "Split DIM", "Align assign", "Show THEN",
         "Blank after RETURN", "Format REM", "Delete extra DATA space" };
 
     String[] labels2 = { "Show symbols", "Show duplicate symbols", "Show functions",
@@ -71,7 +71,7 @@ public class OptionsPaneApplesoft extends OptionsPane2
     for (CheckBox checkBox : checkBoxes2)
       checkBox.selectedProperty ().addListener (this::changeListener2);
 
-    set (applesoftBasicPreferences);
+    set ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -82,7 +82,7 @@ public class OptionsPaneApplesoft extends OptionsPane2
     applesoftBasicPreferences.splitRem = checkBoxes1[0].isSelected ();
     applesoftBasicPreferences.splitDim = checkBoxes1[1].isSelected ();
     applesoftBasicPreferences.alignAssign = checkBoxes1[2].isSelected ();
-    applesoftBasicPreferences.showCaret = checkBoxes1[3].isSelected ();
+    applesoftBasicPreferences.showThen = checkBoxes1[3].isSelected ();
     applesoftBasicPreferences.blankAfterReturn = checkBoxes1[4].isSelected ();
     applesoftBasicPreferences.formatRem = checkBoxes1[5].isSelected ();
     applesoftBasicPreferences.deleteExtraDataSpace = checkBoxes1[6].isSelected ();
@@ -106,11 +106,9 @@ public class OptionsPaneApplesoft extends OptionsPane2
   }
 
   // ---------------------------------------------------------------------------------//
-  void set (ApplesoftBasicPreferences applesoftBasicPreferences)
+  void set ()
   // ---------------------------------------------------------------------------------//
   {
-    this.applesoftBasicPreferences = applesoftBasicPreferences;
-
     if (applesoftBasicPreferences.appleLineWrap)
       radioButtons[0].setSelected (true);
     else if (applesoftBasicPreferences.userFormat)
@@ -121,8 +119,8 @@ public class OptionsPaneApplesoft extends OptionsPane2
     checkBoxes1[0].setSelected (applesoftBasicPreferences.splitRem);
     checkBoxes1[1].setSelected (applesoftBasicPreferences.splitDim);
     checkBoxes1[2].setSelected (applesoftBasicPreferences.alignAssign);
-    checkBoxes1[3].setSelected (applesoftBasicPreferences.showCaret);
-    //    checkBoxes1[4].setSelected (applesoftBasicPreferences.showThen);
+    //    checkBoxes1[3].setSelected (applesoftBasicPreferences.showCaret);
+    checkBoxes1[3].setSelected (applesoftBasicPreferences.showThen);
     checkBoxes1[4].setSelected (applesoftBasicPreferences.blankAfterReturn);
     checkBoxes1[5].setSelected (applesoftBasicPreferences.formatRem);
     checkBoxes1[6].setSelected (applesoftBasicPreferences.deleteExtraDataSpace);

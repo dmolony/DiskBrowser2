@@ -6,7 +6,7 @@ import javafx.scene.input.KeyCode;
 public class OptionsTab extends DBOptionsTab
 // -----------------------------------------------------------------------------------//
 {
-  OptionsPane2[] optionPanes = { new OptionsPaneApplesoft (), new OptionsPaneAssembler (),
+  PreferencesPane[] optionPanes = { new OptionsPaneApplesoft (), new OptionsPaneAssembler (),
       new OptionsPaneGraphics (), new OptionsPaneText () };
 
   OptionsPane optionsPaneApplesoft = new OptionsPane (optionPanes[0]);
@@ -53,7 +53,7 @@ public class OptionsTab extends DBOptionsTab
   void addListener (PreferenceChangeListener listener)
   // ---------------------------------------------------------------------------------//
   {
-    for (OptionsPane2 optionPane : optionPanes)
+    for (PreferencesPane optionPane : optionPanes)
       optionPane.addListener (listener);
   }
 

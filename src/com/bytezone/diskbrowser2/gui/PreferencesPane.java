@@ -7,16 +7,16 @@ import com.bytezone.appbase.DataPane;
 import com.bytezone.appleformat.Preferences;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsPane2 extends DataPane
+public class PreferencesPane extends DataPane
 // -----------------------------------------------------------------------------------//
 {
   List<PreferenceChangeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
-  public OptionsPane2 (int columns, int rows, int rowHeight)
+  public PreferencesPane (int columns, int rows)
   // ---------------------------------------------------------------------------------//
   {
-    super (columns, rows, rowHeight);
+    super (columns, rows, 20);                // row height
   }
 
   // ---------------------------------------------------------------------------------//

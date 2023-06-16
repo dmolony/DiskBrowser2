@@ -10,10 +10,10 @@ public class OptionsPane extends BorderPane
 {
   Button okButton = getButton ("OK");
   Button cancelButton = getButton ("Cancel");
-  OptionsPane2 optionsPane;
+  PreferencesPane optionsPane;
 
   // ---------------------------------------------------------------------------------//
-  public OptionsPane (OptionsPane2 optionsPane)
+  public OptionsPane (PreferencesPane optionsPane)
   // ---------------------------------------------------------------------------------//
   {
     this.optionsPane = optionsPane;

@@ -9,7 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsPaneText extends OptionsPane2
+public class OptionsPaneText extends PreferencesPane
 // -----------------------------------------------------------------------------------//
 {
   private CheckBox[] checkBoxes;
@@ -20,7 +20,7 @@ public class OptionsPaneText extends OptionsPane2
   public OptionsPaneText ()
   // ---------------------------------------------------------------------------------//
   {
-    super (2, 5, 20);                         // columns, rows, row height
+    super (2, 5);                             // columns, rows
 
     setColumnConstraints (150, 30);           // column widths
     setPadding (defaultInsets);               // only the root pane has insets

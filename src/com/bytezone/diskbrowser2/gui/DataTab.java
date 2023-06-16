@@ -22,7 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-class OutputTab extends DBTextTab
+class DataTab extends DBTextTab
     implements FilterChangeListener, OutputWriter, PreferenceChangeListener
 // -----------------------------------------------------------------------------------//
 {
@@ -37,28 +37,28 @@ class OutputTab extends DBTextTab
       FormattedAppleFileFactory.assemblerPreferences;
 
   private FormattedAppleFile formattedAppleFile;
-  AppleTreeItem appleTreeItem;
-  AppleTreeFile treeFile;
-  AppleFile appleFile;
-  AppleFileSystem appleFileSystem;
+  private AppleTreeItem appleTreeItem;
+  private AppleTreeFile treeFile;
+  private AppleFile appleFile;
+  private AppleFileSystem appleFileSystem;
 
   // ---------------------------------------------------------------------------------//
-  public OutputTab (String title, KeyCode keyCode)
+  public DataTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
 
-    basicPreferences.alignAssign = true;
-    basicPreferences.showAllXref = true;
-    basicPreferences.showGosubGoto = true;
-    basicPreferences.showCalls = true;
-    basicPreferences.showSymbols = true;
-    basicPreferences.showFunctions = true;
-    basicPreferences.showConstants = true;
-    basicPreferences.showDuplicateSymbols = true;
+    //    basicPreferences.alignAssign = true;
+    //    basicPreferences.showAllXref = true;
+    //    basicPreferences.showGosubGoto = true;
+    //    basicPreferences.showCalls = true;
+    //    basicPreferences.showSymbols = true;
+    //    basicPreferences.showFunctions = true;
+    //    basicPreferences.showConstants = true;
+    //    basicPreferences.showDuplicateSymbols = true;
 
-    assemblerPreferences.showStrings = false;
-    assemblerPreferences.showTargets = false;
+    //    assemblerPreferences.showStrings = false;
+    //    assemblerPreferences.showTargets = false;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -143,14 +143,14 @@ class OutputTab extends DBTextTab
   public void preferenceChanged (Preferences preferences)
   // ---------------------------------------------------------------------------------//
   {
-    if (preferences instanceof GraphicsPreferences graphicsPreferences)
-      System.out.println (graphicsPreferences);
-    if (preferences instanceof ApplesoftBasicPreferences basicPreferences)
-      System.out.println (basicPreferences);
-    if (preferences instanceof AssemblerPreferences assemblerPreferences)
-      System.out.println (assemblerPreferences);
-    if (preferences instanceof TextPreferences textPreferences)
-      System.out.println (textPreferences);
+    //    if (preferences instanceof GraphicsPreferences graphicsPreferences)
+    //      System.out.println (graphicsPreferences);
+    //    if (preferences instanceof ApplesoftBasicPreferences basicPreferences)
+    //      System.out.println (basicPreferences);
+    //    if (preferences instanceof AssemblerPreferences assemblerPreferences)
+    //      System.out.println (assemblerPreferences);
+    //    if (preferences instanceof TextPreferences textPreferences)
+    //      System.out.println (textPreferences);
 
     refresh ();
   }

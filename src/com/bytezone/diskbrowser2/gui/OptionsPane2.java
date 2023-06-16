@@ -4,29 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.appbase.DataPane;
-import com.bytezone.appleformat.graphics.GraphicsPreferences;
+import com.bytezone.appleformat.Preferences;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsPane2Graphics extends DataPane
+public class OptionsPane2 extends DataPane
 // -----------------------------------------------------------------------------------//
 {
-  GraphicsPreferences graphicsPreferences;
   List<PreferenceChangeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
-  public OptionsPane2Graphics ()
+  public OptionsPane2 (int columns, int rows, int rowHeight)
   // ---------------------------------------------------------------------------------//
   {
-    super (2, 5, 20);                         // columns, rows, row height
-
-    setColumnConstraints (150, 30);           // column widths
-    setPadding (defaultInsets);               // only the root pane has insets
-
-    //    String[] labels = { "Show targets", "Show strings", "Offset from zero" };
-    //
-    //    createLabelsVertical (labels, 0, 0, HPos.RIGHT);
-    //    checkBoxes =
-    //        createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER, true));
+    super (columns, rows, rowHeight);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -38,10 +28,10 @@ public class OptionsPane2Graphics extends DataPane
   }
 
   // ---------------------------------------------------------------------------------//
-  void notifyListeners ()
+  void notifyListeners (Preferences preferences)
   // ---------------------------------------------------------------------------------//
   {
     for (PreferenceChangeListener listener : listeners)
-      listener.preferenceChanged (graphicsPreferences);
+      listener.preferenceChanged (preferences);
   }
 }

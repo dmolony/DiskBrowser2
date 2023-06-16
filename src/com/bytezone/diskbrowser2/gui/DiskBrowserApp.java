@@ -87,7 +87,7 @@ public class DiskBrowserApp extends AppBase
 
     // filter change listeners (filter parameters)
     filterManager.addFilterListener (dbStatusBar);
-    filterManager.addFilterListener (outputTabPane.outputTab);
+    filterManager.addFilterListener (outputTabPane.dataTab);
     filterManager.addFilterListener (viewMenu);
 
     // treeview listeners
@@ -102,14 +102,14 @@ public class DiskBrowserApp extends AppBase
     extrasTabPane.addTabChangeListener (extrasHeaderBar);
 
     // preference change listeners
-    extrasTabPane.optionsTab.addListener (outputTabPane.outputTab);
+    extrasTabPane.optionsTab.addListener (outputTabPane.dataTab);
     extrasTabPane.optionsTab.addListener (outputTabPane.graphicsTab);
     extrasTabPane.optionsTab.addListener (outputTabPane.extrasTab);
 
     // add menus
     menuBar.getMenus ().addAll (fileMenu, viewMenu);
 
-    fileMenu.setOutputWriter (outputTabPane.outputTab);
+    fileMenu.setOutputWriter (outputTabPane.dataTab);
 
     saveStateList.addAll (Arrays.asList (   //
         filterManager, outputTabPane, extrasTabPane, fileMenu, appleTree, fontManager));

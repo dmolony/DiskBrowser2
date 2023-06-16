@@ -3,26 +3,28 @@ package com.bytezone.diskbrowser2.gui;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 
 // -----------------------------------------------------------------------------------//
-public abstract class OptionsPane extends BorderPane
+public class OptionsPane extends BorderPane
 // -----------------------------------------------------------------------------------//
 {
   Button okButton = getButton ("OK");
   Button cancelButton = getButton ("Cancel");
+  OptionsPane2 optionsPane;
 
   // ---------------------------------------------------------------------------------//
-  public OptionsPane ()
+  public OptionsPane (OptionsPane2 optionsPane)
   // ---------------------------------------------------------------------------------//
   {
+    this.optionsPane = optionsPane;
+
     okButton.setDefaultButton (true);
     cancelButton.setCancelButton (true);
 
     setBottom (okButton);
     setMargin (okButton, new Insets (10, 10, 10, 10));
 
-    setCenter (createPane ());
+    setCenter (optionsPane);
 
     //    scrollPane.setPadding (new Insets (5, 5, 5, 5));
     setStyle ("-fx-background: white;-fx-border-color: lightgray;");
@@ -37,8 +39,4 @@ public abstract class OptionsPane extends BorderPane
 
     return button;
   }
-
-  // ---------------------------------------------------------------------------------//
-  abstract Pane createPane ();
-  // ---------------------------------------------------------------------------------//
 }

@@ -9,7 +9,7 @@ import javafx.scene.input.KeyCode;
 class OutputTabPane extends TabPaneBase implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
-  final OutputTab outputTab = new OutputTab ("Data", KeyCode.D);
+  final DataTab dataTab = new DataTab ("Data", KeyCode.D);
   final GraphicsTab graphicsTab = new GraphicsTab ("Graphics", KeyCode.G);
   final HexTab hexTab = new HexTab ("Hex", KeyCode.H);
   final ExtrasTab extrasTab = new ExtrasTab ("Extras", KeyCode.E);
@@ -21,7 +21,7 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
   {
     super (prefsId);
 
-    add (outputTab);
+    add (dataTab);
     add (graphicsTab);
     add (hexTab);
     add (extrasTab);
@@ -33,7 +33,7 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
   public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    outputTab.setAppleTreeItem (appleTreeItem);
+    dataTab.setAppleTreeItem (appleTreeItem);
     graphicsTab.setAppleTreeItem (appleTreeItem);
     extrasTab.setAppleTreeItem (appleTreeItem);
     hexTab.setAppleTreeItem (appleTreeItem);

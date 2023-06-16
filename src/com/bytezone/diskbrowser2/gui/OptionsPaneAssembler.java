@@ -1,29 +1,35 @@
 package com.bytezone.diskbrowser2.gui;
 
+import com.bytezone.appbase.DataLayout;
+import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.appleformat.assembler.AssemblerPreferences;
 
-import javafx.scene.layout.Pane;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsPaneAssembler extends OptionsPane
+public class OptionsPaneAssembler extends OptionsPane2
 // -----------------------------------------------------------------------------------//
 {
-  AssemblerPreferences assemblerPreferences;
-  OptionsPane2Assembler optionsPane2Assembler;
+  private CheckBox[] checkBoxes;
+
+  AssemblerPreferences assemblerPreferences =
+      FormattedAppleFileFactory.assemblerPreferences;
 
   // ---------------------------------------------------------------------------------//
-  public OptionsPaneAssembler (AssemblerPreferences assemblerPreferences)
+  public OptionsPaneAssembler ()
   // ---------------------------------------------------------------------------------//
   {
-    this.assemblerPreferences = assemblerPreferences;
-  }
+    super (2, 5, 20);                         // columns, rows, row height
 
-  // ---------------------------------------------------------------------------------//
-  @Override
-  Pane createPane ()
-  // ---------------------------------------------------------------------------------//
-  {
-    optionsPane2Assembler = new OptionsPane2Assembler ();
-    return optionsPane2Assembler;
+    setColumnConstraints (150, 30);           // column widths
+    setPadding (defaultInsets);               // only the root pane has insets
+
+    String[] labels = { "Show targets", "Show strings", "Offset from zero" };
+
+    createLabelsVertical (labels, 0, 0, HPos.RIGHT);
+    checkBoxes =
+        createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER, true));
   }
 }

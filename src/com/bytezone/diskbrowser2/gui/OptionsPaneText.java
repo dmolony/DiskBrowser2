@@ -1,29 +1,34 @@
 package com.bytezone.diskbrowser2.gui;
 
+import com.bytezone.appbase.DataLayout;
+import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.appleformat.text.TextPreferences;
 
-import javafx.scene.layout.Pane;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 
-//-----------------------------------------------------------------------------------//
-public class OptionsPaneText extends OptionsPane
-//-----------------------------------------------------------------------------------//
+// -----------------------------------------------------------------------------------//
+public class OptionsPaneText extends OptionsPane2
+// -----------------------------------------------------------------------------------//
 {
-  TextPreferences textPreferences;
-  OptionsPane2Text optionsPane2Text;
+  private CheckBox[] checkBoxes;
+
+  TextPreferences textPreferences = FormattedAppleFileFactory.textPreferences;
 
   // ---------------------------------------------------------------------------------//
-  public OptionsPaneText (TextPreferences textPreferences)
+  public OptionsPaneText ()
   // ---------------------------------------------------------------------------------//
   {
-    this.textPreferences = textPreferences;
-  }
+    super (2, 5, 20);                         // columns, rows, row height
 
-  // ---------------------------------------------------------------------------------//
-  @Override
-  Pane createPane ()
-  // ---------------------------------------------------------------------------------//
-  {
-    optionsPane2Text = new OptionsPane2Text ();
-    return optionsPane2Text;
+    setColumnConstraints (150, 30);           // column widths
+    setPadding (defaultInsets);               // only the root pane has insets
+
+    String[] labels = { "Show offsets", "Show .S as Merlin" };
+
+    createLabelsVertical (labels, 0, 0, HPos.RIGHT);
+    checkBoxes =
+        createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER, true));
   }
 }

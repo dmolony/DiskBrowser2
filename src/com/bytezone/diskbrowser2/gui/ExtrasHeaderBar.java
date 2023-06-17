@@ -1,8 +1,8 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.TabChangeListener;
+import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.FormattedAppleFile;
-import com.bytezone.appleformat.Preferences;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
@@ -50,7 +50,7 @@ public class ExtrasHeaderBar extends HeaderBar
 
       if (formattedAppleFile != null)
       {
-        Preferences preferences = formattedAppleFile.getPreferences ();
+        ApplePreferences preferences = formattedAppleFile.getPreferences ();
         if (preferences != null)
           leftLabel.setText (preferences.getName ());
         else

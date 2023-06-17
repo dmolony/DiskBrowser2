@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
+import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.diskbrowser2.gui.FilterPanel.FilterListener;
 
 import javafx.scene.control.TreeItem;
@@ -32,14 +33,14 @@ class TreePane extends BorderPane implements FilterListener
   private FilterPanel filterPanel;
 
   // ---------------------------------------------------------------------------------//
-  public TreePane (File rootFolder)
+  public TreePane (File rootFolder, FormattedAppleFileFactory formattedAppleFileFactory)
   // ---------------------------------------------------------------------------------//
   {
     this.rootFolder = rootFolder;
 
     root = createTreeRoot ();           // creates an AppleTreeItem from the root folder
     createTree (root);                  // adds all the tree nodes to the root
-    tree = new AppleTreeView (root);    // creates the actual tree
+    tree = new AppleTreeView (root, formattedAppleFileFactory); // creates the actual tree
 
     setCenter (tree);
 

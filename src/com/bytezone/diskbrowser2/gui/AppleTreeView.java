@@ -24,8 +24,8 @@ class AppleTreeView extends TreeView<AppleTreeFile>
 // ---------------------------------------------------------------------------------//
 {
   static FileSystemFactory fileSystemFactory = new FileSystemFactory ();
-  static FormattedAppleFileFactory formattedAppleFileFactory =
-      new FormattedAppleFileFactory ();
+  static FormattedAppleFileFactory formattedAppleFileFactory;
+  //      new FormattedAppleFileFactory (prefs);
 
   private static final String PREFS_LAST_PATH = "LastPath";
   private static String SEPARATOR = "|";
@@ -36,10 +36,12 @@ class AppleTreeView extends TreeView<AppleTreeFile>
   private final List<TreeNodeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
-  AppleTreeView (AppleTreeItem root)
+  AppleTreeView (AppleTreeItem root, FormattedAppleFileFactory formattedAppleFileFactory)
   // ---------------------------------------------------------------------------------//
   {
     super (root);
+
+    AppleTreeView.formattedAppleFileFactory = formattedAppleFileFactory;
 
     model = getSelectionModel ();
     model.selectedItemProperty ()

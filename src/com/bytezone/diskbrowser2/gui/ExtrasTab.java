@@ -3,8 +3,8 @@ package com.bytezone.diskbrowser2.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.FormattedAppleFile;
-import com.bytezone.appleformat.Preferences;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
@@ -51,7 +51,7 @@ public class ExtrasTab extends DBTextTab implements PreferenceChangeListener
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void preferenceChanged (Preferences preferences)
+  public void preferenceChanged (ApplePreferences preferences)
   // ---------------------------------------------------------------------------------//
   {
     refresh ();

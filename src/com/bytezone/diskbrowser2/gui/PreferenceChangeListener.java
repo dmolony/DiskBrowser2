@@ -1,10 +1,10 @@
 package com.bytezone.diskbrowser2.gui;
 
-import com.bytezone.appleformat.Preferences;
+import com.bytezone.appleformat.ApplePreferences;
 
 // -----------------------------------------------------------------------------------//
 public interface PreferenceChangeListener
 // -----------------------------------------------------------------------------------//
 {
-  void preferenceChanged (Preferences preference);
+  void preferenceChanged (ApplePreferences preference);
 }

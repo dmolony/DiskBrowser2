@@ -30,11 +30,13 @@ public class OptionsPaneApplesoft extends PreferencesPane
   {
     super (2, 20);                            // columns, rows
 
-    setColumnConstraints (150, 30);           // column widths
+    setColumnConstraints (160, 30);           // column widths
     setPadding (defaultInsets);               // only the root pane has insets
     //    setGridLinesVisible (true);
 
-    String[] labels0 = { "Apple format", "No format", "User format" };
+    assert applesoftBasicPreferences != null;
+
+    String[] labels0 = { "No format", "User format", "40 column Apple format" };
     DataLayout dataLayout = new DataLayout (0, 1, labels0);
     radioButtons = createRadioButtons (dataLayout);
     ToggleGroup toggleGroup = radioButtons[0].getToggleGroup ();
@@ -46,15 +48,20 @@ public class OptionsPaneApplesoft extends PreferencesPane
       {
         if (toggleGroup.getSelectedToggle () != null)
         {
-          applesoftBasicPreferences.appleLineWrap = radioButtons[0].isSelected ();
-          applesoftBasicPreferences.userFormat = radioButtons[2].isSelected ();
+          for (int i = 0; i < labels0.length; i++)
+            if (radioButtons[i].isSelected ())
+            {
+              applesoftBasicPreferences.displayFormat = i;
+              break;
+            }
           notifyListeners (applesoftBasicPreferences);
         }
       }
     });
 
-    String[] labels1 = { "Split REM", "Split DIM", "Align assign", "Show THEN",
-        "Blank after RETURN", "Format REM", "Delete extra DATA space" };
+    String[] labels1 =
+        { "Split REM", "Split DIM", "Align assign", "Show caret", "Show THEN after IF",
+            "Blank after RETURN", "Format REM", "Delete extra DATA space" };
 
     String[] labels2 = { "Show symbols", "Show duplicate symbols", "Show functions",
         "Show constants", "Show GOTO/GOSUB", "Show CALL" };
@@ -62,16 +69,18 @@ public class OptionsPaneApplesoft extends PreferencesPane
     createLabelsVertical (labels1, 0, 5, HPos.RIGHT);
     checkBoxes1 =
         createCheckBoxes (new DataLayout (1, 5, labels1.length, Pos.CENTER, true));
-    for (CheckBox checkBox : checkBoxes1)
-      checkBox.selectedProperty ().addListener (this::changeListener1);
 
     createLabelsVertical (labels2, 0, 15, HPos.RIGHT);
     checkBoxes2 =
         createCheckBoxes (new DataLayout (1, 15, labels2.length, Pos.CENTER, true));
-    for (CheckBox checkBox : checkBoxes2)
-      checkBox.selectedProperty ().addListener (this::changeListener2);
 
     set ();
+
+    for (CheckBox checkBox : checkBoxes1)
+      checkBox.selectedProperty ().addListener (this::changeListener1);
+
+    for (CheckBox checkBox : checkBoxes2)
+      checkBox.selectedProperty ().addListener (this::changeListener2);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -82,10 +91,11 @@ public class OptionsPaneApplesoft extends PreferencesPane
     applesoftBasicPreferences.splitRem = checkBoxes1[0].isSelected ();
     applesoftBasicPreferences.splitDim = checkBoxes1[1].isSelected ();
     applesoftBasicPreferences.alignAssign = checkBoxes1[2].isSelected ();
-    applesoftBasicPreferences.showThen = checkBoxes1[3].isSelected ();
-    applesoftBasicPreferences.blankAfterReturn = checkBoxes1[4].isSelected ();
-    applesoftBasicPreferences.formatRem = checkBoxes1[5].isSelected ();
-    applesoftBasicPreferences.deleteExtraDataSpace = checkBoxes1[6].isSelected ();
+    applesoftBasicPreferences.showCaret = checkBoxes1[3].isSelected ();
+    applesoftBasicPreferences.showThen = checkBoxes1[4].isSelected ();
+    applesoftBasicPreferences.blankAfterReturn = checkBoxes1[5].isSelected ();
+    applesoftBasicPreferences.formatRem = checkBoxes1[6].isSelected ();
+    applesoftBasicPreferences.deleteExtraDataSpace = checkBoxes1[7].isSelected ();
 
     notifyListeners (applesoftBasicPreferences);
   }
@@ -109,21 +119,16 @@ public class OptionsPaneApplesoft extends PreferencesPane
   void set ()
   // ---------------------------------------------------------------------------------//
   {
-    if (applesoftBasicPreferences.appleLineWrap)
-      radioButtons[0].setSelected (true);
-    else if (applesoftBasicPreferences.userFormat)
-      radioButtons[2].setSelected (true);
-    else
-      radioButtons[1].setSelected (true);
+    radioButtons[applesoftBasicPreferences.displayFormat].setSelected (true);
 
     checkBoxes1[0].setSelected (applesoftBasicPreferences.splitRem);
     checkBoxes1[1].setSelected (applesoftBasicPreferences.splitDim);
     checkBoxes1[2].setSelected (applesoftBasicPreferences.alignAssign);
-    //    checkBoxes1[3].setSelected (applesoftBasicPreferences.showCaret);
-    checkBoxes1[3].setSelected (applesoftBasicPreferences.showThen);
-    checkBoxes1[4].setSelected (applesoftBasicPreferences.blankAfterReturn);
-    checkBoxes1[5].setSelected (applesoftBasicPreferences.formatRem);
-    checkBoxes1[6].setSelected (applesoftBasicPreferences.deleteExtraDataSpace);
+    checkBoxes1[3].setSelected (applesoftBasicPreferences.showCaret);
+    checkBoxes1[4].setSelected (applesoftBasicPreferences.showThen);
+    checkBoxes1[5].setSelected (applesoftBasicPreferences.blankAfterReturn);
+    checkBoxes1[6].setSelected (applesoftBasicPreferences.formatRem);
+    checkBoxes1[7].setSelected (applesoftBasicPreferences.deleteExtraDataSpace);
 
     checkBoxes2[0].setSelected (applesoftBasicPreferences.showSymbols);
     checkBoxes2[1].setSelected (applesoftBasicPreferences.showDuplicateSymbols);

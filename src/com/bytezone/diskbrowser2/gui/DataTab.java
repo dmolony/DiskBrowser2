@@ -8,13 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.appbase.AppBase;
+import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.FormattedAppleFile;
-import com.bytezone.appleformat.FormattedAppleFileFactory;
-import com.bytezone.appleformat.Preferences;
-import com.bytezone.appleformat.assembler.AssemblerPreferences;
-import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
-import com.bytezone.appleformat.graphics.GraphicsPreferences;
-import com.bytezone.appleformat.text.TextPreferences;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
@@ -28,14 +23,6 @@ class DataTab extends DBTextTab
 {
   private static final int MAX_LINES = 2500;
 
-  private ApplesoftBasicPreferences basicPreferences =
-      FormattedAppleFileFactory.basicPreferences;
-  private TextPreferences textPreferences = FormattedAppleFileFactory.textPreferences;
-  private GraphicsPreferences graphicsPreferences =
-      FormattedAppleFileFactory.graphicsPreferences;
-  private AssemblerPreferences assemblerPreferences =
-      FormattedAppleFileFactory.assemblerPreferences;
-
   private FormattedAppleFile formattedAppleFile;
   private AppleTreeItem appleTreeItem;
   private AppleTreeFile treeFile;
@@ -47,18 +34,6 @@ class DataTab extends DBTextTab
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
-
-    //    basicPreferences.alignAssign = true;
-    //    basicPreferences.showAllXref = true;
-    //    basicPreferences.showGosubGoto = true;
-    //    basicPreferences.showCalls = true;
-    //    basicPreferences.showSymbols = true;
-    //    basicPreferences.showFunctions = true;
-    //    basicPreferences.showConstants = true;
-    //    basicPreferences.showDuplicateSymbols = true;
-
-    //    assemblerPreferences.showStrings = false;
-    //    assemblerPreferences.showTargets = false;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -140,18 +115,9 @@ class DataTab extends DBTextTab
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void preferenceChanged (Preferences preferences)
+  public void preferenceChanged (ApplePreferences preferences)
   // ---------------------------------------------------------------------------------//
   {
-    //    if (preferences instanceof GraphicsPreferences graphicsPreferences)
-    //      System.out.println (graphicsPreferences);
-    //    if (preferences instanceof ApplesoftBasicPreferences basicPreferences)
-    //      System.out.println (basicPreferences);
-    //    if (preferences instanceof AssemblerPreferences assemblerPreferences)
-    //      System.out.println (assemblerPreferences);
-    //    if (preferences instanceof TextPreferences textPreferences)
-    //      System.out.println (textPreferences);
-
     refresh ();
   }
 }

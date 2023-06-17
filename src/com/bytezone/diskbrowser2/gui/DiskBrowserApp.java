@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.AppBase;
+import com.bytezone.appbase.SaveState;
 import com.bytezone.appbase.StageManager;
 import com.bytezone.appbase.StatusBar;
+import com.bytezone.appleformat.FormattedAppleFileFactory;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,7 +22,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 // -----------------------------------------------------------------------------------//
-public class DiskBrowserApp extends AppBase
+public class DiskBrowserApp extends AppBase implements SaveState
 // -----------------------------------------------------------------------------------//
 {
   private static final String PREFS_ROOT_FOLDER = "RootFolder";
@@ -28,6 +30,9 @@ public class DiskBrowserApp extends AppBase
   private File rootFolder;
 
   private AppleTreeView appleTree;
+
+  FormattedAppleFileFactory formattedAppleFileFactory =
+      new FormattedAppleFileFactory (getPreferences ());
 
   // set three panes for the split pane
   private final SplitPane splitPane = new SplitPane ();
@@ -63,7 +68,7 @@ public class DiskBrowserApp extends AppBase
     // get root folder
     validateRootFolderOrExit ();
 
-    treePane = new TreePane (rootFolder);
+    treePane = new TreePane (rootFolder, formattedAppleFileFactory);
     appleTree = treePane.getTree ();
 
     OutputHeaderBar outputHeaderBar = new OutputHeaderBar ();
@@ -112,7 +117,8 @@ public class DiskBrowserApp extends AppBase
     fileMenu.setOutputWriter (outputTabPane.dataTab);
 
     saveStateList.addAll (Arrays.asList (   //
-        filterManager, outputTabPane, extrasTabPane, fileMenu, appleTree, fontManager));
+        filterManager, outputTabPane, extrasTabPane, fileMenu, appleTree, fontManager,
+        this));
 
     return splitPane;
   }
@@ -265,5 +271,20 @@ public class DiskBrowserApp extends AppBase
   // ---------------------------------------------------------------------------------//
   {
     Application.launch (args);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void save (Preferences prefs)
+  // ---------------------------------------------------------------------------------//
+  {
+    formattedAppleFileFactory.save ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void restore (Preferences prefs)
+  // ---------------------------------------------------------------------------------//
+  {
   }
 }

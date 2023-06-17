@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.appbase.DataPane;
-import com.bytezone.appleformat.Preferences;
+import com.bytezone.appleformat.ApplePreferences;
 
 // -----------------------------------------------------------------------------------//
 public class PreferencesPane extends DataPane
@@ -28,7 +28,7 @@ public class PreferencesPane extends DataPane
   }
 
   // ---------------------------------------------------------------------------------//
-  void notifyListeners (Preferences preferences)
+  void notifyListeners (ApplePreferences preferences)
   // ---------------------------------------------------------------------------------//
   {
     for (PreferenceChangeListener listener : listeners)

@@ -1,7 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
+import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.FormattedAppleFile;
-import com.bytezone.appleformat.Preferences;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
@@ -75,18 +75,9 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void preferenceChanged (Preferences preferences)
+  public void preferenceChanged (ApplePreferences preferences)
   // ---------------------------------------------------------------------------------//
   {
-    //    if (preferences instanceof GraphicsPreferences graphicsPreferences)
-    //      System.out.println (graphicsPreferences);
-    //    if (preferences instanceof ApplesoftBasicPreferences basicPreferences)
-    //      System.out.println (basicPreferences);
-    //    if (preferences instanceof AssemblerPreferences assemblerPreferences)
-    //      System.out.println (assemblerPreferences);
-    //    if (preferences instanceof TextPreferences textPreferences)
-    //      System.out.println (textPreferences);
-
     refresh ();
   }
 }

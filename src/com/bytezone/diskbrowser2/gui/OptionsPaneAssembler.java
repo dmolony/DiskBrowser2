@@ -32,10 +32,11 @@ public class OptionsPaneAssembler extends PreferencesPane
     createLabelsVertical (labels, 0, 0, HPos.RIGHT);
     checkBoxes =
         createCheckBoxes (new DataLayout (1, 0, labels.length, Pos.CENTER, true));
-    for (CheckBox checkBox : checkBoxes)
-      checkBox.selectedProperty ().addListener (this::changeListener1);
 
     set ();
+
+    for (CheckBox checkBox : checkBoxes)
+      checkBox.selectedProperty ().addListener (this::changeListener1);
   }
 
   // ---------------------------------------------------------------------------------//

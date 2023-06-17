@@ -74,7 +74,7 @@ public class OptionsPaneApplesoft extends PreferencesPane
     checkBoxes2 =
         createCheckBoxes (new DataLayout (1, 15, labels2.length, Pos.CENTER, true));
 
-    set ();
+    set ();       // must happen before the listener is added because java is brain-dead
 
     for (CheckBox checkBox : checkBoxes1)
       checkBox.selectedProperty ().addListener (this::changeListener1);

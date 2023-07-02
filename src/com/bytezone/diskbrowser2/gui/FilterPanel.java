@@ -8,9 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 
 // -----------------------------------------------------------------------------------//
@@ -18,7 +16,7 @@ public class FilterPanel extends VBox
 // -----------------------------------------------------------------------------------//
 {
   private List<CheckBox> checkBoxes = new ArrayList<> ();
-  final ToggleGroup group = new ToggleGroup ();
+  //  final ToggleGroup group = new ToggleGroup ();
   private final Label labelFilter = new Label ("Filter");
   private final List<FilterListener> listeners = new ArrayList<> ();
   private String filterValue = "";
@@ -30,6 +28,7 @@ public class FilterPanel extends VBox
   // ---------------------------------------------------------------------------------//
   {
     super (20);
+    assert false;
 
     totalExtensions = extensionTotals.length;
 
@@ -49,15 +48,15 @@ public class FilterPanel extends VBox
   }
 
   // ---------------------------------------------------------------------------------//
-  public RadioButton addButton (String name)
-  // ---------------------------------------------------------------------------------//
-  {
-    RadioButton button = new RadioButton (name);
-    button.setToggleGroup (group);
-    getChildren ().add (button);
-
-    return button;
-  }
+  //  public RadioButton addButton (String name)
+  //  // ---------------------------------------------------------------------------------//
+  //  {
+  //    RadioButton button = new RadioButton (name);
+  //    button.setToggleGroup (group);
+  //    getChildren ().add (button);
+  //
+  //    return button;
+  //  }
 
   // ---------------------------------------------------------------------------------//
   public CheckBox addCheckBox (String name, boolean enabled)

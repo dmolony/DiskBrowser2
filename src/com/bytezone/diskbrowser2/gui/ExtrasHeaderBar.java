@@ -28,7 +28,7 @@ public class ExtrasHeaderBar extends HeaderBar
       return;
     }
 
-    if (selectedTab instanceof LayoutTab tab)
+    if (selectedTab instanceof DiskLayoutTab tab)
     {
       AppleFileSystem fs = treeFile.getAppleFileSystem ();
       AppleFile file = treeFile.getAppleFile ();
@@ -44,7 +44,7 @@ public class ExtrasHeaderBar extends HeaderBar
       else
         leftLabel.setText ("File System");
     }
-    else if (selectedTab instanceof OptionsTab tab)
+    else if (selectedTab instanceof FileOptionsTab tab)
     {
       FormattedAppleFile formattedAppleFile = treeFile.getFormattedAppleFile ();
 

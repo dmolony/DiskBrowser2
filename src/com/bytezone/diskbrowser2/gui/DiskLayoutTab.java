@@ -5,11 +5,11 @@ import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-public class LayoutTab extends DBGraphicsTab implements TreeNodeListener
+public class DiskLayoutTab extends DBGraphicsTab implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
   // ---------------------------------------------------------------------------------//
-  public LayoutTab (String title, KeyCode keyCode)
+  public DiskLayoutTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);

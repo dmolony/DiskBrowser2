@@ -10,13 +10,12 @@ import java.util.List;
 import java.util.function.Function;
 
 import com.bytezone.appleformat.FormattedAppleFileFactory;
-import com.bytezone.diskbrowser2.gui.FilterPanel.FilterListener;
 
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.BorderPane;
 
 // -----------------------------------------------------------------------------------//
-class TreePane extends BorderPane implements FilterListener
+class TreePane extends BorderPane //implements FilterListener
 // -----------------------------------------------------------------------------------//
 {
   private final String home = System.getProperty ("user.home");
@@ -30,7 +29,7 @@ class TreePane extends BorderPane implements FilterListener
   private AppleTreeItem root;
   private File rootFolder;
 
-  private FilterPanel filterPanel;
+  //  private FilterPanel filterPanel;
 
   // ---------------------------------------------------------------------------------//
   public TreePane (File rootFolder, FormattedAppleFileFactory formattedAppleFileFactory)
@@ -48,8 +47,8 @@ class TreePane extends BorderPane implements FilterListener
     setTreeHeaderBarName ();
     showTotals ();
 
-    filterPanel = new FilterPanel (extensionTotals);
-    filterPanel.addListener (this);
+    //    filterPanel = new FilterPanel (extensionTotals);
+    //    filterPanel.addListener (this);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -140,26 +139,26 @@ class TreePane extends BorderPane implements FilterListener
   }
 
   // ---------------------------------------------------------------------------------//
-  FilterPanel getFilterPanel ()
-  // ---------------------------------------------------------------------------------//
-  {
-    return filterPanel;
-  }
+  //  FilterPanel getFilterPanel ()
+  //  // ---------------------------------------------------------------------------------//
+  //  {
+  //    return filterPanel;
+  //  }
 
   // ---------------------------------------------------------------------------------//
-  @Override
-  public void filterChanged ()
-  // ---------------------------------------------------------------------------------//
-  {
-    if (filterPanel.filtersActive ())
-    {
-      AppleTreeItem filteredRoot = createTreeRoot ();
-      createFilteredTree (root, filteredRoot);
-      tree.setRoot (filteredRoot);
-    }
-    else
-      tree.setRoot (root);
-  }
+  //  @Override
+  //  public void filterChanged ()
+  //  // ---------------------------------------------------------------------------------//
+  //  {
+  //    if (filterPanel.filtersActive ())
+  //    {
+  //      AppleTreeItem filteredRoot = createTreeRoot ();
+  //      createFilteredTree (root, filteredRoot);
+  //      tree.setRoot (filteredRoot);
+  //    }
+  //    else
+  //      tree.setRoot (root);
+  //  }
 
   // ---------------------------------------------------------------------------------//
   private void createFilteredTree (AppleTreeItem root, AppleTreeItem filteredRoot)
@@ -173,7 +172,7 @@ class TreePane extends BorderPane implements FilterListener
 
       AppleTreeFile filePath = filteredChild.getValue ();
 
-      if (filePath.isLocalFile () && filterPanel.isMatch (filePath))
+      if (filePath.isLocalFile ())//&& filterPanel.isMatch (filePath))
         filteredRoot.getChildren ().add (filteredChild);
       else if (filePath.isLocalDirectory () && filteredChild.getChildren ().size () > 0)
         filteredRoot.getChildren ().add (filteredChild);

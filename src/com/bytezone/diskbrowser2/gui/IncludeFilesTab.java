@@ -3,15 +3,18 @@ package com.bytezone.diskbrowser2.gui;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-public class FilterTab extends DBOptionsTab
+public class IncludeFilesTab extends DBOptionsTab
 // -----------------------------------------------------------------------------------//
 {
+  OptionsPaneFileFilter optionsPaneFileFilter = new OptionsPaneFileFilter ();
 
   // ---------------------------------------------------------------------------------//
-  public FilterTab (String title, KeyCode keyCode)
+  public IncludeFilesTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
+
+    setContent (optionsPaneFileFilter);
   }
 
   // ---------------------------------------------------------------------------------//

@@ -3,11 +3,11 @@ package com.bytezone.diskbrowser2.gui;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-public class OptionsTab extends DBOptionsTab
+public class FileOptionsTab extends DBOptionsTab
 // -----------------------------------------------------------------------------------//
 {
-  PreferencesPane[] optionPanes = { new OptionsPaneApplesoft (), new OptionsPaneAssembler (),
-      new OptionsPaneGraphics (), new OptionsPaneText () };
+  PreferencesPane[] optionPanes = { new OptionsPaneApplesoft (),
+      new OptionsPaneAssembler (), new OptionsPaneGraphics (), new OptionsPaneText () };
 
   OptionsPane optionsPaneApplesoft = new OptionsPane (optionPanes[0]);
   OptionsPane optionsPaneAssembler = new OptionsPane (optionPanes[1]);
@@ -15,7 +15,7 @@ public class OptionsTab extends DBOptionsTab
   OptionsPane optionsPaneText = new OptionsPane (optionPanes[3]);
 
   // ---------------------------------------------------------------------------------//
-  public OptionsTab (String title, KeyCode keyCode)
+  public FileOptionsTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);

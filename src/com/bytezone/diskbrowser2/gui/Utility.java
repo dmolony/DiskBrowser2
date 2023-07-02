@@ -104,4 +104,14 @@ public class Utility
     for (String line : getHexDumpLines (buffer, 0))
       System.out.println (line);
   }
+
+  // ---------------------------------------------------------------------------------//
+  public static String rtrim (StringBuilder text)
+  // ---------------------------------------------------------------------------------//
+  {
+    while (text.length () > 0 && text.charAt (text.length () - 1) == '\n')
+      text.deleteCharAt (text.length () - 1);
+
+    return text.toString ();
+  }
 }

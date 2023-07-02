@@ -9,9 +9,9 @@ import javafx.scene.input.KeyCode;
 class ExtrasTabPane extends TabPaneBase implements TreeNodeListener
 //-----------------------------------------------------------------------------------//
 {
-  final FilterTab filterTab = new FilterTab ("Include", KeyCode.I);
-  final OptionsTab optionsTab = new OptionsTab ("Options", KeyCode.O);
-  final LayoutTab layoutTab = new LayoutTab ("Layout", KeyCode.L);
+  final IncludeFilesTab includeFilesTab = new IncludeFilesTab ("Include", KeyCode.I);
+  final FileOptionsTab fileOptionsTab = new FileOptionsTab ("Options", KeyCode.O);
+  final DiskLayoutTab diskLayoutTab = new DiskLayoutTab ("Layout", KeyCode.L);
 
   // ---------------------------------------------------------------------------------//
   ExtrasTabPane (String prefsId)
@@ -19,9 +19,9 @@ class ExtrasTabPane extends TabPaneBase implements TreeNodeListener
   {
     super (prefsId);
 
-    add (filterTab);        // filters which file extensions to show
-    add (optionsTab);       // display options for each file type
-    add (layoutTab);        // disk layout
+    add (includeFilesTab);        // filters which file extensions to show
+    add (fileOptionsTab);         // display options for each file type
+    add (diskLayoutTab);          // disk layout
   }
 
   // ---------------------------------------------------------------------------------//
@@ -29,8 +29,8 @@ class ExtrasTabPane extends TabPaneBase implements TreeNodeListener
   public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    filterTab.setAppleTreeItem (appleTreeItem);
-    optionsTab.setAppleTreeItem (appleTreeItem);
-    layoutTab.setAppleTreeItem (appleTreeItem);
+    includeFilesTab.setAppleTreeItem (appleTreeItem);
+    fileOptionsTab.setAppleTreeItem (appleTreeItem);
+    diskLayoutTab.setAppleTreeItem (appleTreeItem);
   }
 }

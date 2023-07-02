@@ -38,7 +38,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
   private final SplitPane splitPane = new SplitPane ();
   private TreePane treePane;
   private final OutputTabPane outputTabPane = new OutputTabPane ("Output");
-  private final ExtrasTabPane extrasTabPane = new ExtrasTabPane ("Extras");
+  private final ExtrasTabPane rightTabPane = new ExtrasTabPane ("Extras");
 
   private final FilterManager filterManager = new FilterManager ();
   private final DBStatusBar dbStatusBar = new DBStatusBar ();
@@ -77,7 +77,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
     splitPane.getItems ().addAll (                          //
         treePane,                                           //
         createBorderPane (outputHeaderBar, outputTabPane),
-        createBorderPane (extrasHeaderBar, extrasTabPane));
+        createBorderPane (extrasHeaderBar, rightTabPane));
 
     // menu listeners
     viewMenu.setExclusiveFilterAction (e -> filterManager.toggleFilterExclusion ());
@@ -98,18 +98,18 @@ public class DiskBrowserApp extends AppBase implements SaveState
     // treeview listeners
     appleTree.addListener (fileMenu);
     appleTree.addListener (outputTabPane);
-    appleTree.addListener (extrasTabPane);
+    appleTree.addListener (rightTabPane);
     appleTree.addListener (outputHeaderBar);
     appleTree.addListener (extrasHeaderBar);
 
     // tab change listeners
     outputTabPane.addTabChangeListener (viewMenu);
-    extrasTabPane.addTabChangeListener (extrasHeaderBar);
+    rightTabPane.addTabChangeListener (extrasHeaderBar);
 
     // preference change listeners
-    extrasTabPane.optionsTab.addListener (outputTabPane.dataTab);
-    extrasTabPane.optionsTab.addListener (outputTabPane.graphicsTab);
-    extrasTabPane.optionsTab.addListener (outputTabPane.extrasTab);
+    rightTabPane.fileOptionsTab.addListener (outputTabPane.dataTab);
+    rightTabPane.fileOptionsTab.addListener (outputTabPane.graphicsTab);
+    rightTabPane.fileOptionsTab.addListener (outputTabPane.extrasTab);
 
     // add menus
     menuBar.getMenus ().addAll (fileMenu, viewMenu);
@@ -117,7 +117,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
     fileMenu.setOutputWriter (outputTabPane.dataTab);
 
     saveStateList.addAll (Arrays.asList (   //
-        filterManager, outputTabPane, extrasTabPane, fileMenu, appleTree, fontManager,
+        filterManager, outputTabPane, rightTabPane, fileMenu, appleTree, fontManager,
         this));
 
     return splitPane;
@@ -181,7 +181,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
       case O:       // options
       case L:       // layout
       case I:       // include
-        extrasTabPane.keyPressed (keyEvent);
+        rightTabPane.keyPressed (keyEvent);
         keyEvent.consume ();
         break;
 

@@ -5,77 +5,69 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.prefs.Preferences;
 
+import com.bytezone.appbase.FontChangeListener;
+import com.bytezone.appbase.SaveState;
 import com.bytezone.appleformat.FormattedAppleFileFactory;
+import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 
 // -----------------------------------------------------------------------------------//
-class TreePane extends BorderPane //implements FilterListener
+class TreePane extends BorderPane
+    implements RootFolderChangeListener, FontChangeListener, SaveState
 // -----------------------------------------------------------------------------------//
 {
-  private final String home = System.getProperty ("user.home");
-  private final HeaderBar treeHeaderBar = new HeaderBar ();
-
   private int[] extensionTotals =
       new int[AppleTreeView.fileSystemFactory.getSuffixesSize ()];
   private int totalFilesIgnored;
 
-  private final AppleTreeView tree;
+  private AppleTreeView treeView;
   private AppleTreeItem root;
   private File rootFolder;
+
+  private FormattedAppleFileFactory formattedAppleFileFactory;
+
+  private List<SuffixTotalsListener> listeners = new ArrayList<> ();
+  private final List<TreeNodeListener> treeNodeListeners = new ArrayList<> ();
 
   //  private FilterPanel filterPanel;
 
   // ---------------------------------------------------------------------------------//
-  public TreePane (File rootFolder, FormattedAppleFileFactory formattedAppleFileFactory)
+  public TreePane (FormattedAppleFileFactory formattedAppleFileFactory)
   // ---------------------------------------------------------------------------------//
   {
-    this.rootFolder = rootFolder;
-
-    root = createTreeRoot ();           // creates an AppleTreeItem from the root folder
-    createTree (root);                  // adds all the tree nodes to the root
-    tree = new AppleTreeView (root, formattedAppleFileFactory); // creates the actual tree
-
-    setCenter (tree);
-
-    setTop (treeHeaderBar);
-    setTreeHeaderBarName ();
-    showTotals ();
+    this.formattedAppleFileFactory = formattedAppleFileFactory;
 
     //    filterPanel = new FilterPanel (extensionTotals);
     //    filterPanel.addListener (this);
   }
 
   // ---------------------------------------------------------------------------------//
-  AppleTreeView getTree ()
+  @Override
+  public void rootFolderChanged (File rootFolder)
   // ---------------------------------------------------------------------------------//
   {
-    return tree;
-  }
+    this.rootFolder = rootFolder;
 
-  // ---------------------------------------------------------------------------------//
-  void setRootFolder (AppleTreeItem treeItem)
-  // ---------------------------------------------------------------------------------//
-  {
-    tree.setRootFolder (treeItem);
-    setTreeHeaderBarName ();
-  }
+    root = createTreeRoot ();         // creates an AppleTreeItem from the root folder
+    createTree (root);                // adds all the tree nodes to the root
 
-  // ---------------------------------------------------------------------------------//
-  void setTreeHeaderBarName ()
-  // ---------------------------------------------------------------------------------//
-  {
-    String pathName = tree.getRoot ().getValue ().getLocalFile ().toPath ().toString ();
+    treeView = new AppleTreeView (root, formattedAppleFileFactory);
 
-    if (pathName.startsWith (home))
-      pathName = pathName.replaceFirst (home, "~");
+    for (TreeNodeListener treeNodeListener : treeNodeListeners)
+      treeView.addListener (treeNodeListener);
 
-    treeHeaderBar.leftLabel.setText (pathName);
+    setCenter (treeView);
+
+    showTotals ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -125,6 +117,7 @@ class TreePane extends BorderPane //implements FilterListener
       ex.printStackTrace ();
     }
 
+    notifyTotalsListeners ();
     sort (rootItem);
   }
 
@@ -180,6 +173,30 @@ class TreePane extends BorderPane //implements FilterListener
   }
 
   // ---------------------------------------------------------------------------------//
+  @Override
+  public void setFont (Font font)
+  // ---------------------------------------------------------------------------------//
+  {
+    treeView.setFont (font);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void save (Preferences prefs)
+  // ---------------------------------------------------------------------------------//
+  {
+    treeView.save (prefs);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void restore (Preferences prefs)
+  // ---------------------------------------------------------------------------------//
+  {
+    treeView.restore (prefs);
+  }
+
+  // ---------------------------------------------------------------------------------//
   void showTotals ()
   // ---------------------------------------------------------------------------------//
   {
@@ -210,5 +227,36 @@ class TreePane extends BorderPane //implements FilterListener
             return t.getValue ().getSortString ();
           }
         }));
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void addTreeNodeListener (TreeNodeListener listener)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (!treeNodeListeners.contains (listener))
+      treeNodeListeners.add (listener);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void addSuffixTotalsListener (SuffixTotalsListener listener)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (!listeners.contains (listener))
+      listeners.add (listener);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private void notifyTotalsListeners ()
+  // ---------------------------------------------------------------------------------//
+  {
+    for (SuffixTotalsListener listener : listeners)
+      listener.totalsChanged (extensionTotals);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  interface SuffixTotalsListener
+  // ---------------------------------------------------------------------------------//
+  {
+    public void totalsChanged (int[] totals);
   }
 }

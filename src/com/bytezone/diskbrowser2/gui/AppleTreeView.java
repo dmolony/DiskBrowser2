@@ -25,7 +25,6 @@ class AppleTreeView extends TreeView<AppleTreeFile>
 {
   static FileSystemFactory fileSystemFactory = new FileSystemFactory ();
   static FormattedAppleFileFactory formattedAppleFileFactory;
-  //      new FormattedAppleFileFactory (prefs);
 
   private static final String PREFS_LAST_PATH = "LastPath";
   private static String SEPARATOR = "|";

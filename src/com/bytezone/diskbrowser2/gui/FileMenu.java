@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.AppBase;
@@ -11,8 +13,6 @@ import com.bytezone.appbase.SaveState;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 import com.bytezone.filesystem.AppleFile;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -20,6 +20,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 //-----------------------------------------------------------------------------------//
@@ -28,6 +29,7 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
 {
   private static final String PREFS_EXTRACT_FOLDER = "ExtractFolder";
   private static final String PREFS_SAVE_FOLDER = "SaveFolder";
+  private static final String PREFS_ROOT_FOLDER = "RootFolder";
 
   private final MenuItem rootMenuItem = new MenuItem ("Set Apple root folder...");
   private final MenuItem extractMenuItem = new MenuItem ("Extract file...");
@@ -40,8 +42,11 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
   private String saveFolderName;
   private String extractFileName;
   private String extractFolderName;
+  private String rootFolderName;
 
   private OutputWriter outputWriter;
+
+  private List<RootFolderChangeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
   public FileMenu (String name)
@@ -58,13 +63,28 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
     extractMenuItem.setOnAction (e -> extractFile ());
     saveMenuItem.setOnAction (e -> saveFile ());
     aboutMenuItem.setOnAction (e -> about ());
+    rootMenuItem.setOnAction (e -> getRootFolder ());
   }
 
   // ---------------------------------------------------------------------------------//
-  void setRootAction (EventHandler<ActionEvent> action)
+  void getRootFolder ()
   // ---------------------------------------------------------------------------------//
   {
-    rootMenuItem.setOnAction (action);
+    DirectoryChooser directoryChooser = new DirectoryChooser ();
+    directoryChooser.setTitle ("Set Apple file folder");
+
+    if (rootFolderName.isEmpty ())
+      directoryChooser.setInitialDirectory (new File (System.getProperty ("user.home")));
+    else
+      directoryChooser.setInitialDirectory (new File (rootFolderName));
+
+    File file = directoryChooser.showDialog (null);
+    if (file != null && file.isDirectory ()
+        && !file.getAbsolutePath ().equals (rootFolderName))
+    {
+      rootFolderName = file.getAbsolutePath ();
+      notifyRootFolderListeners (file);
+    }
   }
 
   // ---------------------------------------------------------------------------------//
@@ -157,6 +177,9 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
         prefs.get (PREFS_EXTRACT_FOLDER, System.getProperty ("user.home"));
     if (!new File (extractFolderName).exists ())
       extractFolderName = System.getProperty ("user.home");
+
+    rootFolderName = prefs.get (PREFS_ROOT_FOLDER, "");
+    notifyRootFolderListeners (new File (rootFolderName));
   }
 
   // ---------------------------------------------------------------------------------//
@@ -166,6 +189,23 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
   {
     prefs.put (PREFS_SAVE_FOLDER, saveFolderName);
     prefs.put (PREFS_EXTRACT_FOLDER, extractFolderName);
+    prefs.put (PREFS_ROOT_FOLDER, rootFolderName);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void addRootFolderChangeListener (RootFolderChangeListener listener)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (!listeners.contains (listener))
+      listeners.add (listener);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void notifyRootFolderListeners (File rootFolder)
+  // ---------------------------------------------------------------------------------//
+  {
+    for (RootFolderChangeListener listener : listeners)
+      listener.rootFolderChanged (rootFolder);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -175,16 +215,5 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
   {
     this.treeFile = appleTreeItem.getValue ();
     appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
-
-    //    if (nodeData.isPhysicalSequentialDataset ())
-    //    {
-    //      dataFile = nodeData.getDataFile ();
-    //      set (nodeData.getDatasetName (), nodeData.getDatasetName ());
-    //    }
-    //    else
-    //    {
-    //      dataFile = null;
-    //      set ("", "");
-    //    }
   }
 }

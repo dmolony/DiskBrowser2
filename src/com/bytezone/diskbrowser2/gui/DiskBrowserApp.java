@@ -1,6 +1,5 @@
 package com.bytezone.diskbrowser2.gui;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.prefs.Preferences;
 
@@ -11,25 +10,18 @@ import com.bytezone.appbase.StatusBar;
 import com.bytezone.appleformat.FormattedAppleFileFactory;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.DirectoryChooser;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 // -----------------------------------------------------------------------------------//
 public class DiskBrowserApp extends AppBase implements SaveState
 // -----------------------------------------------------------------------------------//
 {
-  private static final String PREFS_ROOT_FOLDER = "RootFolder";
-
-  private File rootFolder;
-
-  private AppleTreeView appleTree;
+  //  private AppleTreeView appleTree;
 
   FormattedAppleFileFactory formattedAppleFileFactory =
       new FormattedAppleFileFactory (getPreferences ());
@@ -66,16 +58,17 @@ public class DiskBrowserApp extends AppBase implements SaveState
     primaryStage.setTitle ("DiskBrowser ][");
 
     // get root folder
-    validateRootFolderOrExit ();
+    //    validateRootFolderOrExit ();
 
-    treePane = new TreePane (rootFolder, formattedAppleFileFactory);
-    appleTree = treePane.getTree ();
+    //    treePane = new TreePane (rootFolder, formattedAppleFileFactory);
+    treePane = new TreePane (formattedAppleFileFactory);
 
+    TreeHeaderBar treeHeaderBar = new TreeHeaderBar ();
     OutputHeaderBar outputHeaderBar = new OutputHeaderBar ();
     ExtrasHeaderBar extrasHeaderBar = new ExtrasHeaderBar ();
 
     splitPane.getItems ().addAll (                          //
-        treePane,                                           //
+        createBorderPane (treeHeaderBar, treePane),
         createBorderPane (outputHeaderBar, outputTabPane),
         createBorderPane (extrasHeaderBar, rightTabPane));
 
@@ -83,10 +76,13 @@ public class DiskBrowserApp extends AppBase implements SaveState
     viewMenu.setExclusiveFilterAction (e -> filterManager.toggleFilterExclusion ());
     viewMenu.setFilterAction (e -> filterManager.showWindow ());
     viewMenu.setFontAction (e -> fontManager.showWindow ());
-    fileMenu.setRootAction (e -> changeRootFolder ());
+
+    //    fileMenu.setRootAction (e -> changeRootFolder ());
+    fileMenu.addRootFolderChangeListener (treeHeaderBar);
+    fileMenu.addRootFolderChangeListener (treePane);
 
     // font change listeners
-    fontManager.addFontChangeListener (appleTree);
+    fontManager.addFontChangeListener (treePane);
     fontManager.addFontChangeListener (outputTabPane);
     fontManager.addFontChangeListener (dbStatusBar);
 
@@ -96,11 +92,11 @@ public class DiskBrowserApp extends AppBase implements SaveState
     filterManager.addFilterListener (viewMenu);
 
     // treeview listeners
-    appleTree.addListener (fileMenu);
-    appleTree.addListener (outputTabPane);
-    appleTree.addListener (rightTabPane);
-    appleTree.addListener (outputHeaderBar);
-    appleTree.addListener (extrasHeaderBar);
+    treePane.addTreeNodeListener (fileMenu);
+    treePane.addTreeNodeListener (outputTabPane);
+    treePane.addTreeNodeListener (rightTabPane);
+    treePane.addTreeNodeListener (outputHeaderBar);
+    treePane.addTreeNodeListener (extrasHeaderBar);
 
     // tab change listeners
     outputTabPane.addTabChangeListener (viewMenu);
@@ -111,26 +107,29 @@ public class DiskBrowserApp extends AppBase implements SaveState
     rightTabPane.fileOptionsTab.addListener (outputTabPane.graphicsTab);
     rightTabPane.fileOptionsTab.addListener (outputTabPane.extrasTab);
 
+    // suffix totals listeners
+    treePane.addSuffixTotalsListener (rightTabPane.includeFilesTab.optionsPaneFileFilter);
+
     // add menus
     menuBar.getMenus ().addAll (fileMenu, viewMenu);
 
     fileMenu.setOutputWriter (outputTabPane.dataTab);
 
     saveStateList.addAll (Arrays.asList (   //
-        filterManager, outputTabPane, rightTabPane, fileMenu, appleTree, fontManager,
+        filterManager, outputTabPane, rightTabPane, fileMenu, treePane, fontManager,
         this));
 
     return splitPane;
   }
 
   // ---------------------------------------------------------------------------------//
-  private BorderPane createBorderPane (HeaderBar headerBar, TabPane tabPane)
+  private BorderPane createBorderPane (HeaderBar headerBar, Region region)
   // ---------------------------------------------------------------------------------//
   {
     BorderPane borderPane = new BorderPane ();
 
     borderPane.setTop (headerBar);
-    borderPane.setCenter (tabPane);
+    borderPane.setCenter (region);
 
     return borderPane;
   }
@@ -202,69 +201,70 @@ public class DiskBrowserApp extends AppBase implements SaveState
   }
 
   // ---------------------------------------------------------------------------------//
-  void changeRootFolder ()
-  // ---------------------------------------------------------------------------------//
-  {
-    if (setRootFolder ())
-    {
-      treePane.setRootFolder (new AppleTreeItem (new AppleTreeFile (rootFolder)));
-      dbStatusBar.setStatusMessage ("Root folder changed");
-    }
-    else
-      dbStatusBar.setStatusMessage ("Root folder unchanged");
-  }
+  //  void changeRootFolder ()
+  //  // ---------------------------------------------------------------------------------//
+  //  {
+  //    if (setRootFolder ())
+  //    {
+  //      //      treePane.setRootFolder (new AppleTreeItem (new AppleTreeFile (rootFolder)));
+  //      treePane.setRootFolder (rootFolder, formattedAppleFileFactory);
+  //      dbStatusBar.setStatusMessage ("Root folder changed");
+  //    }
+  //    else
+  //      dbStatusBar.setStatusMessage ("Root folder unchanged");
+  //  }
 
   // ---------------------------------------------------------------------------------//
-  private void validateRootFolderOrExit ()
+  //  private void validateRootFolderOrExit ()
+  //  // ---------------------------------------------------------------------------------//
+  //  {
+  //    String rootFolderName = prefs.get (PREFS_ROOT_FOLDER, "");
+  //    if (rootFolderName.isEmpty ())
+  //    {
+  //      AppBase.showAlert (AlertType.INFORMATION, "Disk Image Folder",
+  //          "The Disk Image file folder has not yet been defined. Please choose the "
+  //              + "TOP LEVEL FOLDER where you store your Disk Image files. This folder "
+  //              + "may contain subfolders. It can also be changed at any time.");
+  //    }
+  //    else
+  //    {
+  //      rootFolder = new File (rootFolderName);
+  //      if (!rootFolder.exists ())
+  //        rootFolder = null;
+  //    }
+  //
+  //    if (rootFolderName.isEmpty () && !setRootFolder ())
+  //    {
+  //      Platform.exit ();
+  //      System.exit (0);
+  //    }
+  //  }
+
   // ---------------------------------------------------------------------------------//
-  {
-    String rootFolderName = prefs.get (PREFS_ROOT_FOLDER, "");
-    if (rootFolderName.isEmpty ())
-    {
-      AppBase.showAlert (AlertType.INFORMATION, "Disk Image Folder",
-          "The Disk Image file folder has not yet been defined. Please choose the "
-              + "TOP LEVEL FOLDER where you store your Disk Image files. This folder "
-              + "may contain subfolders. It can also be changed at any time.");
-    }
-    else
-    {
-      rootFolder = new File (rootFolderName);
-      if (!rootFolder.exists ())
-        rootFolder = null;
-    }
-
-    if (rootFolderName.isEmpty () && !setRootFolder ())
-    {
-      Platform.exit ();
-      System.exit (0);
-    }
-  }
-
-  // ---------------------------------------------------------------------------------//
-  private boolean setRootFolder ()
-  // ---------------------------------------------------------------------------------//
-  {
-    String rootFolderName = rootFolder == null ? "" : rootFolder.getAbsolutePath ();
-    DirectoryChooser directoryChooser = new DirectoryChooser ();
-    directoryChooser.setTitle ("Set Apple file folder");
-
-    if (rootFolderName.isEmpty ())
-      directoryChooser.setInitialDirectory (new File (System.getProperty ("user.home")));
-    else
-      directoryChooser.setInitialDirectory (rootFolder);
-
-    File file = directoryChooser.showDialog (null);
-    if (file != null && file.isDirectory ()
-        && !file.getAbsolutePath ().equals (rootFolderName))
-    {
-      rootFolder = file;
-      rootFolderName = file.getAbsolutePath ();
-      prefs.put (PREFS_ROOT_FOLDER, rootFolderName);
-      return true;
-    }
-
-    return false;
-  }
+  //  private boolean setRootFolder ()
+  //  // ---------------------------------------------------------------------------------//
+  //  {
+  //    String rootFolderName = rootFolder == null ? "" : rootFolder.getAbsolutePath ();
+  //    DirectoryChooser directoryChooser = new DirectoryChooser ();
+  //    directoryChooser.setTitle ("Set Apple file folder");
+  //
+  //    if (rootFolderName.isEmpty ())
+  //      directoryChooser.setInitialDirectory (new File (System.getProperty ("user.home")));
+  //    else
+  //      directoryChooser.setInitialDirectory (rootFolder);
+  //
+  //    File file = directoryChooser.showDialog (null);
+  //    if (file != null && file.isDirectory ()
+  //        && !file.getAbsolutePath ().equals (rootFolderName))
+  //    {
+  //      rootFolder = file;
+  //      rootFolderName = file.getAbsolutePath ();
+  //      prefs.put (PREFS_ROOT_FOLDER, rootFolderName);
+  //      return true;
+  //    }
+  //
+  //    return false;
+  //  }
 
   // ---------------------------------------------------------------------------------//
   public static void main (String[] args)

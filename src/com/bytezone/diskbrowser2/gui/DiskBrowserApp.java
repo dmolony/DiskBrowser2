@@ -106,6 +106,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
     rightTabPane.fileOptionsTab.addListener (outputTabPane.dataTab);
     rightTabPane.fileOptionsTab.addListener (outputTabPane.graphicsTab);
     rightTabPane.fileOptionsTab.addListener (outputTabPane.extrasTab);
+    rightTabPane.includeFilesTab.addListener (treePane);
 
     // suffix totals listeners
     treePane.addSuffixTotalsListener (rightTabPane.includeFilesTab.optionsPaneFileFilter);

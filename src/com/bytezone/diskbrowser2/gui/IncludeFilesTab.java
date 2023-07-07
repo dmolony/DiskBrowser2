@@ -29,6 +29,13 @@ public class IncludeFilesTab extends DBOptionsTab
   }
 
   // ---------------------------------------------------------------------------------//
+  void addListener (PreferenceChangeListener listener)
+  // ---------------------------------------------------------------------------------//
+  {
+    optionsPaneFileFilter.addListener (listener);
+  }
+
+  // ---------------------------------------------------------------------------------//
   public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {

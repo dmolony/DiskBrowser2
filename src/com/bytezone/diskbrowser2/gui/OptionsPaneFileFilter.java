@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
+// Used by IncludeFilesTab
 // -----------------------------------------------------------------------------------//
 public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTotalsListener
 // -----------------------------------------------------------------------------------//
@@ -50,7 +51,7 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
   // ---------------------------------------------------------------------------------//
   {
     for (int i = 0; i < suffixes.length; i++)
-      fileFilterPreferences.showFileTypes[0] = checkBoxes[0].isSelected ();
+      fileFilterPreferences.showFileTypes[i] = checkBoxes[i].isSelected ();
 
     notifyListeners (fileFilterPreferences);
   }

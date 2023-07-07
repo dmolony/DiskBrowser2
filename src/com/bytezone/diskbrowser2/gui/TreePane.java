@@ -13,6 +13,7 @@ import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.FontChangeListener;
 import com.bytezone.appbase.SaveState;
+import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
@@ -21,8 +22,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 
 // -----------------------------------------------------------------------------------//
-class TreePane extends BorderPane
-    implements RootFolderChangeListener, FontChangeListener, SaveState
+class TreePane extends BorderPane implements RootFolderChangeListener, FontChangeListener,
+    SaveState, PreferenceChangeListener
 // -----------------------------------------------------------------------------------//
 {
   private int[] extensionTotals =
@@ -31,23 +32,17 @@ class TreePane extends BorderPane
 
   private AppleTreeView treeView;
   private AppleTreeItem root;
-  private File rootFolder;
 
   private FormattedAppleFileFactory formattedAppleFileFactory;
 
-  private List<SuffixTotalsListener> listeners = new ArrayList<> ();
+  private List<SuffixTotalsListener> suffixTotalsListeners = new ArrayList<> ();
   private final List<TreeNodeListener> treeNodeListeners = new ArrayList<> ();
-
-  //  private FilterPanel filterPanel;
 
   // ---------------------------------------------------------------------------------//
   public TreePane (FormattedAppleFileFactory formattedAppleFileFactory)
   // ---------------------------------------------------------------------------------//
   {
     this.formattedAppleFileFactory = formattedAppleFileFactory;
-
-    //    filterPanel = new FilterPanel (extensionTotals);
-    //    filterPanel.addListener (this);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -55,9 +50,9 @@ class TreePane extends BorderPane
   public void rootFolderChanged (File rootFolder)
   // ---------------------------------------------------------------------------------//
   {
-    this.rootFolder = rootFolder;
+    root = new AppleTreeItem (new AppleTreeFile (rootFolder));
+    root.setExpanded (true);
 
-    root = createTreeRoot ();         // creates an AppleTreeItem from the root folder
     createTree (root);                // adds all the tree nodes to the root
 
     treeView = new AppleTreeView (root, formattedAppleFileFactory);
@@ -66,12 +61,10 @@ class TreePane extends BorderPane
       treeView.addListener (treeNodeListener);
 
     setCenter (treeView);
-
-    showTotals ();
   }
 
   // ---------------------------------------------------------------------------------//
-  private void createTree (AppleTreeItem rootItem)
+  private void createTree (AppleTreeItem rootItem)          // recursive
   // ---------------------------------------------------------------------------------//
   {
     // Build the entire tree down to the local file/folder level. The only files
@@ -122,23 +115,6 @@ class TreePane extends BorderPane
   }
 
   // ---------------------------------------------------------------------------------//
-  private AppleTreeItem createTreeRoot ()
-  // ---------------------------------------------------------------------------------//
-  {
-    AppleTreeItem root = new AppleTreeItem (new AppleTreeFile (rootFolder));
-    root.setExpanded (true);
-
-    return root;
-  }
-
-  // ---------------------------------------------------------------------------------//
-  //  FilterPanel getFilterPanel ()
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    return filterPanel;
-  //  }
-
-  // ---------------------------------------------------------------------------------//
   //  @Override
   //  public void filterChanged ()
   //  // ---------------------------------------------------------------------------------//
@@ -177,7 +153,8 @@ class TreePane extends BorderPane
   public void setFont (Font font)
   // ---------------------------------------------------------------------------------//
   {
-    treeView.setFont (font);
+    if (treeView != null)
+      treeView.setFont (font);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -185,7 +162,8 @@ class TreePane extends BorderPane
   public void save (Preferences prefs)
   // ---------------------------------------------------------------------------------//
   {
-    treeView.save (prefs);
+    if (treeView != null)
+      treeView.save (prefs);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -193,25 +171,8 @@ class TreePane extends BorderPane
   public void restore (Preferences prefs)
   // ---------------------------------------------------------------------------------//
   {
-    treeView.restore (prefs);
-  }
-
-  // ---------------------------------------------------------------------------------//
-  void showTotals ()
-  // ---------------------------------------------------------------------------------//
-  {
-    List<String> suffixes = com.bytezone.utility.Utility.getSuffixes ();
-    int totalFilesAccepted = 0;
-
-    for (int i = 0; i < extensionTotals.length; i++)
-    {
-      String extension = suffixes.get (i);
-      System.out.printf ("%2d  %-4s  %,6d%n", i, extension, extensionTotals[i]);
-      totalFilesAccepted += extensionTotals[i];
-    }
-
-    System.out.printf ("        %,8d  (%,d ignored)%n", totalFilesAccepted,
-        totalFilesIgnored);
+    if (treeView != null)
+      treeView.restore (prefs);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -230,6 +191,15 @@ class TreePane extends BorderPane
   }
 
   // ---------------------------------------------------------------------------------//
+  @Override
+  public void preferenceChanged (ApplePreferences preference)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (preference instanceof FileFilterPreferences ffp)
+      System.out.println (ffp);
+  }
+
+  // ---------------------------------------------------------------------------------//
   void addTreeNodeListener (TreeNodeListener listener)
   // ---------------------------------------------------------------------------------//
   {
@@ -241,15 +211,15 @@ class TreePane extends BorderPane
   void addSuffixTotalsListener (SuffixTotalsListener listener)
   // ---------------------------------------------------------------------------------//
   {
-    if (!listeners.contains (listener))
-      listeners.add (listener);
+    if (!suffixTotalsListeners.contains (listener))
+      suffixTotalsListeners.add (listener);
   }
 
   // ---------------------------------------------------------------------------------//
   private void notifyTotalsListeners ()
   // ---------------------------------------------------------------------------------//
   {
-    for (SuffixTotalsListener listener : listeners)
+    for (SuffixTotalsListener listener : suffixTotalsListeners)
       listener.totalsChanged (extensionTotals);
   }
 

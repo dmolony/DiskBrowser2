@@ -55,6 +55,7 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
     super (name);
 
     getItems ().addAll (rootMenuItem, new SeparatorMenuItem (), aboutMenuItem);
+
     rootMenuItem.setAccelerator (
         new KeyCodeCombination (KeyCode.R, KeyCombination.SHORTCUT_DOWN));
     saveMenuItem.setAccelerator (
@@ -88,19 +89,12 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
   }
 
   // ---------------------------------------------------------------------------------//
-  void setOutputWriter (OutputWriter outputWriter)
-  // ---------------------------------------------------------------------------------//
-  {
-    this.outputWriter = outputWriter;
-    saveMenuItem.setDisable (false);
-  }
-
-  // ---------------------------------------------------------------------------------//
   private void about ()
   // ---------------------------------------------------------------------------------//
   {
     AppBase.showAlert (AlertType.INFORMATION, "About DiskBrowserApp",
-        "Version: 1.0.0\nReleased: 1 January 2024\nAuthor: Denis Molony");
+        "Version: 1.0.0\nReleased: 1 January 2024"
+            + "\nDownload: github.com/dmolony/DiskBrowser2");
   }
 
   // ---------------------------------------------------------------------------------//
@@ -190,6 +184,14 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
     prefs.put (PREFS_SAVE_FOLDER, saveFolderName);
     prefs.put (PREFS_EXTRACT_FOLDER, extractFolderName);
     prefs.put (PREFS_ROOT_FOLDER, rootFolderName);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void setOutputWriter (OutputWriter outputWriter)
+  // ---------------------------------------------------------------------------------//
+  {
+    this.outputWriter = outputWriter;
+    saveMenuItem.setDisable (false);
   }
 
   // ---------------------------------------------------------------------------------//

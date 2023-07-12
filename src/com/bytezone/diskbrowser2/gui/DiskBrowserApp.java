@@ -21,16 +21,14 @@ import javafx.stage.Stage;
 public class DiskBrowserApp extends AppBase implements SaveState
 // -----------------------------------------------------------------------------------//
 {
-  //  private AppleTreeView appleTree;
-
-  FormattedAppleFileFactory formattedAppleFileFactory =
-      new FormattedAppleFileFactory (getPreferences ());
+  static PreferencesManager preferencesManager;
+  static FormattedAppleFileFactory formattedAppleFileFactory;
 
   // set three panes for the split pane
   private final SplitPane splitPane = new SplitPane ();
   private TreePane treePane;
-  private final OutputTabPane outputTabPane = new OutputTabPane ("Output");
-  private final ExtrasTabPane rightTabPane = new ExtrasTabPane ("Extras");
+  private OutputTabPane outputTabPane;
+  private ExtrasTabPane rightTabPane;
 
   private final FilterManager filterManager = new FilterManager ();
   private final DBStatusBar dbStatusBar = new DBStatusBar ();
@@ -57,11 +55,13 @@ public class DiskBrowserApp extends AppBase implements SaveState
   {
     primaryStage.setTitle ("DiskBrowser ][");
 
-    // get root folder
-    //    validateRootFolderOrExit ();
+    Preferences prefs = getPreferences ();
+    preferencesManager = new PreferencesManager (prefs);
+    formattedAppleFileFactory = new FormattedAppleFileFactory (prefs);
 
-    //    treePane = new TreePane (rootFolder, formattedAppleFileFactory);
-    treePane = new TreePane (formattedAppleFileFactory);
+    treePane = new TreePane (formattedAppleFileFactory, preferencesManager);
+    outputTabPane = new OutputTabPane ("Output");
+    rightTabPane = new ExtrasTabPane ("Extras");
 
     TreeHeaderBar treeHeaderBar = new TreeHeaderBar ();
     OutputHeaderBar outputHeaderBar = new OutputHeaderBar ();
@@ -77,7 +77,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
     viewMenu.setFilterAction (e -> filterManager.showWindow ());
     viewMenu.setFontAction (e -> fontManager.showWindow ());
 
-    //    fileMenu.setRootAction (e -> changeRootFolder ());
+    // root folder change listeners
     fileMenu.addRootFolderChangeListener (treeHeaderBar);
     fileMenu.addRootFolderChangeListener (treePane);
 
@@ -149,6 +149,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
   // ---------------------------------------------------------------------------------//
   {
     dbStageManager = new DBStageManager (stage);
+
     return dbStageManager;
   }
 
@@ -280,6 +281,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
   // ---------------------------------------------------------------------------------//
   {
     formattedAppleFileFactory.save ();
+    preferencesManager.save ();
   }
 
   // ---------------------------------------------------------------------------------//

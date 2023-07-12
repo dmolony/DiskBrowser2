@@ -1,7 +1,5 @@
 package com.bytezone.diskbrowser2.gui;
 
-import java.util.prefs.Preferences;
-
 import com.bytezone.appbase.DataLayout;
 import com.bytezone.diskbrowser2.gui.TreePane.SuffixTotalsListener;
 
@@ -18,9 +16,8 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
 {
   CheckBox[] checkBoxes;
   FileFilterPreferences fileFilterPreferences =
-      new FileFilterPreferences (Preferences.userNodeForPackage (this.getClass ()));
-  String[] suffixes = { "po", "dsk", "do", "hdv", "2mg", "d13", "sdk", "shk", "bxy",
-      "bny", "bqy", "woz", "img", "dimg", "zip", "gz" };
+      DiskBrowserApp.preferencesManager.fileFilter;
+  //      new FileFilterPreferences (Preferences.userNodeForPackage (this.getClass ()));
   TextField[] suffixTotals;
 
   // ---------------------------------------------------------------------------------//
@@ -33,11 +30,11 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
     setPadding (defaultInsets);               // only the root pane has insets
     //    setGridLinesVisible (true);
 
-    createLabelsVertical (suffixes, 0, 1, HPos.RIGHT);
-    checkBoxes =
-        createCheckBoxes (new DataLayout (1, 1, suffixes.length, Pos.CENTER, true));
-    suffixTotals = createTextFields (
-        new DataLayout (2, 1, suffixes.length, Pos.CENTER_RIGHT, false));
+    createLabelsVertical (fileFilterPreferences.suffixes, 0, 1, HPos.RIGHT);
+    checkBoxes = createCheckBoxes (
+        new DataLayout (1, 1, fileFilterPreferences.suffixes.length, Pos.CENTER, true));
+    suffixTotals = createTextFields (new DataLayout (2, 1,
+        fileFilterPreferences.suffixes.length, Pos.CENTER_RIGHT, false));
 
     set ();       // must happen before the listener is added because java is brain-dead
 
@@ -50,8 +47,8 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
       Boolean prevState, Boolean currentState)
   // ---------------------------------------------------------------------------------//
   {
-    for (int i = 0; i < suffixes.length; i++)
-      fileFilterPreferences.showFileTypes[i] = checkBoxes[i].isSelected ();
+    for (int i = 0; i < fileFilterPreferences.suffixes.length; i++)
+      fileFilterPreferences.setShowFileTypes (i, checkBoxes[i].isSelected ());
 
     notifyListeners (fileFilterPreferences);
   }
@@ -60,8 +57,8 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
   void set ()
   // ---------------------------------------------------------------------------------//
   {
-    for (int i = 0; i < suffixes.length; i++)
-      checkBoxes[i].setSelected (fileFilterPreferences.showFileTypes[i]);
+    for (int i = 0; i < fileFilterPreferences.suffixes.length; i++)
+      checkBoxes[i].setSelected (fileFilterPreferences.getShowFileTypes (i));
   }
 
   // ---------------------------------------------------------------------------------//
@@ -69,7 +66,7 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
   public void totalsChanged (int[] totals)
   // ---------------------------------------------------------------------------------//
   {
-    for (int i = 0; i < suffixes.length; i++)
+    for (int i = 0; i < fileFilterPreferences.suffixes.length; i++)
       suffixTotals[i].setText (String.format ("%,7d", totals[i]));
   }
 }

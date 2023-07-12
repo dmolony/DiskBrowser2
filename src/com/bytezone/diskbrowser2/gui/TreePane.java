@@ -38,11 +38,16 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
   private List<SuffixTotalsListener> suffixTotalsListeners = new ArrayList<> ();
   private final List<TreeNodeListener> treeNodeListeners = new ArrayList<> ();
 
+  FileFilterPreferences fileFilterPreferences;
+  File rootFolder;
+
   // ---------------------------------------------------------------------------------//
-  public TreePane (FormattedAppleFileFactory formattedAppleFileFactory)
+  public TreePane (FormattedAppleFileFactory formattedAppleFileFactory,
+      PreferencesManager preferencesManager)
   // ---------------------------------------------------------------------------------//
   {
     this.formattedAppleFileFactory = formattedAppleFileFactory;
+    this.fileFilterPreferences = preferencesManager.fileFilter;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -50,6 +55,8 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
   public void rootFolderChanged (File rootFolder)
   // ---------------------------------------------------------------------------------//
   {
+    this.rootFolder = rootFolder;
+
     root = new AppleTreeItem (new AppleTreeFile (rootFolder));
     root.setExpanded (true);
 
@@ -61,6 +68,9 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
       treeView.addListener (treeNodeListener);
 
     setCenter (treeView);
+
+    if (fileFilterPreferences.filtersActive ())
+      preferenceChanged (fileFilterPreferences);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -115,21 +125,6 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
   }
 
   // ---------------------------------------------------------------------------------//
-  //  @Override
-  //  public void filterChanged ()
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    if (filterPanel.filtersActive ())
-  //    {
-  //      AppleTreeItem filteredRoot = createTreeRoot ();
-  //      createFilteredTree (root, filteredRoot);
-  //      tree.setRoot (filteredRoot);
-  //    }
-  //    else
-  //      tree.setRoot (root);
-  //  }
-
-  // ---------------------------------------------------------------------------------//
   private void createFilteredTree (AppleTreeItem root, AppleTreeItem filteredRoot)
   // ---------------------------------------------------------------------------------//
   {
@@ -137,12 +132,17 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
     {
       AppleTreeItem filteredChild = new AppleTreeItem (child.getValue ());
 
-      createFilteredTree ((AppleTreeItem) child, filteredChild);
+      if (child.getValue ().isLocalDirectory ())
+        createFilteredTree ((AppleTreeItem) child, filteredChild);
 
       AppleTreeFile filePath = filteredChild.getValue ();
 
-      if (filePath.isLocalFile ())//&& filterPanel.isMatch (filePath))
-        filteredRoot.getChildren ().add (filteredChild);
+      if (filePath.isLocalFile ())
+      {
+        if (fileFilterPreferences.getShowFileTypes (filePath.getExtensionNo ()))
+          filteredRoot.getChildren ().add (filteredChild);
+
+      }
       else if (filePath.isLocalDirectory () && filteredChild.getChildren ().size () > 0)
         filteredRoot.getChildren ().add (filteredChild);
     }
@@ -196,7 +196,19 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
   // ---------------------------------------------------------------------------------//
   {
     if (preference instanceof FileFilterPreferences ffp)
-      System.out.println (ffp);
+    {
+      fileFilterPreferences = ffp;
+
+      if (fileFilterPreferences.filtersActive ())
+      {
+        AppleTreeItem filteredRoot = new AppleTreeItem (new AppleTreeFile (rootFolder));
+        filteredRoot.setExpanded (true);
+        createFilteredTree (root, filteredRoot);
+        treeView.setRoot (filteredRoot);
+      }
+      else
+        treeView.setRoot (root);
+    }
   }
 
   // ---------------------------------------------------------------------------------//

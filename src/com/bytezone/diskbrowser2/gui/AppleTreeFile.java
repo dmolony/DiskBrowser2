@@ -390,8 +390,10 @@ public class AppleTreeFile
     System.out.printf ("--------------------------------------------------------%n");
     System.out.printf ("LocalFile ............ %s%n", localFile);
     System.out.printf ("Path ................. %s%n", path);
-    System.out.printf ("AppleFile ............ %s%n", appleFile.getFileName ());
-    System.out.printf ("AppleFileSystem ...... %s%n", appleFileSystem.getFileName ());
+    System.out.printf ("AppleFile ............ %s%n",
+        appleFile == null ? "null" : appleFile.getFileName ());
+    System.out.printf ("AppleFileSystem ...... %s%n",
+        appleFileSystem == null ? "null" : appleFileSystem.getFileName ());
   }
 
   // ---------------------------------------------------------------------------------//

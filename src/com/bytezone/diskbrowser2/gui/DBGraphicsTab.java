@@ -100,7 +100,6 @@ public class DBGraphicsTab extends TabBase
   public void save (Preferences prefs)
   // ---------------------------------------------------------------------------------//
   {
-
     super.save (prefs);
   }
 }

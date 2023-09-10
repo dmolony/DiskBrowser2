@@ -97,6 +97,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
     treePane.addTreeNodeListener (rightTabPane);
     treePane.addTreeNodeListener (outputHeaderBar);
     treePane.addTreeNodeListener (extrasHeaderBar);
+    treePane.addTreeNodeListener (extrasHeaderBar);
 
     // tab change listeners
     outputTabPane.addTabChangeListener (viewMenu);

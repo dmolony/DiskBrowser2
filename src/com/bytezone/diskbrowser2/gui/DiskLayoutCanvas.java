@@ -99,6 +99,7 @@ public class DiskLayoutCanvas extends Canvas
   // ---------------------------------------------------------------------------------//
   {
     GraphicsContext gc = getGraphicsContext2D ();
+
     gc.setFill (Color.WHITE);
     gc.fillRect (0, 0, getWidth (), getHeight ());
   }

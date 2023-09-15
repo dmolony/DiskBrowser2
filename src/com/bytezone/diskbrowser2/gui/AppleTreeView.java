@@ -127,7 +127,7 @@ class AppleTreeView extends TreeView<AppleTreeFile>
       node = optionalNode.get ();
     }
 
-    setShowRoot (false);        // workaround for stupid javafx bug
+    //    setShowRoot (false);        // workaround for stupid javafx bug
     return optionalNode;
   }
 

@@ -106,6 +106,14 @@ public class Utility
   }
 
   // ---------------------------------------------------------------------------------//
+  public static void printStackTrace ()
+  // ---------------------------------------------------------------------------------//
+  {
+    for (StackTraceElement ste : java.lang.Thread.currentThread ().getStackTrace ())
+      System.out.println (ste);
+  }
+
+  // ---------------------------------------------------------------------------------//
   public static String rtrim (StringBuilder text)
   // ---------------------------------------------------------------------------------//
   {

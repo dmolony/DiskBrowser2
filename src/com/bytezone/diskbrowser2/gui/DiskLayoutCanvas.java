@@ -25,6 +25,7 @@ public class DiskLayoutCanvas extends Canvas
   public DiskLayoutCanvas ()
   // ---------------------------------------------------------------------------------//
   {
+    super ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -43,13 +44,12 @@ public class DiskLayoutCanvas extends Canvas
       return;
     }
 
+    //    System.out.printf ("%-8s %s%n", fileSystem.getFileSystemType (),
+    //        fileSystem.getFileName ());
+
     maxBlocks = fileSystem.getTotalBlocks ();
     blockHeight = UNIT_SIZE;
     blockWidth = UNIT_SIZE * (fileSystem.getBlockSize () / 256.0);
-
-    System.out.println (fileSystem.getFileSystemType ());
-    System.out.println (maxBlocks);
-    System.out.println (fileSystem.getType ());
 
     switch (fileSystem.getType ())
     {
@@ -65,32 +65,32 @@ public class DiskLayoutCanvas extends Canvas
           case 256 -> 16;
           case 512 -> 8;
           case 1024 -> 4;
-          default -> 4;
+          default -> 4;         // impossible
         };
 
-        if (maxBlocks > 3200)        // find better size
+        if (maxBlocks > 3200)             // find better size
         {
-          blockHeight /= 1.3;
-          blockWidth /= 2;
-          columns = 128;
+          //          blockHeight /= 1.6;
+          //          blockWidth /= 1.6;
+          blockHeight = 10;
+          blockWidth = 20;
+          columns = 96;
         }
-        else if (maxBlocks > 1600)        // find better size
-        {
-          blockHeight /= 2;
-          blockWidth /= 2;
-          columns = 32;
-        }
+        //        else if (maxBlocks > 1600)        // find better size
+        //        {
+        //          blockHeight /= 2;
+        //          blockWidth /= 2;
+        //          columns = 32;
+        //        }
 
         rows = (maxBlocks - 1) / columns + 1;
 
         break;
     }
 
-    setWidth (INSET * 2 + columns * blockWidth);
-    setHeight (INSET * 2 + rows * blockHeight);
+    setWidth (INSET * 2 + columns * (blockWidth + 1) - 1);
+    setHeight (INSET * 2 + rows * (blockHeight + 1) - 1);
 
-    System.out.printf ("Width: %6f, Height: %6f%n", getWidth (), getHeight ());
-    System.out.printf ("Width: %6f, Height: %6f%n", blockWidth, blockHeight);
     draw ();
   }
 
@@ -110,8 +110,6 @@ public class DiskLayoutCanvas extends Canvas
     clear ();
 
     GraphicsContext gc = getGraphicsContext2D ();
-    System.out.printf ("Rows: %d, Columns: %d%n", rows, columns);
-    System.out.printf ("Width: %f, Height: %f%n", getWidth (), getHeight ());
 
     int x = INSET;
     int y = INSET;
@@ -122,11 +120,11 @@ public class DiskLayoutCanvas extends Canvas
     {
       for (int col = 0; col < columns; col++)
       {
-        gc.fillRect (x, y, blockWidth - 1, blockHeight - 1);
-        x += blockWidth;
+        gc.fillRect (x, y, blockWidth, blockHeight);
+        x += blockWidth + 1;
       }
       x = INSET;
-      y += blockHeight;
+      y += blockHeight + 1;
     }
   }
 }

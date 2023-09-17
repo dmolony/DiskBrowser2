@@ -401,9 +401,16 @@ public class AppleTreeFile
   public String toString ()
   // ---------------------------------------------------------------------------------//
   {
+    //    try
+    //    {
     if (isAppleFile () && !(appleFile.isFolder () || appleFile.hasEmbeddedFileSystem ()))
       return String.format ("%s %03d %s", appleFile.getFileTypeText (),
           appleFile.getTotalBlocks (), name);
+    //    }
+    //    catch (UnsupportedOperationException e)
+    //    {
+    //      System.out.println (e.getLocalizedMessage ());
+    //    }
 
     return name;
   }

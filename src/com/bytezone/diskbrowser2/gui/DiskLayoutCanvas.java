@@ -1,5 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
+import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.canvas.Canvas;
@@ -116,13 +117,30 @@ public class DiskLayoutCanvas extends Canvas
     int y = INSET;
 
     gc.setFill (Color.GREEN);
+    int blockNo = 0;
 
-    for (int row = 0; row < rows; row++)
+    OUT: for (int row = 0; row < rows; row++)
     {
       for (int col = 0; col < columns; col++)
       {
+        AppleBlock block = fileSystem.getBlock (blockNo, null);
+
+        if (block.getBlockType () == null)
+          gc.setFill (Color.BEIGE);
+        else
+          gc.setFill (switch (block.getBlockType ())
+          {
+            case OS_DATA -> Color.GREEN;
+            case FILE_DATA -> Color.RED;
+            case EMPTY -> Color.WHITE;
+            case ORPHAN -> Color.YELLOW;
+          });
+
         gc.fillRect (x, y, blockWidth, blockHeight);
         x += blockWidth + 1;
+
+        if (++blockNo >= fileSystem.getTotalBlocks ())
+          break OUT;
       }
       x = INSET;
       y += blockHeight + 1;

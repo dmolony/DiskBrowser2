@@ -4,3 +4,6 @@ This is a rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser), usin
   [AppleFileSystem](https://github.com/dmolony/AppleFileSystem) and
    [AppleFormat](https://github.com/dmolony/AppleFormat)). It is not yet ready
   for release. It's not even ready for parole.
+   
+### Example Screens
+![Teaser](resources/teaser.png?raw=true "This will change")

@@ -262,7 +262,7 @@ public class AppleTreeFile
     if (appleFileSystem != null)
       return true;
 
-    //    return appleFile != null && (appleFile.isFolder () || appleFile.isForkedFile ());
+    //   return appleFile != null && (appleFile.isFolder () || appleFile.isForkedFile ());
     return appleFile != null
         && (appleFile instanceof AppleContainer || appleFile.isForkedFile ());
   }

@@ -14,3 +14,5 @@ When a file is selected, and the Options pane is active, then options for that
 ![Teaser](screens/teaser2.png?raw=true "Don't rely on this")
 Extra file information has moved to the Extras tab.
 ![Teaser](screens/teaser3.png?raw=true "Other file types will have different output")
+The file tree can be filtered so that only selected file types are shown.
+![Teaser](screens/teaser4.png?raw=true "BXY files")

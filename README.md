@@ -4,6 +4,7 @@ This is a rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser), usin
   [AppleFileSystem](https://github.com/dmolony/AppleFileSystem) and
    [AppleFormat](https://github.com/dmolony/AppleFormat)). It is not yet ready
   for release. It's not even ready for parole.
+  
   The goal is for DiskBrowser ][ to retain all the file display formats of
    DiskBrowser, but with a better interface and a more maintainable code base.
    

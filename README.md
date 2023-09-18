@@ -6,4 +6,4 @@ This is a rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser), usin
   for release. It's not even ready for parole.
    
 ### Example Screens
-![Teaser](resources/teaser.png?raw=true "This will change")
+![Teaser](screens/teaser.png?raw=true "This will change")

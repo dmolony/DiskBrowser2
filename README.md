@@ -6,4 +6,6 @@ This is a rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser), usin
   for release. It's not even ready for parole.
    
 ### Example Screens
+This image shows the main interface change from DiskBrowser. Instead of separate tabs
+ for each disk, the file tree expands each disk image to show its contents.
 ![Teaser](screens/teaser.png?raw=true "This will change")

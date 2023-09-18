@@ -4,6 +4,8 @@ This is a rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser), usin
   [AppleFileSystem](https://github.com/dmolony/AppleFileSystem) and
    [AppleFormat](https://github.com/dmolony/AppleFormat)). It is not yet ready
   for release. It's not even ready for parole.
+  The goal is for DiskBrowser ][ to retain all the file display formats of
+   DiskBrowser, but with a better interface and a more maintainable code base.
    
 ### Example Screens
 This image shows the main interface change from DiskBrowser. Instead of separate tabs
@@ -14,5 +16,5 @@ When a file is selected, and the Options pane is active, then options for that
 ![Teaser](screens/teaser2.png?raw=true "Don't rely on this")
 Extra file information has moved to the Extras tab.
 ![Teaser](screens/teaser3.png?raw=true "Other file types will have different output")
-The file tree can be filtered so that only selected file types are shown.
+The file tree can be filtered so that only the selected file types are shown.
 ![Teaser](screens/teaser4.png?raw=true "BXY files")

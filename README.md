@@ -19,3 +19,5 @@ Extra file information has moved to the Extras tab.
 ![Teaser](screens/teaser3.png?raw=true "Other file types will have different output")
 The file tree can be filtered so that only the selected file types are shown.
 ![Teaser](screens/teaser4.png?raw=true "BXY files")
+The Meta tab shows information about the file.
+![Teaser](screens/teaser5.png?raw=true "Boring")

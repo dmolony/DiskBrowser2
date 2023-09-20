@@ -22,4 +22,4 @@ The file tree can be filtered so that only the selected file types are shown.
 The Meta tab shows information about the file.
 ![Teaser](screens/teaser5.png?raw=true "Boring")
 The Graphics tab shows pictures.
-![Teaser](screens/teaser6.png?raw=true "Picture")
+![Teaser](screens/teaser6.png?raw=true "Quelle surprise!")

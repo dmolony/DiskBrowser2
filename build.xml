@@ -7,16 +7,16 @@
 	<property name="jarFolder" location="${user.home}/Dropbox/Java" />
   <property name="jarFile" location="${jarFolder}/DiskBrowserApp.jar" />
 	
-	<target name="version">
-    <echo>DiskBrowserApp.jar</echo>
-		<echo>${ant.version}</echo>
+  <target name="version">
+	  <echo>DiskBrowserApp.jar</echo>
+	  <echo>${ant.version}</echo>
 	  <echo>Java/JVM version: ${ant.java.version}</echo> 
 	  <echo>Java/JVM detail version: ${java.version}</echo> 
 	</target>
 
 	<target name="init" depends="version">
-    <delete file="${binDir}/*.class" />
-		<delete file="${jarFile}" />
+	  <delete file="${binDir}/*.class" />
+	  <delete file="${jarFile}" />
 	</target>
 
   <target name="compile" depends="init">

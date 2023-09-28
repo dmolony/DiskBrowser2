@@ -12,7 +12,7 @@ import com.bytezone.filesystem.AppleContainer;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFilePath;
 import com.bytezone.filesystem.AppleFileSystem;
-import com.bytezone.filesystem.ForkedFile;
+import com.bytezone.filesystem.AppleForkedFile;
 
 import javafx.scene.image.Image;
 
@@ -313,7 +313,7 @@ public class AppleTreeFile
       }
 
       if (appleFile.isForkedFile ())
-        for (AppleFile file : ((ForkedFile) appleFile).getForks ())
+        for (AppleFile file : ((AppleForkedFile) appleFile).getForks ())
           children.add (new AppleTreeFile (file));
     }
 

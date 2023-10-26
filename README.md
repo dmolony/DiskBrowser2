@@ -12,6 +12,8 @@ This is a rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser), usin
 This image shows the main interface change from DiskBrowser. Instead of separate tabs
  for each disk, the file tree expands each disk image to show its contents.
 ![Teaser](screens/teaser.png?raw=true "This will change")
+File systems within file systems can be accessed.
+![Teaser](screens/teaser7.png?raw=true "Pascal area on a prodos disk image")
 When a file is selected, and the Options pane is active, then options for that
  file type can be altered.
 ![Teaser](screens/teaser2.png?raw=true "Don't rely on this")

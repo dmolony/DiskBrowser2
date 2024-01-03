@@ -40,19 +40,16 @@ public class DiskLayoutCanvas extends Canvas
 
     if (fileSystem == null)
     {
-      System.out.println ("Null FS");
+      System.out.println ("Null FS in DiskLayoutCanvas");
       clear ();
       return;
     }
-
-    //    System.out.printf ("%-8s %s%n", fileSystem.getFileSystemType (),
-    //        fileSystem.getFileName ());
 
     maxBlocks = fileSystem.getTotalBlocks ();
     blockHeight = UNIT_SIZE;
     blockWidth = UNIT_SIZE * (fileSystem.getBlockSize () / 256.0);
 
-    switch (fileSystem.getType ())
+    switch (fileSystem.getAddressType ())
     {
       case SECTOR:
         columns = fileSystem.getBlocksPerTrack ();
@@ -60,30 +57,16 @@ public class DiskLayoutCanvas extends Canvas
         break;
 
       case BLOCK:
-        columns = switch (fileSystem.getBlockSize ())
-        {
-          case 128 -> 32;
-          case 256 -> 16;
-          case 512 -> 8;
-          case 1024 -> 4;
-          default -> 4;         // impossible
-        };
-
-        if (maxBlocks > 3200)             // find better size
-        {
-          //          blockHeight /= 1.6;
-          //          blockWidth /= 1.6;
-          blockHeight = 10;
-          blockWidth = 20;
-          columns = 96;
-        }
-        //        else if (maxBlocks > 1600)        // find better size
+        //        columns = switch (fileSystem.getBlockSize ())
         //        {
-        //          blockHeight /= 2;
-        //          blockWidth /= 2;
-        //          columns = 32;
-        //        }
+        //          case 128 -> 32;
+        //          case 256 -> 16;
+        //          case 512 -> 8;
+        //          case 1024 -> 4;
+        //          default -> 4;         // impossible
+        //        };
 
+        columns = 32 / (fileSystem.getBlockSize () / 128);
         rows = (maxBlocks - 1) / columns + 1;
 
         break;

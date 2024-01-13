@@ -173,7 +173,9 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
       extractFolderName = System.getProperty ("user.home");
 
     rootFolderName = prefs.get (PREFS_ROOT_FOLDER, "");
-    notifyRootFolderListeners (new File (rootFolderName));
+    System.out.println (rootFolderName);
+    if (!rootFolderName.isEmpty ())
+      notifyRootFolderListeners (new File (rootFolderName));
   }
 
   // ---------------------------------------------------------------------------------//

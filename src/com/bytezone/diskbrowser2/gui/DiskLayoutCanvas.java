@@ -106,14 +106,14 @@ public class DiskLayoutCanvas extends Canvas
     {
       for (int col = 0; col < columns; col++)
       {
-        AppleBlock block = fileSystem.getBlock (blockNo, null);
+        AppleBlock block = fileSystem.getBlock (blockNo);
 
         if (block.getBlockType () == null)
           gc.setFill (Color.BEIGE);
         else
           gc.setFill (switch (block.getBlockType ())
           {
-            case OS_DATA -> Color.GREEN;
+            case FS_DATA -> Color.GREEN;
             case FILE_DATA -> Color.RED;
             case EMPTY -> Color.WHITE;
             case ORPHAN -> Color.YELLOW;

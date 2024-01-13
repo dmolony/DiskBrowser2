@@ -7,7 +7,6 @@ import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 
@@ -15,8 +14,7 @@ import javafx.scene.layout.BorderPane;
 public class DiskLayoutTab extends TabBase //implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
-  DiskLayoutCanvas diskLayoutCanvas = new DiskLayoutCanvas ();
-  private final ScrollPane scrollPane = new ScrollPane (diskLayoutCanvas);
+  protected DiskLayoutGroup diskLayoutGroup = new DiskLayoutGroup ();
 
   protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
@@ -31,8 +29,9 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
     super (title, keyCode);
 
     BorderPane borderPane = new BorderPane ();
-    borderPane.setCenter (scrollPane);
+    borderPane.setTop (diskLayoutGroup);
     this.setContent (borderPane);
+    //    borderPane.setFocusTraversable (true);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -63,7 +62,7 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
     if (isValid ())
       return;
 
-    diskLayoutCanvas.setFileSystem (appleFileSystem);
+    diskLayoutGroup.setFileSystem (appleFileSystem);
 
     setValid (true);
   }

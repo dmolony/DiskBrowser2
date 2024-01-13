@@ -31,7 +31,6 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
     BorderPane borderPane = new BorderPane ();
     borderPane.setTop (diskLayoutGroup);
     this.setContent (borderPane);
-    //    borderPane.setFocusTraversable (true);
   }
 
   // ---------------------------------------------------------------------------------//

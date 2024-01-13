@@ -3,7 +3,7 @@ This is a rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser), usin
  and the new libraries ([AppBase](https://github.com/dmolony/AppBase),
   [AppleFileSystem](https://github.com/dmolony/AppleFileSystem) and
    [AppleFormat](https://github.com/dmolony/AppleFormat)). It is not yet ready
-  for release. It's not even ready for parole.
+  for release.
   
   The goal is for DiskBrowser ][ to retain all the file display formats of
    DiskBrowser, but with a better interface and a more maintainable code base.
@@ -11,7 +11,7 @@ This is a rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser), usin
 ### Example Screens
 This image shows the main interface change from DiskBrowser. Instead of separate tabs
  for each disk, the file tree expands each disk image in place.
-![Teaser](screens/teaser.png?raw=true "This will change")
+![Teaser](screens/teaser1.png?raw=true "This will change")
 File systems within file systems can be accessed. This screen shows the directory
 listing of a Pascal Area which is stored on a Prodos disk. All of the pascal files can
 be displayed as usual.

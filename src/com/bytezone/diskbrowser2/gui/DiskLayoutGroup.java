@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFileSystem;
-import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -281,8 +280,9 @@ public class DiskLayoutGroup extends Group
     if (diskColumns == 0)
       diskColumns = 32 / diskBlockUnits;
 
-    if (fs.getTotalBlocks () >= 1600 && fs.getFileSystemType () == FileSystemType.PRODOS)
-      diskColumns = 16;
+    //    if (fs.getTotalBlocks () >= 1600 
+    //        && fs.getFileSystemType () == FileSystemType.PRODOS)
+    //      diskColumns = 16;
 
     diskRows = (fs.getTotalBlocks () - 1) / diskColumns + 1;
 

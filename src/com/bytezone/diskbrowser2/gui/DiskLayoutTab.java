@@ -45,10 +45,13 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
 
     if (appleFile == null)
       appleFileSystem = treeFile.getAppleFileSystem ();
-    else if (appleFile.hasEmbeddedFileSystem ())
-      appleFileSystem = appleFile.getEmbeddedFileSystem ();
     else
-      appleFileSystem = appleFile.getParentFileSystem ();
+    {
+      if (appleFile.hasEmbeddedFileSystem ())
+        appleFileSystem = appleFile.getEmbeddedFileSystem ();
+      else
+        appleFileSystem = appleFile.getParentFileSystem ();
+    }
 
     refresh ();
   }
@@ -62,6 +65,7 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
       return;
 
     diskLayoutGroup.setFileSystem (appleFileSystem);
+    diskLayoutGroup.setAppleFile (appleFile);
 
     setValid (true);
   }

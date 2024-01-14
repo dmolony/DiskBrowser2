@@ -46,6 +46,8 @@ class AppleTreeView extends TreeView<AppleTreeFile>
     model.selectedItemProperty ()
         .addListener ( (obs, oldSel, newSel) -> itemSelected ((AppleTreeItem) newSel));
 
+    this.focusedProperty ().addListener ( (obs, oldVal, newVal) -> focus (newVal));
+
     setCellFactory (new Callback<TreeView<AppleTreeFile>, TreeCell<AppleTreeFile>> ()
     {
       @Override
@@ -77,6 +79,14 @@ class AppleTreeView extends TreeView<AppleTreeFile>
         return cell;
       }
     });
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private void focus (boolean val)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (val)
+      itemSelected ((AppleTreeItem) model.getSelectedItem ());
   }
 
   // ---------------------------------------------------------------------------------//

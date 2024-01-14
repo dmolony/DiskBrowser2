@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.filesystem.AppleBlock;
+import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.beans.value.ChangeListener;
@@ -65,6 +66,7 @@ public class DiskLayoutGroup extends Group
   int firstColumn = -1;
   int selectedBlockNo = -1;
   int currentDiskNo = -1;
+  List<AppleBlock> selectedBlocks;
 
   AppleFileSystem fs;
   List<GridClickListener> listeners = new ArrayList<> ();
@@ -92,7 +94,7 @@ public class DiskLayoutGroup extends Group
   {
     if (appleFileSystem == null)
     {
-      System.out.println ("Null FS in DiskLayoutCanvas");
+      //      System.out.println ("Null FS in DiskLayoutGroup");
       //      clear ();
       return;
     }
@@ -102,9 +104,22 @@ public class DiskLayoutGroup extends Group
     selectedBlockNo = -1;
 
     fs = appleFileSystem;
-    System.out.println (fs);
+    //    System.out.println (fs);
 
     buildScreen (appleFileSystem, gc);
+    drawGrid ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void setAppleFile (AppleFile appleFile)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (appleFile == null)
+      return;
+
+    selectedBlocks = appleFile.getBlocks ();
+    selectedBlockNo = -1;
+
     drawGrid ();
   }
 
@@ -156,7 +171,12 @@ public class DiskLayoutGroup extends Group
                   : display == 1 ? getFsSubTypeColor (block, color)   //
                       : getFileSubTypeColor (block, color);
 
-          cell.draw (cellColor, blockNo == selectedBlockNo);
+          boolean selected = false;
+          if (blockNo == selectedBlockNo
+              || selectedBlocks != null && selectedBlocks.contains (block))
+            selected = true;
+
+          cell.draw (cellColor, selected);
         }
         else
           cell.erase ();
@@ -407,6 +427,7 @@ public class DiskLayoutGroup extends Group
         {
           notifyListeners (selectedBlockNo, blockNo);
           selectedBlockNo = blockNo;
+          selectedBlocks = null;
           drawGrid ();
         }
       }
@@ -454,7 +475,6 @@ public class DiskLayoutGroup extends Group
       {
         //        if (!event.isInertia ())
         {
-          //          System.out.println (event);
           scrollBarValueV = (int) scrollBarV.getValue ();
           scrollBarValueH = (int) scrollBarH.getValue ();
         }
@@ -501,7 +521,7 @@ public class DiskLayoutGroup extends Group
     if (block == null)
       return;
 
-    System.out.println (block);
+    //    System.out.println (block);
     GridClickEvent event = new GridClickEvent (block);
 
     for (GridClickListener listener : listeners)

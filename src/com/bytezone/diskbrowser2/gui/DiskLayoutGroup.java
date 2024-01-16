@@ -531,7 +531,6 @@ public class DiskLayoutGroup extends Group
     if (block == null)
       return;
 
-    //    System.out.println (block);
     GridClickEvent event = new GridClickEvent (block);
 
     for (GridClickListener listener : listeners)

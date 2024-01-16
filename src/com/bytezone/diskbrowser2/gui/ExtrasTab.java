@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.appleformat.ApplePreferences;
-import com.bytezone.appleformat.FormattedAppleFile;
+import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 

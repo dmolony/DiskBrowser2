@@ -9,8 +9,8 @@ import java.util.List;
 
 import com.bytezone.appbase.AppBase;
 import com.bytezone.appleformat.ApplePreferences;
-import com.bytezone.appleformat.FormattedAppleBlock;
-import com.bytezone.appleformat.FormattedAppleFile;
+import com.bytezone.appleformat.block.FormattedAppleBlock;
+import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;

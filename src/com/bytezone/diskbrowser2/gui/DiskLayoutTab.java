@@ -3,7 +3,6 @@ package com.bytezone.diskbrowser2.gui;
 import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.TabBase;
-import com.bytezone.appleformat.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
@@ -16,7 +15,7 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
 {
   protected DiskLayoutGroup diskLayoutGroup = new DiskLayoutGroup ();
 
-  protected FormattedAppleFile formattedAppleFile;
+  protected com.bytezone.appleformat.file.FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
   protected AppleTreeFile treeFile;
   protected AppleFile appleFile;

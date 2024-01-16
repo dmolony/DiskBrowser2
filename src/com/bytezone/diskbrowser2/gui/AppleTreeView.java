@@ -7,7 +7,6 @@ import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.FontChangeListener;
 import com.bytezone.appbase.SaveState;
-import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.filesystem.FileSystemFactory;
 
 import javafx.scene.control.MultipleSelectionModel;
@@ -24,7 +23,6 @@ class AppleTreeView extends TreeView<AppleTreeFile>
 // ---------------------------------------------------------------------------------//
 {
   static FileSystemFactory fileSystemFactory = new FileSystemFactory ();
-  static FormattedAppleFileFactory formattedAppleFileFactory;
 
   private static final String PREFS_LAST_PATH = "LastPath";
   private static String SEPARATOR = "|";
@@ -35,12 +33,10 @@ class AppleTreeView extends TreeView<AppleTreeFile>
   private final List<TreeNodeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
-  AppleTreeView (AppleTreeItem root, FormattedAppleFileFactory formattedAppleFileFactory)
+  AppleTreeView (AppleTreeItem root)
   // ---------------------------------------------------------------------------------//
   {
     super (root);
-
-    AppleTreeView.formattedAppleFileFactory = formattedAppleFileFactory;
 
     model = getSelectionModel ();
     model.selectedItemProperty ()

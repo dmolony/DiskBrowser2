@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleContainer;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFilePath;
@@ -27,7 +26,6 @@ public class AppleTreeFile
 
   private AppleFile appleFile;
   private AppleFileSystem appleFileSystem;
-  private FormattedAppleFile formattedAppleFile;
 
   private int extensionNo;
 
@@ -151,25 +149,6 @@ public class AppleTreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  FormattedAppleFile getFormattedAppleFile ()
-  // ---------------------------------------------------------------------------------//
-  {
-    if (formattedAppleFile == null && appleFile != null)
-      formattedAppleFile =
-          AppleTreeView.formattedAppleFileFactory.getFormattedAppleFile (appleFile);
-
-    if (formattedAppleFile == null && appleFileSystem != null)
-      formattedAppleFile =
-          AppleTreeView.formattedAppleFileFactory.getFormattedAppleFile (appleFileSystem);
-
-    if (formattedAppleFile == null && localFile != null)
-      formattedAppleFile =
-          AppleTreeView.formattedAppleFileFactory.getFormattedAppleFile (localFile);
-
-    return formattedAppleFile;
-  }
-
-  // ---------------------------------------------------------------------------------//
   File getLocalFile ()
   // ---------------------------------------------------------------------------------//
   {
@@ -262,7 +241,6 @@ public class AppleTreeFile
     if (appleFileSystem != null)
       return true;
 
-    //   return appleFile != null && (appleFile.isFolder () || appleFile.isForkedFile ());
     return appleFile != null
         && (appleFile instanceof AppleContainer || appleFile.isForkedFile ());
   }
@@ -271,7 +249,7 @@ public class AppleTreeFile
   public boolean isAppleDataFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null && !isAppleContainer ();// && !isAppleForkedFile ();
+    return appleFile != null && !isAppleContainer ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -401,16 +379,9 @@ public class AppleTreeFile
   public String toString ()
   // ---------------------------------------------------------------------------------//
   {
-    //    try
-    //    {
     if (isAppleFile () && !(appleFile.isFolder () || appleFile.hasEmbeddedFileSystem ()))
       return String.format ("%s %03d %s", appleFile.getFileTypeText (),
           appleFile.getTotalBlocks (), name);
-    //    }
-    //    catch (UnsupportedOperationException e)
-    //    {
-    //      System.out.println (e.getLocalizedMessage ());
-    //    }
 
     return name;
   }

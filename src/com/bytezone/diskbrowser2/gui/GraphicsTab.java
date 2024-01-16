@@ -68,7 +68,8 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
     treeFile = appleTreeItem.getValue ();
     appleFile = treeFile.getAppleFile ();
     appleFileSystem = treeFile.getAppleFileSystem ();
-    formattedAppleFile = treeFile.getFormattedAppleFile ();
+    formattedAppleFile =
+        appleFile == null ? null : (FormattedAppleFile) appleFile.getUserData ();
 
     refresh ();
   }

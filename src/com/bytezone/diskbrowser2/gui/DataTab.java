@@ -119,23 +119,26 @@ class DataTab extends DBTextTab
     treeFile = appleTreeItem.getValue ();
     appleFile = treeFile.getAppleFile ();
     appleFileSystem = treeFile.getAppleFileSystem ();
-    formattedAppleFile = treeFile.getFormattedAppleFile ();
+    formattedAppleFile =
+        appleFile == null ? null : (FormattedAppleFile) appleFile.getUserData ();
+
     appleBlock = null;
+    formattedAppleBlock = null;
 
     refresh ();
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleBlock (AppleBlock appleBlock,
-      FormattedAppleBlock formattedAppleBlock)
+  public void setAppleBlock (AppleBlock appleBlock)
   // ---------------------------------------------------------------------------------//
   {
     treeFile = null;
     appleFile = null;
     appleFileSystem = null;
     formattedAppleFile = null;
+
     this.appleBlock = appleBlock;
-    this.formattedAppleBlock = formattedAppleBlock;
+    this.formattedAppleBlock = (FormattedAppleBlock) appleBlock.getUserData ();
 
     refresh ();
   }

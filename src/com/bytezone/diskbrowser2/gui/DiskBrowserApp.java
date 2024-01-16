@@ -48,9 +48,6 @@ public class DiskBrowserApp extends AppBase implements SaveState
     super.start (primaryStage);
 
     dbStageManager.setSplitPane (splitPane);      // this must happen after show()
-
-    //    primaryStage.getScene ().focusOwnerProperty ()
-    //        .addListener ( (prop, oldNode, newNode) -> focus (newNode));
   }
 
   // ---------------------------------------------------------------------------------//
@@ -65,9 +62,10 @@ public class DiskBrowserApp extends AppBase implements SaveState
     formattedAppleFileFactory = new FormattedAppleFileFactory (prefs);
     formattedAppleBlockFactory = new FormattedAppleBlockFactory (prefs);
 
-    treePane = new TreePane (formattedAppleFileFactory, preferencesManager);
-    outputTabPane = new OutputTabPane (formattedAppleBlockFactory, "Output");
-    rightTabPane = new ExtrasTabPane (formattedAppleBlockFactory, "Extras");
+    treePane = new TreePane (preferencesManager);
+    outputTabPane = new OutputTabPane ("Output", formattedAppleFileFactory,
+        formattedAppleBlockFactory);
+    rightTabPane = new ExtrasTabPane ("Extras");
 
     TreeHeaderBar treeHeaderBar = new TreeHeaderBar ();
     OutputHeaderBar outputHeaderBar = new OutputHeaderBar ();
@@ -218,7 +216,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
   //  {
   //    if (setRootFolder ())
   //    {
-  //      //      treePane.setRootFolder (new AppleTreeItem (new AppleTreeFile (rootFolder)));
+  //      //  treePane.setRootFolder (new AppleTreeItem (new AppleTreeFile (rootFolder)));
   //      treePane.setRootFolder (rootFolder, formattedAppleFileFactory);
   //      dbStatusBar.setStatusMessage ("Root folder changed");
   //    }

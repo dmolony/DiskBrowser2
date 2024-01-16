@@ -71,7 +71,8 @@ class HexTab extends DBTextTab
     treeFile = appleTreeItem.getValue ();
     appleFile = treeFile.getAppleFile ();
     appleFileSystem = treeFile.getAppleFileSystem ();
-    formattedAppleFile = treeFile.getFormattedAppleFile ();
+    formattedAppleFile =
+        appleFile == null ? null : (FormattedAppleFile) appleFile.getUserData ();
 
     refresh ();
   }

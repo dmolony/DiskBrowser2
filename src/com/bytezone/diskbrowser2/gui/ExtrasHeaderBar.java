@@ -46,7 +46,8 @@ public class ExtrasHeaderBar extends HeaderBar
     }
     else if (selectedTab instanceof FileOptionsTab tab)
     {
-      FormattedAppleFile formattedAppleFile = treeFile.getFormattedAppleFile ();
+      FormattedAppleFile formattedAppleFile =
+          (FormattedAppleFile) treeFile.getAppleFile ().getUserData ();
 
       if (formattedAppleFile != null)
       {

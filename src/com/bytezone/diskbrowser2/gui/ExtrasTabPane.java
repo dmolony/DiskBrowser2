@@ -1,7 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.TabPaneBase;
-import com.bytezone.appleformat.FormattedAppleBlockFactory;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
 import javafx.scene.input.KeyCode;
@@ -15,7 +14,7 @@ class ExtrasTabPane extends TabPaneBase implements TreeNodeListener
   final DiskLayoutTab diskLayoutTab = new DiskLayoutTab ("Layout", KeyCode.L);
 
   // ---------------------------------------------------------------------------------//
-  ExtrasTabPane (FormattedAppleBlockFactory formattedAppleBlockFactory, String prefsId)
+  ExtrasTabPane (String prefsId)
   // ---------------------------------------------------------------------------------//
   {
     super (prefsId);

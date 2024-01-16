@@ -15,7 +15,7 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
 {
   protected DiskLayoutGroup diskLayoutGroup = new DiskLayoutGroup ();
 
-  protected com.bytezone.appleformat.file.FormattedAppleFile formattedAppleFile;
+  //  protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
   protected AppleTreeFile treeFile;
   protected AppleFile appleFile;
@@ -40,7 +40,7 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
 
     treeFile = appleTreeItem.getValue ();
     appleFile = treeFile.getAppleFile ();
-    formattedAppleFile = treeFile.getFormattedAppleFile ();
+    //    formattedAppleFile = treeFile.getFormattedAppleFile ();
 
     if (appleFile == null)
       appleFileSystem = treeFile.getAppleFileSystem ();

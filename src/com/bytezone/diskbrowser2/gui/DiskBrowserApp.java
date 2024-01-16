@@ -7,10 +7,10 @@ import com.bytezone.appbase.AppBase;
 import com.bytezone.appbase.SaveState;
 import com.bytezone.appbase.StageManager;
 import com.bytezone.appbase.StatusBar;
+import com.bytezone.appleformat.FormattedAppleBlockFactory;
 import com.bytezone.appleformat.FormattedAppleFileFactory;
 
 import javafx.application.Application;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.KeyEvent;
@@ -24,6 +24,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
 {
   static PreferencesManager preferencesManager;
   static FormattedAppleFileFactory formattedAppleFileFactory;
+  static FormattedAppleBlockFactory formattedAppleBlockFactory;
 
   // set three panes for the split pane
   private final SplitPane splitPane = new SplitPane ();
@@ -62,10 +63,11 @@ public class DiskBrowserApp extends AppBase implements SaveState
     Preferences prefs = getPreferences ();
     preferencesManager = new PreferencesManager (prefs);
     formattedAppleFileFactory = new FormattedAppleFileFactory (prefs);
+    formattedAppleBlockFactory = new FormattedAppleBlockFactory (prefs);
 
     treePane = new TreePane (formattedAppleFileFactory, preferencesManager);
-    outputTabPane = new OutputTabPane ("Output");
-    rightTabPane = new ExtrasTabPane ("Extras");
+    outputTabPane = new OutputTabPane (formattedAppleBlockFactory, "Output");
+    rightTabPane = new ExtrasTabPane (formattedAppleBlockFactory, "Extras");
 
     TreeHeaderBar treeHeaderBar = new TreeHeaderBar ();
     OutputHeaderBar outputHeaderBar = new OutputHeaderBar ();
@@ -103,6 +105,9 @@ public class DiskBrowserApp extends AppBase implements SaveState
     treePane.addTreeNodeListener (extrasHeaderBar);
     treePane.addTreeNodeListener (extrasHeaderBar);
 
+    // grid click listeners
+    rightTabPane.diskLayoutTab.addClickListener (outputTabPane);
+
     // tab change listeners
     outputTabPane.addTabChangeListener (viewMenu);
     rightTabPane.addTabChangeListener (extrasHeaderBar);
@@ -126,11 +131,6 @@ public class DiskBrowserApp extends AppBase implements SaveState
         this));
 
     return splitPane;
-  }
-
-  private void focus (Node node)
-  {
-    System.out.println (node);
   }
 
   // ---------------------------------------------------------------------------------//

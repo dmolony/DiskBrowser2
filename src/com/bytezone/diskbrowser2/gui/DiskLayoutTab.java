@@ -85,4 +85,11 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
   {
     super.save (prefs);
   }
+
+  // ---------------------------------------------------------------------------------//
+  public void addClickListener (GridClickListener listener)
+  // ---------------------------------------------------------------------------------//
+  {
+    diskLayoutGroup.addClickListener (listener);
+  }
 }

@@ -9,7 +9,9 @@ import java.util.List;
 
 import com.bytezone.appbase.AppBase;
 import com.bytezone.appleformat.ApplePreferences;
+import com.bytezone.appleformat.FormattedAppleBlock;
 import com.bytezone.appleformat.FormattedAppleFile;
+import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
@@ -23,11 +25,14 @@ class DataTab extends DBTextTab
 {
   private static final int MAX_LINES = 2500;
 
-  private FormattedAppleFile formattedAppleFile;
   private AppleTreeItem appleTreeItem;
   private AppleTreeFile treeFile;
   private AppleFile appleFile;
   private AppleFileSystem appleFileSystem;
+  private AppleBlock appleBlock;
+
+  private FormattedAppleFile formattedAppleFile;
+  private FormattedAppleBlock formattedAppleBlock;
 
   // ---------------------------------------------------------------------------------//
   public DataTab (String title, KeyCode keyCode)
@@ -41,17 +46,23 @@ class DataTab extends DBTextTab
   List<String> getLines ()
   // ---------------------------------------------------------------------------------//
   {
-    return formattedAppleFile == null ? new ArrayList<> () : getLines (MAX_LINES);
+    if (formattedAppleFile != null)
+      return getLines (MAX_LINES, formattedAppleFile.getText ().split ("\n"));
+
+    if (formattedAppleBlock != null)
+      return getLines (MAX_LINES, formattedAppleBlock.getText ().split ("\n"));
+
+    return new ArrayList<> ();
   }
 
   // ---------------------------------------------------------------------------------//
-  private List<String> getLines (int maxLines)
+  private List<String> getLines (int maxLines, String[] lines)
   // ---------------------------------------------------------------------------------//
   {
     List<String> newLines = new ArrayList<> ();
 
     int lineNo = 0;
-    String[] lines = formattedAppleFile.getText ().split ("\n");
+    //    String[] lines = formattedAppleFile.getText ().split ("\n");
     for (String line : lines)
     {
       if (lineNo++ > MAX_LINES)
@@ -78,7 +89,7 @@ class DataTab extends DBTextTab
 
     try (BufferedWriter output = new BufferedWriter (new FileWriter (file)))
     {
-      for (String line : getLines (0))
+      for (String line : getLines ())
         output.write (line + "\n");
       AppBase.showAlert (AlertType.INFORMATION, "Success",
           "File Saved: " + file.getName ());
@@ -109,6 +120,22 @@ class DataTab extends DBTextTab
     appleFile = treeFile.getAppleFile ();
     appleFileSystem = treeFile.getAppleFileSystem ();
     formattedAppleFile = treeFile.getFormattedAppleFile ();
+    appleBlock = null;
+
+    refresh ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public void setAppleBlock (AppleBlock appleBlock,
+      FormattedAppleBlock formattedAppleBlock)
+  // ---------------------------------------------------------------------------------//
+  {
+    treeFile = null;
+    appleFile = null;
+    appleFileSystem = null;
+    formattedAppleFile = null;
+    this.appleBlock = appleBlock;
+    this.formattedAppleBlock = formattedAppleBlock;
 
     refresh ();
   }

@@ -31,9 +31,10 @@ public class DiskLayoutGroup extends Group
   private static final int SIZE_SB = 16;
   private static final int GRID_PADDING = 0;
   private static final int SCREEN_ROWS = 35;
+  private static final int MAX_HALF_BLOCKS = 32;
 
   private static final int GRID_HEIGHT = SCREEN_ROWS * SIZE_H - 1;
-  private static final int GRID_WIDTH = 32 * SIZE_W - 1;
+  private static final int GRID_WIDTH = MAX_HALF_BLOCKS * SIZE_W - 1;
 
   private static final int X_OFFSET = 50;
   private static final int Y_OFFSET = 40;
@@ -115,7 +116,11 @@ public class DiskLayoutGroup extends Group
   // ---------------------------------------------------------------------------------//
   {
     if (appleFile == null)
+    {
+      selectedBlocks = null;
+      selectedBlockNo = -1;
       return;
+    }
 
     selectedBlocks = appleFile.getBlocks ();
     selectedBlockNo = -1;
@@ -235,14 +240,11 @@ public class DiskLayoutGroup extends Group
   {
     return switch (block.getBlockType ())
     {
-      //            case ORPHAN -> Color.LIGHTYELLOW;
-      //            case ORPHAN -> Color.LIGHTGOLDENRODYELLOW;
-      //            case ORPHAN -> Color.SEASHELL;
       case ORPHAN -> Color.NAVAJOWHITE;
       case EMPTY -> Color.GHOSTWHITE;
       case FILE_DATA -> Color.CRIMSON;
-      //            case FS_DATA -> Color.BLUE;
       case FS_DATA -> Color.ROYALBLUE;
+      //      case null -> Color.BLACK;
     };
   }
 
@@ -291,14 +293,14 @@ public class DiskLayoutGroup extends Group
       diskBlockUnits = 2;
     }
 
-    // window size
-    screenColumns = 32 / diskBlockUnits;
+    // window size (32 x 1, 16 x 2, 8 x 4 or 4 x 8)
+    screenColumns = MAX_HALF_BLOCKS / diskBlockUnits;
     blockWidth = SIZE_W * diskBlockUnits;
 
     // disk display layout
     diskColumns = fs.getBlocksPerTrack ();
     if (diskColumns == 0)
-      diskColumns = 32 / diskBlockUnits;
+      diskColumns = screenColumns;
 
     //    if (fs.getTotalBlocks () >= 1600 
     //        && fs.getFileSystemType () == FileSystemType.PRODOS)
@@ -354,7 +356,7 @@ public class DiskLayoutGroup extends Group
     scrollBarH.setLayoutY (canvas.getHeight () + 1);
     scrollBarH.setMin (0);
     scrollBarH.setPrefHeight (SIZE_SB);
-    scrollBarH.setPrefWidth (32 * SIZE_W);
+    scrollBarH.setPrefWidth (MAX_HALF_BLOCKS * SIZE_W);
 
     scrollBarV.valueProperty ().addListener (new ChangeListener<Number> ()
     {
@@ -511,6 +513,14 @@ public class DiskLayoutGroup extends Group
   {
     gc.setFill (Color.WHITE);
     gc.fillRect (0, 0, canvas.getWidth (), canvas.getHeight ());
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public void addClickListener (GridClickListener listener)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (!listeners.contains (listener))
+      listeners.add (listener);
   }
 
   // ---------------------------------------------------------------------------------//

@@ -1,12 +1,13 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.TabPaneBase;
+import com.bytezone.appleformat.FormattedAppleBlockFactory;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-class OutputTabPane extends TabPaneBase implements TreeNodeListener
+class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickListener
 // -----------------------------------------------------------------------------------//
 {
   final DataTab dataTab = new DataTab ("Data", KeyCode.D);
@@ -15,11 +16,15 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
   final ExtrasTab extrasTab = new ExtrasTab ("Extras", KeyCode.E);
   final MetaTab metaTab = new MetaTab ("Meta", KeyCode.M);
 
+  final FormattedAppleBlockFactory formattedAppleBlockFactory;
+
   // ---------------------------------------------------------------------------------//
-  OutputTabPane (String prefsId)
+  OutputTabPane (FormattedAppleBlockFactory formattedAppleBlockFactory, String prefsId)
   // ---------------------------------------------------------------------------------//
   {
     super (prefsId);
+
+    this.formattedAppleBlockFactory = formattedAppleBlockFactory;
 
     add (dataTab);
     add (graphicsTab);
@@ -38,5 +43,14 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener
     extrasTab.setAppleTreeItem (appleTreeItem);
     hexTab.setAppleTreeItem (appleTreeItem);
     metaTab.setAppleTreeItem (appleTreeItem);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void gridClick (GridClickEvent event)
+  // ---------------------------------------------------------------------------------//
+  {
+    dataTab.setAppleBlock (event.block,
+        formattedAppleBlockFactory.getFormattedAppleBlock (event.block));
   }
 }

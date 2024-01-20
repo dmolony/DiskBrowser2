@@ -3,6 +3,8 @@ package com.bytezone.diskbrowser2.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bytezone.appleformat.FormattedAppleBlockFactory;
+import com.bytezone.appleformat.block.FormattedAppleBlock;
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
@@ -71,6 +73,7 @@ public class DiskLayoutGroup extends Group
 
   AppleFileSystem fs;
   List<GridClickListener> listeners = new ArrayList<> ();
+  FormattedAppleBlockFactory formattedAppleBlockFactory;
 
   // ---------------------------------------------------------------------------------//
   public DiskLayoutGroup ()
@@ -87,6 +90,13 @@ public class DiskLayoutGroup extends Group
     setScrollBars (canvas);
 
     getChildren ().addAll (scrollBarV, scrollBarH, canvas);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void setFactory (FormattedAppleBlockFactory formattedAppleBlockFactory)
+  // ---------------------------------------------------------------------------------//
+  {
+    this.formattedAppleBlockFactory = formattedAppleBlockFactory;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -527,11 +537,21 @@ public class DiskLayoutGroup extends Group
   private void notifyListeners (int previousBlockNo, int selectedBlockNo)
   // ---------------------------------------------------------------------------------//
   {
-    AppleBlock block = fs.getBlock (selectedBlockNo);
-    if (block == null)
+    AppleBlock appleBlock = fs.getBlock (selectedBlockNo);
+    if (appleBlock == null)
       return;
 
-    GridClickEvent event = new GridClickEvent (block);
+    FormattedAppleBlock formattedAppleBlock =
+        (FormattedAppleBlock) appleBlock.getUserData ();
+
+    if (formattedAppleBlock == null)
+    {
+      formattedAppleBlock =
+          formattedAppleBlockFactory.getFormattedAppleBlock (appleBlock);
+      appleBlock.setUserData (formattedAppleBlock);
+    }
+
+    GridClickEvent event = new GridClickEvent (appleBlock);
 
     for (GridClickListener listener : listeners)
       listener.gridClick (event);

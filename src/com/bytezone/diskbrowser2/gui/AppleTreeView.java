@@ -1,5 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,10 @@ import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.FontChangeListener;
 import com.bytezone.appbase.SaveState;
+import com.bytezone.appleformat.FormattedAppleFileFactory;
+import com.bytezone.appleformat.file.FormattedAppleFile;
+import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.FileSystemFactory;
 
 import javafx.scene.control.MultipleSelectionModel;
@@ -23,6 +28,7 @@ class AppleTreeView extends TreeView<AppleTreeFile>
 // ---------------------------------------------------------------------------------//
 {
   static FileSystemFactory fileSystemFactory = new FileSystemFactory ();
+  private final FormattedAppleFileFactory formattedAppleFileFactory;
 
   private static final String PREFS_LAST_PATH = "LastPath";
   private static String SEPARATOR = "|";
@@ -33,10 +39,12 @@ class AppleTreeView extends TreeView<AppleTreeFile>
   private final List<TreeNodeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
-  AppleTreeView (AppleTreeItem root)
+  AppleTreeView (AppleTreeItem root, FormattedAppleFileFactory formattedAppleFileFactory)
   // ---------------------------------------------------------------------------------//
   {
     super (root);
+
+    this.formattedAppleFileFactory = formattedAppleFileFactory;
 
     model = getSelectionModel ();
     model.selectedItemProperty ()
@@ -101,10 +109,49 @@ class AppleTreeView extends TreeView<AppleTreeFile>
     // if the item is selected BEFORE it is opened then we do this one
 
     if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
-      appleTreeItem.getChildren ();          // force the file to be processed
+      appleTreeItem.getChildren ();           // force the file to be processed
+
+    if (treeFile.getFormattedAppleFile () == null)
+      setFormattedAppleFile (treeFile);
 
     for (TreeNodeListener listener : listeners)
       listener.treeNodeSelected (appleTreeItem);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void setFormattedAppleFile (AppleTreeFile appleTreeFile)
+  // ---------------------------------------------------------------------------------//
+  {
+    FormattedAppleFile formattedAppleFile = null;
+
+    AppleFile appleFile = appleTreeFile.getAppleFile ();
+    if (formattedAppleFile == null && appleFile != null)
+    {
+      formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (appleFile);
+      appleTreeFile.setFormattedAppleFile (formattedAppleFile);
+    }
+
+    AppleFileSystem appleFileSystem = appleTreeFile.getAppleFileSystem ();
+    if (formattedAppleFile == null && appleFileSystem != null)
+    {
+      if (formattedAppleFile == null)
+      {
+        formattedAppleFile =
+            formattedAppleFileFactory.getFormattedAppleFile (appleFileSystem);
+        appleTreeFile.setFormattedAppleFile (formattedAppleFile);
+      }
+    }
+
+    File localFile = appleTreeFile.getLocalFile ();
+    if (formattedAppleFile == null && localFile != null && localFile.isDirectory ())
+    {
+      formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (localFile);
+      appleTreeFile.setFormattedAppleFile (formattedAppleFile);
+    }
+
+    assert formattedAppleFile != null;
+    //    if (formattedAppleFile == null)
+    //      System.out.println ("Failed");
   }
 
   // ---------------------------------------------------------------------------------//

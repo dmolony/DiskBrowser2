@@ -1,15 +1,8 @@
 package com.bytezone.diskbrowser2.gui;
 
-import java.io.File;
-
 import com.bytezone.appbase.TabPaneBase;
-import com.bytezone.appleformat.FormattedAppleBlockFactory;
-import com.bytezone.appleformat.FormattedAppleFileFactory;
-import com.bytezone.appleformat.block.FormattedAppleBlock;
-import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
-import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.AppleBlock;
 
 import javafx.scene.input.KeyCode;
 
@@ -23,18 +16,17 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
   final ExtrasTab extrasTab = new ExtrasTab ("Extras", KeyCode.E);
   final MetaTab metaTab = new MetaTab ("Meta", KeyCode.M);
 
-  final FormattedAppleFileFactory formattedAppleFileFactory;
-  final FormattedAppleBlockFactory formattedAppleBlockFactory;
+  //  final FormattedAppleFileFactory formattedAppleFileFactory;
+  //  final FormattedAppleBlockFactory formattedAppleBlockFactory;
 
   // ---------------------------------------------------------------------------------//
-  OutputTabPane (String prefsId, FormattedAppleFileFactory formattedAppleFileFactory,
-      FormattedAppleBlockFactory formattedAppleBlockFactory)
+  OutputTabPane (String prefsId)
   // ---------------------------------------------------------------------------------//
   {
     super (prefsId);
 
-    this.formattedAppleFileFactory = formattedAppleFileFactory;
-    this.formattedAppleBlockFactory = formattedAppleBlockFactory;
+    //    this.formattedAppleFileFactory = formattedAppleFileFactory;
+    //    this.formattedAppleBlockFactory = formattedAppleBlockFactory;
 
     add (dataTab);
     add (graphicsTab);
@@ -44,45 +36,11 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
   }
 
   // ---------------------------------------------------------------------------------//
-  FormattedAppleFile getFormattedAppleFile (AppleTreeFile treeFile)
-  // ---------------------------------------------------------------------------------//
-  {
-    AppleFile appleFile = treeFile.getAppleFile ();
-    if (appleFile == null)
-      return null;
-
-    AppleFileSystem appleFileSystem = treeFile.getAppleFileSystem ();
-    File localFile = treeFile.getLocalFile ();
-    FormattedAppleFile formattedAppleFile = (FormattedAppleFile) appleFile.getUserData ();
-
-    if (formattedAppleFile == null && appleFile != null)
-    {
-      formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (appleFile);
-      appleFile.setUserData (formattedAppleFile);
-    }
-
-    if (formattedAppleFile == null && appleFileSystem != null)
-    {
-      formattedAppleFile =
-          formattedAppleFileFactory.getFormattedAppleFile (appleFileSystem);
-      appleFile.setUserData (formattedAppleFile);
-    }
-
-    if (formattedAppleFile == null && localFile != null)
-    {
-      formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (localFile);
-      appleFile.setUserData (formattedAppleFile);
-    }
-
-    return formattedAppleFile;
-  }
-
-  // ---------------------------------------------------------------------------------//
   @Override
   public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    getFormattedAppleFile (appleTreeItem.getValue ());
+    //    FormattedAppleFile faf = getFormattedAppleFile (appleTreeItem.getValue ());
 
     dataTab.setAppleTreeItem (appleTreeItem);
     graphicsTab.setAppleTreeItem (appleTreeItem);
@@ -96,16 +54,16 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
   public void gridClick (GridClickEvent event)
   // ---------------------------------------------------------------------------------//
   {
-    FormattedAppleBlock formattedAppleBlock =
-        (FormattedAppleBlock) event.block.getUserData ();
+    AppleBlock appleBlock = event.block;
 
-    if (formattedAppleBlock == null)
-    {
-      formattedAppleBlock =
-          formattedAppleBlockFactory.getFormattedAppleBlock (event.block);
-      event.block.setUserData (formattedAppleBlock);
-    }
+    //    if (appleBlock.getUserData () == null)
+    //      appleBlock
+    //          .setUserData (formattedAppleBlockFactory.getFormattedAppleBlock (appleBlock));
 
-    dataTab.setAppleBlock (event.block);
+    dataTab.setAppleBlock (appleBlock);
+    graphicsTab.setAppleBlock (appleBlock);
+    extrasTab.setAppleBlock (appleBlock);
+    hexTab.setAppleBlock (appleBlock);
+    metaTab.setAppleBlock (appleBlock);
   }
 }

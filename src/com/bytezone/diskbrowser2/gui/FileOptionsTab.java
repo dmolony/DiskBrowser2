@@ -1,7 +1,5 @@
 package com.bytezone.diskbrowser2.gui;
 
-import com.bytezone.appleformat.file.FormattedAppleFile;
-
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
@@ -63,13 +61,10 @@ public class FileOptionsTab extends DBOptionsTab
   public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.appleTreeItem = appleTreeItem;
-
-    treeFile = appleTreeItem.getValue ();
-    appleFile = treeFile.getAppleFile ();
-    appleFileSystem = treeFile.getAppleFileSystem ();
-    formattedAppleFile =
-        appleFile == null ? null : (FormattedAppleFile) appleFile.getUserData ();
+    appleTreeFile = appleTreeItem.getValue ();
+    appleFile = appleTreeFile.getAppleFile ();
+    appleFileSystem = appleTreeFile.getAppleFileSystem ();
+    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
 
     refresh ();
   }

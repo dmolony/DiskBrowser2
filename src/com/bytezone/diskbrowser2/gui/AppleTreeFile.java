@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleContainer;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFilePath;
@@ -34,6 +35,8 @@ public class AppleTreeFile
   private String suffix;
 
   private String sortString;
+
+  private FormattedAppleFile formattedAppleFile;
 
   // ---------------------------------------------------------------------------------//
   public AppleTreeFile (AppleFileSystem appleFileSystem)
@@ -160,6 +163,21 @@ public class AppleTreeFile
   // ---------------------------------------------------------------------------------//
   {
     return path;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void setFormattedAppleFile (FormattedAppleFile formattedAppleFile)
+  // ---------------------------------------------------------------------------------//
+  {
+    assert this.formattedAppleFile == null;
+    this.formattedAppleFile = formattedAppleFile;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  FormattedAppleFile getFormattedAppleFile ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return formattedAppleFile;
   }
 
   // ---------------------------------------------------------------------------------//

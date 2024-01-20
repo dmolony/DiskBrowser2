@@ -13,7 +13,7 @@ public class DBOptionsTab extends TabBase
 {
   protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
-  protected AppleTreeFile treeFile;
+  protected AppleTreeFile appleTreeFile;
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
 

@@ -14,6 +14,7 @@ import java.util.prefs.Preferences;
 import com.bytezone.appbase.FontChangeListener;
 import com.bytezone.appbase.SaveState;
 import com.bytezone.appleformat.ApplePreferences;
+import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
 import javafx.scene.control.TreeItem;
@@ -32,19 +33,21 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
   private AppleTreeView treeView;
   private AppleTreeItem root;
 
-  //  private FormattedAppleFileFactory formattedAppleFileFactory;
-
   private List<SuffixTotalsListener> suffixTotalsListeners = new ArrayList<> ();
   private final List<TreeNodeListener> treeNodeListeners = new ArrayList<> ();
 
-  FileFilterPreferences fileFilterPreferences;
+  private FileFilterPreferences fileFilterPreferences;
+  private final FormattedAppleFileFactory formattedAppleFileFactory;
+
   File rootFolder;
 
   // ---------------------------------------------------------------------------------//
-  public TreePane (PreferencesManager preferencesManager)
+  public TreePane (PreferencesManager preferencesManager,
+      FormattedAppleFileFactory formattedAppleFileFactory)
   // ---------------------------------------------------------------------------------//
   {
     this.fileFilterPreferences = preferencesManager.fileFilter;
+    this.formattedAppleFileFactory = formattedAppleFileFactory;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -59,8 +62,8 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
 
     createTree (root);                // adds all the tree nodes to the root
 
-    //    treeView = new AppleTreeView (root, formattedAppleFileFactory);
-    treeView = new AppleTreeView (root);
+    treeView = new AppleTreeView (root, formattedAppleFileFactory);
+    //    treeView = new AppleTreeView (root);
 
     for (TreeNodeListener treeNodeListener : treeNodeListeners)
       treeView.addListener (treeNodeListener);

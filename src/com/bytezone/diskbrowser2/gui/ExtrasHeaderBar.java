@@ -4,8 +4,6 @@ import com.bytezone.appbase.TabChangeListener;
 import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
-import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 
 import javafx.scene.control.Tab;
@@ -15,47 +13,30 @@ public class ExtrasHeaderBar extends HeaderBar
     implements TreeNodeListener, TabChangeListener
 // -----------------------------------------------------------------------------------//
 {
-  private AppleTreeFile treeFile;
+  private AppleTreeFile appleTreeFile;
+  private FormattedAppleFile formattedAppleFile;
   private Tab selectedTab;
 
   // ---------------------------------------------------------------------------------//
   void updateNameLabel ()
   // ---------------------------------------------------------------------------------//
   {
-    if (treeFile == null)
+    if (appleTreeFile == null)
     {
       leftLabel.setText ("");
       return;
     }
 
+    FileSystemType fst = null;
+
     if (selectedTab instanceof DiskLayoutTab tab)
-    {
-      AppleFileSystem fs = treeFile.getAppleFileSystem ();
-      AppleFile file = treeFile.getAppleFile ();
-      FileSystemType fst = null;
-
-      if (fs != null)
-        fst = fs.getFileSystemType ();
-      else if (file != null)
-        fst = file.getFileSystemType ();
-
-      if (fst != null)
-        leftLabel.setText (fst.name ());
-      else
-        leftLabel.setText ("File System");
-    }
+      leftLabel.setText (fst != null ? fst.name () : "File System");
     else if (selectedTab instanceof FileOptionsTab tab)
     {
-      FormattedAppleFile formattedAppleFile =
-          (FormattedAppleFile) treeFile.getAppleFile ().getUserData ();
-
       if (formattedAppleFile != null)
       {
         ApplePreferences preferences = formattedAppleFile.getPreferences ();
-        if (preferences != null)
-          leftLabel.setText (preferences.getName ());
-        else
-          leftLabel.setText ("Options");
+        leftLabel.setText (preferences != null ? preferences.getName () : "Options");
       }
       else
         leftLabel.setText ("Options");
@@ -69,7 +50,9 @@ public class ExtrasHeaderBar extends HeaderBar
   public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    treeFile = appleTreeItem.getValue ();
+    appleTreeFile = appleTreeItem.getValue ();
+    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
+
     updateNameLabel ();
   }
 
@@ -79,6 +62,7 @@ public class ExtrasHeaderBar extends HeaderBar
   // ---------------------------------------------------------------------------------//
   {
     selectedTab = newTab;
+
     updateNameLabel ();
   }
 }

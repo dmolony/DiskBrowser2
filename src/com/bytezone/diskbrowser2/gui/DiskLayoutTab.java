@@ -3,6 +3,7 @@ package com.bytezone.diskbrowser2.gui;
 import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.TabBase;
+import com.bytezone.appleformat.FormattedAppleBlockFactory;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
@@ -30,6 +31,13 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
     BorderPane borderPane = new BorderPane ();
     borderPane.setTop (diskLayoutGroup);
     this.setContent (borderPane);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void setFactory (FormattedAppleBlockFactory formattedAppleBlockFactory)
+  // ---------------------------------------------------------------------------------//
+  {
+    diskLayoutGroup.setFactory (formattedAppleBlockFactory);
   }
 
   // ---------------------------------------------------------------------------------//

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.appleformat.file.FormattedAppleFile;
+import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.input.KeyCode;
 
@@ -16,10 +16,9 @@ class HexTab extends DBTextTab
   private static final int MAX_HEX_BYTES = 0x10_000;
 
   private FormattedAppleFile formattedAppleFile;
-  AppleTreeItem appleTreeItem;
-  AppleTreeFile treeFile;
-  AppleFile appleFile;
-  AppleFileSystem appleFileSystem;
+  private AppleTreeFile appleTreeFile;
+  private AppleFile appleFile;
+  private AppleBlock appleBlock;
 
   // ---------------------------------------------------------------------------------//
   public HexTab (String title, KeyCode keyCode)
@@ -40,7 +39,13 @@ class HexTab extends DBTextTab
     int offset = 0;
     int length = 0;
 
-    if (appleFile != null && appleFile.hasEmbeddedFileSystem ())
+    if (appleBlock != null)
+    {
+      buffer = appleBlock.read ();
+      offset = 0;
+      length = buffer.length;
+    }
+    else if (appleFile != null && appleFile.hasEmbeddedFileSystem ())
     {
       buffer = appleFile.read ();
       offset = 0;
@@ -66,13 +71,24 @@ class HexTab extends DBTextTab
   public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.appleTreeItem = appleTreeItem;
+    appleTreeFile = appleTreeItem.getValue ();
+    appleFile = appleTreeFile.getAppleFile ();
+    appleBlock = null;
 
-    treeFile = appleTreeItem.getValue ();
-    appleFile = treeFile.getAppleFile ();
-    appleFileSystem = treeFile.getAppleFileSystem ();
-    formattedAppleFile =
-        appleFile == null ? null : (FormattedAppleFile) appleFile.getUserData ();
+    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
+
+    refresh ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public void setAppleBlock (AppleBlock appleBlock)
+  // ---------------------------------------------------------------------------------//
+  {
+    appleFile = null;
+    appleTreeFile = null;
+    this.appleBlock = appleBlock;
+
+    formattedAppleFile = null;
 
     refresh ();
   }

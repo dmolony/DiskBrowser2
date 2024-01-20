@@ -12,8 +12,6 @@ import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.block.FormattedAppleBlock;
 import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleBlock;
-import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
@@ -24,12 +22,6 @@ class DataTab extends DBTextTab
 // -----------------------------------------------------------------------------------//
 {
   private static final int MAX_LINES = 2500;
-
-  private AppleTreeItem appleTreeItem;
-  private AppleTreeFile treeFile;
-  private AppleFile appleFile;
-  private AppleFileSystem appleFileSystem;
-  private AppleBlock appleBlock;
 
   private FormattedAppleFile formattedAppleFile;
   private FormattedAppleBlock formattedAppleBlock;
@@ -114,15 +106,12 @@ class DataTab extends DBTextTab
   public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.appleTreeItem = appleTreeItem;
+    AppleTreeFile appleTreeFile = appleTreeItem.getValue ();
 
-    treeFile = appleTreeItem.getValue ();
-    appleFile = treeFile.getAppleFile ();
-    appleFileSystem = treeFile.getAppleFileSystem ();
-    formattedAppleFile =
-        appleFile == null ? null : (FormattedAppleFile) appleFile.getUserData ();
+    //    AppleFile appleFile = appleTreeFile.getAppleFile ();
+    //    AppleFileSystem appleFileSystem = appleTreeFile.getAppleFileSystem ();
 
-    appleBlock = null;
+    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
     formattedAppleBlock = null;
 
     refresh ();
@@ -132,13 +121,8 @@ class DataTab extends DBTextTab
   public void setAppleBlock (AppleBlock appleBlock)
   // ---------------------------------------------------------------------------------//
   {
-    treeFile = null;
-    appleFile = null;
-    appleFileSystem = null;
     formattedAppleFile = null;
-
-    this.appleBlock = appleBlock;
-    this.formattedAppleBlock = (FormattedAppleBlock) appleBlock.getUserData ();
+    formattedAppleBlock = (FormattedAppleBlock) appleBlock.getUserData ();
 
     refresh ();
   }

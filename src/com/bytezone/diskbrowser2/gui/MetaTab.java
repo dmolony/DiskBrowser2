@@ -3,6 +3,7 @@ package com.bytezone.diskbrowser2.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.FileProdos.ForkType;
@@ -21,6 +22,7 @@ public class MetaTab extends DBTextTab
   AppleTreeFile appleTreeFile;
 
   AppleFile appleFile;
+  AppleBlock appleBlock;
   AppleFileSystem appleFileSystem;
 
   // ---------------------------------------------------------------------------------//
@@ -105,6 +107,16 @@ public class MetaTab extends DBTextTab
     appleTreeFile = appleTreeItem.getValue ();
     appleFile = appleTreeFile.getAppleFile ();
     appleFileSystem = appleTreeFile.getAppleFileSystem ();
+
+    refresh ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public void setAppleBlock (AppleBlock appleBlock)
+  // ---------------------------------------------------------------------------------//
+  {
+    appleFile = null;
+    this.appleBlock = appleBlock;
 
     refresh ();
   }

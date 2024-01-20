@@ -5,8 +5,7 @@ import java.util.List;
 
 import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.file.FormattedAppleFile;
-import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.AppleBlock;
 
 import javafx.scene.input.KeyCode;
 
@@ -17,10 +16,11 @@ public class ExtrasTab extends DBTextTab implements PreferenceChangeListener
   private static final int MAX_LINES = 2500;
 
   private FormattedAppleFile formattedAppleFile;
-  private AppleTreeItem appleTreeItem;
-  private AppleTreeFile treeFile;
-  private AppleFile appleFile;
-  private AppleFileSystem appleFileSystem;
+  //  private AppleTreeItem appleTreeItem;
+  private AppleTreeFile appleTreeFile;
+  //  private AppleFile appleFile;
+  //  private AppleBlock appleBlock;
+  //  private AppleFileSystem appleFileSystem;
 
   // ---------------------------------------------------------------------------------//
   public ExtrasTab (String title, KeyCode keyCode)
@@ -61,13 +61,20 @@ public class ExtrasTab extends DBTextTab implements PreferenceChangeListener
   public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.appleTreeItem = appleTreeItem;
+    appleTreeFile = appleTreeItem.getValue ();
+    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
+    //    appleBlock = null;
 
-    treeFile = appleTreeItem.getValue ();
-    appleFile = treeFile.getAppleFile ();
-    appleFileSystem = treeFile.getAppleFileSystem ();
-    formattedAppleFile =
-        appleFile == null ? null : (FormattedAppleFile) appleFile.getUserData ();
+    refresh ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public void setAppleBlock (AppleBlock appleBlock)
+  // ---------------------------------------------------------------------------------//
+  {
+    appleTreeFile = null;
+    //    this.appleBlock = appleBlock;
+    formattedAppleFile = (FormattedAppleFile) appleBlock.getUserData ();
 
     refresh ();
   }

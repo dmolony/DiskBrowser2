@@ -4,6 +4,7 @@ import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.TabBase;
 import com.bytezone.appleformat.FormattedAppleBlockFactory;
+import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
@@ -15,10 +16,11 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
   protected DiskLayoutGroup diskLayoutGroup = new DiskLayoutGroup ();
+  protected KeyPane keyPane = new KeyPane ();
 
-  //  protected FormattedAppleFile formattedAppleFile;
+  protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
-  protected AppleTreeFile treeFile;
+  protected AppleTreeFile appleTreeFile;
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
 
@@ -30,7 +32,10 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
 
     BorderPane borderPane = new BorderPane ();
     borderPane.setTop (diskLayoutGroup);
+    borderPane.setBottom (keyPane);
     this.setContent (borderPane);
+    //    borderPane
+    //    .setBackground (new Background (new BackgroundFill (Color.WHITE, null, null)));
   }
 
   // ---------------------------------------------------------------------------------//
@@ -46,13 +51,12 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
   {
     this.appleTreeItem = appleTreeItem;
 
-    treeFile = appleTreeItem.getValue ();
-    appleFile = treeFile.getAppleFile ();
-    //    formattedAppleFile = treeFile.getFormattedAppleFile ();
+    appleTreeFile = appleTreeItem.getValue ();
+    appleFile = appleTreeFile.getAppleFile ();
+    appleFileSystem = appleTreeFile.getAppleFileSystem ();
+    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
 
-    if (appleFile == null)
-      appleFileSystem = treeFile.getAppleFileSystem ();
-    else
+    if (appleFile != null)
     {
       if (appleFile.hasEmbeddedFileSystem ())
         appleFileSystem = appleFile.getEmbeddedFileSystem ();

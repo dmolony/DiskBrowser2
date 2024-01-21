@@ -22,7 +22,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 // -----------------------------------------------------------------------------------//
 public class DiskLayoutGroup extends Group
@@ -44,36 +43,37 @@ public class DiskLayoutGroup extends Group
   private static final String ROW_FORMAT = "%04X";
   private static final String COLUMN_FORMAT = "%02X";
 
-  ScrollBar scrollBarV = new ScrollBar ();
-  ScrollBar scrollBarH = new ScrollBar ();
+  private final ScrollBar scrollBarV = new ScrollBar ();
+  private final ScrollBar scrollBarH = new ScrollBar ();
 
-  int scrollBarValueV;
-  int scrollBarValueH;
-  boolean adjusting;
+  private int scrollBarValueV;
+  private int scrollBarValueH;
+  private boolean adjusting;
 
-  Stage stage;
-  GraphicsContext gc;
-  Canvas canvas;
+  private GraphicsContext gc;
+  private Canvas canvas;
 
-  int diskRows;
-  int diskColumns;
-  int diskBlockUnits;       // will be 1, 2, 4 or 8
+  private int diskRows;
+  private int diskColumns;
+  private int diskBlockUnits;       // will be 1, 2, 4 or 8
 
-  int screenColumns;        // 32 / diskBlockUnits
-  int blockWidth;
+  private int screenColumns;        // 32 / diskBlockUnits
+  private int blockWidth;
 
-  ScreenCell[][] screen;    // visible blocks
-  String[] fileNames;
+  private ScreenCell[][] screen;    // visible blocks
 
-  int firstRow = -1;
-  int firstColumn = -1;
-  int selectedBlockNo = -1;
-  int currentDiskNo = -1;
-  List<AppleBlock> selectedBlocks;
+  private int firstRow = -1;
+  private int firstColumn = -1;
+  private int selectedBlockNo = -1;
+  private List<AppleBlock> selectedBlocks;
 
-  AppleFileSystem fs;
-  List<GridClickListener> listeners = new ArrayList<> ();
-  FormattedAppleBlockFactory formattedAppleBlockFactory;
+  private AppleFileSystem fileSystem;
+  private List<GridClickListener> listeners = new ArrayList<> ();
+  private FormattedAppleBlockFactory formattedAppleBlockFactory;
+
+  private Color clear = new Color (.95, .95, .95, 1);
+
+  private Font font = Font.font ("Consolas", 14);
 
   // ---------------------------------------------------------------------------------//
   public DiskLayoutGroup ()
@@ -83,11 +83,12 @@ public class DiskLayoutGroup extends Group
     double canvasHeight = Y_OFFSET + GRID_HEIGHT + GRID_PADDING;
 
     canvas = new Canvas (canvasWidth, canvasHeight);
+    //    canvas.setFocusTraversable (true);
 
     gc = canvas.getGraphicsContext2D ();
-    gc.setFont (Font.font ("Consolas", 14));
+    gc.setFont (font);
 
-    setScrollBars (canvas);
+    setScrollBars ();
 
     getChildren ().addAll (scrollBarV, scrollBarH, canvas);
   }
@@ -106,16 +107,17 @@ public class DiskLayoutGroup extends Group
     if (appleFileSystem == null)
     {
       //      System.out.println ("Null FS in DiskLayoutGroup");
-      //      clear ();
+      clear ();
       return;
     }
 
     firstRow = -1;
     firstColumn = -1;
-    selectedBlockNo = -1;
 
-    fs = appleFileSystem;
-    //    System.out.println (fs);
+    selectedBlockNo = -1;
+    selectedBlocks = null;
+
+    fileSystem = appleFileSystem;
 
     buildScreen (appleFileSystem, gc);
     drawGrid ();
@@ -160,7 +162,7 @@ public class DiskLayoutGroup extends Group
       redrawRowHeader = true;
     }
 
-    int totalDiskBlocks = fs.getTotalBlocks ();
+    int totalDiskBlocks = fileSystem.getTotalBlocks ();
     int display = 1;
 
     // draw each row
@@ -178,7 +180,7 @@ public class DiskLayoutGroup extends Group
 
         if (blockNo < totalDiskBlocks)
         {
-          AppleBlock block = fs.getBlock (blockNo);
+          AppleBlock block = fileSystem.getBlock (blockNo);
 
           Color color = getBaseColor (block);
           Color cellColor =                                           //
@@ -254,7 +256,6 @@ public class DiskLayoutGroup extends Group
       case EMPTY -> Color.GHOSTWHITE;
       case FILE_DATA -> Color.CRIMSON;
       case FS_DATA -> Color.ROYALBLUE;
-      //      case null -> Color.BLACK;
     };
   }
 
@@ -350,7 +351,7 @@ public class DiskLayoutGroup extends Group
   }
 
   // ---------------------------------------------------------------------------------//
-  private void setScrollBars (Canvas canvas)
+  private void setScrollBars ()
   // ---------------------------------------------------------------------------------//
   {
     scrollBarV.setOrientation (Orientation.VERTICAL);
@@ -407,7 +408,8 @@ public class DiskLayoutGroup extends Group
           default -> selectedBlockNo;
         };
 
-        if (selectedBlockNo != blockNo && blockNo >= 0 && blockNo < fs.getTotalBlocks ())
+        if (selectedBlockNo != blockNo && blockNo >= 0
+            && blockNo < fileSystem.getTotalBlocks ())
         {
           notifyListeners (selectedBlockNo, blockNo);
           selectedBlockNo = blockNo;
@@ -521,7 +523,7 @@ public class DiskLayoutGroup extends Group
   void clear ()
   // ---------------------------------------------------------------------------------//
   {
-    gc.setFill (Color.WHITE);
+    gc.setFill (clear);
     gc.fillRect (0, 0, canvas.getWidth (), canvas.getHeight ());
   }
 
@@ -537,7 +539,7 @@ public class DiskLayoutGroup extends Group
   private void notifyListeners (int previousBlockNo, int selectedBlockNo)
   // ---------------------------------------------------------------------------------//
   {
-    AppleBlock appleBlock = fs.getBlock (selectedBlockNo);
+    AppleBlock appleBlock = fileSystem.getBlock (selectedBlockNo);
     if (appleBlock == null)
       return;
 

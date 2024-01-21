@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bytezone.appleformat.ApplePreferences;
+import com.bytezone.appleformat.block.FormattedAppleBlock;
 import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleBlock;
 
@@ -16,11 +17,13 @@ public class ExtrasTab extends DBTextTab implements PreferenceChangeListener
   private static final int MAX_LINES = 2500;
 
   private FormattedAppleFile formattedAppleFile;
+  private FormattedAppleBlock formattedAppleBlock;
   //  private AppleTreeItem appleTreeItem;
-  private AppleTreeFile appleTreeFile;
+  //  private AppleTreeFile appleTreeFile;
   //  private AppleFile appleFile;
   //  private AppleBlock appleBlock;
   //  private AppleFileSystem appleFileSystem;
+  private List<String> emptyList = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
   public ExtrasTab (String title, KeyCode keyCode)
@@ -34,7 +37,7 @@ public class ExtrasTab extends DBTextTab implements PreferenceChangeListener
   List<String> getLines ()
   // ---------------------------------------------------------------------------------//
   {
-    return formattedAppleFile == null ? new ArrayList<> () : getLines (MAX_LINES);
+    return formattedAppleFile == null ? emptyList : getLines (MAX_LINES);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -61,9 +64,9 @@ public class ExtrasTab extends DBTextTab implements PreferenceChangeListener
   public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    appleTreeFile = appleTreeItem.getValue ();
+    AppleTreeFile appleTreeFile = appleTreeItem.getValue ();
     formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
-    //    appleBlock = null;
+    formattedAppleBlock = null;
 
     refresh ();
   }
@@ -72,9 +75,8 @@ public class ExtrasTab extends DBTextTab implements PreferenceChangeListener
   public void setAppleBlock (AppleBlock appleBlock)
   // ---------------------------------------------------------------------------------//
   {
-    appleTreeFile = null;
-    //    this.appleBlock = appleBlock;
-    formattedAppleFile = (FormattedAppleFile) appleBlock.getUserData ();
+    formattedAppleFile = null;
+    formattedAppleBlock = (FormattedAppleBlock) appleBlock.getUserData ();
 
     refresh ();
   }

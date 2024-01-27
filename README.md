@@ -11,7 +11,7 @@ This is a rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser), usin
 ### Example Screens
 This image shows the main interface change from DiskBrowser. Instead of separate tabs
  for each disk, the file tree expands each disk image in place.
-![Teaser](screens/teaser1.png?raw=true "This will change")
+![Teaser](screens/teaser1.png?raw=true "Data screen")
 File systems within file systems can be accessed. This screen shows the directory
 listing of a Pascal Area which is stored on a Prodos disk. All of the pascal files can
 be displayed as usual.

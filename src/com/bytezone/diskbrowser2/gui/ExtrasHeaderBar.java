@@ -4,6 +4,7 @@ import com.bytezone.appbase.TabChangeListener;
 import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
+import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 
 import javafx.scene.control.Tab;
@@ -27,10 +28,18 @@ public class ExtrasHeaderBar extends HeaderBar
       return;
     }
 
-    FileSystemType fst = null;
-
     if (selectedTab instanceof DiskLayoutTab tab)
-      leftLabel.setText (fst != null ? fst.name () : "File System");
+    {
+      AppleFileSystem appleFileSystem = appleTreeFile.getAppleFileSystem ();
+      if (appleFileSystem != null)
+      {
+        // this should include the dos version
+        FileSystemType fst = appleFileSystem.getFileSystemType ();
+        leftLabel.setText (fst != null ? fst.name () : "File System");
+      }
+      else
+        leftLabel.setText ("");
+    }
     else if (selectedTab instanceof FileOptionsTab tab)
     {
       if (formattedAppleFile != null)

@@ -108,9 +108,6 @@ class DataTab extends DBTextTab
   {
     AppleTreeFile appleTreeFile = appleTreeItem.getValue ();
 
-    //    AppleFile appleFile = appleTreeFile.getAppleFile ();
-    //    AppleFileSystem appleFileSystem = appleTreeFile.getAppleFileSystem ();
-
     formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
     formattedAppleBlock = null;
 

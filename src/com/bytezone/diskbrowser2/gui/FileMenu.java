@@ -163,17 +163,17 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
   public void restore (Preferences prefs)
   // ---------------------------------------------------------------------------------//
   {
-    saveFolderName = prefs.get (PREFS_SAVE_FOLDER, System.getProperty ("user.home"));
+    String homeFolder = System.getProperty ("user.home");
+
+    saveFolderName = prefs.get (PREFS_SAVE_FOLDER, homeFolder);
     if (!new File (saveFolderName).exists ())
       saveFolderName = System.getProperty ("user.home");
 
-    extractFolderName =
-        prefs.get (PREFS_EXTRACT_FOLDER, System.getProperty ("user.home"));
+    extractFolderName = prefs.get (PREFS_EXTRACT_FOLDER, homeFolder);
     if (!new File (extractFolderName).exists ())
       extractFolderName = System.getProperty ("user.home");
 
     rootFolderName = prefs.get (PREFS_ROOT_FOLDER, "");
-    System.out.println (rootFolderName);
     if (!rootFolderName.isEmpty ())
       notifyRootFolderListeners (new File (rootFolderName));
   }

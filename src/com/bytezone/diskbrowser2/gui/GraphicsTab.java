@@ -2,8 +2,6 @@ package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.filesystem.AppleBlock;
-import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 import com.bytezone.filesystem.ProdosConstants;
 
@@ -18,11 +16,11 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   private static final double ICON_SCALE = 5;
 
   //  private FormattedAppleFile formattedAppleFile;
-  AppleTreeItem appleTreeItem;
-  AppleTreeFile treeFile;
-  AppleFile appleFile;
+  //  AppleTreeItem appleTreeItem;
+  AppleTreeFile appleTreeFile;
+  //  AppleFile appleFile;
   AppleBlock appleBlock;
-  AppleFileSystem appleFileSystem;
+  //  AppleFileSystem appleFileSystem;
 
   // ---------------------------------------------------------------------------------//
   public GraphicsTab (String title, KeyCode keyCode)
@@ -66,11 +64,10 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   {
     this.appleTreeItem = appleTreeItem;
 
-    treeFile = appleTreeItem.getValue ();
-    appleFile = treeFile.getAppleFile ();
-    appleFileSystem = treeFile.getAppleFileSystem ();
-    //    formattedAppleFile =
-    //        appleFile == null ? null : (FormattedAppleFile) appleFile.getUserData ();
+    appleTreeFile = appleTreeItem.getValue ();
+    appleFile = appleTreeFile.getAppleFile ();
+    appleFileSystem = appleTreeFile.getAppleFileSystem ();
+    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
 
     refresh ();
   }

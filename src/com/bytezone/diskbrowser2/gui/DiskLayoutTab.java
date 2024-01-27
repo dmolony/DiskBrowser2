@@ -16,13 +16,17 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
 // -----------------------------------------------------------------------------------//
 {
   protected DiskLayoutGroup diskLayoutGroup = new DiskLayoutGroup ();
-  protected KeyPane keyPane = new KeyPane ();
+  protected KeyPaneProdos keyPaneProdos = new KeyPaneProdos ();
+  protected KeyPaneDos keyPaneDos = new KeyPaneDos ();
+  protected KeyPanePascal keyPanePascal = new KeyPanePascal ();
+  protected KeyPaneCpm keyPaneCpm = new KeyPaneCpm ();
 
   protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
   protected AppleTreeFile appleTreeFile;
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
+  protected BorderPane borderPane;
 
   // ---------------------------------------------------------------------------------//
   public DiskLayoutTab (String title, KeyCode keyCode)
@@ -30,10 +34,11 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
   {
     super (title, keyCode);
 
-    BorderPane borderPane = new BorderPane ();
+    borderPane = new BorderPane ();
     borderPane.setTop (diskLayoutGroup);
-    borderPane.setBottom (keyPane);
+    borderPane.setBottom (keyPaneProdos);
     this.setContent (borderPane);
+
     //    borderPane
     //    .setBackground (new Background (new BackgroundFill (Color.WHITE, null, null)));
   }
@@ -63,6 +68,30 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
       else
         appleFileSystem = appleFile.getParentFileSystem ();
     }
+
+    if (appleFileSystem == null)
+    {
+      borderPane.setBottom (null);
+    }
+    else
+      switch (appleFileSystem.getFileSystemType ())
+      {
+        case DOS:
+          borderPane.setBottom (keyPaneDos);
+          break;
+        case PRODOS:
+          borderPane.setBottom (keyPaneProdos);
+          break;
+        case CPM:
+          borderPane.setBottom (keyPaneCpm);
+          break;
+        case PASCAL:
+          borderPane.setBottom (keyPanePascal);
+          break;
+        default:
+          borderPane.setBottom (null);
+          break;
+      }
 
     refresh ();
   }

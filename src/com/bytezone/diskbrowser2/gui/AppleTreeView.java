@@ -126,32 +126,21 @@ class AppleTreeView extends TreeView<AppleTreeFile>
 
     AppleFile appleFile = appleTreeFile.getAppleFile ();
     if (formattedAppleFile == null && appleFile != null)
-    {
       formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (appleFile);
-      appleTreeFile.setFormattedAppleFile (formattedAppleFile);
-    }
 
     AppleFileSystem appleFileSystem = appleTreeFile.getAppleFileSystem ();
+
     if (formattedAppleFile == null && appleFileSystem != null)
-    {
-      if (formattedAppleFile == null)
-      {
-        formattedAppleFile =
-            formattedAppleFileFactory.getFormattedAppleFile (appleFileSystem);
-        appleTreeFile.setFormattedAppleFile (formattedAppleFile);
-      }
-    }
+      formattedAppleFile =
+          formattedAppleFileFactory.getFormattedAppleFile (appleFileSystem);
 
     File localFile = appleTreeFile.getLocalFile ();
+
     if (formattedAppleFile == null && localFile != null && localFile.isDirectory ())
-    {
       formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (localFile);
-      appleTreeFile.setFormattedAppleFile (formattedAppleFile);
-    }
 
     assert formattedAppleFile != null;
-    //    if (formattedAppleFile == null)
-    //      System.out.println ("Failed");
+    appleTreeFile.setFormattedAppleFile (formattedAppleFile);
   }
 
   // ---------------------------------------------------------------------------------//

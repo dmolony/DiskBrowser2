@@ -12,7 +12,7 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
 // -----------------------------------------------------------------------------------//
 {
   private static final double SCALE = 2;
-  private static final double FONT_SCALE = 1;
+  private static final double FONT_SCALE = 4;
   private static final double ICON_SCALE = 5;
 
   //  private FormattedAppleFile formattedAppleFile;
@@ -47,7 +47,8 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
 
         if (appleFile != null && appleFile.getFileSystemType () == FileSystemType.PRODOS)
         {
-          if (appleFile.getFileType () == ProdosConstants.FILE_TYPE_FONT)
+          if (appleFile.getFileType () == ProdosConstants.FILE_TYPE_FONT
+              || appleFile.getFileType () == ProdosConstants.FILE_TYPE_FNT)
             scale = FONT_SCALE;
           if (appleFile.getFileType () == ProdosConstants.FILE_TYPE_ICN)
             scale = ICON_SCALE;

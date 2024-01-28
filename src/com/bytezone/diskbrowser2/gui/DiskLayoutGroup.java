@@ -112,6 +112,9 @@ public class DiskLayoutGroup extends Group
       return;
     }
 
+    if (appleFileSystem == fileSystem)
+      return;
+
     firstRow = -1;
     firstColumn = -1;
 
@@ -137,6 +140,8 @@ public class DiskLayoutGroup extends Group
 
     selectedBlocks = appleFile.getBlocks ();
     selectedBlockNo = -1;
+
+    ensureVisible (selectedBlocks);
 
     drawGrid ();
   }
@@ -502,22 +507,78 @@ public class DiskLayoutGroup extends Group
   private void ensureVisible (int blockNo)
   // ---------------------------------------------------------------------------------//
   {
-    adjusting = true;
+    adjusting = true;               // deactivate the scrollbar listeners
 
+    // calculate the position that we want to be visible
     int screenRow = blockNo / diskColumns;
     int screenColumn = blockNo % diskColumns;
 
+    // if the column is not visible, adjust the horizontal scrollbar's value
     if (screenColumn < firstColumn)
       scrollBarH.setValue (screenColumn);
     else if (screenColumn >= firstColumn + screenColumns)
       scrollBarH.setValue (screenColumn - screenColumns + 1);
 
+    // if the row is not visible, adjust the vertical scrollbar's value
     if (screenRow < firstRow)
       scrollBarV.setValue (screenRow);
     else if (screenRow >= firstRow + SCREEN_ROWS)
       scrollBarV.setValue (screenRow - SCREEN_ROWS + 1);
 
-    adjusting = false;
+    adjusting = false;              // reactivate the scrollbar listeners
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private void ensureVisible (List<AppleBlock> blocks)
+  // ---------------------------------------------------------------------------------//
+  {
+    if (blocks.size () == 0)
+    {
+      System.out.println ("file has no blocks");
+      return;
+    }
+
+    // get the middle block number
+    AppleBlock block = blocks.get ((blocks.size () - 1) / 2);
+    if (block == null)                            // sparse file
+      for (AppleBlock anyBlock : blocks)
+        if (anyBlock != null)                     // just get the first non-null entry
+        {
+          block = anyBlock;
+          break;
+        }
+    int blockNo = block.getBlockNo ();
+
+    // calculate the position that we want to be visible
+    int screenRow = blockNo / diskColumns;
+    int screenColumn = blockNo % diskColumns;
+
+    // if it's already visible then don't scroll
+    if (screenRow >= firstRow && screenRow < firstRow + SCREEN_ROWS
+        && screenColumn >= firstColumn && screenColumn < firstColumn + screenColumns)
+      return;
+
+    // calculate desired the top/left corner for the block to be in the centre
+    int firstRow = screenRow - SCREEN_ROWS / 2;
+    int firstColumn = screenColumn - screenColumns / 2;
+
+    // check row is legal
+    if (firstRow < 0)
+      firstRow = 0;
+    else if (firstRow > (int) scrollBarV.getMax ())
+      firstRow = (int) scrollBarV.getMax ();
+
+    // check column is legal
+    if (firstColumn < 0)
+      firstColumn = 0;
+    else if (firstColumn > (int) scrollBarH.getMax ())
+      firstColumn = (int) scrollBarH.getMax ();
+
+    // set scrollbar values
+    adjusting = true;                     // deactivate listeners
+    scrollBarV.setValue (firstRow);
+    scrollBarH.setValue (firstColumn);
+    adjusting = false;                    // reactivate listeners
   }
 
   // ---------------------------------------------------------------------------------//

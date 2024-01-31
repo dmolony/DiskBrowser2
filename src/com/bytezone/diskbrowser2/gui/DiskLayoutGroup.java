@@ -532,7 +532,7 @@ public class DiskLayoutGroup extends Group
   private void ensureVisible (List<AppleBlock> blocks)
   // ---------------------------------------------------------------------------------//
   {
-    if (blocks.size () == 0)
+    if (blocks == null || blocks.size () == 0)
     {
       System.out.println ("file has no blocks");
       return;

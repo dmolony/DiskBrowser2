@@ -73,7 +73,7 @@ public class MetaTab extends DBTextTab
       lines.add (frameHeader (
           (appleFile.getForkType () == ForkType.DATA ? "Data" : "Resource") + " Fork"));
     else if (appleTreeFile.isAppleDataFile ())
-      lines.add (frameHeader ("Data File"));
+      lines.add (frameHeader ("Apple File"));
     else if (appleTreeFile.isLocalDirectory ())
       lines.add (frameHeader ("Local Folder"));
     else
@@ -93,7 +93,7 @@ public class MetaTab extends DBTextTab
     text.append (headingText);
     text.append ("\n");
     text.append (HEADER);
-    text.append ("\n");
+    //    text.append ("\n");
 
     return text.toString ();
   }

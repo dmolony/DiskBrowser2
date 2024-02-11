@@ -12,7 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 
 // -----------------------------------------------------------------------------------//
-public class DiskLayoutTab extends TabBase //implements TreeNodeListener
+public class DiskLayoutTab extends TabBase
 // -----------------------------------------------------------------------------------//
 {
   protected DiskLayoutGroup diskLayoutGroup = new DiskLayoutGroup ();
@@ -115,7 +115,7 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
   public void restore (Preferences prefs)
   // ---------------------------------------------------------------------------------//
   {
-    super.restore (prefs);
+    diskLayoutGroup.restore (prefs);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -123,7 +123,7 @@ public class DiskLayoutTab extends TabBase //implements TreeNodeListener
   public void save (Preferences prefs)
   // ---------------------------------------------------------------------------------//
   {
-    super.save (prefs);
+    diskLayoutGroup.save (prefs);
   }
 
   // ---------------------------------------------------------------------------------//

@@ -2,7 +2,9 @@ package com.bytezone.diskbrowser2.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 
+import com.bytezone.appbase.SaveState;
 import com.bytezone.appleformat.FormattedAppleBlockFactory;
 import com.bytezone.appleformat.block.FormattedAppleBlock;
 import com.bytezone.filesystem.AppleBlock;
@@ -25,9 +27,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 // -----------------------------------------------------------------------------------//
-public class DiskLayoutGroup extends Group
+public class DiskLayoutGroup extends Group implements SaveState
 // -----------------------------------------------------------------------------------//
 {
+  private static final String PREFS_SELECTED_BLOCK = "SelectedBlock";
+
   private static final int SIZE_H = 18;
   private static final int SIZE_W = SIZE_H / 2;
   private static final int SIZE_SB = 16;
@@ -125,6 +129,7 @@ public class DiskLayoutGroup extends Group
 
     buildScreen (appleFileSystem, gc);
     drawGrid ();
+    System.out.println ("setting file system " + appleFileSystem.getFileName ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -144,6 +149,7 @@ public class DiskLayoutGroup extends Group
     ensureVisible (selectedBlocks);
 
     drawGrid ();
+    System.out.println ("setting file " + appleFile.getFileName ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -276,7 +282,7 @@ public class DiskLayoutGroup extends Group
       case "TSLIST" -> Color.DARKCYAN;              // DOS
       case "CATALOG" -> Color.BLUEVIOLET;           // COMMON
       case "INDEX" -> Color.GREEN;                  // PRODOS
-      case "M-INDEX" -> Color.MEDIUMORCHID;         // PODOS
+      case "M-INDEX" -> Color.MEDIUMORCHID;         // PRODOS
       case "V-BITMAP" -> Color.TURQUOISE;           // PRODOS
       case "FOLDER" -> Color.DARKORANGE;            // PRODOS
       case "FORK" -> Color.YELLOWGREEN;             // PRODOS
@@ -402,7 +408,7 @@ public class DiskLayoutGroup extends Group
       @Override
       public void handle (KeyEvent event)
       {
-        if (selectedBlockNo < 0)            // nothing selected
+        if (selectedBlockNo < 0)            // nothing currently selected
           return;
 
         int blockNo = switch (event.getCode ())
@@ -411,8 +417,11 @@ public class DiskLayoutGroup extends Group
           case RIGHT -> selectedBlockNo + 1;
           case UP -> selectedBlockNo - diskColumns;
           case DOWN -> selectedBlockNo + diskColumns;
-          default -> selectedBlockNo;
+          default -> -999;
         };
+
+        if (blockNo != -999)                // an arrow key was pressed
+          event.consume ();
 
         if (selectedBlockNo != blockNo && blockNo >= 0
             && blockNo < fileSystem.getTotalBlocks ())
@@ -421,7 +430,6 @@ public class DiskLayoutGroup extends Group
           selectedBlockNo = blockNo;
           ensureVisible (blockNo);
           drawGrid ();
-          event.consume ();
         }
       }
     });
@@ -601,6 +609,11 @@ public class DiskLayoutGroup extends Group
   private void notifyListeners (int previousBlockNo, int selectedBlockNo)
   // ---------------------------------------------------------------------------------//
   {
+    //    if (fileSystem == null)
+    //    {
+    //      System.out.println ("No file system");
+    //      return;
+    //    }
     AppleBlock appleBlock = fileSystem.getBlock (selectedBlockNo);
     if (appleBlock == null)
       return;
@@ -619,5 +632,28 @@ public class DiskLayoutGroup extends Group
 
     for (GridClickListener listener : listeners)
       listener.gridClick (event);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void save (Preferences prefs)
+  // ---------------------------------------------------------------------------------//
+  {
+    prefs.putInt (PREFS_SELECTED_BLOCK, selectedBlockNo);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void restore (Preferences prefs)
+  // ---------------------------------------------------------------------------------//
+  {
+    int blockNo = prefs.getInt (PREFS_SELECTED_BLOCK, -1);
+    System.out.printf ("selecting restore block %04X with %s%n", blockNo, fileSystem);
+    if (blockNo >= 0 && fileSystem != null)
+    {
+      ensureVisible (blockNo);
+      drawGrid ();
+      notifyListeners (-1, blockNo);
+    }
   }
 }

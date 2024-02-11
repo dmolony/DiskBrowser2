@@ -50,7 +50,7 @@ class AppleTreeView extends TreeView<AppleTreeFile>
     model.selectedItemProperty ()
         .addListener ( (obs, oldSel, newSel) -> itemSelected ((AppleTreeItem) newSel));
 
-    this.focusedProperty ().addListener ( (obs, oldVal, newVal) -> focus (newVal));
+    //    this.focusedProperty ().addListener ( (obs, oldVal, newVal) -> focus (newVal));
 
     setCellFactory (new Callback<TreeView<AppleTreeFile>, TreeCell<AppleTreeFile>> ()
     {
@@ -226,6 +226,7 @@ class AppleTreeView extends TreeView<AppleTreeFile>
         int row = getRow (optionalNode.get ());
         model.select (row);
         scrollTo (model.getSelectedIndex ());
+        System.out.println ("restoring " + lastPath);
       }
     }
   }

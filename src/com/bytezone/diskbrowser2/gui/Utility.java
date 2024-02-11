@@ -74,7 +74,14 @@ public class Utility
         hexLine.append (String.format ("%02X ", b[z]));
 
         int c = b[z] & 0x7F;
-        textLine.append (c < 0x40 ? '.' : (char) c);
+
+        if (c > 127)
+          c -= c < 160 ? 64 : 128;
+
+        if (c < 32 || c == 127)         // non-printable
+          textLine.append (".");
+        else                            // standard ascii
+          textLine.append ((char) c);
       }
 
       lines.add (String.format ("%06X  %-48s %s", displayOffset + ptr,

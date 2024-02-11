@@ -124,7 +124,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
     fileMenu.setOutputWriter (outputTabPane.dataTab);
 
     saveStateList.addAll (Arrays.asList (   //
-        filterManager, outputTabPane, rightTabPane, fileMenu, treePane, fontManager,
+        filterManager, outputTabPane, fileMenu, treePane, rightTabPane, fontManager,
         this));
 
     return splitPane;

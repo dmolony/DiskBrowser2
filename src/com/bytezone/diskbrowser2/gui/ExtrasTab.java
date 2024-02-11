@@ -18,11 +18,6 @@ public class ExtrasTab extends DBTextTab implements PreferenceChangeListener
 
   private FormattedAppleFile formattedAppleFile;
   private FormattedAppleBlock formattedAppleBlock;
-  //  private AppleTreeItem appleTreeItem;
-  //  private AppleTreeFile appleTreeFile;
-  //  private AppleFile appleFile;
-  //  private AppleBlock appleBlock;
-  //  private AppleFileSystem appleFileSystem;
   private List<String> emptyList = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//

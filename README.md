@@ -27,5 +27,5 @@ The file tree can be filtered so that only the selected file types are shown.
 ![Teaser](screens/teaser4.png?raw=true "BXY files")
 The Meta tab shows information about the file.
 ![Teaser](screens/teaser5.png?raw=true "Meta")
-The Graphics tab shows pictures.
+The Graphics tab is used to display images - hi-res pictures, fonts, shapes, icons etc.
 ![Teaser](screens/teaser6.png?raw=true "Graphics")

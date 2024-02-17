@@ -41,8 +41,8 @@ public class MetaTab extends DBTextTab
   {
     List<String> lines = new ArrayList<> ();
 
-    if (appleTreeItem == null)
-      return lines;
+    //    if (appleTreeItem == null)
+    //      return lines;
 
     attachHeader (lines);
 
@@ -50,7 +50,11 @@ public class MetaTab extends DBTextTab
       lines.add (appleFile.toString ());
 
     if (appleFileSystem != null)
+    {
+      if (appleFile != null)
+        lines.add ("");
       lines.add (appleFileSystem.toString ());
+    }
 
     if (appleFile != null && appleFile.hasEmbeddedFileSystem ()
         && appleFile.getEmbeddedFileSystem () != appleFileSystem)
@@ -63,19 +67,24 @@ public class MetaTab extends DBTextTab
   private void attachHeader (List<String> lines)
   // ---------------------------------------------------------------------------------//
   {
-    if (appleTreeFile.isAppleFileSystem ())
-      lines.add (frameHeader ("Apple File System"));
-    else if (appleTreeFile.isAppleFolder ())
-      lines.add (frameHeader ("Apple Folder"));
-    else if (appleTreeFile.isAppleForkedFile ())
-      lines.add (frameHeader ("Forked File"));
-    else if (appleTreeFile.isAppleFork ())
-      lines.add (frameHeader (
-          (appleFile.getForkType () == ForkType.DATA ? "Data" : "Resource") + " Fork"));
-    else if (appleTreeFile.isAppleDataFile ())
-      lines.add (frameHeader ("Apple File"));
-    else if (appleTreeFile.isLocalDirectory ())
-      lines.add (frameHeader ("Local Folder"));
+    if (appleTreeFile != null)
+    {
+      if (appleTreeFile.isAppleFileSystem ())
+        lines.add (frameHeader ("Apple File System"));
+      else if (appleTreeFile.isAppleFolder ())
+        lines.add (frameHeader ("Apple Folder"));
+      else if (appleTreeFile.isAppleForkedFile ())
+        lines.add (frameHeader ("Forked File"));
+      else if (appleTreeFile.isAppleFork ())
+        lines.add (frameHeader (
+            (appleFile.getForkType () == ForkType.DATA ? "Data" : "Resource") + " Fork"));
+      else if (appleTreeFile.isAppleDataFile ())
+        lines.add (frameHeader ("Apple File"));
+      else if (appleTreeFile.isLocalDirectory ())
+        lines.add (frameHeader ("Local Folder"));
+    }
+    else if (appleBlock != null)
+      lines.add (frameHeader ("Apple Block"));
     else
       lines.add (frameHeader ("Unknown"));
   }
@@ -93,7 +102,6 @@ public class MetaTab extends DBTextTab
     text.append (headingText);
     text.append ("\n");
     text.append (HEADER);
-    //    text.append ("\n");
 
     return text.toString ();
   }
@@ -103,6 +111,7 @@ public class MetaTab extends DBTextTab
   // ---------------------------------------------------------------------------------//
   {
     this.appleTreeItem = appleTreeItem;
+    appleBlock = null;
 
     appleTreeFile = appleTreeItem.getValue ();
     appleFile = appleTreeFile.getAppleFile ();
@@ -115,8 +124,12 @@ public class MetaTab extends DBTextTab
   public void setAppleBlock (AppleBlock appleBlock)
   // ---------------------------------------------------------------------------------//
   {
-    appleFile = null;
     this.appleBlock = appleBlock;
+    appleTreeItem = null;
+
+    appleTreeFile = null;
+    appleFile = appleBlock.getFileOwner ();
+    appleFileSystem = null;
 
     refresh ();
   }

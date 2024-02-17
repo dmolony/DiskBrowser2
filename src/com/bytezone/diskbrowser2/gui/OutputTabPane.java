@@ -16,17 +16,14 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
   final ExtrasTab extrasTab = new ExtrasTab ("Extras", KeyCode.E);
   final MetaTab metaTab = new MetaTab ("Meta", KeyCode.M);
 
-  //  final FormattedAppleFileFactory formattedAppleFileFactory;
-  //  final FormattedAppleBlockFactory formattedAppleBlockFactory;
+  private AppleTreeItem appleTreeItem;
+  private AppleBlock appleBlock;
 
   // ---------------------------------------------------------------------------------//
   OutputTabPane (String prefsId)
   // ---------------------------------------------------------------------------------//
   {
     super (prefsId);
-
-    //    this.formattedAppleFileFactory = formattedAppleFileFactory;
-    //    this.formattedAppleBlockFactory = formattedAppleBlockFactory;
 
     add (dataTab);
     add (graphicsTab);
@@ -40,7 +37,11 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
   public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    //    FormattedAppleFile faf = getFormattedAppleFile (appleTreeItem.getValue ());
+    if (this.appleTreeItem == appleTreeItem)
+      return;
+
+    this.appleTreeItem = appleTreeItem;
+    appleBlock = null;
 
     dataTab.setAppleTreeItem (appleTreeItem);
     graphicsTab.setAppleTreeItem (appleTreeItem);
@@ -54,11 +55,11 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
   public void gridClick (GridClickEvent event)
   // ---------------------------------------------------------------------------------//
   {
-    AppleBlock appleBlock = event.block;
+    if (appleBlock == event.block)
+      return;
 
-    //    if (appleBlock.getUserData () == null)
-    //      appleBlock
-    //          .setUserData (formattedAppleBlockFactory.getFormattedAppleBlock (appleBlock));
+    appleTreeItem = null;
+    appleBlock = event.block;
 
     dataTab.setAppleBlock (appleBlock);
     graphicsTab.setAppleBlock (appleBlock);

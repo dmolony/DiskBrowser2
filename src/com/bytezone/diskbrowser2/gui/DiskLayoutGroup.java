@@ -117,13 +117,18 @@ public class DiskLayoutGroup extends Group implements SaveState
     }
 
     if (appleFileSystem == fileSystem)
+    {
+      if (selectedBlockNo >= 0 || selectedBlocks != null)
+      {
+        selectedBlockNo = -1;
+        selectedBlocks = null;
+        drawGrid ();
+      }
       return;
+    }
 
     firstRow = -1;
     firstColumn = -1;
-
-    selectedBlockNo = -1;
-    selectedBlocks = null;
 
     fileSystem = appleFileSystem;
 
@@ -542,7 +547,7 @@ public class DiskLayoutGroup extends Group implements SaveState
   {
     if (blocks == null || blocks.size () == 0)
     {
-      System.out.println ("file has no blocks");
+      //      System.out.println ("file has no blocks");
       return;
     }
 
@@ -561,9 +566,7 @@ public class DiskLayoutGroup extends Group implements SaveState
     int screenRow = blockNo / diskColumns;
     int screenColumn = blockNo % diskColumns;
 
-    // if it's already visible then don't scroll
-    if (screenRow >= firstRow && screenRow < firstRow + SCREEN_ROWS
-        && screenColumn >= firstColumn && screenColumn < firstColumn + screenColumns)
+    if (isVisible (screenRow, screenColumn))
       return;
 
     // calculate desired the top/left corner for the block to be in the centre
@@ -587,6 +590,14 @@ public class DiskLayoutGroup extends Group implements SaveState
     scrollBarV.setValue (firstRow);
     scrollBarH.setValue (firstColumn);
     adjusting = false;                    // reactivate listeners
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private boolean isVisible (int screenRow, int screenColumn)
+  // ---------------------------------------------------------------------------------//
+  {
+    return (screenRow >= firstRow && screenRow < firstRow + SCREEN_ROWS
+        && screenColumn >= firstColumn && screenColumn < firstColumn + screenColumns);
   }
 
   // ---------------------------------------------------------------------------------//

@@ -27,6 +27,7 @@ public class AppleTreeFile
 
   private AppleFile appleFile;
   private AppleFileSystem appleFileSystem;
+  private FormattedAppleFile formattedAppleFile;
 
   private int extensionNo;
 
@@ -35,8 +36,6 @@ public class AppleTreeFile
   private String suffix;
 
   private String sortString;
-
-  private FormattedAppleFile formattedAppleFile;
 
   // ---------------------------------------------------------------------------------//
   public AppleTreeFile (AppleFileSystem appleFileSystem)

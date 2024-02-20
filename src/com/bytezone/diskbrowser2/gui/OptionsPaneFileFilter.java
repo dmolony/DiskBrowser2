@@ -1,5 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
+import static com.bytezone.utility.Utility.suffixes;
+
 import com.bytezone.appbase.DataLayout;
 import com.bytezone.diskbrowser2.gui.TreePane.SuffixTotalsListener;
 
@@ -30,11 +32,11 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
     setPadding (defaultInsets);               // only the root pane has insets
     //    setGridLinesVisible (true);
 
-    createLabelsVertical (fileFilterPreferences.suffixes, 0, 1, HPos.RIGHT);
-    checkBoxes = createCheckBoxes (
-        new DataLayout (1, 1, fileFilterPreferences.suffixes.length, Pos.CENTER, true));
-    suffixTotals = createTextFields (new DataLayout (2, 1,
-        fileFilterPreferences.suffixes.length, Pos.CENTER_RIGHT, false));
+    createLabelsVertical (suffixes, 0, 1, HPos.RIGHT);
+    checkBoxes =
+        createCheckBoxes (new DataLayout (1, 1, suffixes.size (), Pos.CENTER, true));
+    suffixTotals = createTextFields (
+        new DataLayout (2, 1, suffixes.size (), Pos.CENTER_RIGHT, false));
 
     set ();       // must happen before the listener is added because java is brain-dead
 
@@ -47,7 +49,7 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
       Boolean prevState, Boolean currentState)
   // ---------------------------------------------------------------------------------//
   {
-    for (int i = 0; i < fileFilterPreferences.suffixes.length; i++)
+    for (int i = 0; i < suffixes.size (); i++)
       fileFilterPreferences.setShowFileTypes (i, checkBoxes[i].isSelected ());
 
     notifyListeners (fileFilterPreferences);
@@ -57,7 +59,7 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
   void set ()
   // ---------------------------------------------------------------------------------//
   {
-    for (int i = 0; i < fileFilterPreferences.suffixes.length; i++)
+    for (int i = 0; i < suffixes.size (); i++)
       checkBoxes[i].setSelected (fileFilterPreferences.getShowFileTypes (i));
   }
 
@@ -66,7 +68,7 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
   public void totalsChanged (int[] totals)
   // ---------------------------------------------------------------------------------//
   {
-    for (int i = 0; i < fileFilterPreferences.suffixes.length; i++)
+    for (int i = 0; i < suffixes.size (); i++)
       suffixTotals[i].setText (String.format ("%,7d", totals[i]));
   }
 }

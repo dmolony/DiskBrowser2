@@ -104,6 +104,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
 
     // grid click listeners
     rightTabPane.diskLayoutTab.addClickListener (outputTabPane);
+    rightTabPane.diskLayoutTab.addClickListener (extrasHeaderBar);
 
     // tab change listeners
     outputTabPane.addTabChangeListener (viewMenu);

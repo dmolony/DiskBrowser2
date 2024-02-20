@@ -1,5 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
+import static com.bytezone.utility.Utility.suffixes;
+
 import java.util.prefs.Preferences;
 
 import com.bytezone.appleformat.ApplePreferences;
@@ -10,10 +12,11 @@ public class FileFilterPreferences extends ApplePreferences
 {
   private static final String PREFS_FILE_TYPE = "FileType-";
 
-  String[] suffixes = { "po", "dsk", "do", "hdv", "2mg", "d13", "sdk", "shk", "bxy",
-      "bny", "bqy", "woz", "img", "dimg", "zip", "gz" };
+  //  String[] suffixes = { "po", "dsk", "do", "hdv", "2mg", "d13", "sdk", "shk", "bxy",
+  //      "bny", "bqy", "lbr", "woz", "img", "dimg", "zip", "gz" };
 
-  private boolean[] showFileTypes = new boolean[suffixes.length];
+  private boolean[] showFileTypes =
+      new boolean[com.bytezone.utility.Utility.suffixes.size ()];
   int totalSet;
 
   // ---------------------------------------------------------------------------------//
@@ -22,9 +25,10 @@ public class FileFilterPreferences extends ApplePreferences
   {
     super ("File Filter Preferences", preferences);
 
-    for (int i = 0; i < suffixes.length; i++)
+    for (int i = 0; i < suffixes.size (); i++)
     {
-      showFileTypes[i] = preferences.getBoolean (PREFS_FILE_TYPE + suffixes[i], true);
+      showFileTypes[i] =
+          preferences.getBoolean (PREFS_FILE_TYPE + suffixes.get (i), true);
       if (showFileTypes[i])
         totalSet++;
     }
@@ -68,8 +72,8 @@ public class FileFilterPreferences extends ApplePreferences
   public void save ()
   // ---------------------------------------------------------------------------------//
   {
-    for (int i = 0; i < suffixes.length; i++)
-      preferences.putBoolean (PREFS_FILE_TYPE + suffixes[i], showFileTypes[i]);
+    for (int i = 0; i < suffixes.size (); i++)
+      preferences.putBoolean (PREFS_FILE_TYPE + suffixes.get (i), showFileTypes[i]);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -79,9 +83,9 @@ public class FileFilterPreferences extends ApplePreferences
   {
     StringBuilder text = new StringBuilder (super.toString ());
 
-    for (int i = 0; i < suffixes.length; i++)
-      text.append (
-          String.format ("%-4s ................. %s%n", suffixes[i], showFileTypes[i]));
+    for (int i = 0; i < suffixes.size (); i++)
+      text.append (String.format ("%-4s ................. %s%n", suffixes.get (i),
+          showFileTypes[i]));
 
     return Utility.rtrim (text);
   }

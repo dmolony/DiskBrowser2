@@ -4,6 +4,8 @@ import com.bytezone.appbase.TabChangeListener;
 import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
+import com.bytezone.filesystem.AppleBlock;
+import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 
@@ -11,31 +13,29 @@ import javafx.scene.control.Tab;
 
 // -----------------------------------------------------------------------------------//
 public class ExtrasHeaderBar extends HeaderBar
-    implements TreeNodeListener, TabChangeListener
-// -----------------------------------------------------------------------------------//
+    implements TreeNodeListener, TabChangeListener, GridClickListener
 {
-  private AppleTreeFile appleTreeFile;
-  private FormattedAppleFile formattedAppleFile;
   private Tab selectedTab;
+
+  private AppleFile appleFile;
+  private AppleTreeFile appleTreeFile;
+  private AppleBlock appleBlock;
+  private AppleFileSystem appleFileSystem;
+  private FormattedAppleFile formattedAppleFile;
 
   // ---------------------------------------------------------------------------------//
   void updateNameLabel ()
   // ---------------------------------------------------------------------------------//
   {
-    if (appleTreeFile == null)
-    {
-      leftLabel.setText ("");
-      return;
-    }
-
     if (selectedTab instanceof DiskLayoutTab tab)
     {
-      AppleFileSystem appleFileSystem = appleTreeFile.getAppleFileSystem ();
       if (appleFileSystem != null)
       {
-        // this should include the dos version
         FileSystemType fst = appleFileSystem.getFileSystemType ();
-        leftLabel.setText (fst != null ? fst.name () : "File System");
+        if (appleBlock != null)
+          leftLabel.setText (fst + " " + appleBlock.getBlockSubType ());
+        else
+          leftLabel.setText (fst.toString ());
       }
       else
         leftLabel.setText ("");
@@ -59,8 +59,20 @@ public class ExtrasHeaderBar extends HeaderBar
   public void treeNodeSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
+    appleBlock = null;
     appleTreeFile = appleTreeItem.getValue ();
+    appleFile = appleTreeFile.getAppleFile ();
     formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
+
+    if (appleFile != null)
+    {
+      if (appleFile.hasEmbeddedFileSystem ())
+        appleFileSystem = appleFile.getEmbeddedFileSystem ();
+      else
+        appleFileSystem = appleFile.getParentFileSystem ();
+    }
+    else
+      appleFileSystem = appleTreeFile.getAppleFileSystem ();
 
     updateNameLabel ();
   }
@@ -71,6 +83,20 @@ public class ExtrasHeaderBar extends HeaderBar
   // ---------------------------------------------------------------------------------//
   {
     selectedTab = newTab;
+
+    updateNameLabel ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void gridClick (GridClickEvent event)
+  // ---------------------------------------------------------------------------------//
+  {
+    appleBlock = event.block;
+    appleTreeFile = null;
+    appleFile = appleBlock.getFileOwner ();
+    appleFileSystem = appleBlock.getFileSystem ();
+    formattedAppleFile = null;
 
     updateNameLabel ();
   }

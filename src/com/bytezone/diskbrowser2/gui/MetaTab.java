@@ -18,7 +18,7 @@ public class MetaTab extends DBTextTab
       "===================================================================";
   private static final String SPACES = "                                  ";
 
-  AppleTreeItem appleTreeItem;
+  //  AppleTreeItem appleTreeItem;
   AppleTreeFile appleTreeFile;
 
   AppleFile appleFile;
@@ -110,7 +110,7 @@ public class MetaTab extends DBTextTab
   public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    this.appleTreeItem = appleTreeItem;
+    //    this.appleTreeItem = appleTreeItem;
     appleBlock = null;
 
     appleTreeFile = appleTreeItem.getValue ();
@@ -125,11 +125,11 @@ public class MetaTab extends DBTextTab
   // ---------------------------------------------------------------------------------//
   {
     this.appleBlock = appleBlock;
-    appleTreeItem = null;
+    //    appleTreeItem = null;
 
     appleTreeFile = null;
     appleFile = appleBlock.getFileOwner ();
-    appleFileSystem = null;
+    appleFileSystem = appleBlock.getFileSystem ();
 
     refresh ();
   }

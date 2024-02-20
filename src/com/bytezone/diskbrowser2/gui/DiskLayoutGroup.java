@@ -113,6 +113,7 @@ public class DiskLayoutGroup extends Group implements SaveState
         || appleFileSystem.getFileSystemType () == FileSystemType.HYBRID)
     {
       clear ();
+      fileSystem = null;
       return;
     }
 
@@ -134,7 +135,6 @@ public class DiskLayoutGroup extends Group implements SaveState
 
     buildScreen (appleFileSystem, gc);
     drawGrid ();
-    System.out.println ("setting file system " + appleFileSystem.getFileName ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -154,7 +154,6 @@ public class DiskLayoutGroup extends Group implements SaveState
     ensureVisible (selectedBlocks);
 
     drawGrid ();
-    System.out.println ("setting file " + appleFile.getFileName ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -431,7 +430,7 @@ public class DiskLayoutGroup extends Group implements SaveState
         if (selectedBlockNo != blockNo && blockNo >= 0
             && blockNo < fileSystem.getTotalBlocks ())
         {
-          notifyListeners (selectedBlockNo, blockNo);
+          notifyClickListeners (selectedBlockNo, blockNo);
           selectedBlockNo = blockNo;
           ensureVisible (blockNo);
           drawGrid ();
@@ -458,7 +457,7 @@ public class DiskLayoutGroup extends Group implements SaveState
 
         if (blockNo >= 0 && blockNo != selectedBlockNo)
         {
-          notifyListeners (selectedBlockNo, blockNo);
+          notifyClickListeners (selectedBlockNo, blockNo);
           selectedBlockNo = blockNo;
           selectedBlocks = null;
           drawGrid ();
@@ -617,7 +616,7 @@ public class DiskLayoutGroup extends Group implements SaveState
   }
 
   // ---------------------------------------------------------------------------------//
-  private void notifyListeners (int previousBlockNo, int selectedBlockNo)
+  private void notifyClickListeners (int previousBlockNo, int selectedBlockNo)
   // ---------------------------------------------------------------------------------//
   {
     //    if (fileSystem == null)
@@ -659,12 +658,12 @@ public class DiskLayoutGroup extends Group implements SaveState
   // ---------------------------------------------------------------------------------//
   {
     int blockNo = prefs.getInt (PREFS_SELECTED_BLOCK, -1);
-    System.out.printf ("selecting restore block %04X with %s%n", blockNo, fileSystem);
     if (blockNo >= 0 && fileSystem != null)
     {
+      System.out.printf ("selecting restore block %04X with %s%n", blockNo, fileSystem);
       ensureVisible (blockNo);
       drawGrid ();
-      notifyListeners (-1, blockNo);
+      notifyClickListeners (-1, blockNo);
     }
   }
 }

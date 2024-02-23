@@ -19,7 +19,7 @@ public class MetaTab extends DBTextTab
   private static final String SPACES = "                                  ";
 
   //  AppleTreeItem appleTreeItem;
-  AppleTreeFile appleTreeFile;
+  AppleTreeNode appleTreeFile;
 
   AppleFile appleFile;
   AppleBlock appleBlock;

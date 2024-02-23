@@ -17,7 +17,7 @@ import com.bytezone.filesystem.AppleForkedFile;
 import javafx.scene.image.Image;
 
 // -----------------------------------------------------------------------------------//
-public class AppleTreeFile
+public class AppleTreeNode
 // -----------------------------------------------------------------------------------//
 {
   private static IconMaker icons = new IconMaker ();
@@ -38,7 +38,7 @@ public class AppleTreeFile
   private String sortString;
 
   // ---------------------------------------------------------------------------------//
-  public AppleTreeFile (AppleFileSystem appleFileSystem)
+  public AppleTreeNode (AppleFileSystem appleFileSystem)
   // ---------------------------------------------------------------------------------//
   {
     this.appleFileSystem = appleFileSystem;
@@ -54,7 +54,7 @@ public class AppleTreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  public AppleTreeFile (AppleFile appleFile)
+  public AppleTreeNode (AppleFile appleFile)
   // ---------------------------------------------------------------------------------//
   {
     this.appleFile = appleFile;
@@ -74,7 +74,7 @@ public class AppleTreeFile
   // children will be populated, but a file will only be converted to an AppleFileSystem
   // when the tree node is expanded or selected. See setAppleFileSystem() below.
   // ---------------------------------------------------------------------------------//
-  public AppleTreeFile (File file)
+  public AppleTreeNode (File file)
   // ---------------------------------------------------------------------------------//
   {
     assert !file.isHidden ();
@@ -280,19 +280,19 @@ public class AppleTreeFile
   }
 
   // ---------------------------------------------------------------------------------//
-  List<AppleTreeFile> listAppleFiles ()
+  List<AppleTreeNode> listAppleFiles ()
   // ---------------------------------------------------------------------------------//
   {
-    List<AppleTreeFile> children = new ArrayList<> ();
+    List<AppleTreeNode> children = new ArrayList<> ();
 
     if (appleFileSystem != null)
     {
       for (AppleFile file : appleFileSystem.getFiles ())
         if (file.isActualFile ())
-          children.add (new AppleTreeFile (file));
+          children.add (new AppleTreeNode (file));
 
       for (AppleFileSystem fs : appleFileSystem.getFileSystems ())
-        children.add (new AppleTreeFile (fs));
+        children.add (new AppleTreeNode (fs));
     }
 
     if (appleFile != null)
@@ -301,15 +301,15 @@ public class AppleTreeFile
       {
         for (AppleFile file : ac.getFiles ())
           if (file.isActualFile ())
-            children.add (new AppleTreeFile (file));
+            children.add (new AppleTreeNode (file));
 
         for (AppleFileSystem fs : ac.getFileSystems ())
-          children.add (new AppleTreeFile (fs));
+          children.add (new AppleTreeNode (fs));
       }
 
       if (appleFile.isForkedFile ())
         for (AppleFile file : ((AppleForkedFile) appleFile).getForks ())
-          children.add (new AppleTreeFile (file));
+          children.add (new AppleTreeNode (file));
     }
 
     return children;

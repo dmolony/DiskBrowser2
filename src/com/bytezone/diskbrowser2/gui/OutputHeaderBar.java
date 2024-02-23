@@ -7,7 +7,7 @@ import com.bytezone.filesystem.AppleBlock;
 class OutputHeaderBar extends HeaderBar implements TreeNodeListener, GridClickListener
 // -----------------------------------------------------------------------------------//
 {
-  private AppleTreeFile treeFile;
+  private AppleTreeNode treeFile;
   private AppleBlock appleBlock;
 
   // ---------------------------------------------------------------------------------//

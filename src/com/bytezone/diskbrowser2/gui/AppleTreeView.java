@@ -23,7 +23,7 @@ import javafx.scene.text.Font;
 import javafx.util.Callback;
 
 // ---------------------------------------------------------------------------------//
-class AppleTreeView extends TreeView<AppleTreeFile>
+class AppleTreeView extends TreeView<AppleTreeNode>
     implements SaveState, FontChangeListener
 // ---------------------------------------------------------------------------------//
 {
@@ -35,7 +35,7 @@ class AppleTreeView extends TreeView<AppleTreeFile>
 
   private Font font;
 
-  private final MultipleSelectionModel<TreeItem<AppleTreeFile>> model;
+  private final MultipleSelectionModel<TreeItem<AppleTreeNode>> model;
   private final List<TreeNodeListener> listeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
@@ -52,16 +52,16 @@ class AppleTreeView extends TreeView<AppleTreeFile>
 
     //    this.focusedProperty ().addListener ( (obs, oldVal, newVal) -> focus (newVal));
 
-    setCellFactory (new Callback<TreeView<AppleTreeFile>, TreeCell<AppleTreeFile>> ()
+    setCellFactory (new Callback<TreeView<AppleTreeNode>, TreeCell<AppleTreeNode>> ()
     {
       @Override
-      public TreeCell<AppleTreeFile> call (TreeView<AppleTreeFile> parm)
+      public TreeCell<AppleTreeNode> call (TreeView<AppleTreeNode> parm)
       {
-        TreeCell<AppleTreeFile> cell = new TreeCell<> ()
+        TreeCell<AppleTreeNode> cell = new TreeCell<> ()
         {
           private final ImageView imageView = new ImageView ();
 
-          public void updateItem (AppleTreeFile treeFile, boolean empty)
+          public void updateItem (AppleTreeNode treeFile, boolean empty)
           {
             super.updateItem (treeFile, empty);
 
@@ -103,7 +103,7 @@ class AppleTreeView extends TreeView<AppleTreeFile>
       return;
     }
 
-    AppleTreeFile treeFile = appleTreeItem.getValue ();
+    AppleTreeNode treeFile = appleTreeItem.getValue ();
 
     // same test as in AppleTreeItem.getChildren()
     // if the item is selected BEFORE it is opened then we do this one
@@ -119,7 +119,7 @@ class AppleTreeView extends TreeView<AppleTreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  void setFormattedAppleFile (AppleTreeFile appleTreeFile)
+  void setFormattedAppleFile (AppleTreeNode appleTreeFile)
   // ---------------------------------------------------------------------------------//
   {
     FormattedAppleFile formattedAppleFile = null;
@@ -152,11 +152,11 @@ class AppleTreeView extends TreeView<AppleTreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  private Optional<TreeItem<AppleTreeFile>> getNode (String path)
+  private Optional<TreeItem<AppleTreeNode>> getNode (String path)
   // ---------------------------------------------------------------------------------//
   {
-    TreeItem<AppleTreeFile> node = getRoot ();
-    Optional<TreeItem<AppleTreeFile>> optionalNode = Optional.empty ();
+    TreeItem<AppleTreeNode> node = getRoot ();
+    Optional<TreeItem<AppleTreeNode>> optionalNode = Optional.empty ();
 
     String[] chunks = path.split ("\\" + SEPARATOR);
 
@@ -174,13 +174,13 @@ class AppleTreeView extends TreeView<AppleTreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  private Optional<TreeItem<AppleTreeFile>> search (TreeItem<AppleTreeFile> parentNode,
+  private Optional<TreeItem<AppleTreeNode>> search (TreeItem<AppleTreeNode> parentNode,
       String name)
   // ---------------------------------------------------------------------------------//
   {
     parentNode.setExpanded (true);
 
-    for (TreeItem<AppleTreeFile> childNode : parentNode.getChildren ())
+    for (TreeItem<AppleTreeNode> childNode : parentNode.getChildren ())
       if (childNode.getValue ().getName ().equals (name))
         return Optional.of (childNode);
 
@@ -193,7 +193,7 @@ class AppleTreeView extends TreeView<AppleTreeFile>
   {
     StringBuilder pathBuilder = new StringBuilder ();
 
-    TreeItem<AppleTreeFile> item = model.getSelectedItem ();
+    TreeItem<AppleTreeNode> item = model.getSelectedItem ();
     while (item != null)
     {
       pathBuilder.insert (0, SEPARATOR + item.getValue ().getName ());
@@ -220,7 +220,7 @@ class AppleTreeView extends TreeView<AppleTreeFile>
 
     if (!lastPath.isEmpty ())
     {
-      Optional<TreeItem<AppleTreeFile>> optionalNode = getNode (lastPath);
+      Optional<TreeItem<AppleTreeNode>> optionalNode = getNode (lastPath);
       if (optionalNode.isPresent ())
       {
         int row = getRow (optionalNode.get ());

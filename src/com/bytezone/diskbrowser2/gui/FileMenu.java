@@ -36,7 +36,7 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
   private final MenuItem saveMenuItem = new MenuItem ("Save output...");
   private final MenuItem aboutMenuItem = new MenuItem ("Show version...");
 
-  AppleTreeFile treeFile;
+  AppleTreeNode treeFile;
   AppleFile appleFile;        // can only be a data file
 
   private String saveFolderName;

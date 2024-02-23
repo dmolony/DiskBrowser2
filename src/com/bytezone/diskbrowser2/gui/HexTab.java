@@ -16,7 +16,7 @@ class HexTab extends DBTextTab
   private static final int MAX_HEX_BYTES = 0x10_000;
 
   private FormattedAppleFile formattedAppleFile;
-  private AppleTreeFile appleTreeFile;
+  private AppleTreeNode appleTreeFile;
   private AppleFile appleFile;
   private AppleBlock appleBlock;
 

@@ -18,7 +18,7 @@ public class ExtrasHeaderBar extends HeaderBar
   private Tab selectedTab;
 
   private AppleFile appleFile;
-  private AppleTreeFile appleTreeFile;
+  private AppleTreeNode appleTreeFile;
   private AppleBlock appleBlock;
   private AppleFileSystem appleFileSystem;
   private FormattedAppleFile formattedAppleFile;

@@ -17,7 +17,7 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
 
   //  private FormattedAppleFile formattedAppleFile;
   //  AppleTreeItem appleTreeItem;
-  AppleTreeFile appleTreeFile;
+  AppleTreeNode appleTreeFile;
   //  AppleFile appleFile;
   AppleBlock appleBlock;
   //  AppleFileSystem appleFileSystem;

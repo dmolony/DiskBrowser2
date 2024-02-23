@@ -23,7 +23,7 @@ public class DiskLayoutTab extends TabBase
 
   protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
-  protected AppleTreeFile appleTreeFile;
+  protected AppleTreeNode appleTreeFile;
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
   protected BorderPane borderPane;

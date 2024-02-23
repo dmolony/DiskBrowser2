@@ -113,10 +113,10 @@ public class IconMaker
         case 0x01 -> dosIntegerImage;
         case 0x02 -> dosApplesoftImage;
         case 0x00 -> dosTextImage;
-        case 0x08 -> dosXImage;
-        case 0x10 -> dosXImage;
-        case 0x20 -> dosXImage;
-        case 0x40 -> dosXImage;
+        //        case 0x08 -> dosXImage;
+        //        case 0x10 -> dosXImage;
+        //        case 0x20 -> dosXImage;
+        //        case 0x40 -> dosXImage;
         default -> dosXImage;
       };
     }

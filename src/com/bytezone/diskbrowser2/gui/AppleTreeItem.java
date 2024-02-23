@@ -10,13 +10,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
 // -----------------------------------------------------------------------------------//
-public class AppleTreeItem extends TreeItem<AppleTreeFile>
+public class AppleTreeItem extends TreeItem<AppleTreeNode>
 // -----------------------------------------------------------------------------------//
 {
   private boolean firstTimeChildren = true;
 
   // ---------------------------------------------------------------------------------//
-  public AppleTreeItem (AppleTreeFile file)
+  public AppleTreeItem (AppleTreeNode file)
   // ---------------------------------------------------------------------------------//
   {
     super (file);
@@ -32,10 +32,10 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public ObservableList<TreeItem<AppleTreeFile>> getChildren ()
+  public ObservableList<TreeItem<AppleTreeNode>> getChildren ()
   // ---------------------------------------------------------------------------------//
   {
-    AppleTreeFile treeFile = getValue ();
+    AppleTreeNode treeFile = getValue ();
 
     if (treeFile.isLocalDirectory ())     // already built
       return super.getChildren ();
@@ -58,19 +58,19 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
   }
 
   // ---------------------------------------------------------------------------------//
-  private ObservableList<TreeItem<AppleTreeFile>> buildChildren (AppleTreeFile parent)
+  private ObservableList<TreeItem<AppleTreeNode>> buildChildren (AppleTreeNode parent)
   // ---------------------------------------------------------------------------------//
   {
-    ObservableList<TreeItem<AppleTreeFile>> children =
+    ObservableList<TreeItem<AppleTreeNode>> children =
         FXCollections.observableArrayList ();
 
     assert parent.isAppleContainer ();
 
-    for (AppleTreeFile treeFile : parent.listAppleFiles ())
+    for (AppleTreeNode treeFile : parent.listAppleFiles ())
       if (treeFile.hasSubdirectories ())    // ApplePath with a separator in the name
       {
         // find or create the folder path
-        TreeItem<AppleTreeFile> targetFolder = findTreeItem (children, treeFile);
+        TreeItem<AppleTreeNode> targetFolder = findTreeItem (children, treeFile);
         targetFolder.getChildren ().add (new AppleTreeItem (treeFile));
 
         // add children to the Folder (so that the Catalog works)
@@ -85,11 +85,11 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
 
   // Walk the namePath, creating any folders that don't exist
   // ---------------------------------------------------------------------------------//
-  private TreeItem<AppleTreeFile> findTreeItem (
-      ObservableList<TreeItem<AppleTreeFile>> children, AppleTreeFile treeFile)
+  private TreeItem<AppleTreeNode> findTreeItem (
+      ObservableList<TreeItem<AppleTreeNode>> children, AppleTreeNode treeFile)
   // ---------------------------------------------------------------------------------//
   {
-    TreeItem<AppleTreeFile> target = null;      // the folder at the end of the path
+    TreeItem<AppleTreeNode> target = null;      // the folder at the end of the path
 
     AppleFile file = treeFile.getAppleFile ();
     AppleFileSystem fs = file.getParentFileSystem ();
@@ -102,7 +102,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
 
     loop: for (String name : folders)
     {
-      for (TreeItem<AppleTreeFile> ati : children)
+      for (TreeItem<AppleTreeNode> ati : children)
         if (ati.getValue ().getName ().equals (name))
         {
           children = ati.getChildren ();
@@ -111,7 +111,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeFile>
         }
 
       AppleFile af = new Folder (fs, name);
-      AppleTreeFile tf = new AppleTreeFile (af);
+      AppleTreeNode tf = new AppleTreeNode (af);
       AppleTreeItem ati = new AppleTreeItem (tf);
 
       children.add (ati);

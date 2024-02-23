@@ -57,7 +57,7 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
   {
     this.rootFolder = rootFolder;
 
-    root = new AppleTreeItem (new AppleTreeFile (rootFolder));
+    root = new AppleTreeItem (new AppleTreeNode (rootFolder));
     root.setExpanded (true);
 
     createTree (root);                // adds all the tree nodes to the root
@@ -99,7 +99,7 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
           continue;
         }
 
-        AppleTreeItem newItem = new AppleTreeItem (new AppleTreeFile (path.toFile ()));
+        AppleTreeItem newItem = new AppleTreeItem (new AppleTreeNode (path.toFile ()));
 
         if (isLocalDirectory)
         {
@@ -129,14 +129,14 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
   private void createFilteredTree (AppleTreeItem root, AppleTreeItem filteredRoot)
   // ---------------------------------------------------------------------------------//
   {
-    for (TreeItem<AppleTreeFile> child : root.getChildren ())
+    for (TreeItem<AppleTreeNode> child : root.getChildren ())
     {
       AppleTreeItem filteredChild = new AppleTreeItem (child.getValue ());
 
       if (child.getValue ().isLocalDirectory ())
         createFilteredTree ((AppleTreeItem) child, filteredChild);
 
-      AppleTreeFile filePath = filteredChild.getValue ();
+      AppleTreeNode filePath = filteredChild.getValue ();
 
       if (filePath.isLocalFile ())
       {
@@ -181,10 +181,10 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
   // ---------------------------------------------------------------------------------//
   {
     node.getChildren ()
-        .sort (Comparator.comparing (new Function<TreeItem<AppleTreeFile>, String> ()
+        .sort (Comparator.comparing (new Function<TreeItem<AppleTreeNode>, String> ()
         {
           @Override
-          public String apply (TreeItem<AppleTreeFile> t)
+          public String apply (TreeItem<AppleTreeNode> t)
           {
             return t.getValue ().getSortString ();
           }
@@ -202,7 +202,7 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
 
       if (fileFilterPreferences.filtersActive ())
       {
-        AppleTreeItem filteredRoot = new AppleTreeItem (new AppleTreeFile (rootFolder));
+        AppleTreeItem filteredRoot = new AppleTreeItem (new AppleTreeNode (rootFolder));
         filteredRoot.setExpanded (true);
         createFilteredTree (root, filteredRoot);
         treeView.setRoot (filteredRoot);

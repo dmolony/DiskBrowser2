@@ -59,7 +59,7 @@ public class ExtrasTab extends DBTextTab implements PreferenceChangeListener
   public void setAppleTreeItem (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    AppleTreeFile appleTreeFile = appleTreeItem.getValue ();
+    AppleTreeNode appleTreeFile = appleTreeItem.getValue ();
     formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
     formattedAppleBlock = null;
 

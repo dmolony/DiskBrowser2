@@ -21,7 +21,7 @@ public class DBGraphicsTab extends TabBase
 {
   protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
-  protected AppleTreeFile treeFile;
+  protected AppleTreeNode treeFile;
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
 

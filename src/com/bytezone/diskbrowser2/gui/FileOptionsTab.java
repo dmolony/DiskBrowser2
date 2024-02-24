@@ -58,13 +58,13 @@ public class FileOptionsTab extends DBOptionsTab
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
+  public void setAppleTreeNode (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
-    appleTreeFile = appleTreeItem.getValue ();
-    appleFile = appleTreeFile.getAppleFile ();
-    appleFileSystem = appleTreeFile.getAppleFileSystem ();
-    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
+    this.appleTreeNode = appleTreeNode;
+    appleFile = appleTreeNode.getAppleFile ();
+    appleFileSystem = appleTreeNode.getAppleFileSystem ();
+    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     refresh ();
   }

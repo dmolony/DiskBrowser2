@@ -19,7 +19,7 @@ public class MetaTab extends DBTextTab
   private static final String SPACES = "                                  ";
 
   //  AppleTreeItem appleTreeItem;
-  AppleTreeNode appleTreeFile;
+  AppleTreeNode appleTreeNode;
 
   AppleFile appleFile;
   AppleBlock appleBlock;
@@ -67,20 +67,20 @@ public class MetaTab extends DBTextTab
   private void attachHeader (List<String> lines)
   // ---------------------------------------------------------------------------------//
   {
-    if (appleTreeFile != null)
+    if (appleTreeNode != null)
     {
-      if (appleTreeFile.isAppleFileSystem ())
+      if (appleTreeNode.isAppleFileSystem ())
         lines.add (frameHeader ("Apple File System"));
-      else if (appleTreeFile.isAppleFolder ())
+      else if (appleTreeNode.isAppleFolder ())
         lines.add (frameHeader ("Apple Folder"));
-      else if (appleTreeFile.isAppleForkedFile ())
+      else if (appleTreeNode.isAppleForkedFile ())
         lines.add (frameHeader ("Forked File"));
-      else if (appleTreeFile.isAppleFork ())
+      else if (appleTreeNode.isAppleFork ())
         lines.add (frameHeader (
             (appleFile.getForkType () == ForkType.DATA ? "Data" : "Resource") + " Fork"));
-      else if (appleTreeFile.isAppleDataFile ())
+      else if (appleTreeNode.isAppleDataFile ())
         lines.add (frameHeader ("Apple File"));
-      else if (appleTreeFile.isLocalDirectory ())
+      else if (appleTreeNode.isLocalDirectory ())
         lines.add (frameHeader ("Local Folder"));
     }
     else if (appleBlock != null)
@@ -107,15 +107,14 @@ public class MetaTab extends DBTextTab
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
+  public void setAppleTreeNode (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
-    //    this.appleTreeItem = appleTreeItem;
     appleBlock = null;
 
-    appleTreeFile = appleTreeItem.getValue ();
-    appleFile = appleTreeFile.getAppleFile ();
-    appleFileSystem = appleTreeFile.getAppleFileSystem ();
+    this.appleTreeNode = appleTreeNode;
+    appleFile = appleTreeNode.getAppleFile ();
+    appleFileSystem = appleTreeNode.getAppleFileSystem ();
 
     refresh ();
   }
@@ -125,9 +124,8 @@ public class MetaTab extends DBTextTab
   // ---------------------------------------------------------------------------------//
   {
     this.appleBlock = appleBlock;
-    //    appleTreeItem = null;
 
-    appleTreeFile = null;
+    appleTreeNode = null;
     appleFile = appleBlock.getFileOwner ();
     appleFileSystem = appleBlock.getFileSystem ();
 

@@ -36,7 +36,7 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
   private final MenuItem saveMenuItem = new MenuItem ("Save output...");
   private final MenuItem aboutMenuItem = new MenuItem ("Show version...");
 
-  AppleTreeNode treeFile;
+  AppleTreeNode appleTreeNode;
   AppleFile appleFile;        // can only be a data file
 
   private String saveFolderName;
@@ -104,7 +104,7 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
     if (outputWriter == null)
       return;
 
-    String name = treeFile.getName () + ".txt";
+    String name = appleTreeNode.getName () + ".txt";
 
     FileChooser fileChooser = new FileChooser ();
     fileChooser.setTitle ("Save output text to");
@@ -214,10 +214,10 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (AppleTreeItem appleTreeItem)
+  public void treeNodeSelected (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
-    this.treeFile = appleTreeItem.getValue ();
-    appleFile = treeFile.isAppleDataFile () ? treeFile.getAppleFile () : null;
+    this.appleTreeNode = appleTreeNode;
+    appleFile = appleTreeNode.isAppleDataFile () ? appleTreeNode.getAppleFile () : null;
   }
 }

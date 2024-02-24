@@ -35,9 +35,9 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
   public ObservableList<TreeItem<AppleTreeNode>> getChildren ()
   // ---------------------------------------------------------------------------------//
   {
-    AppleTreeNode treeFile = getValue ();
+    AppleTreeNode treeNode = getValue ();
 
-    if (treeFile.isLocalDirectory ())     // already built
+    if (treeNode.isLocalDirectory ())     // already built
       return super.getChildren ();
 
     if (firstTimeChildren)
@@ -47,11 +47,9 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
 
       // same test as in AppleTreeView.itemSelected()
       // if the item is opened BEFORE it is selected then we do this one
+      treeNode.checkForFileSystem ();
 
-      if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
-        treeFile.readAppleFileSystem ();
-
-      super.getChildren ().setAll (buildChildren (treeFile));
+      super.getChildren ().setAll (buildChildren (treeNode));
     }
 
     return super.getChildren ();
@@ -66,19 +64,19 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
 
     assert parent.isAppleContainer ();
 
-    for (AppleTreeNode treeFile : parent.listAppleFiles ())
-      if (treeFile.hasSubdirectories ())    // ApplePath with a separator in the name
+    for (AppleTreeNode treeNode : parent.listAppleFiles ())
+      if (treeNode.hasSubdirectories ())    // ApplePath with a separator in the name
       {
         // find or create the folder path
-        TreeItem<AppleTreeNode> targetFolder = findTreeItem (children, treeFile);
-        targetFolder.getChildren ().add (new AppleTreeItem (treeFile));
+        TreeItem<AppleTreeNode> targetFolder = findTreeItem (children, treeNode);
+        targetFolder.getChildren ().add (new AppleTreeItem (treeNode));
 
         // add children to the Folder (so that the Catalog works)
         Folder folder = (Folder) targetFolder.getValue ().getAppleFile ();
-        folder.addFile (treeFile.getAppleFile ());
+        folder.addFile (treeNode.getAppleFile ());
       }
       else
-        children.add (new AppleTreeItem (treeFile));
+        children.add (new AppleTreeItem (treeNode));
 
     return children;
   }
@@ -89,7 +87,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
       ObservableList<TreeItem<AppleTreeNode>> children, AppleTreeNode treeFile)
   // ---------------------------------------------------------------------------------//
   {
-    TreeItem<AppleTreeNode> target = null;      // the folder at the end of the path
+    TreeItem<AppleTreeNode> targetFolder = null;    // the folder at the end of the path
 
     AppleFile file = treeFile.getAppleFile ();
     AppleFileSystem fs = file.getParentFileSystem ();
@@ -102,23 +100,23 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
 
     loop: for (String name : folders)
     {
-      for (TreeItem<AppleTreeNode> ati : children)
-        if (ati.getValue ().getName ().equals (name))
+      for (TreeItem<AppleTreeNode> treeItem : children)
+        if (treeItem.getValue ().getName ().equals (name))
         {
-          children = ati.getChildren ();
-          target = ati;
+          children = treeItem.getChildren ();
+          targetFolder = treeItem;
           continue loop;
         }
 
-      AppleFile af = new Folder (fs, name);
-      AppleTreeNode tf = new AppleTreeNode (af);
-      AppleTreeItem ati = new AppleTreeItem (tf);
+      AppleFile appleFile = new Folder (fs, name);
+      AppleTreeNode treeNode = new AppleTreeNode (appleFile);
+      AppleTreeItem treeItem = new AppleTreeItem (treeNode);
 
-      children.add (ati);
-      children = ati.getChildren ();
-      target = ati;
+      children.add (treeItem);
+      children = treeItem.getChildren ();
+      targetFolder = treeItem;
     }
 
-    return target;
+    return targetFolder;
   }
 }

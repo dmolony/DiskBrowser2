@@ -23,7 +23,7 @@ public class DiskLayoutTab extends TabBase
 
   protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
-  protected AppleTreeNode appleTreeFile;
+  protected AppleTreeNode appleTreeNode;
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
   protected BorderPane borderPane;
@@ -51,15 +51,15 @@ public class DiskLayoutTab extends TabBase
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
+  public void setAppleTreeNode (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
-    this.appleTreeItem = appleTreeItem;
+    //    this.appleTreeItem = appleTreeItem;
 
-    appleTreeFile = appleTreeItem.getValue ();
-    appleFile = appleTreeFile.getAppleFile ();
-    appleFileSystem = appleTreeFile.getAppleFileSystem ();
-    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
+    this.appleTreeNode = appleTreeNode;
+    appleFile = appleTreeNode.getAppleFile ();
+    appleFileSystem = appleTreeNode.getAppleFileSystem ();
+    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     if (appleFile != null)
     {

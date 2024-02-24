@@ -17,7 +17,7 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
 
   //  private FormattedAppleFile formattedAppleFile;
   //  AppleTreeItem appleTreeItem;
-  AppleTreeNode appleTreeFile;
+  AppleTreeNode appleTreeNode;
   //  AppleFile appleFile;
   AppleBlock appleBlock;
   //  AppleFileSystem appleFileSystem;
@@ -60,15 +60,16 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
+  public void setAppleTreeNode (AppleTreeNode treeNode)
   // ---------------------------------------------------------------------------------//
   {
-    this.appleTreeItem = appleTreeItem;
+    //    this.appleTreeItem = appleTreeItem;
 
-    appleTreeFile = appleTreeItem.getValue ();
-    appleFile = appleTreeFile.getAppleFile ();
-    appleFileSystem = appleTreeFile.getAppleFileSystem ();
-    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
+    //    appleTreeFile = appleTreeItem.getValue ();
+    appleTreeNode = treeNode;
+    appleFile = appleTreeNode.getAppleFile ();
+    appleFileSystem = appleTreeNode.getAppleFileSystem ();
+    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     refresh ();
   }

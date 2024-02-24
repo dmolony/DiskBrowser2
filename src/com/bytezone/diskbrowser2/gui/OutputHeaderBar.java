@@ -7,15 +7,15 @@ import com.bytezone.filesystem.AppleBlock;
 class OutputHeaderBar extends HeaderBar implements TreeNodeListener, GridClickListener
 // -----------------------------------------------------------------------------------//
 {
-  private AppleTreeNode treeFile;
+  private AppleTreeNode treeNode;
   private AppleBlock appleBlock;
 
   // ---------------------------------------------------------------------------------//
   void updateNameLabel ()
   // ---------------------------------------------------------------------------------//
   {
-    if (treeFile != null)
-      leftLabel.setText (treeFile.toString ());
+    if (treeNode != null)
+      leftLabel.setText (treeNode.toString ());
     else if (appleBlock != null)
       leftLabel.setText (appleBlock.getBlockType ().toString ());
     else
@@ -24,10 +24,10 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener, GridClickLi
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (AppleTreeItem appleTreeItem)
+  public void treeNodeSelected (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
-    treeFile = appleTreeItem.getValue ();
+    treeNode = appleTreeNode;
     appleBlock = null;
 
     updateNameLabel ();
@@ -39,7 +39,7 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener, GridClickLi
   // ---------------------------------------------------------------------------------//
   {
     appleBlock = event.block;
-    treeFile = null;
+    treeNode = null;
 
     updateNameLabel ();
   }

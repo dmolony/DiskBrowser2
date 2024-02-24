@@ -103,44 +103,42 @@ class AppleTreeView extends TreeView<AppleTreeNode>
       return;
     }
 
-    AppleTreeNode treeFile = appleTreeItem.getValue ();
+    AppleTreeNode treeNode = appleTreeItem.getValue ();
 
     // same test as in AppleTreeItem.getChildren()
     // if the item is selected BEFORE it is opened then we do this one
+    treeNode.checkForFileSystem ();
 
-    if (treeFile.isLocalFile () && !treeFile.isAppleFileSystem ())
-      appleTreeItem.getChildren ();           // force the file to be processed
-
-    if (treeFile.getFormattedAppleFile () == null)
-      setFormattedAppleFile (treeFile);
+    if (treeNode.getFormattedAppleFile () == null)
+      setFormattedAppleFile (treeNode);
 
     for (TreeNodeListener listener : listeners)
-      listener.treeNodeSelected (appleTreeItem);
+      listener.treeNodeSelected (treeNode);
   }
 
   // ---------------------------------------------------------------------------------//
-  void setFormattedAppleFile (AppleTreeNode appleTreeFile)
+  void setFormattedAppleFile (AppleTreeNode treeNode)
   // ---------------------------------------------------------------------------------//
   {
     FormattedAppleFile formattedAppleFile = null;
 
-    AppleFile appleFile = appleTreeFile.getAppleFile ();
+    AppleFile appleFile = treeNode.getAppleFile ();
     if (formattedAppleFile == null && appleFile != null)
       formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (appleFile);
 
-    AppleFileSystem appleFileSystem = appleTreeFile.getAppleFileSystem ();
+    AppleFileSystem appleFileSystem = treeNode.getAppleFileSystem ();
 
     if (formattedAppleFile == null && appleFileSystem != null)
       formattedAppleFile =
           formattedAppleFileFactory.getFormattedAppleFile (appleFileSystem);
 
-    File localFile = appleTreeFile.getLocalFile ();
+    File localFile = treeNode.getLocalFile ();
 
     if (formattedAppleFile == null && localFile != null && localFile.isDirectory ())
       formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (localFile);
 
     assert formattedAppleFile != null;
-    appleTreeFile.setFormattedAppleFile (formattedAppleFile);
+    treeNode.setFormattedAppleFile (formattedAppleFile);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -251,6 +249,6 @@ class AppleTreeView extends TreeView<AppleTreeNode>
   interface TreeNodeListener
   // ---------------------------------------------------------------------------------//
   {
-    public void treeNodeSelected (AppleTreeItem appleTreeItem);
+    public void treeNodeSelected (AppleTreeNode treeNode);
   }
 }

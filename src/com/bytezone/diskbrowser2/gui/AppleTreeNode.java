@@ -72,7 +72,7 @@ public class AppleTreeNode
   // ---------------------------------------------------------------------------------//
   // File will be either a local folder or a local file with a valid suffix. A folder's
   // children will be populated, but a file will only be converted to an AppleFileSystem
-  // when the tree node is expanded or selected. See setAppleFileSystem() below.
+  // when the tree node is expanded or selected. See readAppleFileSystem() below.
   // ---------------------------------------------------------------------------------//
   public AppleTreeNode (File file)
   // ---------------------------------------------------------------------------------//
@@ -113,6 +113,14 @@ public class AppleTreeNode
     assert appleFileSystem == null;
 
     appleFileSystem = AppleTreeView.fileSystemFactory.getFileSystem (path);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void checkForFileSystem ()
+  // ---------------------------------------------------------------------------------//
+  {
+    if (isLocalFile () && !isAppleFileSystem ())
+      readAppleFileSystem ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -389,6 +397,17 @@ public class AppleTreeNode
         appleFile == null ? "null" : appleFile.getFileName ());
     System.out.printf ("AppleFileSystem ...... %s%n",
         appleFileSystem == null ? "null" : appleFileSystem.getFileName ());
+    System.out.printf ("Is AppleFile ......... %s%n", isAppleFile ());
+    System.out.printf ("Is AppleFileSystem ... %s%n", isAppleFileSystem ());
+    System.out.printf ("Is AppleDataFile ..... %s%n", isAppleDataFile ());
+    System.out.printf ("Is AppleContainer .... %s%n", isAppleContainer ());
+    System.out.printf ("Is AppleFork ......... %s%n", isAppleFork ());
+    System.out.printf ("Is AppleForkedFile ... %s%n", isAppleForkedFile ());
+    System.out.printf ("Is AppleFolder ....... %s%n", isAppleFolder ());
+    System.out.printf ("Is LocalDirectory .... %s%n", isLocalDirectory ());
+    System.out.printf ("Is LocalFile ......... %s%n", isLocalFile ());
+    System.out.printf ("Is CmpLocalFile ...... %s%n", isCompressedLocalFile ());
+    System.out.printf ("Has subdirectories ... %s%n", hasSubdirectories ());
   }
 
   // ---------------------------------------------------------------------------------//

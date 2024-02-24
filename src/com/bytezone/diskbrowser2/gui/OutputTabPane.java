@@ -16,7 +16,8 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
   final ExtrasTab extrasTab = new ExtrasTab ("Extras", KeyCode.E);
   final MetaTab metaTab = new MetaTab ("Meta", KeyCode.M);
 
-  private AppleTreeItem appleTreeItem;
+  //  private AppleTreeItem appleTreeItem;
+  private AppleTreeNode treeNode;
   private AppleBlock appleBlock;
 
   // ---------------------------------------------------------------------------------//
@@ -34,20 +35,20 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (AppleTreeItem appleTreeItem)
+  public void treeNodeSelected (AppleTreeNode treeNode)
   // ---------------------------------------------------------------------------------//
   {
-    if (this.appleTreeItem == appleTreeItem)
+    if (this.treeNode == treeNode)
       return;
 
-    this.appleTreeItem = appleTreeItem;
+    //    this.appleTreeItem = appleTreeItem;
     appleBlock = null;
 
-    dataTab.setAppleTreeItem (appleTreeItem);
-    graphicsTab.setAppleTreeItem (appleTreeItem);
-    extrasTab.setAppleTreeItem (appleTreeItem);
-    hexTab.setAppleTreeItem (appleTreeItem);
-    metaTab.setAppleTreeItem (appleTreeItem);
+    dataTab.setAppleTreeNode (treeNode);
+    graphicsTab.setAppleTreeNode (treeNode);
+    extrasTab.setAppleTreeNode (treeNode);
+    hexTab.setAppleTreeNode (treeNode);
+    metaTab.setAppleTreeNode (treeNode);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -58,7 +59,7 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
     if (appleBlock == event.block)
       return;
 
-    appleTreeItem = null;
+    treeNode = null;
     appleBlock = event.block;
 
     dataTab.setAppleBlock (appleBlock);

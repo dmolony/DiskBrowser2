@@ -18,7 +18,7 @@ public class ExtrasHeaderBar extends HeaderBar
   private Tab selectedTab;
 
   private AppleFile appleFile;
-  private AppleTreeNode appleTreeFile;
+  private AppleTreeNode appleTreeNode;
   private AppleBlock appleBlock;
   private AppleFileSystem appleFileSystem;
   private FormattedAppleFile formattedAppleFile;
@@ -56,13 +56,13 @@ public class ExtrasHeaderBar extends HeaderBar
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (AppleTreeItem appleTreeItem)
+  public void treeNodeSelected (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
     appleBlock = null;
-    appleTreeFile = appleTreeItem.getValue ();
-    appleFile = appleTreeFile.getAppleFile ();
-    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
+    this.appleTreeNode = appleTreeNode;
+    appleFile = appleTreeNode.getAppleFile ();
+    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     if (appleFile != null)
     {
@@ -72,7 +72,7 @@ public class ExtrasHeaderBar extends HeaderBar
         appleFileSystem = appleFile.getParentFileSystem ();
     }
     else
-      appleFileSystem = appleTreeFile.getAppleFileSystem ();
+      appleFileSystem = appleTreeNode.getAppleFileSystem ();
 
     updateNameLabel ();
   }
@@ -93,7 +93,7 @@ public class ExtrasHeaderBar extends HeaderBar
   // ---------------------------------------------------------------------------------//
   {
     appleBlock = event.block;
-    appleTreeFile = null;
+    appleTreeNode = null;
     appleFile = appleBlock.getFileOwner ();
     appleFileSystem = appleBlock.getFileSystem ();
     formattedAppleFile = null;

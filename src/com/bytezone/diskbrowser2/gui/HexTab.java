@@ -16,7 +16,7 @@ class HexTab extends DBTextTab
   private static final int MAX_HEX_BYTES = 0x10_000;
 
   private FormattedAppleFile formattedAppleFile;
-  private AppleTreeNode appleTreeFile;
+  private AppleTreeNode appleTreeNode;
   private AppleFile appleFile;
   private AppleBlock appleBlock;
 
@@ -68,14 +68,14 @@ class HexTab extends DBTextTab
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
+  public void setAppleTreeNode (AppleTreeNode treeNode)
   // ---------------------------------------------------------------------------------//
   {
-    appleTreeFile = appleTreeItem.getValue ();
-    appleFile = appleTreeFile.getAppleFile ();
+    appleTreeNode = treeNode;
+    appleFile = appleTreeNode.getAppleFile ();
     appleBlock = null;
 
-    formattedAppleFile = appleTreeFile.getFormattedAppleFile ();
+    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     refresh ();
   }
@@ -84,8 +84,8 @@ class HexTab extends DBTextTab
   public void setAppleBlock (AppleBlock appleBlock)
   // ---------------------------------------------------------------------------------//
   {
+    appleTreeNode = null;
     appleFile = null;
-    appleTreeFile = null;
     this.appleBlock = appleBlock;
 
     formattedAppleFile = null;

@@ -36,14 +36,14 @@ public class IncludeFilesTab extends DBOptionsTab
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleTreeItem (AppleTreeItem appleTreeItem)
+  public void setAppleTreeNode (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
-    this.appleTreeItem = appleTreeItem;
+    this.appleTreeNode = appleTreeNode;
 
-    appleTreeFile = appleTreeItem.getValue ();
-    appleFile = appleTreeFile.getAppleFile ();
-    appleFileSystem = appleTreeFile.getAppleFileSystem ();
+    //    appleTreeFile = appleTreeItem.getValue ();
+    appleFile = appleTreeNode.getAppleFile ();
+    appleFileSystem = appleTreeNode.getAppleFileSystem ();
     //    formattedAppleFile =
     //        appleFile == null ? null : (FormattedAppleFile) appleFile.getUserData ();
 

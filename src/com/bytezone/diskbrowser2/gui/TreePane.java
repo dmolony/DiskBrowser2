@@ -32,6 +32,7 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
 
   private AppleTreeView treeView;
   private AppleTreeItem root;
+  private Font treeViewFont;
 
   private List<SuffixTotalsListener> suffixTotalsListeners = new ArrayList<> ();
   private final List<TreeNodeListener> treeNodeListeners = new ArrayList<> ();
@@ -63,6 +64,7 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
     createTree (root);                // adds all the tree nodes to the root
 
     treeView = new AppleTreeView (root, formattedAppleFileFactory);
+    treeView.setFont (treeViewFont);
     //    treeView = new AppleTreeView (root);
 
     for (TreeNodeListener treeNodeListener : treeNodeListeners)
@@ -154,8 +156,9 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
   public void setFont (Font font)
   // ---------------------------------------------------------------------------------//
   {
-    if (treeView != null)
+    if (treeView != null)           // it may not exist yet
       treeView.setFont (font);
+    treeViewFont = font;
   }
 
   // ---------------------------------------------------------------------------------//

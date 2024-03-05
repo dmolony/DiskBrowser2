@@ -3,6 +3,8 @@ package com.bytezone.diskbrowser2.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bytezone.filesystem.AppleFilePath;
+
 // ---------------------------------------------------------------------------------//
 public class Utility
 // ---------------------------------------------------------------------------------//
@@ -92,10 +94,13 @@ public class Utility
   }
 
   // ---------------------------------------------------------------------------------//
-  public static String[] getPathFolders (String fileName, char separator)
+  public static String[] getPathFolders (AppleFilePath filePath)
   // ---------------------------------------------------------------------------------//
   {
-    String[] pathItems = fileName.split ("\\" + separator);
+    String fullName = filePath.getFullFileName ();
+    char separator = filePath.getSeparator ();
+
+    String[] pathItems = fullName.split ("\\" + separator);
     String[] pathFolders = new String[pathItems.length - 1];
 
     for (int i = 0; i < pathFolders.length; i++)

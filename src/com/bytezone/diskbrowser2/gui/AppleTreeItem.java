@@ -45,9 +45,8 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
       firstTimeChildren = false;
       assert super.getChildren ().size () == 0;
 
-      // same test as in AppleTreeView.itemSelected()
       // if the item is opened BEFORE it is selected then we do this one
-      treeNode.checkForFileSystem ();
+      treeNode.checkForFileSystem ();    // also called by AppleTreeView.itemSelected()
 
       super.getChildren ().setAll (buildChildren (treeNode));
     }
@@ -90,13 +89,10 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
     TreeItem<AppleTreeNode> targetFolder = null;    // the folder at the end of the path
 
     AppleFile file = treeFile.getAppleFile ();
-    AppleFileSystem fs = file.getParentFileSystem ();
-
     assert file instanceof AppleFilePath;
 
-    String fullName = ((AppleFilePath) file).getFullFileName ();
-    char separator = ((AppleFilePath) file).getSeparator ();
-    String[] folders = Utility.getPathFolders (fullName, separator);
+    AppleFileSystem fs = file.getParentFileSystem ();
+    String[] folders = Utility.getPathFolders ((AppleFilePath) file);
 
     loop: for (String name : folders)
     {

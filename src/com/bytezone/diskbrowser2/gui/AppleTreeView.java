@@ -36,7 +36,7 @@ class AppleTreeView extends TreeView<AppleTreeNode>
   private Font font;
 
   private final MultipleSelectionModel<TreeItem<AppleTreeNode>> model;
-  private final List<TreeNodeListener> listeners = new ArrayList<> ();
+  private final List<TreeNodeListener> treeNodeListeners = new ArrayList<> ();
 
   // ---------------------------------------------------------------------------------//
   AppleTreeView (AppleTreeItem root, FormattedAppleFileFactory formattedAppleFileFactory)
@@ -105,14 +105,13 @@ class AppleTreeView extends TreeView<AppleTreeNode>
 
     AppleTreeNode treeNode = appleTreeItem.getValue ();
 
-    // same test as in AppleTreeItem.getChildren()
     // if the item is selected BEFORE it is opened then we do this one
-    treeNode.checkForFileSystem ();
+    treeNode.checkForFileSystem ();       // also called by AppleTreeItem.getChildren()
 
     if (treeNode.getFormattedAppleFile () == null)
       setFormattedAppleFile (treeNode);
 
-    for (TreeNodeListener listener : listeners)
+    for (TreeNodeListener listener : treeNodeListeners)
       listener.treeNodeSelected (treeNode);
   }
 
@@ -241,8 +240,8 @@ class AppleTreeView extends TreeView<AppleTreeNode>
   void addListener (TreeNodeListener listener)
   // ---------------------------------------------------------------------------------//
   {
-    if (!listeners.contains (listener))
-      listeners.add (listener);
+    if (!treeNodeListeners.contains (listener))
+      treeNodeListeners.add (listener);
   }
 
   // ---------------------------------------------------------------------------------//

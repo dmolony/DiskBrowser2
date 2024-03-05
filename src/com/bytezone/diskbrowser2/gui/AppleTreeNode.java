@@ -104,23 +104,11 @@ public class AppleTreeNode
   }
 
   // ---------------------------------------------------------------------------------//
-  // Called when a local file (without a file system) is selected or expanded.
-  // ---------------------------------------------------------------------------------//
-  void readAppleFileSystem ()
-  // ---------------------------------------------------------------------------------//
-  {
-    assert isLocalFile ();
-    assert appleFileSystem == null;
-
-    appleFileSystem = AppleTreeView.fileSystemFactory.getFileSystem (path);
-  }
-
-  // ---------------------------------------------------------------------------------//
   void checkForFileSystem ()
   // ---------------------------------------------------------------------------------//
   {
-    if (isLocalFile () && !isAppleFileSystem ())
-      readAppleFileSystem ();
+    if (isLocalFile () && appleFileSystem == null)
+      appleFileSystem = AppleTreeView.fileSystemFactory.getFileSystem (path);
   }
 
   // ---------------------------------------------------------------------------------//

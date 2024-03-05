@@ -93,7 +93,7 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
   // ---------------------------------------------------------------------------------//
   {
     AppBase.showAlert (AlertType.INFORMATION, "About DiskBrowserApp",
-        "Version: 1.0.0\nReleased: 1 January 2024"
+        "Version: 1.0.0\nReleased: 1 June 2024"
             + "\nDownload: github.com/dmolony/DiskBrowser2");
   }
 

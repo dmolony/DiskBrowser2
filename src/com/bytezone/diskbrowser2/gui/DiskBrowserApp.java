@@ -171,6 +171,14 @@ public class DiskBrowserApp extends AppBase implements SaveState
 
   // ---------------------------------------------------------------------------------//
   @Override
+  protected DBFontManager getFontManager ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return new DBFontManager ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
   protected void keyPressed (KeyEvent keyEvent)
   // ---------------------------------------------------------------------------------//
   {

@@ -18,8 +18,9 @@ be displayed as usual.
 ![Teaser](screens/teaser7.png?raw=true "Pascal area on a prodos disk image")
 This screen shows several SHK disk images stored as LBR files.
 ![Teaser](screens/teaser8.png?raw=true "SHK files on a prodos disk image")
-The second interface change is that all pictures are shown on the Graphics tab. This includes hi-res images, fonts, shapes, icons etc. The Data tab will display information pertaining to the image.
+The second interface change is that all images are now shown on a separate Graphics tab. This includes hi-res images, fonts, shapes, icons etc. The Data tab will instead display information pertaining to the image.
 ![Teaser](screens/pic01.png?raw=true "Data Tab")
+The screen above is the Data Tab, the screen below is the Graphics Tab.
 ![Teaser](screens/pic02.png?raw=true "Graphics Tab")
 When a file is selected and the Options pane is active, the options for that
  file type can be altered.
@@ -30,5 +31,3 @@ The file tree can be filtered so that only the selected file types are shown.
 ![Teaser](screens/teaser4.png?raw=true "BXY files")
 The Meta tab shows information about the file.
 ![Teaser](screens/teaser5.png?raw=true "Meta")
-The Graphics tab is used to display images - hi-res pictures, fonts, shapes, icons etc.
-![Teaser](screens/teaser6.png?raw=true "Graphics")

@@ -184,6 +184,8 @@ public class DiskBrowserApp extends AppBase implements SaveState
   {
     super.keyPressed (keyEvent);
 
+    boolean eventHandled = true;
+
     switch (keyEvent.getCode ())
     {
       case M:       // meta
@@ -192,30 +194,30 @@ public class DiskBrowserApp extends AppBase implements SaveState
       case G:       // graphics
       case E:       // extras
         outputTabPane.keyPressed (keyEvent);
-        keyEvent.consume ();
         break;
 
       case O:       // options
       case L:       // layout
       case I:       // include
         rightTabPane.keyPressed (keyEvent);
-        keyEvent.consume ();
         break;
 
       case COMMA:
       case PERIOD:
         fontManager.keyPressed (keyEvent);
-        keyEvent.consume ();
         break;
 
       case F:
         filterManager.keyPressed (keyEvent);
-        keyEvent.consume ();
         break;
 
       default:
+        eventHandled = false;
         break;
     }
+
+    if (eventHandled)
+      keyEvent.consume ();
   }
 
   // ---------------------------------------------------------------------------------//

@@ -18,6 +18,9 @@ be displayed as usual.
 ![Teaser](screens/teaser7.png?raw=true "Pascal area on a prodos disk image")
 This screen shows several SHK disk images stored as LBR files.
 ![Teaser](screens/teaser8.png?raw=true "SHK files on a prodos disk image")
+The second interface change is that all pictures are shown on the Graphics tab. This includes hi-res images, fonts, shapes, icons etc. The Data tab will display information pertaining to the image.
+![Teaser](screens/pic01.png?raw=true "Data Tab")
+![Teaser](screens/pic02.png?raw=true "Graphics Tab")
 When a file is selected and the Options pane is active, the options for that
  file type can be altered.
 ![Teaser](screens/teaser2.png?raw=true "Don't rely on this")

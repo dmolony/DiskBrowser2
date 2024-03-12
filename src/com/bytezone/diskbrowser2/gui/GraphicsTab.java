@@ -24,6 +24,8 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   AppleBlock appleBlock;
   Timeline clock;
 
+  private double scale;
+
   // ---------------------------------------------------------------------------------//
   public GraphicsTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
@@ -36,18 +38,11 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   }
 
   // ---------------------------------------------------------------------------------//
-  private void tick (ActionEvent event)
+  private void nextFrame (ActionEvent event)
   // ---------------------------------------------------------------------------------//
   {
-    if (formattedAppleFile == null)
-      return;
-
-    if (formattedAppleFile instanceof Animation animation)
-    {
-      animation.nextFrame ();
-      setValid (false);
-      update ();
-    }
+    ((Animation) formattedAppleFile).nextFrame ();
+    drawImage (formattedAppleFile.getImage (), scale);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -64,7 +59,7 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
     {
       if (formattedAppleFile.getImage () != null)
       {
-        double scale = SCALE;
+        scale = SCALE;
 
         if (appleFile != null && appleFile.getFileSystemType () == FileSystemType.PRODOS)
         {
@@ -94,8 +89,8 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
       clock.stop ();
       clock.getKeyFrames ().clear ();
       clock.getKeyFrames ()
-          .add (new KeyFrame (Duration.millis (animation.getDelay () * 50),
-              (ActionEvent event) -> tick (event)));
+          .add (new KeyFrame (Duration.millis (animation.getDelay () * 33),
+              (ActionEvent event) -> nextFrame (event)));
       //      System.out.println (toString (clock, animation));
       clock.play ();
     }

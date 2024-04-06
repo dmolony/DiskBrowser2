@@ -10,15 +10,15 @@ The current version should be considered beta software.
 
 ## Installation
 - Download and install the latest [JDK and JavaFX](https://jdk.java.net/) binaries.
-- Download [DiskBrowser2](https://github.com/dmolony/DiskBrowser2/releases).
+- Download [DiskBrowserApp.jar](https://github.com/dmolony/DiskBrowser2/releases).
 - Create executable run file as follows:  
 
 #### MacOS or Linux shell file
 ```
-/path/to/jdk/Contents/Home/bin/java               \
---module-path /path/to/javafx-sdk/lib             \
---add-modules=javafx.controls                     \
--jar /path/to/DiskBrowser2.jar
+/path/to/jdk/Contents/Home/bin/java           \
+--module-path /path/to/javafx-sdk/lib         \
+--add-modules=javafx.controls                 \
+-jar /path/to/DiskBrowserApp.jar
 ```  
 
 #### Windows batch file
@@ -26,7 +26,7 @@ The current version should be considered beta software.
 C:\path\to\jdk\bin\java.exe                   \
 --module-path C:\path\to\javafx-sdk\lib       \
 --add-modules=javafx.controls                 \
--jar C:\path\to\DiskBrowser2.jar
+-jar C:\path\to\DiskBrowserApp.jar
 ```
 
 #### Hints

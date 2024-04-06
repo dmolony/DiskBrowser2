@@ -1,9 +1,12 @@
 # Disk Browser ][
 This is a major rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser), using JavaFX and the new libraries ([AppBase](https://github.com/dmolony/AppBase), 
 [AppleFileSystem](https://github.com/dmolony/AppleFileSystem) and 
-[AppleFormat](https://github.com/dmolony/AppleFormat)). It is not yet ready for release.
+[AppleFormat](https://github.com/dmolony/AppleFormat)). It is currently in beta release.
   
 The goal is for DiskBrowser ][ to retain all the file display formats of DiskBrowser, but  with a better interface and a more maintainable code base.
+
+## Beta Release
+The current version should be considered beta software.
    
 ### Example Screens
 This image shows the main interface change from DiskBrowser. Instead of separate tabs

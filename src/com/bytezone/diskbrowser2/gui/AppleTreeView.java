@@ -14,6 +14,7 @@ import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.FileSystemFactory;
 
+import javafx.application.Platform;
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -28,6 +29,8 @@ class AppleTreeView extends TreeView<AppleTreeNode>
 // ---------------------------------------------------------------------------------//
 {
   static FileSystemFactory fileSystemFactory = new FileSystemFactory ();
+  static AppleTreeView me;      // JDK-8293018
+
   private final FormattedAppleFileFactory formattedAppleFileFactory;
 
   private static final String PREFS_LAST_PATH = "LastPath";
@@ -38,17 +41,30 @@ class AppleTreeView extends TreeView<AppleTreeNode>
   private final MultipleSelectionModel<TreeItem<AppleTreeNode>> model;
   private final List<TreeNodeListener> treeNodeListeners = new ArrayList<> ();
 
+  private TreeItem<AppleTreeNode> currentSelectedItem;      // JDK-8293018
+  //  private String currentPath;
+
   // ---------------------------------------------------------------------------------//
   AppleTreeView (AppleTreeItem root, FormattedAppleFileFactory formattedAppleFileFactory)
   // ---------------------------------------------------------------------------------//
   {
     super (root);
+    me = this;                                              // JDK-8293018
 
     this.formattedAppleFileFactory = formattedAppleFileFactory;
 
     model = getSelectionModel ();
     model.selectedItemProperty ()
         .addListener ( (obs, oldSel, newSel) -> itemSelected ((AppleTreeItem) newSel));
+
+    //    EventHandler<MouseEvent> mouseEventHandle =
+    //        (MouseEvent event) -> doMouseClick (event);
+    //    this.addEventHandler (MouseEvent.MOUSE_CLICKED, mouseEventHandle);
+
+    //    EventHandler<TreeItem.TreeModificationEvent<TreeView<AppleTreeNode>>>
+    //       treeHandle =
+    //        event -> doTreeEvent (event);
+    //    root.addEventHandler (TreeItem.treeNotificationEvent (), treeHandle);
 
     //    this.focusedProperty ().addListener ( (obs, oldVal, newVal) -> focus (newVal));
 
@@ -86,6 +102,32 @@ class AppleTreeView extends TreeView<AppleTreeNode>
   }
 
   // ---------------------------------------------------------------------------------//
+  static AppleTreeView getTreeView ()                      // JDK-8293018
+  // ---------------------------------------------------------------------------------//
+  {
+    return me;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void startBuilding (TreeItem<AppleTreeNode> parent)      // JDK-8293018
+  // ---------------------------------------------------------------------------------//
+  {
+    if (getRow (parent) < model.getSelectedIndex ())
+    {
+      currentSelectedItem = model.getSelectedItem ();
+      model.clearSelection ();
+    }
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void endBuilding ()                                      // JDK-8293018
+  // ---------------------------------------------------------------------------------//
+  {
+    if (model.getSelectedIndex () < 0)
+      Platform.runLater ( () -> model.select (currentSelectedItem));
+  }
+
+  // ---------------------------------------------------------------------------------//
   private void focus (boolean val)
   // ---------------------------------------------------------------------------------//
   {
@@ -97,11 +139,8 @@ class AppleTreeView extends TreeView<AppleTreeNode>
   private void itemSelected (AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
-    if (appleTreeItem == null)
-    {
-      System.out.println ("Should never happen - appleTreeItem is null");
+    if (appleTreeItem == null)                                // JDK-8293018 ??
       return;
-    }
 
     AppleTreeNode treeNode = appleTreeItem.getValue ();
 

@@ -63,9 +63,6 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
 
     assert parent.isAppleContainer ();
 
-    AppleTreeView appleTreeView = AppleTreeView.getTreeView ();     // JDK-8293018
-    appleTreeView.startBuilding (this);                             // JDK-8293018
-
     for (AppleTreeNode treeNode : parent.listAppleFiles ())
       if (treeNode.hasSubdirectories ())    // ApplePath with a separator in the name
       {
@@ -80,7 +77,8 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
       else
         children.add (new AppleTreeItem (treeNode));
 
-    appleTreeView.endBuilding ();                                   // JDK-8293018
+    if (children.size () > 0)
+      AppleTreeView.getTreeView ().startBuilding (this);              // JDK-8293018
 
     return children;
   }

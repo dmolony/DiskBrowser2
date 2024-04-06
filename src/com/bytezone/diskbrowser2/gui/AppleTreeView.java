@@ -29,7 +29,7 @@ class AppleTreeView extends TreeView<AppleTreeNode>
 // ---------------------------------------------------------------------------------//
 {
   static FileSystemFactory fileSystemFactory = new FileSystemFactory ();
-  static AppleTreeView me;      // JDK-8293018
+  static AppleTreeView me;                                            // JDK-8293018
 
   private final FormattedAppleFileFactory formattedAppleFileFactory;
 
@@ -41,30 +41,18 @@ class AppleTreeView extends TreeView<AppleTreeNode>
   private final MultipleSelectionModel<TreeItem<AppleTreeNode>> model;
   private final List<TreeNodeListener> treeNodeListeners = new ArrayList<> ();
 
-  private TreeItem<AppleTreeNode> currentSelectedItem;      // JDK-8293018
-  //  private String currentPath;
-
   // ---------------------------------------------------------------------------------//
   AppleTreeView (AppleTreeItem root, FormattedAppleFileFactory formattedAppleFileFactory)
   // ---------------------------------------------------------------------------------//
   {
     super (root);
-    me = this;                                              // JDK-8293018
+    me = this;                                                        // JDK-8293018
 
     this.formattedAppleFileFactory = formattedAppleFileFactory;
 
     model = getSelectionModel ();
     model.selectedItemProperty ()
         .addListener ( (obs, oldSel, newSel) -> itemSelected ((AppleTreeItem) newSel));
-
-    //    EventHandler<MouseEvent> mouseEventHandle =
-    //        (MouseEvent event) -> doMouseClick (event);
-    //    this.addEventHandler (MouseEvent.MOUSE_CLICKED, mouseEventHandle);
-
-    //    EventHandler<TreeItem.TreeModificationEvent<TreeView<AppleTreeNode>>>
-    //       treeHandle =
-    //        event -> doTreeEvent (event);
-    //    root.addEventHandler (TreeItem.treeNotificationEvent (), treeHandle);
 
     //    this.focusedProperty ().addListener ( (obs, oldVal, newVal) -> focus (newVal));
 
@@ -109,22 +97,15 @@ class AppleTreeView extends TreeView<AppleTreeNode>
   }
 
   // ---------------------------------------------------------------------------------//
-  void startBuilding (TreeItem<AppleTreeNode> parent)      // JDK-8293018
+  void startBuilding (TreeItem<AppleTreeNode> parent)      // JDK-8293018, 9076855
   // ---------------------------------------------------------------------------------//
   {
     if (getRow (parent) < model.getSelectedIndex ())
     {
-      currentSelectedItem = model.getSelectedItem ();
+      TreeItem<AppleTreeNode> currentSelectedItem = model.getSelectedItem ();
       model.clearSelection ();
-    }
-  }
-
-  // ---------------------------------------------------------------------------------//
-  void endBuilding ()                                      // JDK-8293018
-  // ---------------------------------------------------------------------------------//
-  {
-    if (model.getSelectedIndex () < 0)
       Platform.runLater ( () -> model.select (currentSelectedItem));
+    }
   }
 
   // ---------------------------------------------------------------------------------//

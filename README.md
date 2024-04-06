@@ -7,8 +7,32 @@ The goal is for DiskBrowser ][ to retain all the file display formats of DiskBro
 
 ## Beta Release
 The current version should be considered beta software.
+
+## Installation
+- Download and install the latest [JDK and JavaFX](https://jdk.java.net/) binaries.
+- Download [DiskBrowser2](https://github.com/dmolony/DiskBrowser2/releases).
+- Create executable run file as follows:  
+
+#### MacOS or Linux shell file
+```
+/path/to/jdk/Contents/Home/bin/java               \
+--module-path /path/to/javafx-sdk/lib             \
+--add-modules=javafx.controls                     \
+-jar /path/to/DiskBrowser2.jar
+```  
+
+#### Windows batch file
+```
+C:\path\to\jdk\bin\java.exe                   \
+--module-path C:\path\to\javafx-sdk\lib       \
+--add-modules=javafx.controls                 \
+-jar C:\path\to\DiskBrowser2.jar
+```
+
+#### Hints
+The first line in each of the above shell files can usually be shortened to 'java   \\' as it's just the command to execute java on your system. The second line must be the path to wherever you placed the javafx download.
    
-### Example Screens
+## Example Screens
 This image shows the main interface change from DiskBrowser. Instead of separate tabs
  for each disk, the file tree expands each disk image in place.
 ![Teaser](screens/teaser1.png?raw=true "Data screen")

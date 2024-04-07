@@ -5,6 +5,8 @@ This is a major rewrite of [DiskBrowser](https://github.com/dmolony/diskbrowser)
   
 The goal is for DiskBrowser ][ to retain all the file display formats of DiskBrowser, but  with a better interface and a more maintainable code base.
 
+[Example screens](resources/screens.md)
+
 ## Beta Release
 The current version should be considered beta software.
 
@@ -31,5 +33,3 @@ C:\path\to\jdk\bin\java.exe                   \
 
 #### Hints
 The first line in each of the above shell files can usually be shortened to 'java   \\' as it's just the command to execute java on your system. The second line must be the path to wherever you placed the javafx download.
-
-[Example screens](resources/screens.md)

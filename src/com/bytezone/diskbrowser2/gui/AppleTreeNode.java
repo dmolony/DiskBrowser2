@@ -44,7 +44,7 @@ public class AppleTreeNode
     this.appleFileSystem = appleFileSystem;
 
     if (appleFileSystem.isHybrid ())            // one of two file systems in FsHybrid
-      name = appleFileSystem.getFileSystemType ().toString ();
+      name = appleFileSystem.getFileSystemType ().toString ();      // HYBRID
     else
       name = appleFileSystem.getFileName ();
 
@@ -58,15 +58,13 @@ public class AppleTreeNode
   // ---------------------------------------------------------------------------------//
   {
     this.appleFile = appleFile;
+    appleFileSystem = appleFile.getEmbeddedFileSystem ();         // usually null
 
     name = appleFile.getFileName ();
 
     sortString = name.toLowerCase ();
     suffix = "";
     prefix = sortString;
-
-    if (appleFile.hasEmbeddedFileSystem ())
-      appleFileSystem = appleFile.getEmbeddedFileSystem ();
   }
 
   // ---------------------------------------------------------------------------------//

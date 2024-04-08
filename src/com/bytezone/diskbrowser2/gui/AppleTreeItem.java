@@ -16,10 +16,10 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
   private boolean firstTimeChildren = true;
 
   // ---------------------------------------------------------------------------------//
-  public AppleTreeItem (AppleTreeNode file)
+  public AppleTreeItem (AppleTreeNode treeNode)
   // ---------------------------------------------------------------------------------//
   {
-    super (file);
+    super (treeNode);
   }
 
   // ---------------------------------------------------------------------------------//

@@ -4,9 +4,10 @@ import java.util.prefs.Preferences;
 
 // -----------------------------------------------------------------------------------//
 public class PreferencesManager
+// -----------------------------------------------------------------------------------//
 {
-  Preferences prefs;
-  FileFilterPreferences fileFilter;
+  private final Preferences prefs;
+  private final FileFilterPreferences fileFilter;
 
   // ---------------------------------------------------------------------------------//
   public PreferencesManager (Preferences prefs)
@@ -18,7 +19,14 @@ public class PreferencesManager
   }
 
   // ---------------------------------------------------------------------------------//
-  public void save ()
+  FileFilterPreferences getFileFilter ()
+  // ---------------------------------------------------------------------------------//
+  {
+    return fileFilter;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void save ()
   // ---------------------------------------------------------------------------------//
   {
     fileFilter.save ();

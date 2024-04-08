@@ -18,7 +18,7 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
 {
   CheckBox[] checkBoxes;
   FileFilterPreferences fileFilterPreferences =
-      DiskBrowserApp.preferencesManager.fileFilter;
+      DiskBrowserApp.preferencesManager.getFileFilter ();
   //      new FileFilterPreferences (Preferences.userNodeForPackage (this.getClass ()));
   TextField[] suffixTotals;
 

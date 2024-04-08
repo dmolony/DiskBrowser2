@@ -14,7 +14,6 @@ import java.util.prefs.Preferences;
 import com.bytezone.appbase.FontChangeListener;
 import com.bytezone.appbase.SaveState;
 import com.bytezone.appleformat.ApplePreferences;
-import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
 import javafx.scene.control.TreeItem;
@@ -38,17 +37,14 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
   private final List<TreeNodeListener> treeNodeListeners = new ArrayList<> ();
 
   private FileFilterPreferences fileFilterPreferences;
-  private final FormattedAppleFileFactory formattedAppleFileFactory;
 
   File rootFolder;
 
   // ---------------------------------------------------------------------------------//
-  public TreePane (PreferencesManager preferencesManager,
-      FormattedAppleFileFactory formattedAppleFileFactory)
+  public TreePane (PreferencesManager preferencesManager)
   // ---------------------------------------------------------------------------------//
   {
-    this.fileFilterPreferences = preferencesManager.fileFilter;
-    this.formattedAppleFileFactory = formattedAppleFileFactory;
+    this.fileFilterPreferences = preferencesManager.getFileFilter ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -63,7 +59,7 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
 
     createTree (root);                // adds all the tree nodes to the root
 
-    treeView = new AppleTreeView (root, formattedAppleFileFactory);
+    treeView = new AppleTreeView (root);
     treeView.setFont (treeViewFont);
     //    treeView = new AppleTreeView (root);
 

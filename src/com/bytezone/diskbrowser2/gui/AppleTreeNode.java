@@ -28,11 +28,11 @@ public class AppleTreeNode
   private AppleFile appleFile;
   private AppleFileSystem appleFileSystem;
 
-  private String name;
-  private String prefix;
-  private String suffix;
+  private final String name;
+  private final String prefix;
+  private final String suffix;
 
-  private String sortString;
+  private final String sortString;
 
   // ---------------------------------------------------------------------------------//
   public AppleTreeNode (AppleFileSystem appleFileSystem)

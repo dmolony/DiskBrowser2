@@ -24,12 +24,11 @@ public class AppleTreeNode
 
   private File localFile;         // local folder or local file with valid extension
   private Path path;
+  private int extensionNo;
 
   private AppleFile appleFile;
   private AppleFileSystem appleFileSystem;
   private FormattedAppleFile formattedAppleFile;
-
-  private int extensionNo;
 
   private String name;
   private String prefix;
@@ -43,8 +42,8 @@ public class AppleTreeNode
   {
     this.appleFileSystem = appleFileSystem;
 
-    if (appleFileSystem.isHybrid ())            // one of two file systems in FsHybrid
-      name = appleFileSystem.getFileSystemType ().toString ();      // HYBRID
+    if (appleFileSystem.isHybridComponent ())    // one of two file systems in FsHybrid
+      name = appleFileSystem.getFileSystemType ().toString ();    // DOS, CPM etc
     else
       name = appleFileSystem.getFileName ();
 
@@ -152,7 +151,7 @@ public class AppleTreeNode
   }
 
   // ---------------------------------------------------------------------------------//
-  public Path getPath ()
+  Path getPath ()
   // ---------------------------------------------------------------------------------//
   {
     return path;
@@ -190,63 +189,63 @@ public class AppleTreeNode
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isLocalFile ()
+  boolean isLocalFile ()
   // ---------------------------------------------------------------------------------//
   {
     return localFile != null && localFile.isFile ();
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isCompressedLocalFile ()
+  boolean isCompressedLocalFile ()
   // ---------------------------------------------------------------------------------//
   {
     return localFile != null && (suffix.equals ("zip") || suffix.equals ("gz"));
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isLocalDirectory ()
+  boolean isLocalDirectory ()
   // ---------------------------------------------------------------------------------//
   {
     return localFile != null && localFile.isDirectory ();
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isAppleFile ()
+  boolean isAppleFile ()
   // ---------------------------------------------------------------------------------//
   {
     return appleFile != null;
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isAppleFileSystem ()
+  boolean isAppleFileSystem ()
   // ---------------------------------------------------------------------------------//
   {
     return appleFileSystem != null;
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isAppleFolder ()
+  boolean isAppleFolder ()
   // ---------------------------------------------------------------------------------//
   {
     return appleFile != null && appleFile.isFolder ();
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isAppleForkedFile ()
+  boolean isAppleForkedFile ()
   // ---------------------------------------------------------------------------------//
   {
     return appleFile != null && appleFile.isForkedFile ();
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isAppleFork ()
+  boolean isAppleFork ()
   // ---------------------------------------------------------------------------------//
   {
     return appleFile != null && appleFile.isFork ();
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isAppleContainer ()
+  boolean isAppleContainer ()
   // ---------------------------------------------------------------------------------//
   {
     if (appleFileSystem != null)
@@ -257,14 +256,14 @@ public class AppleTreeNode
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean isAppleDataFile ()
+  boolean isAppleDataFile ()
   // ---------------------------------------------------------------------------------//
   {
     return appleFile != null && !isAppleContainer ();
   }
 
   // ---------------------------------------------------------------------------------//
-  public boolean hasSubdirectories ()
+  boolean hasSubdirectories ()
   // ---------------------------------------------------------------------------------//
   {
     if (appleFile instanceof AppleFilePath afp)
@@ -373,7 +372,7 @@ public class AppleTreeNode
   }
 
   // ---------------------------------------------------------------------------------//
-  public void dump ()
+  void dump ()
   // ---------------------------------------------------------------------------------//
   {
     System.out.printf ("--------------------------------------------------------%n");

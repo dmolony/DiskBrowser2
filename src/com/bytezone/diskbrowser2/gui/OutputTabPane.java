@@ -1,8 +1,16 @@
 package com.bytezone.diskbrowser2.gui;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.bytezone.appbase.TabPaneBase;
+import com.bytezone.appleformat.FormattedAppleFileFactory;
+import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 import com.bytezone.filesystem.AppleBlock;
+import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.input.KeyCode;
 
@@ -16,21 +24,71 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
   final ExtrasTab extrasTab = new ExtrasTab ("Extras", KeyCode.E);
   final MetaTab metaTab = new MetaTab ("Meta", KeyCode.M);
 
-  //  private AppleTreeItem appleTreeItem;
   private AppleTreeNode treeNode;
+  private FormattedAppleFile formattedAppleFile;
   private AppleBlock appleBlock;
 
+  private final FormattedAppleFileFactory formattedAppleFileFactory;
+  private Map<AppleTreeNode, FormattedAppleFile> formatMap = new HashMap<> ();
+
   // ---------------------------------------------------------------------------------//
-  OutputTabPane (String prefsId)
+  OutputTabPane (String prefsId, FormattedAppleFileFactory factory)
   // ---------------------------------------------------------------------------------//
   {
     super (prefsId);
+    this.formattedAppleFileFactory = factory;
 
     add (dataTab);
     add (graphicsTab);
     add (hexTab);
     add (extrasTab);
     add (metaTab);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  FormattedAppleFile getFormattedAppleFile (AppleTreeNode treeNode)
+  // ---------------------------------------------------------------------------------//
+  {
+    FormattedAppleFile formattedAppleFile = formatMap.get (treeNode);
+    if (formattedAppleFile != null)
+      return formattedAppleFile;
+
+    AppleFile appleFile = treeNode.getAppleFile ();
+
+    if (appleFile != null)
+      formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (appleFile);
+
+    if (formattedAppleFile != null)
+    {
+      formatMap.put (treeNode, formattedAppleFile);
+      return formattedAppleFile;
+    }
+
+    AppleFileSystem appleFileSystem = treeNode.getAppleFileSystem ();
+
+    if (appleFileSystem != null)
+      formattedAppleFile =
+          formattedAppleFileFactory.getFormattedAppleFile (appleFileSystem);
+
+    if (formattedAppleFile != null)
+    {
+      formatMap.put (treeNode, formattedAppleFile);
+      return formattedAppleFile;
+    }
+
+    File localFile = treeNode.getLocalFile ();
+
+    if (localFile != null && localFile.isDirectory ())
+      formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (localFile);
+
+    if (formattedAppleFile != null)
+    {
+      formatMap.put (treeNode, formattedAppleFile);
+      return formattedAppleFile;
+    }
+
+    assert formattedAppleFile != null;
+    return null;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -41,13 +99,14 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
     if (this.treeNode == treeNode)
       return;
 
-    //    this.appleTreeItem = appleTreeItem;
+    this.treeNode = treeNode;
+    formattedAppleFile = getFormattedAppleFile (treeNode);
     appleBlock = null;
 
-    dataTab.setAppleTreeNode (treeNode);
-    graphicsTab.setAppleTreeNode (treeNode);
-    extrasTab.setAppleTreeNode (treeNode);
-    hexTab.setAppleTreeNode (treeNode);
+    dataTab.setAppleTreeNode (formattedAppleFile);
+    graphicsTab.setAppleTreeNode (treeNode, formattedAppleFile);
+    extrasTab.setAppleTreeNode (formattedAppleFile);
+    hexTab.setAppleTreeNode (treeNode, formattedAppleFile);
     metaTab.setAppleTreeNode (treeNode);
   }
 
@@ -60,6 +119,7 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
       return;
 
     treeNode = null;
+    formattedAppleFile = null;
     appleBlock = event.block;
 
     dataTab.setAppleBlock (appleBlock);

@@ -68,14 +68,15 @@ class HexTab extends DBTextTab
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleTreeNode (AppleTreeNode treeNode)
+  public void setAppleTreeNode (AppleTreeNode treeNode,
+      FormattedAppleFile formattedAppleFile)
   // ---------------------------------------------------------------------------------//
   {
     appleTreeNode = treeNode;
     appleFile = appleTreeNode.getAppleFile ();
     appleBlock = null;
 
-    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
+    this.formattedAppleFile = formattedAppleFile;
 
     refresh ();
   }

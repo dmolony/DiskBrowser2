@@ -1,8 +1,10 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appleformat.ApplePreferences;
+import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.appleformat.graphics.Animation;
 import com.bytezone.filesystem.AppleBlock;
+import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 import com.bytezone.filesystem.ProdosConstants;
 
@@ -20,9 +22,12 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   private static final double FONT_SCALE = 4;
   private static final double ICON_SCALE = 5;
 
-  AppleTreeNode appleTreeNode;
-  AppleBlock appleBlock;
-  Timeline clock;
+  //  private AppleTreeNode appleTreeNode;
+  private AppleFile appleFile;
+  //  private AppleFileSystem appleFileSystem;
+  private FormattedAppleFile formattedAppleFile;
+  //  private AppleBlock appleBlock;
+  private Timeline clock;
 
   private double scale;
 
@@ -76,13 +81,17 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleTreeNode (AppleTreeNode treeNode)
+  public void setAppleTreeNode (AppleTreeNode appleTreeNode,
+      FormattedAppleFile formattedAppleFile)
   // ---------------------------------------------------------------------------------//
   {
-    appleTreeNode = treeNode;
+    //    appleBlock = null;
+
+    //    this.appleTreeNode = appleTreeNode;
+    this.formattedAppleFile = formattedAppleFile;
     appleFile = appleTreeNode.getAppleFile ();
-    appleFileSystem = appleTreeNode.getAppleFileSystem ();
-    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
+    //    appleFileSystem = appleTreeNode.getAppleFileSystem ();
+    //    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     if (formattedAppleFile instanceof Animation animation)
     {
@@ -101,6 +110,25 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   }
 
   // ---------------------------------------------------------------------------------//
+  public void setAppleBlock (AppleBlock appleBlock)
+  // ---------------------------------------------------------------------------------//
+  {
+    appleFile = null;
+    formattedAppleFile = null;
+    //    this.appleBlock = appleBlock;
+
+    refresh ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void preferenceChanged (ApplePreferences preferences)
+  // ---------------------------------------------------------------------------------//
+  {
+    refresh ();
+  }
+
+  // ---------------------------------------------------------------------------------//
   private String toString (Timeline clock, Animation animation)
   // ---------------------------------------------------------------------------------//
   {
@@ -115,25 +143,5 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
     text.append ("Animation frames ... %d%n".formatted (animation.getSize ()));
 
     return text.toString ();
-  }
-
-  // ---------------------------------------------------------------------------------//
-  public void setAppleBlock (AppleBlock appleBlock)
-  // ---------------------------------------------------------------------------------//
-  {
-    appleFile = null;
-    this.appleBlock = appleBlock;
-
-    formattedAppleFile = null;
-
-    refresh ();
-  }
-
-  // ---------------------------------------------------------------------------------//
-  @Override
-  public void preferenceChanged (ApplePreferences preferences)
-  // ---------------------------------------------------------------------------------//
-  {
-    refresh ();
   }
 }

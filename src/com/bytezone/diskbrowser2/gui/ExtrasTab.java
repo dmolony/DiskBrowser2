@@ -56,11 +56,12 @@ public class ExtrasTab extends DBTextTab implements PreferenceChangeListener
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleTreeNode (AppleTreeNode treeNode)
+  public void setAppleTreeNode (FormattedAppleFile formattedAppleFile)
   // ---------------------------------------------------------------------------------//
   {
     //    AppleTreeNode appleTreeFile = appleTreeItem.getValue ();
-    formattedAppleFile = treeNode.getFormattedAppleFile ();
+    //    formattedAppleFile = treeNode.getFormattedAppleFile ();
+    this.formattedAppleFile = formattedAppleFile;
     formattedAppleBlock = null;
 
     refresh ();

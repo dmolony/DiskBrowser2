@@ -1,5 +1,8 @@
 package com.bytezone.diskbrowser2.gui;
 
+import com.bytezone.appleformat.ApplePreferences;
+import com.bytezone.appleformat.FormattedAppleFileFactory;
+
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
@@ -14,11 +17,20 @@ public class FileOptionsTab extends DBOptionsTab
   OptionsPane optionsPaneGraphics = new OptionsPane (optionPanes[2]);
   OptionsPane optionsPaneText = new OptionsPane (optionPanes[3]);
 
+  FormattedAppleFileFactory formattedAppleFileFactory;
+
   // ---------------------------------------------------------------------------------//
   public FileOptionsTab (String title, KeyCode keyCode)
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void setFactory (FormattedAppleFileFactory formattedAppleFileFactory)
+  // ---------------------------------------------------------------------------------//
+  {
+    this.formattedAppleFileFactory = formattedAppleFileFactory;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -37,10 +49,12 @@ public class FileOptionsTab extends DBOptionsTab
       return;
     }
 
-    if (formattedAppleFile == null || formattedAppleFile.getOptionsType () == null)
+    ApplePreferences preferences = formattedAppleFileFactory.getPreferences (appleFile);
+
+    if (preferences == null || preferences.getOptionsType () == null)
       setContent (null);
     else
-      setContent (switch (formattedAppleFile.getOptionsType ())
+      setContent (switch (preferences.getOptionsType ())
       {
         case APPLESOFT -> optionsPaneApplesoft;
         case ASSEMBLER -> optionsPaneAssembler;
@@ -64,7 +78,7 @@ public class FileOptionsTab extends DBOptionsTab
     this.appleTreeNode = appleTreeNode;
     appleFile = appleTreeNode.getAppleFile ();
     appleFileSystem = appleTreeNode.getAppleFileSystem ();
-    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
+    //    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     refresh ();
   }

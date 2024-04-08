@@ -4,7 +4,6 @@ import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.TabBase;
 import com.bytezone.appleformat.FormattedAppleBlockFactory;
-import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
@@ -21,7 +20,7 @@ public class DiskLayoutTab extends TabBase
   protected KeyPanePascal keyPanePascal = new KeyPanePascal ();
   protected KeyPaneCpm keyPaneCpm = new KeyPaneCpm ();
 
-  protected FormattedAppleFile formattedAppleFile;
+  //  protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
   protected AppleTreeNode appleTreeNode;
   protected AppleFile appleFile;
@@ -59,7 +58,7 @@ public class DiskLayoutTab extends TabBase
     this.appleTreeNode = appleTreeNode;
     appleFile = appleTreeNode.getAppleFile ();
     appleFileSystem = appleTreeNode.getAppleFileSystem ();
-    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
+    //    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     if (appleFile != null)
     {

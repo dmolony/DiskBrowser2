@@ -103,12 +103,10 @@ class DataTab extends DBTextTab
   }
 
   // ---------------------------------------------------------------------------------//
-  public void setAppleTreeNode (AppleTreeNode treeNode)
+  public void setAppleTreeNode (FormattedAppleFile formattedAppleFile)
   // ---------------------------------------------------------------------------------//
   {
-    //    AppleTreeNode appleTreeFile = treeNode;
-
-    formattedAppleFile = treeNode.getFormattedAppleFile ();
+    this.formattedAppleFile = formattedAppleFile;
     formattedAppleBlock = null;
 
     refresh ();

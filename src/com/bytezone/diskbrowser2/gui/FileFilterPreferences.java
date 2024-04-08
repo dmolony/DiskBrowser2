@@ -23,7 +23,7 @@ public class FileFilterPreferences extends ApplePreferences
   public FileFilterPreferences (Preferences preferences)
   // ---------------------------------------------------------------------------------//
   {
-    super ("File Filter Preferences", preferences);
+    super ("File Filter Preferences", preferences, null);
 
     for (int i = 0; i < suffixes.size (); i++)
     {

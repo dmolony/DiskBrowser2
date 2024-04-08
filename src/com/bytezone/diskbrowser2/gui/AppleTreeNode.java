@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleContainer;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFilePath;
@@ -28,7 +27,6 @@ public class AppleTreeNode
 
   private AppleFile appleFile;
   private AppleFileSystem appleFileSystem;
-  private FormattedAppleFile formattedAppleFile;
 
   private String name;
   private String prefix;
@@ -69,7 +67,7 @@ public class AppleTreeNode
   // ---------------------------------------------------------------------------------//
   // File will be either a local folder or a local file with a valid suffix. A folder's
   // children will be populated, but a file will only be converted to an AppleFileSystem
-  // when the tree node is expanded or selected. See readAppleFileSystem() below.
+  // when the tree node is expanded or selected. See checkForFileSystem() below.
   // ---------------------------------------------------------------------------------//
   public AppleTreeNode (File file)
   // ---------------------------------------------------------------------------------//
@@ -155,21 +153,6 @@ public class AppleTreeNode
   // ---------------------------------------------------------------------------------//
   {
     return path;
-  }
-
-  // ---------------------------------------------------------------------------------//
-  void setFormattedAppleFile (FormattedAppleFile formattedAppleFile)
-  // ---------------------------------------------------------------------------------//
-  {
-    assert this.formattedAppleFile == null;
-    this.formattedAppleFile = formattedAppleFile;
-  }
-
-  // ---------------------------------------------------------------------------------//
-  FormattedAppleFile getFormattedAppleFile ()
-  // ---------------------------------------------------------------------------------//
-  {
-    return formattedAppleFile;
   }
 
   // ---------------------------------------------------------------------------------//

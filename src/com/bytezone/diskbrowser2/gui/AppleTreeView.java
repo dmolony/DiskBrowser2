@@ -1,6 +1,5 @@
 package com.bytezone.diskbrowser2.gui;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,9 +8,6 @@ import java.util.prefs.Preferences;
 import com.bytezone.appbase.FontChangeListener;
 import com.bytezone.appbase.SaveState;
 import com.bytezone.appleformat.FormattedAppleFileFactory;
-import com.bytezone.appleformat.file.FormattedAppleFile;
-import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.FileSystemFactory;
 
 import javafx.application.Platform;
@@ -31,7 +27,7 @@ class AppleTreeView extends TreeView<AppleTreeNode>
   static FileSystemFactory fileSystemFactory = new FileSystemFactory ();
   static AppleTreeView me;                                            // JDK-8293018
 
-  private final FormattedAppleFileFactory formattedAppleFileFactory;
+  //  private final FormattedAppleFileFactory formattedAppleFileFactory;
 
   private static final String PREFS_LAST_PATH = "LastPath";
   private static String SEPARATOR = "|";
@@ -48,7 +44,7 @@ class AppleTreeView extends TreeView<AppleTreeNode>
     super (root);
     me = this;                                                        // JDK-8293018
 
-    this.formattedAppleFileFactory = formattedAppleFileFactory;
+    //    this.formattedAppleFileFactory = formattedAppleFileFactory;
 
     model = getSelectionModel ();
     model.selectedItemProperty ()
@@ -128,36 +124,8 @@ class AppleTreeView extends TreeView<AppleTreeNode>
     // if the item is selected BEFORE it is opened then we do this one
     treeNode.checkForFileSystem ();       // also called by AppleTreeItem.getChildren()
 
-    if (treeNode.getFormattedAppleFile () == null)
-      setFormattedAppleFile (treeNode);
-
     for (TreeNodeListener listener : treeNodeListeners)
       listener.treeNodeSelected (treeNode);
-  }
-
-  // ---------------------------------------------------------------------------------//
-  void setFormattedAppleFile (AppleTreeNode treeNode)
-  // ---------------------------------------------------------------------------------//
-  {
-    FormattedAppleFile formattedAppleFile = null;
-
-    AppleFile appleFile = treeNode.getAppleFile ();
-    if (formattedAppleFile == null && appleFile != null)
-      formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (appleFile);
-
-    AppleFileSystem appleFileSystem = treeNode.getAppleFileSystem ();
-
-    if (formattedAppleFile == null && appleFileSystem != null)
-      formattedAppleFile =
-          formattedAppleFileFactory.getFormattedAppleFile (appleFileSystem);
-
-    File localFile = treeNode.getLocalFile ();
-
-    if (formattedAppleFile == null && localFile != null && localFile.isDirectory ())
-      formattedAppleFile = formattedAppleFileFactory.getFormattedAppleFile (localFile);
-
-    assert formattedAppleFile != null;
-    treeNode.setFormattedAppleFile (formattedAppleFile);
   }
 
   // ---------------------------------------------------------------------------------//

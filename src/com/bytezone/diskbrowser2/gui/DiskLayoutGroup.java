@@ -328,6 +328,8 @@ public class DiskLayoutGroup extends Group implements SaveState
     diskColumns = fs.getBlocksPerTrack ();
     if (diskColumns == 0)
       diskColumns = screenColumns;
+    if (diskColumns < screenColumns)      // 13 sector
+      screenColumns = diskColumns;
 
     //    if (fs.getTotalBlocks () >= 1600 
     //        && fs.getFileSystemType () == FileSystemType.PRODOS)
@@ -448,7 +450,8 @@ public class DiskLayoutGroup extends Group implements SaveState
 
         int x = (int) event.getX () - X_OFFSET;
         int y = (int) event.getY () - Y_OFFSET;
-        if (x < 0 || x > GRID_WIDTH || y < 0 || y > GRID_HEIGHT)
+        int max = Math.min (GRID_WIDTH, diskColumns * blockWidth);    // 13 sectors
+        if (x < 0 || x > max || y < 0 || y > GRID_HEIGHT)
           return;
 
         int row = y / SIZE_H + (int) scrollBarV.getValue ();

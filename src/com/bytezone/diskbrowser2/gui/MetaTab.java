@@ -14,7 +14,7 @@ import javafx.scene.input.KeyCode;
 public class MetaTab extends DBTextTab
 // -----------------------------------------------------------------------------------//
 {
-  private static final String HEADER =
+  private static final String HEADER_LINE =
       "===================================================================";
   private static final String SPACES = "                                  ";
 
@@ -41,10 +41,13 @@ public class MetaTab extends DBTextTab
   {
     List<String> lines = new ArrayList<> ();
 
-    //    if (appleTreeItem == null)
-    //      return lines;
-
     attachHeader (lines);
+
+    if (appleBlock != null)
+    {
+      lines.add (appleBlock.toString ());
+      lines.add ("");
+    }
 
     if (appleFile != null)
       lines.add (appleFile.toString ());
@@ -95,13 +98,13 @@ public class MetaTab extends DBTextTab
   {
     StringBuilder text = new StringBuilder ();
 
-    text.append (HEADER);
+    text.append (HEADER_LINE);
     text.append ("\n");
-    int padding = (HEADER.length () - headingText.length ()) / 2;
+    int padding = (HEADER_LINE.length () - headingText.length ()) / 2;
     text.append (SPACES.substring (0, padding));
     text.append (headingText);
     text.append ("\n");
-    text.append (HEADER);
+    text.append (HEADER_LINE);
 
     return text.toString ();
   }
@@ -111,8 +114,8 @@ public class MetaTab extends DBTextTab
   // ---------------------------------------------------------------------------------//
   {
     appleBlock = null;
-
     this.appleTreeNode = appleTreeNode;
+
     appleFile = appleTreeNode.getAppleFile ();
     appleFileSystem = appleTreeNode.getAppleFileSystem ();
 
@@ -124,8 +127,8 @@ public class MetaTab extends DBTextTab
   // ---------------------------------------------------------------------------------//
   {
     this.appleBlock = appleBlock;
-
     appleTreeNode = null;
+
     appleFile = appleBlock.getFileOwner ();
     appleFileSystem = appleBlock.getFileSystem ();
 

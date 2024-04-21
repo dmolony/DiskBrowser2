@@ -61,7 +61,6 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
 
     treeView = new AppleTreeView (root);
     treeView.setFont (treeViewFont);
-    //    treeView = new AppleTreeView (root);
 
     for (TreeNodeListener treeNodeListener : treeNodeListeners)
       treeView.addListener (treeNodeListener);

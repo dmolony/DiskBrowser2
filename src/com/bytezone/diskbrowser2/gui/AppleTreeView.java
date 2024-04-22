@@ -45,7 +45,7 @@ class AppleTreeView extends TreeView<AppleTreeNode>
     model.selectedItemProperty ()
         .addListener ( (obs, oldSel, newSel) -> itemSelected ((AppleTreeItem) newSel));
 
-    //    this.focusedProperty ().addListener ( (obs, oldVal, newVal) -> focus (newVal));
+    this.focusedProperty ().addListener ( (obs, oldVal, newVal) -> focus (newVal));
 
     setCellFactory (new Callback<TreeView<AppleTreeNode>, TreeCell<AppleTreeNode>> ()
     {

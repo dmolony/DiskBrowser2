@@ -134,6 +134,7 @@ public class DiskLayoutGroup extends Group implements SaveState
     fileSystem = appleFileSystem;
 
     buildScreen (appleFileSystem, gc);
+
     drawGrid ();
   }
 

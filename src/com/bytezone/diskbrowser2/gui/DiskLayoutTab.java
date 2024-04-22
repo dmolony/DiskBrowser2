@@ -6,6 +6,7 @@ import com.bytezone.appbase.TabBase;
 import com.bytezone.appleformat.FormattedAppleBlockFactory;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
@@ -53,17 +54,15 @@ public class DiskLayoutTab extends TabBase
   public void setAppleTreeNode (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
-    //    this.appleTreeItem = appleTreeItem;
-
     this.appleTreeNode = appleTreeNode;
     appleFile = appleTreeNode.getAppleFile ();
     appleFileSystem = appleTreeNode.getAppleFileSystem ();
-    //    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     if (appleFile != null)
     {
-      if (appleFile.hasEmbeddedFileSystem ())
-        appleFileSystem = appleFile.getEmbeddedFileSystem ();
+      AppleFileSystem embeddedFs = appleFile.getEmbeddedFileSystem ();
+      if (embeddedFs != null && embeddedFs.getFileSystemType () != FileSystemType.HYBRID)
+        appleFileSystem = embeddedFs;
       else
         appleFileSystem = appleFile.getParentFileSystem ();
     }

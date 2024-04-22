@@ -10,7 +10,6 @@ import com.bytezone.appleformat.block.FormattedAppleBlock;
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
-import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -109,8 +108,7 @@ public class DiskLayoutGroup extends Group implements SaveState
   void setFileSystem (AppleFileSystem appleFileSystem)
   // ---------------------------------------------------------------------------------//
   {
-    if (appleFileSystem == null
-        || appleFileSystem.getFileSystemType () == FileSystemType.HYBRID)
+    if (appleFileSystem == null || appleFileSystem.getTotalBlocks () == 0)
     {
       clear ();
       fileSystem = null;

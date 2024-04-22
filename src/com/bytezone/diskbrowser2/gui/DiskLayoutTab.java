@@ -6,7 +6,6 @@ import com.bytezone.appbase.TabBase;
 import com.bytezone.appleformat.FormattedAppleBlockFactory;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
-import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
@@ -61,16 +60,14 @@ public class DiskLayoutTab extends TabBase
     if (appleFile != null)
     {
       AppleFileSystem embeddedFs = appleFile.getEmbeddedFileSystem ();
-      if (embeddedFs != null && embeddedFs.getFileSystemType () != FileSystemType.HYBRID)
+      if (embeddedFs != null && embeddedFs.getTotalBlocks () > 0)     // not hybrid
         appleFileSystem = embeddedFs;
       else
         appleFileSystem = appleFile.getParentFileSystem ();
     }
 
     if (appleFileSystem == null)
-    {
       borderPane.setBottom (null);
-    }
     else
       switch (appleFileSystem.getFileSystemType ())
       {

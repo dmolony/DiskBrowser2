@@ -105,7 +105,7 @@ public class IconMaker
   {
     FileSystemType fileSystemType = appleFile.getFileSystemType ();
 
-    if (fileSystemType == FileSystemType.DOS)
+    if (fileSystemType == FileSystemType.DOS3 || fileSystemType == FileSystemType.DOS4)
     {
       return switch (appleFile.getFileType ())
       {

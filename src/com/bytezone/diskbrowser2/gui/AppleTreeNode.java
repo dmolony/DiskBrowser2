@@ -264,7 +264,7 @@ public class AppleTreeNode
     if (appleFileSystem != null)
     {
       for (AppleFile file : appleFileSystem.getFiles ())
-        if (file.isActualFile ())
+        if (file.isValidFile ())
           children.add (new AppleTreeNode (file));
 
       for (AppleFileSystem fs : appleFileSystem.getFileSystems ())
@@ -276,7 +276,7 @@ public class AppleTreeNode
       if (appleFile instanceof AppleContainer ac)
       {
         for (AppleFile file : ac.getFiles ())
-          if (file.isActualFile ())
+          if (file.isValidFile ())
             children.add (new AppleTreeNode (file));
 
         for (AppleFileSystem fs : ac.getFileSystems ())

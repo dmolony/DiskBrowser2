@@ -69,24 +69,14 @@ public class DiskLayoutTab extends TabBase
     if (appleFileSystem == null)
       borderPane.setBottom (null);
     else
-      switch (appleFileSystem.getFileSystemType ())
+      borderPane.setBottom (switch (appleFileSystem.getFileSystemType ())
       {
-        case DOS:
-          borderPane.setBottom (keyPaneDos);
-          break;
-        case PRODOS:
-          borderPane.setBottom (keyPaneProdos);
-          break;
-        case CPM:
-          borderPane.setBottom (keyPaneCpm);
-          break;
-        case PASCAL:
-          borderPane.setBottom (keyPanePascal);
-          break;
-        default:
-          borderPane.setBottom (null);
-          break;
-      }
+        case DOS3, DOS4 -> keyPaneDos;
+        case PRODOS -> keyPaneProdos;
+        case CPM -> keyPaneCpm;
+        case PASCAL -> keyPanePascal;
+        default -> null;
+      });
 
     refresh ();
   }

@@ -18,7 +18,6 @@ public class MetaTab extends DBTextTab
       "===================================================================";
   private static final String SPACES = "                                  ";
 
-  //  AppleTreeItem appleTreeItem;
   AppleTreeNode appleTreeNode;
 
   AppleFile appleFile;
@@ -118,6 +117,9 @@ public class MetaTab extends DBTextTab
 
     appleFile = appleTreeNode.getAppleFile ();
     appleFileSystem = appleTreeNode.getAppleFileSystem ();
+
+    if (appleFile != null && appleFileSystem == null)
+      appleFileSystem = appleFile.getParentFileSystem ();
 
     refresh ();
   }

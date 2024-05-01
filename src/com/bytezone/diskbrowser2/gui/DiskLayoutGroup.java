@@ -117,22 +117,15 @@ public class DiskLayoutGroup extends Group implements SaveState
 
     if (appleFileSystem == fileSystem)
     {
-      if (selectedBlockNo >= 0 || selectedBlocks != null)
-      {
-        selectedBlockNo = -1;
-        selectedBlocks = null;
-        drawGrid ();
-      }
+      removeSelection ();
       return;
     }
 
     firstRow = -1;
     firstColumn = -1;
-
     fileSystem = appleFileSystem;
 
     buildScreen (appleFileSystem, gc);
-
     drawGrid ();
   }
 
@@ -142,8 +135,7 @@ public class DiskLayoutGroup extends Group implements SaveState
   {
     if (appleFile == null)
     {
-      selectedBlocks = null;
-      selectedBlockNo = -1;
+      removeSelection ();
       return;
     }
 
@@ -151,8 +143,19 @@ public class DiskLayoutGroup extends Group implements SaveState
     selectedBlockNo = -1;
 
     ensureVisible (selectedBlocks);
-
     drawGrid ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private void removeSelection ()
+  // ---------------------------------------------------------------------------------//
+  {
+    if (selectedBlockNo >= 0 || selectedBlocks != null)
+    {
+      selectedBlockNo = -1;
+      selectedBlocks = null;
+      drawGrid ();
+    }
   }
 
   // ---------------------------------------------------------------------------------//

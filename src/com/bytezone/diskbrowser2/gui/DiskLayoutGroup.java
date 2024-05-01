@@ -76,7 +76,6 @@ public class DiskLayoutGroup extends Group implements SaveState
   private FormattedAppleBlockFactory formattedAppleBlockFactory;
 
   private Color clear = new Color (.95, .95, .95, 1);
-
   private Font font = Font.font ("Consolas", 14);
 
   // ---------------------------------------------------------------------------------//
@@ -135,7 +134,8 @@ public class DiskLayoutGroup extends Group implements SaveState
   {
     if (appleFile == null)
     {
-      removeSelection ();
+      if (fileSystem != null)
+        removeSelection ();
       return;
     }
 
@@ -162,6 +162,12 @@ public class DiskLayoutGroup extends Group implements SaveState
   private void drawGrid ()
   // ---------------------------------------------------------------------------------//
   {
+    if (fileSystem == null)
+    {
+      System.out.printf ("DrawGrid called with null fs : %n");
+      assert false;
+    }
+
     boolean redrawRowHeader = false;
 
     int firstRow = (int) scrollBarV.getValue ();
@@ -624,11 +630,6 @@ public class DiskLayoutGroup extends Group implements SaveState
   private void notifyClickListeners (int previousBlockNo, int selectedBlockNo)
   // ---------------------------------------------------------------------------------//
   {
-    //    if (fileSystem == null)
-    //    {
-    //      System.out.println ("No file system");
-    //      return;
-    //    }
     AppleBlock appleBlock = fileSystem.getBlock (selectedBlockNo);
     if (appleBlock == null)
       return;

@@ -53,6 +53,7 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
     add (metaTab);
   }
 
+  // should be a call to FormattedAppleBlock.of (appleBlock)
   // ---------------------------------------------------------------------------------//
   FormattedAppleBlock getFormattedAppleBlock (AppleBlock appleBlock)
   // ---------------------------------------------------------------------------------//
@@ -68,6 +69,7 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
     return formattedAppleBlock;
   }
 
+  // should be a call to FormattedAppleFile.of (appleFile)
   // ---------------------------------------------------------------------------------//
   FormattedAppleFile getFormattedAppleFile (AppleTreeNode treeNode)
   // ---------------------------------------------------------------------------------//

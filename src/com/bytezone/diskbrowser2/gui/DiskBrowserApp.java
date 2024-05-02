@@ -63,9 +63,9 @@ public class DiskBrowserApp extends AppBase implements SaveState
     formattedAppleBlockFactory = new FormattedAppleBlockFactory (prefs);
 
     treePane = new TreePane (preferencesManager);
-    outputTabPane = new OutputTabPane ("Output", formattedAppleFileFactory);
-    rightTabPane = new ExtrasTabPane ("Extras", formattedAppleBlockFactory,
-        formattedAppleFileFactory);
+    outputTabPane = new OutputTabPane ("Output", formattedAppleFileFactory,
+        formattedAppleBlockFactory);
+    rightTabPane = new ExtrasTabPane ("Extras", formattedAppleFileFactory);
 
     TreeHeaderBar treeHeaderBar = new TreeHeaderBar ();
     OutputHeaderBar outputHeaderBar = new OutputHeaderBar ();

@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.bytezone.appbase.TabPaneBase;
+import com.bytezone.appleformat.FormattedAppleBlockFactory;
 import com.bytezone.appleformat.FormattedAppleFileFactory;
+import com.bytezone.appleformat.block.FormattedAppleBlock;
 import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 import com.bytezone.filesystem.AppleBlock;
@@ -29,20 +31,41 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
   private AppleBlock appleBlock;
 
   private final FormattedAppleFileFactory formattedAppleFileFactory;
-  private Map<AppleTreeNode, FormattedAppleFile> formatMap = new HashMap<> ();
+  private final FormattedAppleBlockFactory formattedAppleBlockFactory;
+
+  private final Map<AppleTreeNode, FormattedAppleFile> formatMap = new HashMap<> ();
+  private final Map<AppleBlock, FormattedAppleBlock> formattedBlockMap = new HashMap<> ();
 
   // ---------------------------------------------------------------------------------//
-  OutputTabPane (String prefsId, FormattedAppleFileFactory factory)
+  OutputTabPane (String prefsId, FormattedAppleFileFactory formattedAppleFileFactory,
+      FormattedAppleBlockFactory formattedAppleBlockFactory)
   // ---------------------------------------------------------------------------------//
   {
     super (prefsId);
-    this.formattedAppleFileFactory = factory;
+
+    this.formattedAppleFileFactory = formattedAppleFileFactory;
+    this.formattedAppleBlockFactory = formattedAppleBlockFactory;
 
     add (dataTab);
     add (graphicsTab);
     add (hexTab);
     add (extrasTab);
     add (metaTab);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  FormattedAppleBlock getFormattedAppleBlock (AppleBlock appleBlock)
+  // ---------------------------------------------------------------------------------//
+  {
+    FormattedAppleBlock formattedAppleBlock = formattedBlockMap.get (appleBlock);
+    if (formattedAppleBlock == null)
+    {
+      formattedAppleBlock =
+          formattedAppleBlockFactory.getFormattedAppleBlock (appleBlock);
+      formattedBlockMap.put (appleBlock, formattedAppleBlock);
+    }
+
+    return formattedAppleBlock;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -121,6 +144,8 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
     treeNode = null;
     formattedAppleFile = null;
     appleBlock = event.block;
+    if (appleBlock.getUserData () == null)
+      appleBlock.setUserData (getFormattedAppleBlock (event.block));
 
     dataTab.setAppleBlock (appleBlock);
     graphicsTab.setAppleBlock (appleBlock);

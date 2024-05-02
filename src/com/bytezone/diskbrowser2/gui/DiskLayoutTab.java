@@ -3,7 +3,6 @@ package com.bytezone.diskbrowser2.gui;
 import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.TabBase;
-import com.bytezone.appleformat.FormattedAppleBlockFactory;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
 
@@ -20,7 +19,6 @@ public class DiskLayoutTab extends TabBase
   protected KeyPanePascal keyPanePascal = new KeyPanePascal ();
   protected KeyPaneCpm keyPaneCpm = new KeyPaneCpm ();
 
-  //  protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
   protected AppleTreeNode appleTreeNode;
   protected AppleFile appleFile;
@@ -40,13 +38,6 @@ public class DiskLayoutTab extends TabBase
 
     //    borderPane
     //    .setBackground (new Background (new BackgroundFill (Color.WHITE, null, null)));
-  }
-
-  // ---------------------------------------------------------------------------------//
-  void setFactory (FormattedAppleBlockFactory formattedAppleBlockFactory)
-  // ---------------------------------------------------------------------------------//
-  {
-    diskLayoutGroup.setFactory (formattedAppleBlockFactory);
   }
 
   // ---------------------------------------------------------------------------------//

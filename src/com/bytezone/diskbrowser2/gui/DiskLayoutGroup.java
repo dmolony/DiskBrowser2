@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.prefs.Preferences;
 
 import com.bytezone.appbase.SaveState;
-import com.bytezone.appleformat.FormattedAppleBlockFactory;
-import com.bytezone.appleformat.block.FormattedAppleBlock;
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
@@ -73,7 +71,6 @@ public class DiskLayoutGroup extends Group implements SaveState
 
   private AppleFileSystem fileSystem;
   private List<GridClickListener> listeners = new ArrayList<> ();
-  private FormattedAppleBlockFactory formattedAppleBlockFactory;
 
   private Color clear = new Color (.95, .95, .95, 1);
   private Font font = Font.font ("Consolas", 14);
@@ -94,13 +91,6 @@ public class DiskLayoutGroup extends Group implements SaveState
     setScrollBars ();
 
     getChildren ().addAll (scrollBarV, scrollBarH, canvas);
-  }
-
-  // ---------------------------------------------------------------------------------//
-  void setFactory (FormattedAppleBlockFactory formattedAppleBlockFactory)
-  // ---------------------------------------------------------------------------------//
-  {
-    this.formattedAppleBlockFactory = formattedAppleBlockFactory;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -162,10 +152,11 @@ public class DiskLayoutGroup extends Group implements SaveState
   private void drawGrid ()
   // ---------------------------------------------------------------------------------//
   {
-    if (fileSystem == null)
+    if (fileSystem == null || fileSystem.getTotalBlocks () == 0)
     {
-      System.out.printf ("DrawGrid called with null fs : %n");
+      System.out.printf ("DrawGrid called with null/empty fs : %s%n", fileSystem);
       assert false;
+      return;
     }
 
     boolean redrawRowHeader = false;
@@ -633,16 +624,6 @@ public class DiskLayoutGroup extends Group implements SaveState
     AppleBlock appleBlock = fileSystem.getBlock (selectedBlockNo);
     if (appleBlock == null)
       return;
-
-    FormattedAppleBlock formattedAppleBlock =
-        (FormattedAppleBlock) appleBlock.getUserData ();
-
-    if (formattedAppleBlock == null)
-    {
-      formattedAppleBlock =
-          formattedAppleBlockFactory.getFormattedAppleBlock (appleBlock);
-      appleBlock.setUserData (formattedAppleBlock);
-    }
 
     GridClickEvent event = new GridClickEvent (appleBlock);
 

@@ -1,7 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.TabPaneBase;
-import com.bytezone.appleformat.FormattedAppleBlockFactory;
 import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
@@ -16,8 +15,7 @@ class ExtrasTabPane extends TabPaneBase implements TreeNodeListener
   final DiskLayoutTab diskLayoutTab = new DiskLayoutTab ("Layout", KeyCode.L);
 
   // ---------------------------------------------------------------------------------//
-  ExtrasTabPane (String prefsId, FormattedAppleBlockFactory formattedAppleBlockFactory,
-      FormattedAppleFileFactory formattedAppleFileFactory)
+  ExtrasTabPane (String prefsId, FormattedAppleFileFactory formattedAppleFileFactory)
   // ---------------------------------------------------------------------------------//
   {
     super (prefsId);
@@ -27,7 +25,6 @@ class ExtrasTabPane extends TabPaneBase implements TreeNodeListener
     add (diskLayoutTab);          // disk layout
 
     fileOptionsTab.setFactory (formattedAppleFileFactory);
-    diskLayoutTab.setFactory (formattedAppleBlockFactory);
   }
 
   // ---------------------------------------------------------------------------------//

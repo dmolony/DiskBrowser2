@@ -19,7 +19,7 @@ Extra file information has moved to the Extras tab.
 The file tree can be filtered so that only the selected file types are shown.
 ![Teaser](teaser4.png?raw=true "BXY files")
 The Meta tab shows information about the file.
-![Teaser](teaser5.png?raw=true "Meta")
+![Teaser](Meta.png?raw=true "Meta")
 Individual blocks can be examined by clicking on the disk display. Once in block display mode, use the arrow keys to navigate to other blocks. Press TAB to return to the file display.
 ![Block](Block.png?raw=true "Block Display")
 

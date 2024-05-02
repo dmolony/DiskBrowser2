@@ -20,6 +20,8 @@ The file tree can be filtered so that only the selected file types are shown.
 ![Teaser](teaser4.png?raw=true "BXY files")
 The Meta tab shows information about the file.
 ![Teaser](teaser5.png?raw=true "Meta")
+Individual blocks can be examined by clicking on the disk display. Once in block display mode, use the arrow keys to navigate to other blocks. Press TAB to return to the file display.
+![Block](block.png?raw=true "Block Display")
 
 ## Key Shortcuts
 Any tab can be activated by pressing the key of the initial letter of the tab name. If the same key is pressed twice in succession then the second keypress causes the previously displayed tab to be reactivated.

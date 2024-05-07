@@ -28,8 +28,9 @@ C:\path\to\jdk\bin\java.exe                   \
 -jar C:\path\to\DiskBrowserApp.jar
 ```
 
-#### Hint
-The first line in each of the above shell files can usually be shortened to 'java   \\' as it's just the command to execute java on your system. The second line must be the path to wherever you placed the javafx download.
+The first line in each of the above shell files can be replaced with 'java   \\' as it's just the command to execute java on your system. The second line must be the path to wherever you placed the javafx download.
+
+On MacOS it should probably be: /Library/Java/JavaVirtualMachines/javafx-sdk-22
 
 ## First Execution
 Specify the location of your disk image files using File -> Set Apple Root Folder. Note that this must be a FOLDER, not a file. The specified folder may contain subfolders, these will all appear in the file tree within the application.

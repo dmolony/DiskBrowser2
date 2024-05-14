@@ -23,8 +23,9 @@ public class DiskBrowserApp extends AppBase implements SaveState
 // -----------------------------------------------------------------------------------//
 {
   static PreferencesManager preferencesManager;
-  static FormattedAppleFileFactory formattedAppleFileFactory;
-  static FormattedAppleBlockFactory formattedAppleBlockFactory;
+
+  private static FormattedAppleFileFactory formattedAppleFileFactory;
+  private static FormattedAppleBlockFactory formattedAppleBlockFactory;
 
   // set three panes for the split pane
   private final SplitPane splitPane = new SplitPane ();
@@ -227,7 +228,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
   //  {
   //    if (setRootFolder ())
   //    {
-  //      //  treePane.setRootFolder (new AppleTreeItem (new AppleTreeFile (rootFolder)));
+  //    //  treePane.setRootFolder (new AppleTreeItem (new AppleTreeFile (rootFolder)));
   //      treePane.setRootFolder (rootFolder, formattedAppleFileFactory);
   //      dbStatusBar.setStatusMessage ("Root folder changed");
   //    }

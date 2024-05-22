@@ -116,7 +116,7 @@ class AppleTreeView extends TreeView<AppleTreeNode>
 
     AppleTreeNode treeNode = appleTreeItem.getValue ();
 
-    // if the item is selected BEFORE it is opened then we do this one
+    // if the node is SELECTED before it is OPENED
     treeNode.checkForFileSystem ();       // also called by AppleTreeItem.getChildren()
 
     for (TreeNodeListener listener : treeNodeListeners)

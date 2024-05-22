@@ -99,6 +99,10 @@ public class AppleTreeNode
   }
 
   // ---------------------------------------------------------------------------------//
+  // Called from:
+  //   AppleTreeItem.getChildren()  - if the node is OPENED before it is SELECTED
+  //   AppleTreeView.itemSelected() - if the node is SELECTED before it is OPENED
+  // ---------------------------------------------------------------------------------//
   void checkForFileSystem ()
   // ---------------------------------------------------------------------------------//
   {

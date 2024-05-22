@@ -45,7 +45,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
       firstTimeChildren = false;
       assert super.getChildren ().size () == 0;
 
-      // if the item is opened BEFORE it is selected then we do this one
+      // if the node is OPENED before it is SELECTED
       treeNode.checkForFileSystem ();    // also called by AppleTreeView.itemSelected()
 
       super.getChildren ().setAll (buildChildren (treeNode));

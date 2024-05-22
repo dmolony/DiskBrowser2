@@ -20,7 +20,6 @@ public class DiskLayoutTab extends TabBase
   protected KeyPaneCpm keyPaneCpm = new KeyPaneCpm ();
 
   protected AppleTreeItem appleTreeItem;
-  protected AppleTreeNode appleTreeNode;
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
   protected BorderPane borderPane;
@@ -44,18 +43,12 @@ public class DiskLayoutTab extends TabBase
   public void setAppleTreeNode (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
-    this.appleTreeNode = appleTreeNode;
     appleFile = appleTreeNode.getAppleFile ();
-    appleFileSystem = appleTreeNode.getAppleFileSystem ();
 
-    if (appleFile != null)
-    {
-      AppleFileSystem embeddedFs = appleFile.getEmbeddedFileSystem ();
-      if (embeddedFs != null && embeddedFs.getTotalBlocks () > 0)     // not hybrid
-        appleFileSystem = embeddedFs;
-      else
-        appleFileSystem = appleFile.getParentFileSystem ();
-    }
+    if (appleFile == null)
+      appleFileSystem = appleTreeNode.getAppleFileSystem ();
+    else
+      appleFileSystem = appleFile.getParentFileSystem ();
 
     if (appleFileSystem == null)
       borderPane.setBottom (null);

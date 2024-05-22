@@ -17,10 +17,8 @@ public class ExtrasHeaderBar extends HeaderBar
   private Tab selectedTab;
 
   private AppleFile appleFile;
-  //  private AppleTreeNode appleTreeNode;
   private AppleBlock appleBlock;
   private AppleFileSystem appleFileSystem;
-  //  private FormattedAppleFile formattedAppleFile;
 
   // ---------------------------------------------------------------------------------//
   void updateNameLabel ()
@@ -40,15 +38,7 @@ public class ExtrasHeaderBar extends HeaderBar
         leftLabel.setText ("");
     }
     else if (selectedTab instanceof FileOptionsTab tab)
-    {
-      //      if (formattedAppleFile != null)
-      //      {
-      //        ApplePreferences preferences = formattedAppleFile.getPreferences ();
-      //        leftLabel.setText (preferences != null ? preferences.getName () : "Options");
-      //      }
-      //      else
       leftLabel.setText ("Options");
-    }
     else
       leftLabel.setText ("File Filter");
   }
@@ -59,19 +49,12 @@ public class ExtrasHeaderBar extends HeaderBar
   // ---------------------------------------------------------------------------------//
   {
     appleBlock = null;
-    //    this.appleTreeNode = appleTreeNode;
     appleFile = appleTreeNode.getAppleFile ();
-    //    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
-    if (appleFile != null)
-    {
-      if (appleFile.hasEmbeddedFileSystem ())
-        appleFileSystem = appleFile.getEmbeddedFileSystem ();
-      else
-        appleFileSystem = appleFile.getParentFileSystem ();
-    }
-    else
+    if (appleFile == null)
       appleFileSystem = appleTreeNode.getAppleFileSystem ();
+    else
+      appleFileSystem = appleFile.getParentFileSystem ();
 
     updateNameLabel ();
   }
@@ -92,10 +75,8 @@ public class ExtrasHeaderBar extends HeaderBar
   // ---------------------------------------------------------------------------------//
   {
     appleBlock = event.block;
-    //    appleTreeNode = null;
     appleFile = appleBlock.getFileOwner ();
     appleFileSystem = appleBlock.getFileSystem ();
-    //    formattedAppleFile = null;
 
     updateNameLabel ();
   }

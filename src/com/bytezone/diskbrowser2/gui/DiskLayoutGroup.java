@@ -125,7 +125,9 @@ public class DiskLayoutGroup extends Group implements SaveState
     if (appleFile == null)
     {
       if (fileSystem != null)
+      {
         removeSelection ();
+      }
       return;
     }
 

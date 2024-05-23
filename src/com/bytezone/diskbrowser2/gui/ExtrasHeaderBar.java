@@ -51,20 +51,9 @@ public class ExtrasHeaderBar extends HeaderBar
     appleBlock = null;
     appleFile = appleTreeNode.getAppleFile ();
 
-    if (appleFile == null)
-      appleFileSystem = appleTreeNode.getAppleFileSystem ();
-    else
-      appleFileSystem = appleFile.getParentFileSystem ();
-
-    updateNameLabel ();
-  }
-
-  // ---------------------------------------------------------------------------------//
-  @Override
-  public void tabChanged (Tab oldTab, Tab newTab)
-  // ---------------------------------------------------------------------------------//
-  {
-    selectedTab = newTab;
+    appleFileSystem = appleFile == null ?         //
+        appleTreeNode.getAppleFileSystem () :     //
+        appleFile.getParentFileSystem ();
 
     updateNameLabel ();
   }
@@ -77,6 +66,16 @@ public class ExtrasHeaderBar extends HeaderBar
     appleBlock = event.block;
     appleFile = appleBlock.getFileOwner ();
     appleFileSystem = appleBlock.getFileSystem ();
+
+    updateNameLabel ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void tabChanged (Tab oldTab, Tab newTab)
+  // ---------------------------------------------------------------------------------//
+  {
+    selectedTab = newTab;
 
     updateNameLabel ();
   }

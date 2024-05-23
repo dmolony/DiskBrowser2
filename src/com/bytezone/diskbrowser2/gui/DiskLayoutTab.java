@@ -45,10 +45,9 @@ public class DiskLayoutTab extends TabBase
   {
     appleFile = appleTreeNode.getAppleFile ();
 
-    if (appleFile == null)
-      appleFileSystem = appleTreeNode.getAppleFileSystem ();
-    else
-      appleFileSystem = appleFile.getParentFileSystem ();
+    appleFileSystem = appleFile == null ?         //
+        appleTreeNode.getAppleFileSystem () :     //
+        appleFile.getParentFileSystem ();
 
     if (appleFileSystem == null)
       borderPane.setBottom (null);

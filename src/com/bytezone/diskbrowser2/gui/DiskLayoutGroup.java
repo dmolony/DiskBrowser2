@@ -93,10 +93,12 @@ public class DiskLayoutGroup extends Group implements SaveState
     getChildren ().addAll (scrollBarV, scrollBarH, canvas);
   }
 
+  // these two routines should be combined
   // ---------------------------------------------------------------------------------//
   void setFileSystem (AppleFileSystem appleFileSystem)
   // ---------------------------------------------------------------------------------//
   {
+    // check for null or hybrid FS
     if (appleFileSystem == null || appleFileSystem.getTotalBlocks () == 0)
     {
       clear ();
@@ -125,9 +127,8 @@ public class DiskLayoutGroup extends Group implements SaveState
     if (appleFile == null)
     {
       if (fileSystem != null)
-      {
         removeSelection ();
-      }
+
       return;
     }
 
@@ -136,6 +137,14 @@ public class DiskLayoutGroup extends Group implements SaveState
 
     ensureVisible (selectedBlocks);
     drawGrid ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void clear ()
+  // ---------------------------------------------------------------------------------//
+  {
+    gc.setFill (clear);
+    gc.fillRect (0, 0, canvas.getWidth (), canvas.getHeight ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -601,14 +610,6 @@ public class DiskLayoutGroup extends Group implements SaveState
   {
     return (screenRow >= firstRow && screenRow < firstRow + SCREEN_ROWS
         && screenColumn >= firstColumn && screenColumn < firstColumn + screenColumns);
-  }
-
-  // ---------------------------------------------------------------------------------//
-  void clear ()
-  // ---------------------------------------------------------------------------------//
-  {
-    gc.setFill (clear);
-    gc.fillRect (0, 0, canvas.getWidth (), canvas.getHeight ());
   }
 
   // ---------------------------------------------------------------------------------//

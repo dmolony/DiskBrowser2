@@ -163,6 +163,9 @@ public class AppleTreeNode
   Image getImage ()
   // ---------------------------------------------------------------------------------//
   {
+    if (appleFile != null)                  // this overrides isAppleFileSystem()
+      return icons.getImage (appleFile);
+
     if (isCompressedLocalFile ())
       return icons.zipImage;
 
@@ -172,7 +175,8 @@ public class AppleTreeNode
     if (isLocalFile () || isAppleFileSystem ())
       return icons.diskImage;
 
-    return icons.getImage (appleFile);
+    System.out.println ("No image");        // should never happen
+    return null;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -387,7 +391,7 @@ public class AppleTreeNode
   public String toString ()
   // ---------------------------------------------------------------------------------//
   {
-    if (isAppleFile () && !(appleFile.isFolder () || appleFile.hasEmbeddedFileSystem ()))
+    if (isAppleFile () && !appleFile.isFolder ())
       return String.format ("%s %03d %s", appleFile.getFileTypeText (),
           appleFile.getTotalBlocks (), name);
 

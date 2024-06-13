@@ -163,14 +163,14 @@ public class AppleTreeNode
   Image getImage ()
   // ---------------------------------------------------------------------------------//
   {
-    if (appleFile != null)                  // this overrides isAppleFileSystem()
-      return icons.getImage (appleFile);
+    if (isLocalDirectory () || isAppleFolder ())    // must precede appleFile
+      return icons.folderImage;
 
     if (isCompressedLocalFile ())
       return icons.zipImage;
 
-    if (isLocalDirectory () || isAppleFolder ())
-      return icons.folderImage;
+    if (appleFile != null)                          // must precede isAppleFileSystem()
+      return icons.getImage (appleFile);
 
     if (isLocalFile () || isAppleFileSystem ())
       return icons.diskImage;
@@ -211,7 +211,7 @@ public class AppleTreeNode
   boolean isAppleFileSystem ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFileSystem != null;
+    return appleFileSystem != null;       // includes embedded FS
   }
 
   // ---------------------------------------------------------------------------------//

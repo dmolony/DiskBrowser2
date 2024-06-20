@@ -80,10 +80,12 @@ public class MetaTab extends DBTextTab
       else if (appleTreeNode.isAppleFork ())
         lines.add (frameHeader (
             (appleFile.getForkType () == ForkType.DATA ? "Data" : "Resource") + " Fork"));
-      else if (appleTreeNode.isAppleDataFile ())
+      else if (appleTreeNode.isAppleDataFile () || appleTreeNode.isAppleFile ())
         lines.add (frameHeader ("Apple File"));
       else if (appleTreeNode.isLocalDirectory ())
         lines.add (frameHeader ("Local Folder"));
+      else
+        lines.add (frameHeader ("Unknown"));
     }
     else if (appleBlock != null)
       lines.add (frameHeader ("Apple Block"));

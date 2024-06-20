@@ -12,6 +12,7 @@ import com.bytezone.appbase.AppBase;
 import com.bytezone.appbase.SaveState;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.DataRecord;
 
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
@@ -134,7 +135,9 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
       return;
     }
 
-    byte[] buffer = appleFile.read ();
+    DataRecord dataRecord = appleFile.getDataRecord ();
+    byte[] buffer = dataRecord.data ();
+    //    byte[] buffer = appleFile.read ();
 
     FileChooser fileChooser = new FileChooser ();
     fileChooser.setTitle ("Extract file to");

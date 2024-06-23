@@ -1,6 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.bytezone.appleformat.file.FormattedAppleFile;
@@ -15,11 +15,11 @@ class HexTab extends DBTextTab
 // -----------------------------------------------------------------------------------//
 {
   private static final int MAX_HEX_BYTES = 0x10_000;
+  private static final List<String> emptyList = Arrays.asList ("This file has no data");
 
-  private FormattedAppleFile formattedAppleFile;
-  private AppleTreeNode appleTreeNode;
   private AppleFile appleFile;
   private AppleBlock appleBlock;
+  private FormattedAppleFile formattedAppleFile;
 
   // ---------------------------------------------------------------------------------//
   public HexTab (String title, KeyCode keyCode)
@@ -34,8 +34,6 @@ class HexTab extends DBTextTab
   List<String> getLines ()
   // ---------------------------------------------------------------------------------//
   {
-    List<String> lines = new ArrayList<> ();
-
     byte[] buffer = null;
     int offset = 0;
     int length = 0;
@@ -56,11 +54,11 @@ class HexTab extends DBTextTab
     else
     {
       if (formattedAppleFile == null)
-        return lines;
+        return emptyList;
 
       buffer = formattedAppleFile.getBuffer ();
-      if (buffer == null)
-        return lines;
+      if (buffer == null || buffer.length == 0)
+        return emptyList;
 
       offset = formattedAppleFile.getOffset ();
       length = formattedAppleFile.getLength ();
@@ -74,10 +72,8 @@ class HexTab extends DBTextTab
       FormattedAppleFile formattedAppleFile)
   // ---------------------------------------------------------------------------------//
   {
-    appleTreeNode = treeNode;
-    appleFile = appleTreeNode.getAppleFile ();
+    appleFile = treeNode.getAppleFile ();
     appleBlock = null;
-
     this.formattedAppleFile = formattedAppleFile;
 
     refresh ();
@@ -87,10 +83,8 @@ class HexTab extends DBTextTab
   public void setAppleBlock (AppleBlock appleBlock)
   // ---------------------------------------------------------------------------------//
   {
-    appleTreeNode = null;
     appleFile = null;
     this.appleBlock = appleBlock;
-
     formattedAppleFile = null;
 
     refresh ();

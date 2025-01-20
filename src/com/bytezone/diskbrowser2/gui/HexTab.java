@@ -7,6 +7,7 @@ import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.Buffer;
 
 import javafx.scene.input.KeyCode;
 
@@ -47,21 +48,25 @@ class HexTab extends DBTextTab
     else if (appleFile != null && appleFile.hasEmbeddedFileSystem ())
     {
       AppleFileSystem afs = appleFile.getEmbeddedFileSystem ();
-      buffer = afs.getDiskBuffer ();
-      offset = afs.getDiskOffset ();
-      length = afs.getDiskLength ();
+      Buffer dataRecord = afs.getDiskBuffer ();
+      buffer = dataRecord.data ();
+      offset = dataRecord.offset ();
+      length = dataRecord.length ();
     }
     else
     {
       if (formattedAppleFile == null)
         return emptyList;
 
-      buffer = formattedAppleFile.getBuffer ();
+      Buffer dataRecord = formattedAppleFile.getDataRecord ();
+      if (dataRecord == null)
+        return emptyList;
+      buffer = dataRecord.data ();
       if (buffer == null || buffer.length == 0)
         return emptyList;
 
-      offset = formattedAppleFile.getOffset ();
-      length = formattedAppleFile.getLength ();
+      offset = dataRecord.offset ();
+      length = dataRecord.length ();
     }
 
     return Utility.getHexDumpLines (buffer, offset, Math.min (MAX_HEX_BYTES, length));

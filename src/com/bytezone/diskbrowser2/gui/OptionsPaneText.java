@@ -1,7 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.DataLayout;
-import com.bytezone.appleformat.FormattedAppleFileFactory;
+import com.bytezone.appleformat.PreferencesFactory;
 import com.bytezone.appleformat.text.TextPreferences;
 
 import javafx.beans.value.ObservableValue;
@@ -15,7 +15,7 @@ public class OptionsPaneText extends PreferencesPane
 {
   private CheckBox[] checkBoxes;
 
-  TextPreferences textPreferences = FormattedAppleFileFactory.textPreferences;
+  TextPreferences textPreferences = PreferencesFactory.textPreferences;
 
   // ---------------------------------------------------------------------------------//
   public OptionsPaneText ()

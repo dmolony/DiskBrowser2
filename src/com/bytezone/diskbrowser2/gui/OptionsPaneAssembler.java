@@ -1,7 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.DataLayout;
-import com.bytezone.appleformat.FormattedAppleFileFactory;
+import com.bytezone.appleformat.PreferencesFactory;
 import com.bytezone.appleformat.assembler.AssemblerPreferences;
 
 import javafx.beans.value.ObservableValue;
@@ -15,8 +15,7 @@ public class OptionsPaneAssembler extends PreferencesPane
 {
   private CheckBox[] checkBoxes;
 
-  AssemblerPreferences assemblerPreferences =
-      FormattedAppleFileFactory.assemblerPreferences;
+  AssemblerPreferences assemblerPreferences = PreferencesFactory.assemblerPreferences;
 
   // ---------------------------------------------------------------------------------//
   public OptionsPaneAssembler ()

@@ -1,13 +1,13 @@
 package com.bytezone.diskbrowser2.gui;
 
-import com.bytezone.appleformat.FormattedAppleFileFactory;
+import com.bytezone.appleformat.PreferencesFactory;
 import com.bytezone.appleformat.graphics.GraphicsPreferences;
 
 // -----------------------------------------------------------------------------------//
 public class OptionsPaneGraphics extends PreferencesPane
 // -----------------------------------------------------------------------------------//
 {
-  GraphicsPreferences graphicsPreferences = FormattedAppleFileFactory.graphicsPreferences;
+  GraphicsPreferences graphicsPreferences = PreferencesFactory.graphicsPreferences;
 
   // ---------------------------------------------------------------------------------//
   public OptionsPaneGraphics ()

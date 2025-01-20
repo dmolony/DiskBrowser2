@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
+import com.bytezone.filesystem.AppleFile.ForkType;
 import com.bytezone.filesystem.AppleFileSystem;
-import com.bytezone.filesystem.FileProdos.ForkType;
 
 import javafx.scene.input.KeyCode;
 

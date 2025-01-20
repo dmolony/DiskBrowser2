@@ -1,7 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
 import com.bytezone.appbase.DataLayout;
-import com.bytezone.appleformat.FormattedAppleFileFactory;
+import com.bytezone.appleformat.PreferencesFactory;
 import com.bytezone.appleformat.basic.ApplesoftBasicPreferences;
 
 import javafx.beans.value.ChangeListener;
@@ -22,7 +22,7 @@ public class OptionsPaneApplesoft extends PreferencesPane
   private RadioButton[] radioButtons;
 
   ApplesoftBasicPreferences applesoftBasicPreferences =
-      FormattedAppleFileFactory.basicPreferences;
+      PreferencesFactory.basicPreferences;
 
   // ---------------------------------------------------------------------------------//
   public OptionsPaneApplesoft ()

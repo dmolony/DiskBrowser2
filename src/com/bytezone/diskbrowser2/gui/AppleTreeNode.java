@@ -175,7 +175,7 @@ public class AppleTreeNode
     if (isLocalFile () || isAppleFileSystem ())
       return icons.diskImage;
 
-    System.out.println ("No image");        // should never happen
+    System.out.println ("No image");                // should never happen
     return null;
   }
 

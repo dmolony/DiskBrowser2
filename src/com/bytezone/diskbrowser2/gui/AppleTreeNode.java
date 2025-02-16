@@ -170,7 +170,11 @@ public class AppleTreeNode
       return icons.zipImage;
 
     if (appleFile != null)                          // must precede isAppleFileSystem()
+    {
+      if (isAppleFileSystem ())
+        return icons.diskImage;
       return icons.getImage (appleFile);
+    }
 
     if (isLocalFile () || isAppleFileSystem ())
       return icons.diskImage;
@@ -391,9 +395,16 @@ public class AppleTreeNode
   public String toString ()
   // ---------------------------------------------------------------------------------//
   {
-    if (isAppleFile () && !appleFile.isFolder ())
-      return String.format ("%s %03d %s", appleFile.getFileTypeText (),
-          appleFile.getTotalBlocks (), name);
+    if (appleFileSystem != null)
+      return name;
+
+    if (appleFile != null)
+    {
+      int totalBlocks = appleFile.getTotalBlocks ();
+      if (totalBlocks > 0)
+        return String.format ("%s %03d %s", appleFile.getFileTypeText (), totalBlocks,
+            name);
+    }
 
     return name;
   }

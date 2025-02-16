@@ -41,7 +41,7 @@ class HexTab extends DBTextTab
 
     if (appleBlock != null)
     {
-      buffer = appleBlock.read ();
+      buffer = appleBlock.getBuffer ();
       offset = 0;
       length = buffer.length;
     }

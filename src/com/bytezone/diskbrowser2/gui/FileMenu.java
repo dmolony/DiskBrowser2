@@ -57,8 +57,8 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
 
     getItems ().addAll (rootMenuItem, new SeparatorMenuItem (), aboutMenuItem);
 
-    rootMenuItem.setAccelerator (
-        new KeyCodeCombination (KeyCode.R, KeyCombination.SHORTCUT_DOWN));
+    //    rootMenuItem.setAccelerator (
+    //        new KeyCodeCombination (KeyCode.R, KeyCombination.SHORTCUT_DOWN));
     saveMenuItem.setAccelerator (
         new KeyCodeCombination (KeyCode.S, KeyCombination.SHORTCUT_DOWN));
 
@@ -93,8 +93,8 @@ class FileMenu extends Menu implements TreeNodeListener, SaveState
   private void about ()
   // ---------------------------------------------------------------------------------//
   {
-    AppBase.showAlert (AlertType.INFORMATION, "About DiskBrowserApp",
-        "Version: 1.0.0\nReleased: 1 June 2024"
+    AppBase.showAlert (AlertType.INFORMATION, "DiskBrowser ][",
+        "Version: 1.0.4\nReleased: 1 March 2025"
             + "\nDownload: github.com/dmolony/DiskBrowser2");
   }
 

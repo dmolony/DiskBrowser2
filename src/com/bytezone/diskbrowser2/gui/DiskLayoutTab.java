@@ -5,6 +5,7 @@ import java.util.prefs.Preferences;
 import com.bytezone.appbase.TabBase;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +24,8 @@ public class DiskLayoutTab extends TabBase
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
   protected BorderPane borderPane;
+
+  boolean debug = false;
 
   // ---------------------------------------------------------------------------------//
   public DiskLayoutTab (String title, KeyCode keyCode)
@@ -43,15 +46,45 @@ public class DiskLayoutTab extends TabBase
   public void setAppleTreeNode (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
-    appleFile = appleTreeNode.getAppleFile ();
-    appleFileSystem = appleTreeNode.getAppleFileSystem ();
+    AppleFileSystem afs = appleTreeNode.getAppleFileSystem ();
+    AppleFile af = appleTreeNode.getAppleFile ();
+    AppleFileSystem embeddedFs = af == null ? null : af.getEmbeddedFileSystem ();
+    AppleFileSystem parentFs = af == null ? null : af.getParentFileSystem ();
 
-    //    appleFileSystem = appleFile == null ?         //
-    //        appleTreeNode.getAppleFileSystem () :     //
-    //        appleFile.getParentFileSystem ();
+    if (debug)
+    {
+      if (afs != null)
+        System.out.printf ("FS  : %s%n", afs.getFileSystemType ());
+      if (af != null)
+        System.out.printf ("File: %s%n", af.getFileName ());
+      if (embeddedFs != null)
+        System.out.printf ("eFS : %s%n", embeddedFs.getFileSystemType ());
+      if (parentFs != null)
+        System.out.printf ("pFS : %s%n", parentFs.getFileSystemType ());
+      System.out.println ("-------------------------------- treenode");
+    }
+
+    appleFile = appleTreeNode.getAppleFile ();
+    appleFileSystem = appleTreeNode.getAppleFileSystem ();    // will be the efs
 
     if (appleFileSystem == null && appleFile != null)
-      appleFileSystem = appleFile.getParentFileSystem ();
+      appleFileSystem = parentFs;
+
+    if (embeddedFs != null)       // the tree node always provides it as the AFS
+    {
+      FileSystemType pfst = parentFs.getFileSystemType ();
+      if (embeddedFs != null && pfst == FileSystemType.PRODOS)
+        appleFileSystem = parentFs;
+    }
+
+    if (debug)
+    {
+      if (appleFileSystem != null)
+        System.out.printf ("FS  : %s%n", appleFileSystem.getFileSystemType ());
+      if (appleFile != null)
+        System.out.printf ("File: %s%n", appleFile.getFileName ());
+      System.out.println ("-------------------------------- result");
+    }
 
     if (appleFileSystem == null)
       borderPane.setBottom (null);

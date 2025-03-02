@@ -132,7 +132,7 @@ public class DiskLayoutGroup extends Group implements SaveState
       return;
     }
 
-    selectedBlocks = appleFile.getBlocks ();
+    selectedBlocks = appleFile.getAllBlocks ();
     selectedBlockNo = -1;
 
     ensureVisible (selectedBlocks);

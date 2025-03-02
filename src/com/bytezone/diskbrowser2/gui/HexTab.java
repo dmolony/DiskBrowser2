@@ -48,25 +48,25 @@ class HexTab extends DBTextTab
     else if (appleFile != null && appleFile.hasEmbeddedFileSystem ())
     {
       AppleFileSystem afs = appleFile.getEmbeddedFileSystem ();
-      Buffer dataRecord = afs.getDiskBuffer ();
-      buffer = dataRecord.data ();
-      offset = dataRecord.offset ();
-      length = dataRecord.length ();
+      Buffer dataBuffer = afs.getDiskBuffer ();
+      buffer = dataBuffer.data ();
+      offset = dataBuffer.offset ();
+      length = dataBuffer.length ();
     }
     else
     {
       if (formattedAppleFile == null)
         return emptyList;
 
-      Buffer dataRecord = formattedAppleFile.getDataRecord ();
-      if (dataRecord == null)
+      Buffer dataBuffer = formattedAppleFile.getDataBuffer ();
+      if (dataBuffer == null)
         return emptyList;
-      buffer = dataRecord.data ();
+      buffer = dataBuffer.data ();
       if (buffer == null || buffer.length == 0)
         return emptyList;
 
-      offset = dataRecord.offset ();
-      length = dataRecord.length ();
+      offset = dataBuffer.offset ();
+      length = dataBuffer.length ();
     }
 
     return Utility.getHexDumpLines (buffer, offset, Math.min (MAX_HEX_BYTES, length));

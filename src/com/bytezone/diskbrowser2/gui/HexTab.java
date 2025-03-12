@@ -35,6 +35,9 @@ class HexTab extends DBTextTab
   List<String> getLines ()
   // ---------------------------------------------------------------------------------//
   {
+    if (formattedAppleFile != null)
+      return formattedAppleFile.getHex (MAX_HEX_BYTES);
+
     byte[] buffer = null;
     int offset = 0;
     int length = 0;
@@ -58,15 +61,15 @@ class HexTab extends DBTextTab
       if (formattedAppleFile == null)
         return emptyList;
 
-      Buffer dataBuffer = formattedAppleFile.getDataBuffer ();
-      if (dataBuffer == null)
-        return emptyList;
-      buffer = dataBuffer.data ();
-      if (buffer == null || buffer.length == 0)
-        return emptyList;
-
-      offset = dataBuffer.offset ();
-      length = dataBuffer.length ();
+      //      Buffer dataBuffer = formattedAppleFile.getDataBuffer ();
+      //      if (dataBuffer == null)
+      //        return emptyList;
+      //      buffer = dataBuffer.data ();
+      //      if (buffer == null || buffer.length == 0)
+      //        return emptyList;
+      //
+      //      offset = dataBuffer.offset ();
+      //      length = dataBuffer.length ();
     }
 
     return Utility.getHexDumpLines (buffer, offset, Math.min (MAX_HEX_BYTES, length));

@@ -56,21 +56,8 @@ class HexTab extends DBTextTab
       offset = dataBuffer.offset ();
       length = dataBuffer.length ();
     }
-    else
-    {
-      if (formattedAppleFile == null)
-        return emptyList;
-
-      //      Buffer dataBuffer = formattedAppleFile.getDataBuffer ();
-      //      if (dataBuffer == null)
-      //        return emptyList;
-      //      buffer = dataBuffer.data ();
-      //      if (buffer == null || buffer.length == 0)
-      //        return emptyList;
-      //
-      //      offset = dataBuffer.offset ();
-      //      length = dataBuffer.length ();
-    }
+    else if (formattedAppleFile == null)
+      return emptyList;
 
     return Utility.getHexDumpLines (buffer, offset, Math.min (MAX_HEX_BYTES, length));
   }

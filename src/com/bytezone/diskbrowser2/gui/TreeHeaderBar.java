@@ -19,12 +19,10 @@ public class TreeHeaderBar extends HeaderBar implements RootFolderChangeListener
       return;
     }
 
-    //    leftLabel.setText (treeFile.getCatalogLine ());
-    //    leftLabel.setText (treeFile.toString ());
     String pathName = rootFolder.getAbsolutePath ();
 
     if (pathName.startsWith (home))
-      pathName = pathName.replaceFirst (home, "~");
+      pathName = "~" + pathName.substring (home.length ());
 
     leftLabel.setText (pathName);
   }

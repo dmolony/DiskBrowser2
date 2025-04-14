@@ -84,11 +84,11 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
     {
       for (Path path : directoryStream)
       {
-        if (Files.isHidden (path))
+        String fileName = path.toFile ().getName ();
+        if (Files.isHidden (path) || fileName.startsWith ("."))
           continue;
 
         boolean isLocalDirectory = Files.isDirectory (path);
-        String fileName = path.toFile ().getName ();
         int extensionNo = AppleTreeView.fileSystemFactory.getSuffixNumber (fileName);
         if (!isLocalDirectory && extensionNo < 0)
         {

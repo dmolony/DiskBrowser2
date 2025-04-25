@@ -19,6 +19,11 @@ The goal is for DiskBrowser ][ to retain all the file display formats of DiskBro
 --add-modules=javafx.controls                 \
 -jar /path/to/DiskBrowserApp.jar
 ```  
+On my Mac I have set up an Automator 'Run Shell Script' which looks like this:
+
+![Automator](resources/automator.png?raw=true "Automator script")
+
+Then I drop that file in my dock, and I can run the program with a single click.
 
 #### Windows batch file
 ```

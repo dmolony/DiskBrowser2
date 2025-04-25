@@ -23,7 +23,7 @@ On my Mac I have set up an Automator 'Run Shell Script' which looks like this:
 
 ![Automator](resources/automator.png?raw=true "Automator script")
 
-I save that file as DiskBrowserApp.app and then drop that file in my dock. Now I can run the program with a single click. You can also change the icon using the Info command on the .app file and pasting something better over the existing icon.
+I save that file as DiskBrowserApp.app and then drop it in my dock. Now I can run the program with a single click. You can also change the icon using the Info command on the .app file and pasting something better over the existing icon.
 
 On linux I am told that the following will install the required dependencies:
 ```

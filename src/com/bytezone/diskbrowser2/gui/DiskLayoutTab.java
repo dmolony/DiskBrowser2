@@ -24,7 +24,6 @@ public class DiskLayoutTab extends TabBase
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
   protected BorderPane borderPane;
-  protected BorderPane indexPane;
 
   boolean debug = false;
 
@@ -35,11 +34,9 @@ public class DiskLayoutTab extends TabBase
     super (title, keyCode);
 
     borderPane = new BorderPane ();
-    indexPane = new BorderPane ();
     borderPane.setTop (diskLayoutGroup);
     //    borderPane.setBottom (keyPaneProdos);
-    borderPane.setBottom (indexPane);
-    indexPane.setTop (keyPaneProdos);
+    borderPane.setCenter (keyPaneProdos);
     this.setContent (borderPane);
 
     //    borderPane
@@ -92,10 +89,10 @@ public class DiskLayoutTab extends TabBase
 
     if (appleFileSystem == null)
       //      borderPane.setBottom (null);
-      indexPane.setTop (null);
+      borderPane.setCenter (null);
     else
       //      borderPane.setBottom (switch (appleFileSystem.getFileSystemType ())
-      indexPane.setTop (switch (appleFileSystem.getFileSystemType ())
+      borderPane.setCenter (switch (appleFileSystem.getFileSystemType ())
       {
         case DOS3, DOS4 -> keyPaneDos;
         case PRODOS -> keyPaneProdos;

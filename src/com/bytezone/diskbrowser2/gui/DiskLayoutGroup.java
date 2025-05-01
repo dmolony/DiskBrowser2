@@ -72,7 +72,8 @@ public class DiskLayoutGroup extends Group implements SaveState
   private AppleFileSystem fileSystem;
   private List<GridClickListener> listeners = new ArrayList<> ();
 
-  private Color clear = new Color (.95, .95, .95, 1);
+  //  private Color clear = new Color (.95, .95, .95, 1);
+  private Color clear = Color.WHITE;
   private Font font = Font.font ("Consolas", 14);
 
   // ---------------------------------------------------------------------------------//

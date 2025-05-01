@@ -4,6 +4,7 @@ import com.bytezone.appleformat.ApplePreferences;
 import com.bytezone.appleformat.FormattedAppleFileFactory;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 
 // -----------------------------------------------------------------------------------//
 public class FileOptionsTab extends DBOptionsTab
@@ -17,6 +18,8 @@ public class FileOptionsTab extends DBOptionsTab
   OptionsPane optionsPaneGraphics = new OptionsPane (optionPanes[2]);
   OptionsPane optionsPaneText = new OptionsPane (optionPanes[3]);
 
+  BorderPane optionsPaneNone = new BorderPane ();
+
   FormattedAppleFileFactory formattedAppleFileFactory;
 
   // ---------------------------------------------------------------------------------//
@@ -24,6 +27,8 @@ public class FileOptionsTab extends DBOptionsTab
   // ---------------------------------------------------------------------------------//
   {
     super (title, keyCode);
+
+    optionsPaneNone.setStyle ("-fx-background: white;-fx-border-color: lightgray;");
   }
 
   // ---------------------------------------------------------------------------------//
@@ -45,14 +50,14 @@ public class FileOptionsTab extends DBOptionsTab
 
     if (appleFile == null)
     {
-      setContent (null);
+      setContent (optionsPaneNone);
       return;
     }
 
     ApplePreferences preferences = formattedAppleFileFactory.getPreferences (appleFile);
 
     if (preferences == null || preferences.getOptionsType () == null)
-      setContent (null);
+      setContent (optionsPaneNone);
     else
       setContent (switch (preferences.getOptionsType ())
       {

@@ -55,6 +55,7 @@ public class AppleTreeNode
   // ---------------------------------------------------------------------------------//
   {
     this.appleFile = appleFile;
+
     appleFileSystem = appleFile.getEmbeddedFileSystem ();         // usually null
 
     name = appleFile.getFileName ();
@@ -232,6 +233,7 @@ public class AppleTreeNode
     return appleFile != null && appleFile.isForkedFile ();
   }
 
+  // Data or Resource
   // ---------------------------------------------------------------------------------//
   boolean isAppleFork ()
   // ---------------------------------------------------------------------------------//

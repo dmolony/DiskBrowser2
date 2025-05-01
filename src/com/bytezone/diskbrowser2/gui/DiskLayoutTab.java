@@ -9,6 +9,7 @@ import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 // -----------------------------------------------------------------------------------//
 public class DiskLayoutTab extends TabBase
@@ -24,6 +25,7 @@ public class DiskLayoutTab extends TabBase
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
   protected BorderPane borderPane;
+  protected VBox vbox = new VBox ();
 
   boolean debug = false;
 

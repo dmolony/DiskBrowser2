@@ -19,7 +19,6 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
   CheckBox[] checkBoxes;
   FileFilterPreferences fileFilterPreferences =
       DiskBrowserApp.preferencesManager.getFileFilter ();
-  //      new FileFilterPreferences (Preferences.userNodeForPackage (this.getClass ()));
   TextField[] suffixTotals;
 
   // ---------------------------------------------------------------------------------//
@@ -29,7 +28,6 @@ public class OptionsPaneFileFilter extends PreferencesPane implements SuffixTota
     super (2, 17);                            // columns, rows
 
     setColumnConstraints (80, 30, 60);        // column widths
-    setPadding (defaultInsets);               // only the root pane has insets
     //    setGridLinesVisible (true);
 
     createLabelsVertical (suffixes, 0, 1, HPos.RIGHT);

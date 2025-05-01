@@ -17,6 +17,7 @@ public class OptionsPaneAssembler extends PreferencesPane
 
   AssemblerPreferences assemblerPreferences = PreferencesFactory.assemblerPreferences;
 
+  //Used by FileOptionsTab
   // ---------------------------------------------------------------------------------//
   public OptionsPaneAssembler ()
   // ---------------------------------------------------------------------------------//
@@ -24,7 +25,7 @@ public class OptionsPaneAssembler extends PreferencesPane
     super (2, 5);                             // columns, rows
 
     setColumnConstraints (150, 30);           // column widths
-    setPadding (defaultInsets);               // only the root pane has insets
+    //    setPadding (defaultInsets);               // only the root pane has insets
 
     String[] labels = { "Show targets", "Show strings", "Offset from zero" };
 

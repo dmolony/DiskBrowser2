@@ -5,6 +5,9 @@ import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
 
 //-----------------------------------------------------------------------------------//
 class ExtrasTabPane extends TabPaneBase implements TreeNodeListener
@@ -25,6 +28,9 @@ class ExtrasTabPane extends TabPaneBase implements TreeNodeListener
     add (diskLayoutTab);          // disk layout
 
     fileOptionsTab.setFactory (formattedAppleFileFactory);
+
+    BackgroundFill fill = new BackgroundFill (Color.WHITE, null, null);
+    setBackground (new Background (fill));
   }
 
   // ---------------------------------------------------------------------------------//

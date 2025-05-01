@@ -17,6 +17,8 @@ public class PreferencesPane extends DataPane
   // ---------------------------------------------------------------------------------//
   {
     super (columns, rows, 20);                // row height
+
+    setPadding (defaultInsets);               // only the root pane has insets
   }
 
   // ---------------------------------------------------------------------------------//

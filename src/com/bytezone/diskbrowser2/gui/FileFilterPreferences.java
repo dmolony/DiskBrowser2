@@ -12,9 +12,6 @@ public class FileFilterPreferences extends ApplePreferences
 {
   private static final String PREFS_FILE_TYPE = "FileType-";
 
-  //  String[] suffixes = { "po", "dsk", "do", "hdv", "2mg", "d13", "sdk", "shk", "bxy",
-  //      "bny", "bqy", "lbr", "woz", "img", "dimg", "zip", "gz" };
-
   private boolean[] showFileTypes =
       new boolean[com.bytezone.utility.Utility.suffixes.size ()];
   int totalSet;
@@ -59,13 +56,6 @@ public class FileFilterPreferences extends ApplePreferences
   {
     return totalSet != showFileTypes.length;
   }
-
-  // ---------------------------------------------------------------------------------//
-  //  public boolean isMatch (AppleTreeFile filePath)
-  //  // ---------------------------------------------------------------------------------//
-  //  {
-  //    return true;
-  //  }
 
   // ---------------------------------------------------------------------------------//
   @Override

@@ -35,12 +35,10 @@ public class DiskLayoutTab extends TabBase
 
     borderPane = new BorderPane ();
     borderPane.setTop (diskLayoutGroup);
-    //    borderPane.setBottom (keyPaneProdos);
     borderPane.setCenter (keyPaneProdos);
     this.setContent (borderPane);
 
-    //    borderPane
-    //    .setBackground (new Background (new BackgroundFill (Color.WHITE, null, null)));
+    borderPane.setStyle ("-fx-background: white;-fx-border-color: lightgray;");
   }
 
   // ---------------------------------------------------------------------------------//

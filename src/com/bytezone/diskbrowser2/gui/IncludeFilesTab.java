@@ -7,6 +7,7 @@ public class IncludeFilesTab extends DBOptionsTab
 // -----------------------------------------------------------------------------------//
 {
   OptionsPaneFileFilter optionsPaneFileFilter = new OptionsPaneFileFilter ();
+  OptionsPane optionsPane = new OptionsPane (optionsPaneFileFilter);
 
   // ---------------------------------------------------------------------------------//
   public IncludeFilesTab (String title, KeyCode keyCode)
@@ -14,7 +15,7 @@ public class IncludeFilesTab extends DBOptionsTab
   {
     super (title, keyCode);
 
-    setContent (optionsPaneFileFilter);
+    setContent (optionsPane);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -41,11 +42,8 @@ public class IncludeFilesTab extends DBOptionsTab
   {
     this.appleTreeNode = appleTreeNode;
 
-    //    appleTreeFile = appleTreeItem.getValue ();
     appleFile = appleTreeNode.getAppleFile ();
     appleFileSystem = appleTreeNode.getAppleFileSystem ();
-    //    formattedAppleFile =
-    //        appleFile == null ? null : (FormattedAppleFile) appleFile.getUserData ();
 
     refresh ();
   }

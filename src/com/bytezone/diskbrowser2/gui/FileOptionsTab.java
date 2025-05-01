@@ -76,9 +76,9 @@ public class FileOptionsTab extends DBOptionsTab
   // ---------------------------------------------------------------------------------//
   {
     this.appleTreeNode = appleTreeNode;
+
     appleFile = appleTreeNode.getAppleFile ();
     appleFileSystem = appleTreeNode.getAppleFileSystem ();
-    //    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     refresh ();
   }

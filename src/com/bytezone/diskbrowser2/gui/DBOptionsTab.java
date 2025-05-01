@@ -10,7 +10,6 @@ import javafx.scene.input.KeyCode;
 public class DBOptionsTab extends TabBase
 // -----------------------------------------------------------------------------------//
 {
-  //  protected FormattedAppleFile formattedAppleFile;
   protected AppleTreeItem appleTreeItem;
   protected AppleTreeNode appleTreeNode;
   protected AppleFile appleFile;

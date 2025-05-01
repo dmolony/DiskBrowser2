@@ -9,6 +9,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 
+//Used by FileOptionsTab
 // -----------------------------------------------------------------------------------//
 public class OptionsPaneText extends PreferencesPane
 // -----------------------------------------------------------------------------------//
@@ -24,7 +25,6 @@ public class OptionsPaneText extends PreferencesPane
     super (2, 5);                             // columns, rows
 
     setColumnConstraints (150, 30);           // column widths
-    setPadding (defaultInsets);               // only the root pane has insets
 
     String[] labels = { "Show offsets", "Show .S as Merlin" };
 

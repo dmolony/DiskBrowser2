@@ -13,6 +13,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 
+// Used by FileOptionsTab
 // -----------------------------------------------------------------------------------//
 public class OptionsPaneApplesoft extends PreferencesPane
 // -----------------------------------------------------------------------------------//
@@ -31,7 +32,6 @@ public class OptionsPaneApplesoft extends PreferencesPane
     super (2, 20);                            // columns, rows
 
     setColumnConstraints (160, 30);           // column widths
-    setPadding (defaultInsets);               // only the root pane has insets
     //    setGridLinesVisible (true);
 
     assert applesoftBasicPreferences != null;

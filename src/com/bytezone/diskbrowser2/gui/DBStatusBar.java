@@ -46,13 +46,15 @@ public class DBStatusBar extends StatusBar implements FilterChangeListener
   private void setStatusText ()
   // ---------------------------------------------------------------------------------//
   {
-    String filterText = filterStatus.filterActive ? filterStatus.filterValue.isEmpty () ? "NONE" :
-    //          (filterStatus.filterReverse ? "~" : "") + 
-        filterStatus.filterValue : "OFF";
+    String filterText =
+        filterStatus.filterActive ? filterStatus.filterValue.isEmpty () ? "NONE" :
+        //          (filterStatus.filterReverse ? "~" : "") + 
+            filterStatus.filterValue : "OFF";
 
     String showText = (filterStatus.filterActive && !filterStatus.filterValue.isEmpty ())
         ? filterStatus.filterExclusion ? "Filtered lines" : "All lines" : "All lines";
 
-    statusDisplay.setText (String.format ("Filter: %-20s Show: %-20s", filterText, showText));
+    statusDisplay
+        .setText (String.format ("Filter: %-20s Show: %-20s", filterText, showText));
   }
 }

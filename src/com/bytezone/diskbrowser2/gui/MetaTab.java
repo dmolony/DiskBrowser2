@@ -1,5 +1,9 @@
 package com.bytezone.diskbrowser2.gui;
 
+import static com.bytezone.utility.Utility.formatMeta;
+
+import java.io.File;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +87,10 @@ public class MetaTab extends DBTextTab
       else if (appleTreeNode.isAppleDataFile () || appleTreeNode.isAppleFile ())
         lines.add (frameHeader ("Apple File"));
       else if (appleTreeNode.isLocalDirectory ())
+      {
         lines.add (frameHeader ("Local Folder"));
+        lines.add (localFolder ());
+      }
       else
         lines.add (frameHeader ("Unknown"));
     }
@@ -106,6 +113,24 @@ public class MetaTab extends DBTextTab
     text.append (headingText);
     text.append ("\n");
     text.append (HEADER_LINE);
+
+    return text.toString ();
+  }
+
+  // ---------------------------------------------------------------------------------//
+  public String localFolder ()
+  // ---------------------------------------------------------------------------------//
+  {
+    StringBuilder text = new StringBuilder ();
+
+    File file = appleTreeNode.getLocalFile ();
+
+    formatMeta (text, "Path", file.getAbsolutePath ());
+    formatMeta (text, "Total files", 4, file.listFiles ().length);
+
+    long val = file.lastModified () / 1000;
+    Instant instant = Instant.ofEpochSecond (val);
+    formatMeta (text, "Last modified", instant.toString ());
 
     return text.toString ();
   }

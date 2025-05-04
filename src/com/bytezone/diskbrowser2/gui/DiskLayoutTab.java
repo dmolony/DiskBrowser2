@@ -26,6 +26,7 @@ public class DiskLayoutTab extends TabBase
   protected AppleFileSystem appleFileSystem;
   protected BorderPane borderPane;
   protected VBox vbox = new VBox ();
+  protected BorderPane keyPane = new BorderPane ();
 
   boolean debug = false;
 
@@ -36,11 +37,16 @@ public class DiskLayoutTab extends TabBase
     super (title, keyCode);
 
     borderPane = new BorderPane ();
-    borderPane.setTop (diskLayoutGroup);
-    borderPane.setCenter (keyPaneProdos);
+    //    borderPane.setTop (diskLayoutGroup);
+    //    borderPane.setCenter (keyPaneProdos);
     this.setContent (borderPane);
 
+    borderPane.setCenter (vbox);
+    vbox.getChildren ().addAll (diskLayoutGroup, keyPane);
+    keyPane.setCenter (keyPaneProdos);
+
     borderPane.setStyle ("-fx-background: white;-fx-border-color: lightgray;");
+    //    vbox.setStyle ("-fx-background: white;-fx-border-color: lightgray;");
   }
 
   // ---------------------------------------------------------------------------------//
@@ -88,11 +94,11 @@ public class DiskLayoutTab extends TabBase
     }
 
     if (appleFileSystem == null)
-      //      borderPane.setBottom (null);
-      borderPane.setCenter (null);
+      //      borderPane.setCenter (null);
+      keyPane.setCenter (null);
     else
-      //      borderPane.setBottom (switch (appleFileSystem.getFileSystemType ())
-      borderPane.setCenter (switch (appleFileSystem.getFileSystemType ())
+      //      borderPane.setCenter (switch (appleFileSystem.getFileSystemType ())
+      keyPane.setCenter (switch (appleFileSystem.getFileSystemType ())
       {
         case DOS3, DOS4 -> keyPaneDos;
         case PRODOS -> keyPaneProdos;

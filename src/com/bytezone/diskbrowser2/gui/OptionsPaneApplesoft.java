@@ -59,9 +59,9 @@ public class OptionsPaneApplesoft extends PreferencesPane
       }
     });
 
-    String[] labels1 =
-        { "Split REM", "Split DIM", "Align assign", "Show caret", "Show THEN after IF",
-            "Blank after RETURN", "Format REM", "Delete extra DATA space", "Hide LET" };
+    String[] labels1 = { "Split REM", "Split DIM", "Align assign", "Show caret",
+        "Show THEN after IF", "Blank after RETURN", "Format REM",
+        "Delete extra DATA space", "Hide LET", "Wrap PRINT" };
 
     String[] labels2 = { "Show symbols", "Show duplicate symbols", "Show functions",
         "Show constants", "Show GOTO/GOSUB", "Show CALL" };
@@ -70,9 +70,9 @@ public class OptionsPaneApplesoft extends PreferencesPane
     checkBoxes1 =
         createCheckBoxes (new DataLayout (1, 5, labels1.length, Pos.CENTER, true));
 
-    createLabelsVertical (labels2, 0, 15, HPos.RIGHT);
+    createLabelsVertical (labels2, 0, 17, HPos.RIGHT);
     checkBoxes2 =
-        createCheckBoxes (new DataLayout (1, 15, labels2.length, Pos.CENTER, true));
+        createCheckBoxes (new DataLayout (1, 17, labels2.length, Pos.CENTER, true));
 
     set ();       // must happen before the listener is added because java is brain-dead
 
@@ -97,6 +97,7 @@ public class OptionsPaneApplesoft extends PreferencesPane
     applesoftBasicPreferences.formatRem = checkBoxes1[6].isSelected ();
     applesoftBasicPreferences.deleteExtraDataSpace = checkBoxes1[7].isSelected ();
     applesoftBasicPreferences.hideLet = checkBoxes1[8].isSelected ();
+    applesoftBasicPreferences.wrapPrint = checkBoxes1[9].isSelected ();
 
     notifyListeners (applesoftBasicPreferences);
   }
@@ -131,6 +132,7 @@ public class OptionsPaneApplesoft extends PreferencesPane
     checkBoxes1[6].setSelected (applesoftBasicPreferences.formatRem);
     checkBoxes1[7].setSelected (applesoftBasicPreferences.deleteExtraDataSpace);
     checkBoxes1[8].setSelected (applesoftBasicPreferences.hideLet);
+    checkBoxes1[9].setSelected (applesoftBasicPreferences.wrapPrint);
 
     checkBoxes2[0].setSelected (applesoftBasicPreferences.showSymbols);
     checkBoxes2[1].setSelected (applesoftBasicPreferences.showDuplicateSymbols);

@@ -1,5 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
+import static com.bytezone.utility.Utility.formatMeta;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +14,7 @@ import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFilePath;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.AppleForkedFile;
+import com.bytezone.utility.Utility;
 
 import javafx.scene.image.Image;
 
@@ -373,23 +376,34 @@ public class AppleTreeNode
   // ---------------------------------------------------------------------------------//
   {
     System.out.printf ("--------------------------------------------------------%n");
-    System.out.printf ("LocalFile ............ %s%n", localFile);
-    System.out.printf ("Path ................. %s%n", path);
-    System.out.printf ("AppleFile ............ %s%n",
-        appleFile == null ? "null" : appleFile.getFileName ());
-    System.out.printf ("AppleFileSystem ...... %s%n",
+    System.out.println (getText ());
+  }
+
+  // ---------------------------------------------------------------------------------//
+  String getText ()
+  // ---------------------------------------------------------------------------------//
+  {
+    StringBuilder text = new StringBuilder (super.toString ());
+
+    formatMeta (text, "LocalFile", localFile.getName ());
+
+    formatMeta (text, "Path", path.getFileName ().toString ());
+    formatMeta (text, "AppleFile", appleFile == null ? "null" : appleFile.getFileName ());
+    formatMeta (text, "AppleFileSystem",
         appleFileSystem == null ? "null" : appleFileSystem.getFileName ());
-    System.out.printf ("Is AppleFile ......... %s%n", isAppleFile ());
-    System.out.printf ("Is AppleFileSystem ... %s%n", isAppleFileSystem ());
-    System.out.printf ("Is AppleDataFile ..... %s%n", isAppleDataFile ());
-    System.out.printf ("Is AppleContainer .... %s%n", isAppleContainer ());
-    System.out.printf ("Is AppleFork ......... %s%n", isAppleFork ());
-    System.out.printf ("Is AppleForkedFile ... %s%n", isAppleForkedFile ());
-    System.out.printf ("Is AppleFolder ....... %s%n", isAppleFolder ());
-    System.out.printf ("Is LocalDirectory .... %s%n", isLocalDirectory ());
-    System.out.printf ("Is LocalFile ......... %s%n", isLocalFile ());
-    System.out.printf ("Is CmpLocalFile ...... %s%n", isCompressedLocalFile ());
-    System.out.printf ("Has subdirectories ... %s%n", hasSubdirectories ());
+    formatMeta (text, "Is AppleFile", isAppleFile ());
+    formatMeta (text, "Is AppleFileSystem", isAppleFileSystem ());
+    formatMeta (text, "Is AppleDataFile", isAppleDataFile ());
+    formatMeta (text, "Is AppleContainer", isAppleContainer ());
+    formatMeta (text, "Is AppleFork", isAppleFork ());
+    formatMeta (text, "Is AppleForkedFile", isAppleForkedFile ());
+    formatMeta (text, "Is AppleFolder", isAppleFolder ());
+    formatMeta (text, "Is LocalDirectory", isLocalDirectory ());
+    formatMeta (text, "Is LocalFile", isLocalFile ());
+    formatMeta (text, "Is CmpLocalFile", isCompressedLocalFile ());
+    formatMeta (text, "Has subdirectories", hasSubdirectories ());
+
+    return Utility.rtrim (text);
   }
 
   // ---------------------------------------------------------------------------------//

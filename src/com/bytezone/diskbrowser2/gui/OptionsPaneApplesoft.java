@@ -36,7 +36,8 @@ public class OptionsPaneApplesoft extends PreferencesPane
 
     assert applesoftBasicPreferences != null;
 
-    String[] labels0 = { "No format", "User format", "40 column Apple format" };
+    String[] labels0 =
+        { "No format", "User format", "40 column Apple format", "Hex format" };
     DataLayout dataLayout = new DataLayout (0, 1, labels0);
     radioButtons = createRadioButtons (dataLayout);
     ToggleGroup toggleGroup = radioButtons[0].getToggleGroup ();
@@ -59,6 +60,9 @@ public class OptionsPaneApplesoft extends PreferencesPane
       }
     });
 
+    int labels1Row = 6;
+    int labels2Row = 18;
+
     String[] labels1 = { "Split REM", "Split DIM", "Align assign", "Show caret",
         "Show THEN after IF", "Blank after RETURN", "Format REM",
         "Delete extra DATA space", "Hide LET", "Wrap PRINT" };
@@ -66,13 +70,13 @@ public class OptionsPaneApplesoft extends PreferencesPane
     String[] labels2 = { "Show symbols", "Show duplicate symbols", "Show functions",
         "Show constants", "Show GOTO/GOSUB", "Show CALL" };
 
-    createLabelsVertical (labels1, 0, 5, HPos.RIGHT);
-    checkBoxes1 =
-        createCheckBoxes (new DataLayout (1, 5, labels1.length, Pos.CENTER, true));
+    createLabelsVertical (labels1, 0, labels1Row, HPos.RIGHT);
+    checkBoxes1 = createCheckBoxes (
+        new DataLayout (1, labels1Row, labels1.length, Pos.CENTER, true));
 
-    createLabelsVertical (labels2, 0, 17, HPos.RIGHT);
-    checkBoxes2 =
-        createCheckBoxes (new DataLayout (1, 17, labels2.length, Pos.CENTER, true));
+    createLabelsVertical (labels2, 0, labels2Row, HPos.RIGHT);
+    checkBoxes2 = createCheckBoxes (
+        new DataLayout (1, labels2Row, labels2.length, Pos.CENTER, true));
 
     set ();       // must happen before the listener is added because java is brain-dead
 

@@ -37,7 +37,7 @@ public class OptionsPaneApplesoft extends PreferencesPane
     assert applesoftBasicPreferences != null;
 
     String[] labels0 =
-        { "No format", "User format", "40 column Apple format", "Hex format" };
+        { "No format", "40 column Apple format", "Hex format", "User format" };
     DataLayout dataLayout = new DataLayout (0, 1, labels0);
     radioButtons = createRadioButtons (dataLayout);
     ToggleGroup toggleGroup = radioButtons[0].getToggleGroup ();

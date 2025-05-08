@@ -1,5 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
+import com.bytezone.filesystem.AppleBlock.BlockType;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -29,17 +31,17 @@ public class KeyPane extends Canvas
     int y = Y_OFFSET;
 
     ScreenCell empty = new ScreenCell (gc, x, y, SIZE_W, SIZE_H);
-    draw (empty, Color.GHOSTWHITE, "Empty");
+    draw (empty, ColorChooser.getBaseColor (BlockType.EMPTY), "Empty");
 
     ScreenCell orphan = new ScreenCell (gc, x + 150, y, SIZE_W, SIZE_H);
-    draw (orphan, Color.NAVAJOWHITE, "Orphan");
+    draw (orphan, ColorChooser.getBaseColor (BlockType.ORPHAN), "Orphan");
 
     y += LINE_SIZE;
     ScreenCell fileData = new ScreenCell (gc, x, y, SIZE_W, SIZE_H);
-    draw (fileData, Color.CRIMSON, "File Data");
+    draw (fileData, ColorChooser.getBaseColor (BlockType.FILE_DATA), "File Data");
 
     ScreenCell fsData = new ScreenCell (gc, x + 150, y, SIZE_W, SIZE_H);
-    draw (fsData, Color.ROYALBLUE, "File System");
+    draw (fsData, ColorChooser.getBaseColor (BlockType.FS_DATA), "File System");
   }
 
   // ---------------------------------------------------------------------------------//

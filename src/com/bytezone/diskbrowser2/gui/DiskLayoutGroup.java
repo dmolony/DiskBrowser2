@@ -209,11 +209,13 @@ public class DiskLayoutGroup extends Group implements SaveState
         {
           AppleBlock block = fileSystem.getBlock (blockNo);
 
-          Color color = getBaseColor (block);
-          Color cellColor =                                           //
-              display == 0 ? color                                    //
-                  : display == 1 ? getFsSubTypeColor (block, color)   //
-                      : getFileSubTypeColor (block, color);
+          Color color = ColorChooser.getBaseColor (block);
+          Color cellColor =                                                 //
+              display == 0 ? color                                          //
+                  : display == 1 ? ColorChooser.getFsSubTypeColor (block)   //
+                      : ColorChooser.getFileSubTypeColor (block);
+          if (cellColor == null)
+            cellColor = color;
 
           boolean selected = false;
           if (blockNo == selectedBlockNo
@@ -271,53 +273,6 @@ public class DiskLayoutGroup extends Group implements SaveState
       gc.setFill (Color.BLACK);
       gc.fillText (String.format (ROW_FORMAT, rowStart), x, y + 13);
     }
-  }
-
-  // ---------------------------------------------------------------------------------//
-  private Color getBaseColor (AppleBlock block)
-  // ---------------------------------------------------------------------------------//
-  {
-    return switch (block.getBlockType ())
-    {
-      case ORPHAN -> Color.NAVAJOWHITE;
-      case EMPTY -> Color.GHOSTWHITE;
-      case FILE_DATA -> Color.CRIMSON;
-      case FS_DATA -> Color.ROYALBLUE;
-    };
-  }
-
-  // ---------------------------------------------------------------------------------//
-  private Color getFsSubTypeColor (AppleBlock block, Color color)
-  // ---------------------------------------------------------------------------------//
-  {
-    return switch (block.getBlockSubType ())
-    {
-      case "DOS" -> Color.GRAY;                     // DOS
-      case "VTOC" -> Color.TURQUOISE;               // DOS
-      case "TSLIST" -> Color.DARKCYAN;              // DOS
-      case "CATALOG" -> Color.BLUEVIOLET;           // COMMON
-      case "INDEX" -> Color.GREEN;                  // PRODOS
-      case "M-INDEX" -> Color.MEDIUMORCHID;         // PRODOS
-      case "V-BITMAP" -> Color.TURQUOISE;           // PRODOS
-      case "FOLDER" -> Color.DARKORANGE;            // PRODOS
-      case "FORK" -> Color.YELLOWGREEN;             // PRODOS
-      case "BIN2 HDR" -> Color.GREEN;               // BINARY2
-      default -> color;
-    };
-  }
-
-  // ---------------------------------------------------------------------------------//
-  private Color getFileSubTypeColor (AppleBlock block, Color color)
-  // ---------------------------------------------------------------------------------//
-  {
-    return switch (block.getBlockSubType ())
-    {
-      case "TEXT" -> Color.RED;
-      case "INTEGER" -> Color.YELLOW;
-      case "APPLESOFT" -> Color.GREEN;
-      case "BINARY" -> Color.PURPLE;
-      default -> color;
-    };
   }
 
   // ---------------------------------------------------------------------------------//

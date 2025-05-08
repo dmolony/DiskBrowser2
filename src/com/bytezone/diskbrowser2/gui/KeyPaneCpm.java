@@ -1,5 +1,7 @@
 package com.bytezone.diskbrowser2.gui;
 
+import static com.bytezone.diskbrowser2.gui.ColorChooser.getFsSubTypeColor;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -21,6 +23,6 @@ public class KeyPaneCpm extends KeyPane
     draw (dos, Color.GRAY, "DOS");
 
     ScreenCell catalog = new ScreenCell (gc, x + 150, y, SIZE_W, SIZE_H);
-    draw (catalog, Color.BLUEVIOLET, "Catalog");
+    draw (catalog, getFsSubTypeColor ("CATALOG"), "Catalog");
   }
 }

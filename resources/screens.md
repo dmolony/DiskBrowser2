@@ -15,7 +15,7 @@ The screen above is the Data Tab, the screen below is the Graphics Tab.
 When a file is selected and the Options pane is active, the options for that file type can be altered.
 ![Applesoft](applesoft.png?raw=true "Applesoft options")
 Extra file information has moved to the Extras tab.
-![Extras](teaser3.png?raw=true "Applesoft Extras Tab")
+![Extras](extras.png?raw=true "Applesoft Extras Tab")
 The file tree can be filtered so that only the selected file types are shown.
 ![Filter](teaser4.png?raw=true "File Filter")
 The Meta tab shows information about the file.

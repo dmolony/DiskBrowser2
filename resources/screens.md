@@ -13,13 +13,13 @@ The second interface change is that all images are now shown on a separate Graph
 The screen above is the Data Tab, the screen below is the Graphics Tab.
 ![Teaser](pic02.png?raw=true "Graphics Tab")
 When a file is selected and the Options pane is active, the options for that file type can be altered.
-![Teaser](teaser2.png?raw=true "Don't rely on this")
+![Applesoft](applesoft.png?raw=true "Applesoft options")
 Extra file information has moved to the Extras tab.
-![Teaser](teaser3.png?raw=true "Other file types will have different output")
+![Extras](teaser3.png?raw=true "Applesoft Extras Tab")
 The file tree can be filtered so that only the selected file types are shown.
-![Teaser](teaser4.png?raw=true "BXY files")
+![Filter](teaser4.png?raw=true "File Filter")
 The Meta tab shows information about the file.
-![Teaser](Meta.png?raw=true "Meta")
+![Meta](Meta.png?raw=true "Meta Tab")
 Individual blocks can be examined by clicking on the disk display. Once in block display mode, use the arrow keys to navigate to other blocks. Press TAB to return to the file display.
 ![Block](Block.png?raw=true "Block Display")
 

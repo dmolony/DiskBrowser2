@@ -12,9 +12,9 @@ The second interface change is that all images are now shown on a separate Graph
 ![Teaser](pic01.png?raw=true "Data Tab")
 The screen above is the Data Tab, the screen below is the Graphics Tab.
 ![Teaser](pic02.png?raw=true "Graphics Tab")
-When a file is selected and the Options pane is active, the options for that file type can be altered.
+When a file is selected and the Options pane is active, the options for that file type can be altered. The first block of checkboxes apply when User Format is selected.
 ![Applesoft](applesoft.png?raw=true "Applesoft options")
-Extra file information has moved to the Extras tab.
+Extra file information has moved to the Extras tab. The second block of checkboxes apply to this screen.
 ![Extras](extras.png?raw=true "Applesoft Extras Tab")
 The file tree can be filtered so that only the selected file types are shown.
 ![Filter](teaser4.png?raw=true "File Filter")

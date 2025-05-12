@@ -11,7 +11,7 @@ This screen shows several SHK disk images stored as LBR files.
 The second interface change is that all images are now shown on a separate Graphics tab. This includes hi-res images, fonts, shapes, icons etc. The Data tab will instead display information pertaining to the image.
 ![Teaser](pic01.png?raw=true "Data Tab")
 The screen above is the Data Tab, the screen below is the Graphics Tab.
-![Teaser](pic02.png?raw=true "Graphics Tab")
+![Graphics](pic02.png?raw=true "Graphics Tab")
 When a file is selected and the Options pane is active, the options for that file type can be altered. The first block of checkboxes apply when User Format is selected.
 ![Applesoft](applesoft.png?raw=true "Applesoft options")
 Extra file information has moved to the Extras tab. The second block of checkboxes apply to this screen.

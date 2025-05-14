@@ -1,15 +1,15 @@
 ## Example Screens
 This image shows the main interface change from DiskBrowser. Instead of separate tabs
  for each disk, the file tree expands each disk image in place.
-![Teaser](Screen1.png?raw=true "Data screen")
+![DataScreen](Screen1.png?raw=true "Data screen")
 File systems within file systems can be accessed. This screen shows the directory
 listing of a Pascal Area which is stored on a Prodos disk. All of the pascal files can
 be displayed as usual.
-![Teaser](teaser7.png?raw=true "Pascal area on a prodos disk image")
+![Pascal](pascalprodos.png?raw=true "Pascal area on a prodos disk image")
 This screen shows several SHK disk images stored as LBR files.
-![Teaser](teaser8.png?raw=true "SHK files on a prodos disk image")
+![SHK](teaser8.png?raw=true "SHK files on a prodos disk image")
 The second interface change is that all images are now shown on a separate Graphics tab. This includes hi-res images, fonts, shapes, icons etc. The Data tab will instead display information pertaining to the image.
-![Teaser](pic01.png?raw=true "Data Tab")
+![DataTab](pic01.png?raw=true "Data Tab")
 The screen above is the Data Tab, the screen below is the Graphics Tab.
 ![Graphics](pic02.png?raw=true "Graphics Tab")
 When a file is selected and the Options pane is active, the options for that file type can be altered. The first block of checkboxes apply when User Format is selected.

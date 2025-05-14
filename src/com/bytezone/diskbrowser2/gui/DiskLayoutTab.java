@@ -5,7 +5,6 @@ import java.util.prefs.Preferences;
 import com.bytezone.appbase.TabBase;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
-import com.bytezone.filesystem.AppleFileSystem.FileSystemType;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
@@ -74,12 +73,12 @@ public class DiskLayoutTab extends TabBase
     if (appleFileSystem == null && appleFile != null)
       appleFileSystem = parentFs;
 
-    if (embeddedFs != null)       // the tree node always provides it as the AFS
-    {
-      FileSystemType pfst = parentFs.getFileSystemType ();
-      if (embeddedFs != null && pfst == FileSystemType.PRODOS)
-        appleFileSystem = parentFs;
-    }
+    //    if (embeddedFs != null)       // the tree node always provides it as the AFS
+    //    {
+    //      FileSystemType pfst = parentFs.getFileSystemType ();
+    //      if (pfst == FileSystemType.PRODOS)
+    //        appleFileSystem = parentFs;
+    //    }
 
     if (debug)
     {

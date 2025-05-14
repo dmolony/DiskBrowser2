@@ -26,7 +26,9 @@ public class ExtrasHeaderBar extends HeaderBar
   {
     if (selectedTab instanceof DiskLayoutTab tab)
     {
-      if (appleFileSystem != null)
+      if (appleFileSystem == null)
+        leftLabel.setText ("");
+      else
       {
         FileSystemType fst = appleFileSystem.getFileSystemType ();
         if (appleBlock != null)
@@ -34,8 +36,6 @@ public class ExtrasHeaderBar extends HeaderBar
         else
           leftLabel.setText (fst.toString ());
       }
-      else
-        leftLabel.setText ("");
     }
     else if (selectedTab instanceof FileOptionsTab tab)
       leftLabel.setText ("Options");
@@ -50,10 +50,12 @@ public class ExtrasHeaderBar extends HeaderBar
   {
     appleBlock = null;
     appleFile = appleTreeNode.getAppleFile ();
+    appleFileSystem = appleTreeNode.getAppleFileSystem ();    // will be the efs
 
-    appleFileSystem = appleFile == null ?         //
-        appleTreeNode.getAppleFileSystem () :     //
-        appleFile.getParentFileSystem ();
+    if (appleFileSystem == null)
+      appleFileSystem = appleFile == null ?         //
+          appleTreeNode.getAppleFileSystem () :     //
+          appleFile.getParentFileSystem ();
 
     updateNameLabel ();
   }

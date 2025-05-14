@@ -23,9 +23,10 @@ public class DiskLayoutTab extends TabBase
   protected AppleTreeItem appleTreeItem;
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
-  protected BorderPane borderPane;
-  protected VBox vbox = new VBox ();
+
+  protected BorderPane borderPane = new BorderPane ();
   protected BorderPane keyPane = new BorderPane ();
+  protected VBox vbox = new VBox ();
 
   boolean debug = false;
 
@@ -35,7 +36,6 @@ public class DiskLayoutTab extends TabBase
   {
     super (title, keyCode);
 
-    borderPane = new BorderPane ();
     this.setContent (borderPane);
 
     borderPane.setCenter (vbox);
@@ -49,17 +49,20 @@ public class DiskLayoutTab extends TabBase
   public void setAppleTreeNode (AppleTreeNode appleTreeNode)
   // ---------------------------------------------------------------------------------//
   {
-    AppleFileSystem afs = appleTreeNode.getAppleFileSystem ();
-    AppleFile af = appleTreeNode.getAppleFile ();
-    AppleFileSystem embeddedFs = af == null ? null : af.getEmbeddedFileSystem ();
-    AppleFileSystem parentFs = af == null ? null : af.getParentFileSystem ();
+    appleFile = appleTreeNode.getAppleFile ();
+    appleFileSystem = appleTreeNode.getAppleFileSystem ();    // will be the efs
+
+    AppleFileSystem embeddedFs =
+        appleFile == null ? null : appleFile.getEmbeddedFileSystem ();
+    AppleFileSystem parentFs =
+        appleFile == null ? null : appleFile.getParentFileSystem ();
 
     if (debug)
     {
-      if (afs != null)
-        System.out.printf ("FS  : %s%n", afs.getFileSystemType ());
-      if (af != null)
-        System.out.printf ("File: %s%n", af.getFileName ());
+      if (appleFileSystem != null)
+        System.out.printf ("FS  : %s%n", appleFileSystem.getFileSystemType ());
+      if (appleFile != null)
+        System.out.printf ("File: %s%n", appleFile.getFileName ());
       if (embeddedFs != null)
         System.out.printf ("eFS : %s%n", embeddedFs.getFileSystemType ());
       if (parentFs != null)
@@ -67,10 +70,7 @@ public class DiskLayoutTab extends TabBase
       System.out.println ("-------------------------------- treenode");
     }
 
-    appleFile = appleTreeNode.getAppleFile ();
-    appleFileSystem = appleTreeNode.getAppleFileSystem ();    // will be the efs
-
-    if (appleFileSystem == null && appleFile != null)
+    if (appleFileSystem == null && parentFs != null)
       appleFileSystem = parentFs;
 
     //    if (embeddedFs != null)       // the tree node always provides it as the AFS

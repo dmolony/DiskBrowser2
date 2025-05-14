@@ -20,7 +20,7 @@ public class ColorChooser
   {
     return switch (blockType)
     {
-      case ORPHAN -> Color.LIGHTYELLOW;
+      case ORPHAN -> Color.PAPAYAWHIP;
       case EMPTY -> Color.GHOSTWHITE;
       case FILE_DATA -> Color.CRIMSON;
       case FS_DATA -> Color.ROYALBLUE;

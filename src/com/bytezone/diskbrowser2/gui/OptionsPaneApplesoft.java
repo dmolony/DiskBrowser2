@@ -68,7 +68,7 @@ public class OptionsPaneApplesoft extends PreferencesPane
         "Delete extra DATA space", "Hide LET", "Wrap PRINT" };
 
     String[] labels2 = { "Show symbols", "Show duplicate symbols", "Show functions",
-        "Show constants", "Show GOTO/GOSUB", "Show CALL" };
+        "Show constants", "Show GOTO/GOSUB", "Show CALL", "Show unreachable code" };
 
     createLabelsVertical (labels1, 0, labels1Row, HPos.RIGHT);
     checkBoxes1 = createCheckBoxes (
@@ -117,6 +117,7 @@ public class OptionsPaneApplesoft extends PreferencesPane
     applesoftBasicPreferences.showConstants = checkBoxes2[3].isSelected ();
     applesoftBasicPreferences.showGosubGoto = checkBoxes2[4].isSelected ();
     applesoftBasicPreferences.showCalls = checkBoxes2[5].isSelected ();
+    applesoftBasicPreferences.showUnreachableCode = checkBoxes2[6].isSelected ();
 
     notifyListeners (applesoftBasicPreferences);
   }
@@ -144,5 +145,6 @@ public class OptionsPaneApplesoft extends PreferencesPane
     checkBoxes2[3].setSelected (applesoftBasicPreferences.showConstants);
     checkBoxes2[4].setSelected (applesoftBasicPreferences.showGosubGoto);
     checkBoxes2[5].setSelected (applesoftBasicPreferences.showCalls);
+    checkBoxes2[6].setSelected (applesoftBasicPreferences.showUnreachableCode);
   }
 }

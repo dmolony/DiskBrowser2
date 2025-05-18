@@ -1,6 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
-import static com.bytezone.utility.Utility.formatMeta;
+import static com.bytezone.utility.Utility.formatText;
 
 import java.io.File;
 import java.time.Instant;
@@ -125,12 +125,12 @@ public class MetaTab extends DBTextTab
 
     File file = appleTreeNode.getLocalFile ();
 
-    formatMeta (text, "Path", file.getAbsolutePath ());
-    formatMeta (text, "Total files", 4, file.listFiles ().length);
+    formatText (text, "Path", file.getAbsolutePath ());
+    formatText (text, "Total files", 4, file.listFiles ().length);
 
     long val = file.lastModified () / 1000;
     Instant instant = Instant.ofEpochSecond (val);
-    formatMeta (text, "Last modified", instant.toString ());
+    formatText (text, "Last modified", instant.toString ());
 
     return text.toString ();
   }

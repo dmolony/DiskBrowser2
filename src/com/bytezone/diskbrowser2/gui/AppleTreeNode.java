@@ -1,6 +1,6 @@
 package com.bytezone.diskbrowser2.gui;
 
-import static com.bytezone.utility.Utility.formatMeta;
+import static com.bytezone.utility.Utility.formatText;
 
 import java.io.File;
 import java.io.IOException;
@@ -385,23 +385,23 @@ public class AppleTreeNode
   {
     StringBuilder text = new StringBuilder (super.toString ());
 
-    formatMeta (text, "LocalFile", localFile.getName ());
+    formatText (text, "LocalFile", localFile.getName ());
 
-    formatMeta (text, "Path", path.getFileName ().toString ());
-    formatMeta (text, "AppleFile", appleFile == null ? "null" : appleFile.getFileName ());
-    formatMeta (text, "AppleFileSystem",
+    formatText (text, "Path", path.getFileName ().toString ());
+    formatText (text, "AppleFile", appleFile == null ? "null" : appleFile.getFileName ());
+    formatText (text, "AppleFileSystem",
         appleFileSystem == null ? "null" : appleFileSystem.getFileName ());
-    formatMeta (text, "Is AppleFile", isAppleFile ());
-    formatMeta (text, "Is AppleFileSystem", isAppleFileSystem ());
-    formatMeta (text, "Is AppleDataFile", isAppleDataFile ());
-    formatMeta (text, "Is AppleContainer", isAppleContainer ());
-    formatMeta (text, "Is AppleFork", isAppleFork ());
-    formatMeta (text, "Is AppleForkedFile", isAppleForkedFile ());
-    formatMeta (text, "Is AppleFolder", isAppleFolder ());
-    formatMeta (text, "Is LocalDirectory", isLocalDirectory ());
-    formatMeta (text, "Is LocalFile", isLocalFile ());
-    formatMeta (text, "Is CmpLocalFile", isCompressedLocalFile ());
-    formatMeta (text, "Has subdirectories", hasSubdirectories ());
+    formatText (text, "Is AppleFile", isAppleFile ());
+    formatText (text, "Is AppleFileSystem", isAppleFileSystem ());
+    formatText (text, "Is AppleDataFile", isAppleDataFile ());
+    formatText (text, "Is AppleContainer", isAppleContainer ());
+    formatText (text, "Is AppleFork", isAppleFork ());
+    formatText (text, "Is AppleForkedFile", isAppleForkedFile ());
+    formatText (text, "Is AppleFolder", isAppleFolder ());
+    formatText (text, "Is LocalDirectory", isLocalDirectory ());
+    formatText (text, "Is LocalFile", isLocalFile ());
+    formatText (text, "Is CmpLocalFile", isCompressedLocalFile ());
+    formatText (text, "Has subdirectories", hasSubdirectories ());
 
     return Utility.rtrim (text);
   }

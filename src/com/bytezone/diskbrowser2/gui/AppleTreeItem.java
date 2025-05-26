@@ -95,7 +95,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
     assert file instanceof AppleFilePath;
 
     AppleFileSystem fs = file.getParentFileSystem ();
-    String[] folders = Utility.getPathFolders ((AppleFilePath) file);
+    String[] folders = getPathFolders ((AppleFilePath) file);
 
     loop: for (String name : folders)
     {
@@ -117,5 +117,21 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
     }
 
     return targetFolder;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private String[] getPathFolders (AppleFilePath filePath)
+  // ---------------------------------------------------------------------------------//
+  {
+    String fullName = filePath.getFullFileName ();
+    char separator = filePath.getSeparator ();
+
+    String[] pathItems = fullName.split ("\\" + separator);
+    String[] pathFolders = new String[pathItems.length - 1];
+
+    for (int i = 0; i < pathFolders.length; i++)
+      pathFolders[i] = pathItems[i];
+
+    return pathFolders;
   }
 }

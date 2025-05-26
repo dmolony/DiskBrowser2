@@ -5,6 +5,7 @@ import static com.bytezone.utility.Utility.suffixes;
 import java.util.prefs.Preferences;
 
 import com.bytezone.appleformat.ApplePreferences;
+import com.bytezone.appleformat.Utility;
 
 // -----------------------------------------------------------------------------------//
 public class FileFilterPreferences extends ApplePreferences

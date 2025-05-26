@@ -3,6 +3,7 @@ package com.bytezone.diskbrowser2.gui;
 import java.util.Arrays;
 import java.util.List;
 
+import com.bytezone.appleformat.Utility;
 import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;

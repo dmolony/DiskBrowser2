@@ -20,7 +20,7 @@ public class DiskLayoutTab extends TabBase
   protected KeyPanePascal keyPanePascal = new KeyPanePascal ();
   protected KeyPaneCpm keyPaneCpm = new KeyPaneCpm ();
 
-  protected AppleTreeItem appleTreeItem;
+  //  protected AppleTreeItem appleTreeItem;
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
 
@@ -101,7 +101,7 @@ public class DiskLayoutTab extends TabBase
         default -> null;
       });
 
-    refresh ();
+    refresh ();         // calls update()
   }
 
   // ---------------------------------------------------------------------------------//
@@ -112,8 +112,7 @@ public class DiskLayoutTab extends TabBase
     if (isValid ())
       return;
 
-    diskLayoutGroup.setFileSystem (appleFileSystem);
-    diskLayoutGroup.setAppleFile (appleFile);
+    diskLayoutGroup.refresh (appleFileSystem, appleFile);
 
     setValid (true);
   }

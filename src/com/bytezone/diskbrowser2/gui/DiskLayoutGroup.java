@@ -72,7 +72,6 @@ public class DiskLayoutGroup extends Group implements SaveState
   private AppleFileSystem fileSystem;
   private List<GridClickListener> listeners = new ArrayList<> ();
 
-  //  private Color clear = new Color (.95, .95, .95, 1);
   private Color clear = Color.WHITE;
   private Font font = Font.font ("Consolas", 14);
 
@@ -94,9 +93,16 @@ public class DiskLayoutGroup extends Group implements SaveState
     getChildren ().addAll (scrollBarV, scrollBarH, canvas);
   }
 
-  // these two routines should be combined
   // ---------------------------------------------------------------------------------//
-  void setFileSystem (AppleFileSystem appleFileSystem)
+  void refresh (AppleFileSystem appleFileSystem, AppleFile appleFile)
+  // ---------------------------------------------------------------------------------//
+  {
+    setFileSystem (appleFileSystem);
+    setAppleFile (appleFile);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private void setFileSystem (AppleFileSystem appleFileSystem)
   // ---------------------------------------------------------------------------------//
   {
     // check for null or hybrid FS
@@ -122,7 +128,7 @@ public class DiskLayoutGroup extends Group implements SaveState
   }
 
   // ---------------------------------------------------------------------------------//
-  void setAppleFile (AppleFile appleFile)
+  private void setAppleFile (AppleFile appleFile)
   // ---------------------------------------------------------------------------------//
   {
     if (appleFile == null)

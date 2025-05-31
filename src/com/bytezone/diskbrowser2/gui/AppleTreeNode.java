@@ -281,7 +281,7 @@ public class AppleTreeNode
     if (appleFileSystem != null)
     {
       for (AppleFile file : appleFileSystem.getFiles ())
-        if (file.isValidFile ())
+        if (displayFile (file))
           children.add (new AppleTreeNode (file));
 
       for (AppleFileSystem fs : appleFileSystem.getFileSystems ())
@@ -293,7 +293,7 @@ public class AppleTreeNode
       if (appleFile instanceof AppleContainer ac)
       {
         for (AppleFile file : ac.getFiles ())
-          if (file.isValidFile ())
+          if (displayFile (file))
             children.add (new AppleTreeNode (file));
 
         for (AppleFileSystem fs : ac.getFileSystems ())
@@ -306,6 +306,22 @@ public class AppleTreeNode
     }
 
     return children;
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private boolean displayFile (AppleFile file)
+  // ---------------------------------------------------------------------------------//
+  {
+    String fileName = file.getFileName ();
+
+    if (fileName.length () == 0)
+      return false;
+
+    for (char c : fileName.toCharArray ())
+      if (c < 32 || c == 0x7F)
+        return false;
+
+    return file.hasData ();
   }
 
   // ---------------------------------------------------------------------------------//

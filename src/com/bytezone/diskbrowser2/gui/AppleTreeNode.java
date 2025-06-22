@@ -13,7 +13,6 @@ import com.bytezone.filesystem.AppleContainer;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFilePath;
 import com.bytezone.filesystem.AppleFileSystem;
-import com.bytezone.filesystem.AppleForkedFile;
 import com.bytezone.utility.Utility;
 
 import javafx.scene.image.Image;
@@ -238,11 +237,11 @@ public class AppleTreeNode
 
   // Data or Resource
   // ---------------------------------------------------------------------------------//
-  boolean isAppleFork ()
-  // ---------------------------------------------------------------------------------//
-  {
-    return appleFile != null && appleFile.isFork ();
-  }
+  //  boolean isAppleFork ()
+  //  // ---------------------------------------------------------------------------------//
+  //  {
+  //    return appleFile != null && appleFile.isFork ();
+  //  }
 
   // ---------------------------------------------------------------------------------//
   boolean isAppleContainer ()
@@ -251,8 +250,8 @@ public class AppleTreeNode
     if (appleFileSystem != null)
       return true;
 
-    return appleFile != null
-        && (appleFile instanceof AppleContainer || appleFile.isForkedFile ());
+    return appleFile != null && appleFile instanceof AppleContainer;
+    //        && (appleFile instanceof AppleContainer || appleFile.isForkedFile ());
   }
 
   // ---------------------------------------------------------------------------------//
@@ -300,9 +299,9 @@ public class AppleTreeNode
           children.add (new AppleTreeNode (fs));
       }
 
-      if (appleFile.isForkedFile ())
-        for (AppleFile file : ((AppleForkedFile) appleFile).getForks ())
-          children.add (new AppleTreeNode (file));
+      //      if (appleFile.isForkedFile ())
+      //        for (AppleFile file : ((AppleForkedFile) appleFile).getForks ())
+      //          children.add (new AppleTreeNode (file));
     }
 
     return children;
@@ -411,7 +410,7 @@ public class AppleTreeNode
     formatText (text, "Is AppleFileSystem", isAppleFileSystem ());
     formatText (text, "Is AppleDataFile", isAppleDataFile ());
     formatText (text, "Is AppleContainer", isAppleContainer ());
-    formatText (text, "Is AppleFork", isAppleFork ());
+    //    formatText (text, "Is AppleFork", isAppleFork ());
     formatText (text, "Is AppleForkedFile", isAppleForkedFile ());
     formatText (text, "Is AppleFolder", isAppleFolder ());
     formatText (text, "Is LocalDirectory", isLocalDirectory ());

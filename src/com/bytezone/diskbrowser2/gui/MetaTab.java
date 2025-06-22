@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
-import com.bytezone.filesystem.AppleFile.ForkType;
 import com.bytezone.filesystem.AppleFileSystem;
 
 import javafx.scene.input.KeyCode;
@@ -81,9 +80,9 @@ public class MetaTab extends DBTextTab
         lines.add (frameHeader ("Apple Folder"));
       else if (appleTreeNode.isAppleForkedFile ())
         lines.add (frameHeader ("Forked File"));
-      else if (appleTreeNode.isAppleFork ())
-        lines.add (frameHeader (
-            (appleFile.getForkType () == ForkType.DATA ? "Data" : "Resource") + " Fork"));
+      //      else if (appleTreeNode.isAppleFork ())
+      //        lines.add (frameHeader (
+      //            (appleFile.getForkType () == ForkType.DATA ? "Data" : "Resource") + " Fork"));
       else if (appleTreeNode.isAppleDataFile () || appleTreeNode.isAppleFile ())
         lines.add (frameHeader ("Apple File"));
       else if (appleTreeNode.isLocalDirectory ())

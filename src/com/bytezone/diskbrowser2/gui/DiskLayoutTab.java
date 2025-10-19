@@ -52,8 +52,10 @@ public class DiskLayoutTab extends TabBase
     appleFile = appleTreeNode.getAppleFile ();
     appleFileSystem = appleTreeNode.getAppleFileSystem ();    // will be the efs
 
+    // fix this
     AppleFileSystem embeddedFs =
-        appleFile == null ? null : appleFile.getEmbeddedFileSystem ();
+        appleFile == null ? null : appleFile.hasEmbeddedFileSystem ()
+            ? appleFile.getEmbeddedFileSystems ().get (0) : null;
     AppleFileSystem parentFs =
         appleFile == null ? null : appleFile.getParentFileSystem ();
 

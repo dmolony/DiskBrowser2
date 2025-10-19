@@ -51,7 +51,8 @@ class HexTab extends DBTextTab
     }
     else if (appleFile != null && appleFile.hasEmbeddedFileSystem ())
     {
-      AppleFileSystem afs = appleFile.getEmbeddedFileSystem ();
+      // fix this
+      AppleFileSystem afs = appleFile.getEmbeddedFileSystems ().get (0);
       Buffer dataBuffer = afs.getDiskBuffer ();
       buffer = dataBuffer.data ();
       offset = dataBuffer.offset ();

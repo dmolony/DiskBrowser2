@@ -40,6 +40,8 @@ public class AppleTreeNode
   public AppleTreeNode (AppleFileSystem appleFileSystem)
   // ---------------------------------------------------------------------------------//
   {
+    reset ();
+
     this.appleFileSystem = appleFileSystem;
 
     if (appleFileSystem.isHybridComponent ())    // one of two file systems in FsHybrid
@@ -56,9 +58,9 @@ public class AppleTreeNode
   public AppleTreeNode (AppleFile appleFile)
   // ---------------------------------------------------------------------------------//
   {
-    this.appleFile = appleFile;
+    reset ();
 
-    appleFileSystem = appleFile.getEmbeddedFileSystem ();         // usually null
+    this.appleFile = appleFile;
 
     name = appleFile.getFileName ();
 
@@ -75,6 +77,8 @@ public class AppleTreeNode
   public AppleTreeNode (File file)
   // ---------------------------------------------------------------------------------//
   {
+    reset ();
+
     assert !file.isHidden ();
 
     this.path = file.toPath ();
@@ -99,6 +103,14 @@ public class AppleTreeNode
       prefix = sortString.substring (0, name.length () - suffix.length ());
       extensionNo = AppleTreeView.fileSystemFactory.getSuffixNumber (file.getName ());
     }
+  }
+
+  // ---------------------------------------------------------------------------------//
+  private void reset ()
+  // ---------------------------------------------------------------------------------//
+  {
+    appleFile = null;
+    appleFileSystem = null;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -218,7 +230,7 @@ public class AppleTreeNode
   boolean isAppleFileSystem ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFileSystem != null;       // includes embedded FS
+    return appleFileSystem != null;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -243,14 +255,19 @@ public class AppleTreeNode
   //    return appleFile != null && appleFile.isFork ();
   //  }
 
+  // return true if the node has children that should have nodes
   // ---------------------------------------------------------------------------------//
-  boolean isAppleContainer ()
+  boolean hasChildNodes ()
   // ---------------------------------------------------------------------------------//
   {
     if (appleFileSystem != null)
       return true;
 
-    return appleFile != null && appleFile instanceof AppleContainer;
+    if (appleFile != null)
+      return appleFile.hasEmbeddedFileSystem () || appleFile instanceof AppleContainer;
+
+    return false;
+
     //        && (appleFile instanceof AppleContainer || appleFile.isForkedFile ());
   }
 
@@ -258,7 +275,7 @@ public class AppleTreeNode
   boolean isAppleDataFile ()
   // ---------------------------------------------------------------------------------//
   {
-    return appleFile != null && !isAppleContainer ();
+    return appleFile != null && !hasChildNodes ();
   }
 
   // ---------------------------------------------------------------------------------//
@@ -289,6 +306,9 @@ public class AppleTreeNode
 
     if (appleFile != null)
     {
+      for (AppleFileSystem afs : appleFile.getEmbeddedFileSystems ())
+        children.add (new AppleTreeNode (afs));
+
       if (appleFile instanceof AppleContainer ac)
       {
         for (AppleFile file : ac.getFiles ())
@@ -409,7 +429,7 @@ public class AppleTreeNode
     formatText (text, "Is AppleFile", isAppleFile ());
     formatText (text, "Is AppleFileSystem", isAppleFileSystem ());
     formatText (text, "Is AppleDataFile", isAppleDataFile ());
-    formatText (text, "Is AppleContainer", isAppleContainer ());
+    formatText (text, "Is AppleContainer", hasChildNodes ());
     //    formatText (text, "Is AppleFork", isAppleFork ());
     formatText (text, "Is AppleForkedFile", isAppleForkedFile ());
     formatText (text, "Is AppleFolder", isAppleFolder ());

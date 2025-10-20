@@ -61,11 +61,6 @@ public class MetaTab extends DBTextTab
       lines.add (appleFileSystem.toString ());
     }
 
-    // fix this
-    if (appleFile != null && appleFile.hasEmbeddedFileSystem ()
-        && appleFile.getEmbeddedFileSystems ().get (0) != appleFileSystem)
-      System.out.println ("mismatch");
-
     return lines;
   }
 

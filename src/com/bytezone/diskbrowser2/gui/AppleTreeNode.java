@@ -13,6 +13,7 @@ import com.bytezone.filesystem.AppleContainer;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFilePath;
 import com.bytezone.filesystem.AppleFileSystem;
+import com.bytezone.filesystem.FsNuFX;
 import com.bytezone.utility.Utility;
 
 import javafx.scene.image.Image;
@@ -40,8 +41,6 @@ public class AppleTreeNode
   public AppleTreeNode (AppleFileSystem appleFileSystem)
   // ---------------------------------------------------------------------------------//
   {
-    reset ();
-
     this.appleFileSystem = appleFileSystem;
 
     if (appleFileSystem.isHybridComponent ())    // one of two file systems in FsHybrid
@@ -58,8 +57,6 @@ public class AppleTreeNode
   public AppleTreeNode (AppleFile appleFile)
   // ---------------------------------------------------------------------------------//
   {
-    reset ();
-
     this.appleFile = appleFile;
 
     name = appleFile.getFileName ();
@@ -77,8 +74,6 @@ public class AppleTreeNode
   public AppleTreeNode (File file)
   // ---------------------------------------------------------------------------------//
   {
-    reset ();
-
     assert !file.isHidden ();
 
     this.path = file.toPath ();
@@ -103,14 +98,6 @@ public class AppleTreeNode
       prefix = sortString.substring (0, name.length () - suffix.length ());
       extensionNo = AppleTreeView.fileSystemFactory.getSuffixNumber (file.getName ());
     }
-  }
-
-  // ---------------------------------------------------------------------------------//
-  private void reset ()
-  // ---------------------------------------------------------------------------------//
-  {
-    appleFile = null;
-    appleFileSystem = null;
   }
 
   // ---------------------------------------------------------------------------------//
@@ -296,9 +283,14 @@ public class AppleTreeNode
 
     if (appleFileSystem != null)
     {
+      boolean isNuFX = appleFileSystem instanceof FsNuFX;
       for (AppleFile file : appleFileSystem.getFiles ())
-        if (displayFile (file))
+      {
+        if (isNuFX && file.hasEmbeddedFileSystem ())        // a disk image
+          children.add (new AppleTreeNode (file.getEmbeddedFileSystems ().get (0)));
+        else if (displayFile (file))
           children.add (new AppleTreeNode (file));
+      }
 
       for (AppleFileSystem fs : appleFileSystem.getFileSystems ())
         children.add (new AppleTreeNode (fs));
@@ -309,13 +301,13 @@ public class AppleTreeNode
       for (AppleFileSystem afs : appleFile.getEmbeddedFileSystems ())
         children.add (new AppleTreeNode (afs));
 
-      if (appleFile instanceof AppleContainer ac)
+      if (appleFile instanceof AppleContainer appleContainer)
       {
-        for (AppleFile file : ac.getFiles ())
+        for (AppleFile file : appleContainer.getFiles ())
           if (displayFile (file))
             children.add (new AppleTreeNode (file));
 
-        for (AppleFileSystem fs : ac.getFileSystems ())
+        for (AppleFileSystem fs : appleContainer.getFileSystems ())
           children.add (new AppleTreeNode (fs));
       }
 
@@ -327,6 +319,7 @@ public class AppleTreeNode
     return children;
   }
 
+  // Weed out some of the obvious catalog junk (usually Beagle Bros)
   // ---------------------------------------------------------------------------------//
   private boolean displayFile (AppleFile file)
   // ---------------------------------------------------------------------------------//
@@ -441,6 +434,8 @@ public class AppleTreeNode
     return Utility.rtrim (text);
   }
 
+  // This is used to display the node name in the tree display. Standard apple files
+  // will usually have their file type and size included.
   // ---------------------------------------------------------------------------------//
   @Override
   public String toString ()

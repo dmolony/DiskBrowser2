@@ -36,6 +36,7 @@ public class AppleTreeNode
   private final String suffix;
 
   private final String sortString;
+  private boolean debug = false;
 
   // ---------------------------------------------------------------------------------//
   public AppleTreeNode (AppleFileSystem appleFileSystem)
@@ -237,7 +238,7 @@ public class AppleTreeNode
   // Data or Resource
   // ---------------------------------------------------------------------------------//
   //  boolean isAppleFork ()
-  //  // ---------------------------------------------------------------------------------//
+  //  // -----------------------------------------------------------------------------//
   //  {
   //    return appleFile != null && appleFile.isFork ();
   //  }
@@ -281,30 +282,44 @@ public class AppleTreeNode
   {
     List<AppleTreeNode> children = new ArrayList<> ();
 
+    if (debug)
+      display ();
+
     if (appleFileSystem != null)
     {
       boolean isNuFX = appleFileSystem instanceof FsNuFX;
       for (AppleFile file : appleFileSystem.getFiles ())
       {
+        // replace NuFX disk image files with its embedded FS
+
         if (isNuFX && file.hasEmbeddedFileSystem ())        // a disk image
           children.add (new AppleTreeNode (file.getEmbeddedFileSystems ().get (0)));
-        else if (displayFile (file))
+        else if (nameOK (file))
           children.add (new AppleTreeNode (file));
       }
 
       for (AppleFileSystem fs : appleFileSystem.getFileSystems ())
+      {
+        if (debug)
+          System.out.printf ("  File System     %s%n", fs.getFileName ());
         children.add (new AppleTreeNode (fs));
+      }
     }
 
     if (appleFile != null)
     {
+      if (debug)
+      {
+        System.out.printf ("AppleFile           %s%n",
+            appleFile == null ? "None" : appleFile.getFileName ());
+      }
       for (AppleFileSystem afs : appleFile.getEmbeddedFileSystems ())
         children.add (new AppleTreeNode (afs));
 
       if (appleFile instanceof AppleContainer appleContainer)
       {
         for (AppleFile file : appleContainer.getFiles ())
-          if (displayFile (file))
+          if (nameOK (file))
             children.add (new AppleTreeNode (file));
 
         for (AppleFileSystem fs : appleContainer.getFileSystems ())
@@ -319,14 +334,51 @@ public class AppleTreeNode
     return children;
   }
 
+  // ---------------------------------------------------------------------------------//
+  private void display ()
+  // ---------------------------------------------------------------------------------//
+  {
+    if (appleFileSystem != null)
+    {
+      System.out.printf ("AppleFileSystem      %s%n",
+          appleFileSystem == null ? "None" : appleFileSystem.getFileName ());
+      boolean isNuFX = appleFileSystem instanceof FsNuFX;
+      for (AppleFile file : appleFileSystem.getFiles ())
+        if (isNuFX)
+          System.out.printf ("IsNuFX and hasEmbedded  %s%n",
+              isNuFX && file.hasEmbeddedFileSystem () ? "true" : "false");
+
+      for (AppleFileSystem fs : appleFileSystem.getFileSystems ())
+        System.out.printf ("  File System     %s%n", fs.getFileName ());
+    }
+
+    if (appleFile != null)
+    {
+      System.out.printf ("AppleFile           %s%n",
+          appleFile == null ? "None" : appleFile.getFileName ());
+
+      if (appleFile instanceof AppleContainer appleContainer)
+      {
+        System.out.printf ("AppleContainer           %s%n", appleFile);
+
+        for (AppleFileSystem fs : appleContainer.getFileSystems ())
+          System.out.printf ("AppleFileSystem      %s%n", fs.getFileName ());
+      }
+
+      //      if (appleFile.isForkedFile ())
+      //        for (AppleFile file : ((AppleForkedFile) appleFile).getForks ())
+      //          children.add (new AppleTreeNode (file));
+    }
+  }
+
   // Weed out some of the obvious catalog junk (usually Beagle Bros)
   // ---------------------------------------------------------------------------------//
-  private boolean displayFile (AppleFile file)
+  private boolean nameOK (AppleFile file)
   // ---------------------------------------------------------------------------------//
   {
     String fileName = file.getFileName ();
 
-    if (fileName.length () == 0)
+    if (!file.isFileNameValid () || fileName.length () == 0)
       return false;
 
     for (char c : fileName.toCharArray ())

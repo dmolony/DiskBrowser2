@@ -39,6 +39,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
   private DBStageManager dbStageManager;
 
   private final FileMenu fileMenu = new FileMenu ("File");
+  private final EditMenu editMenu = new EditMenu ("Edit");
   private final ViewMenu viewMenu = new ViewMenu ("View");
 
   // ---------------------------------------------------------------------------------//
@@ -110,6 +111,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
 
     // tab change listeners
     outputTabPane.addTabChangeListener (viewMenu);
+    outputTabPane.addTabChangeListener (editMenu);
     rightTabPane.addTabChangeListener (extrasHeaderBar);
 
     // preference change listeners
@@ -122,7 +124,7 @@ public class DiskBrowserApp extends AppBase implements SaveState
     treePane.addSuffixTotalsListener (rightTabPane.includeFilesTab.optionsPaneFileFilter);
 
     // add menus
-    menuBar.getMenus ().addAll (fileMenu, viewMenu);
+    menuBar.getMenus ().addAll (fileMenu, editMenu, viewMenu);
 
     fileMenu.setOutputWriter (outputTabPane.dataTab);
 

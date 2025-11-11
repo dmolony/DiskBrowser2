@@ -8,12 +8,10 @@ import com.bytezone.appbase.TextTabBase;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
 // -----------------------------------------------------------------------------------//
 public abstract class DBTextTab extends TextTabBase
@@ -22,9 +20,6 @@ public abstract class DBTextTab extends TextTabBase
   private static final String PREFS_LINE_WRAP = "LineWrap";
 
   private static final int PAD = 40;
-
-  private final TextFlow textFlow = new TextFlow ();
-  private final ScrollPane scrollPane = new ScrollPane (textFlow);
 
   DBTextFormatter textFormatter = new DBTextFormatter ();
   private boolean lineWrap;

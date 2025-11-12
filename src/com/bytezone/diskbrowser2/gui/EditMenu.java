@@ -22,7 +22,7 @@ public class EditMenu extends Menu implements TabChangeListener
   {
     super (name);
 
-    getItems ().addAll (copyMenuItem);//, new SeparatorMenuItem (), aboutMenuItem);
+    getItems ().addAll (copyMenuItem);
     copyMenuItem.setAccelerator (
         new KeyCodeCombination (KeyCode.C, KeyCombination.SHORTCUT_DOWN));
     copyMenuItem.setOnAction (e -> copyFile ());

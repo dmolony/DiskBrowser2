@@ -188,6 +188,9 @@ public class DiskBrowserApp extends AppBase implements SaveState
   {
     super.keyPressed (keyEvent);
 
+    if (keyEvent.isMetaDown ())
+      return;
+
     boolean eventHandled = true;
 
     switch (keyEvent.getCode ())

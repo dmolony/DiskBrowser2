@@ -64,6 +64,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
     assert parent.hasChildNodes ();
 
     for (AppleTreeNode treeNode : parent.listAppleFiles ())
+    {
       if (treeNode.hasSubdirectories ())    // ApplePath with a separator in the name
       {
         // find or create the folder path
@@ -76,6 +77,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
       }
       else
         children.add (new AppleTreeItem (treeNode));
+    }
 
     if (children.size () > 0)
       AppleTreeView.getTreeView ().startBuilding (this);              // JDK-8293018

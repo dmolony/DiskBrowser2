@@ -313,6 +313,7 @@ public class AppleTreeNode
         System.out.printf ("AppleFile           %s%n",
             appleFile == null ? "None" : appleFile.getFileName ());
       }
+
       for (AppleFileSystem afs : appleFile.getEmbeddedFileSystems ())
         children.add (new AppleTreeNode (afs));
 

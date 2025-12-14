@@ -20,7 +20,6 @@ public class DiskLayoutTab extends TabBase
   protected KeyPanePascal keyPanePascal = new KeyPanePascal ();
   protected KeyPaneCpm keyPaneCpm = new KeyPaneCpm ();
 
-  //  protected AppleTreeItem appleTreeItem;
   protected AppleFile appleFile;
   protected AppleFileSystem appleFileSystem;
 

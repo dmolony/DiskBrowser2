@@ -205,6 +205,9 @@ class AppleTreeView extends TreeView<AppleTreeNode>
       {
         int row = getRow (optionalNode.get ());
         model.select (row);
+
+        // javafx sux
+        //        Platform.runLater ( () -> scrollTo (model.getSelectedIndex ()));
         scrollTo (model.getSelectedIndex ());
       }
     }

@@ -35,6 +35,7 @@ public class DiskLayoutGroup extends Group implements SaveState
   private static final int GRID_PADDING = 0;
   private static final int SCREEN_ROWS = 35;
   private static final int MAX_HALF_BLOCKS = 32;
+  private static final int MAX_SCREEN_BLOCKS = SCREEN_ROWS * MAX_HALF_BLOCKS;
 
   private static final int GRID_HEIGHT = SCREEN_ROWS * SIZE_H - 1;
   private static final int GRID_WIDTH = MAX_HALF_BLOCKS * SIZE_W - 1;
@@ -520,20 +521,19 @@ public class DiskLayoutGroup extends Group implements SaveState
   // ---------------------------------------------------------------------------------//
   {
     if (blocks == null || blocks.size () == 0)
-    {
-      //      System.out.println ("file has no blocks");
       return;
-    }
 
     // get the middle block number
     AppleBlock block = blocks.get ((blocks.size () - 1) / 2);
-    if (block == null)                            // sparse file
+    if (block == null                             // sparse file
+        || blocks.size () > SCREEN_ROWS * diskColumns)
       for (AppleBlock anyBlock : blocks)
         if (anyBlock != null)                     // just get the first non-null entry
         {
           block = anyBlock;
           break;
         }
+
     int blockNo = block.getBlockNo ();
 
     // calculate the position that we want to be visible

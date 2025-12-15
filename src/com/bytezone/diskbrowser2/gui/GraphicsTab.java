@@ -22,13 +22,10 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   private static final double FONT_SCALE = 4;
   private static final double ICON_SCALE = 5;
 
-  //  private AppleTreeNode appleTreeNode;
   private AppleFile appleFile;
-  //  private AppleFileSystem appleFileSystem;
   private FormattedAppleFile formattedAppleFile;
-  //  private AppleBlock appleBlock;
-  private Timeline clock;
 
+  private Timeline clock;
   private double scale;
 
   // ---------------------------------------------------------------------------------//
@@ -85,13 +82,8 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
       FormattedAppleFile formattedAppleFile)
   // ---------------------------------------------------------------------------------//
   {
-    //    appleBlock = null;
-
-    //    this.appleTreeNode = appleTreeNode;
     this.formattedAppleFile = formattedAppleFile;
     appleFile = appleTreeNode.getAppleFile ();
-    //    appleFileSystem = appleTreeNode.getAppleFileSystem ();
-    //    formattedAppleFile = appleTreeNode.getFormattedAppleFile ();
 
     if (formattedAppleFile instanceof Animation animation)
     {
@@ -100,7 +92,10 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
       clock.getKeyFrames ()
           .add (new KeyFrame (Duration.millis (animation.getDelay () * 33),
               (ActionEvent event) -> nextFrame (event)));
-      //      System.out.println (toString (clock, animation));
+
+      if (false)
+        System.out.println (details (clock, animation));
+
       clock.play ();
     }
     else
@@ -115,7 +110,6 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   {
     appleFile = null;
     formattedAppleFile = null;
-    //    this.appleBlock = appleBlock;
 
     refresh ();
   }
@@ -129,7 +123,7 @@ public class GraphicsTab extends DBGraphicsTab implements PreferenceChangeListen
   }
 
   // ---------------------------------------------------------------------------------//
-  private String toString (Timeline clock, Animation animation)
+  private String details (Timeline clock, Animation animation)
   // ---------------------------------------------------------------------------------//
   {
     StringBuilder text = new StringBuilder ();

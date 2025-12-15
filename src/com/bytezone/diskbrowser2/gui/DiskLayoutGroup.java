@@ -31,11 +31,11 @@ public class DiskLayoutGroup extends Group implements SaveState
 
   private static final int SIZE_H = 18;
   private static final int SIZE_W = SIZE_H / 2;
+
   private static final int SIZE_SB = 16;
   private static final int GRID_PADDING = 0;
   private static final int SCREEN_ROWS = 35;
   private static final int MAX_HALF_BLOCKS = 32;
-  private static final int MAX_SCREEN_BLOCKS = SCREEN_ROWS * MAX_HALF_BLOCKS;
 
   private static final int GRID_HEIGHT = SCREEN_ROWS * SIZE_H - 1;
   private static final int GRID_WIDTH = MAX_HALF_BLOCKS * SIZE_W - 1;

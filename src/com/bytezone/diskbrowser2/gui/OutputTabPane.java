@@ -10,6 +10,7 @@ import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.appleformat.block.FormattedAppleBlock;
 import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
+import com.bytezone.diskbrowser2.gui.GridClickEvent.GridClickType;
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
 import com.bytezone.filesystem.AppleFileSystem;
@@ -140,19 +141,29 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
   public void gridClick (GridClickEvent event)
   // ---------------------------------------------------------------------------------//
   {
-    if (appleBlock == event.block)
-      return;
+    switch (event.gridClickType)
+    {
+      case GridClickType.SINGLE:
+        if (appleBlock == event.block)
+          return;
 
-    treeNode = null;
-    formattedAppleFile = null;
-    appleBlock = event.block;
-    if (appleBlock.getUserData () == null)
-      appleBlock.setUserData (getFormattedAppleBlock (event.block));
+        treeNode = null;
+        formattedAppleFile = null;
+        appleBlock = event.block;
 
-    dataTab.setAppleBlock (appleBlock);
-    graphicsTab.setAppleBlock (appleBlock);
-    extrasTab.setAppleBlock (appleBlock);
-    hexTab.setAppleBlock (appleBlock);
-    metaTab.setAppleBlock (appleBlock);
+        if (appleBlock.getUserData () == null)
+          appleBlock.setUserData (getFormattedAppleBlock (event.block));
+
+        dataTab.setAppleBlock (appleBlock);
+        graphicsTab.setAppleBlock (appleBlock);
+        extrasTab.setAppleBlock (appleBlock);
+        hexTab.setAppleBlock (appleBlock);
+        metaTab.setAppleBlock (appleBlock);
+        break;
+
+      case MULTI:
+        System.out.println ("MULTI grid click not written");
+        break;
+    }
   }
 }

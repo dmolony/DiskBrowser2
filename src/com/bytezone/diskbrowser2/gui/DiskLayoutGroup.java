@@ -67,6 +67,7 @@ public class DiskLayoutGroup extends Group implements SaveState
 
   private int firstRow = -1;
   private int firstColumn = -1;
+
   private int selectedBlockNo = -1;
   private List<AppleBlock> selectedBlocks;
 
@@ -390,7 +391,7 @@ public class DiskLayoutGroup extends Group implements SaveState
         if (selectedBlockNo < 0)            // nothing currently selected
           return;
 
-        int blockNo = switch (event.getCode ())
+        int newBlockNo = switch (event.getCode ())
         {
           case LEFT -> selectedBlockNo - 1;
           case RIGHT -> selectedBlockNo + 1;
@@ -399,15 +400,26 @@ public class DiskLayoutGroup extends Group implements SaveState
           default -> -999;
         };
 
-        if (blockNo != -999)                // an arrow key was pressed
-          event.consume ();
+        if (newBlockNo == -999)                // not an arrow key
+          return;
 
-        if (selectedBlockNo != blockNo && blockNo >= 0
-            && blockNo < fileSystem.getTotalBlocks ())
+        event.consume ();
+
+        if (newBlockNo < 0 || newBlockNo >= fileSystem.getTotalBlocks ())
+          return;
+
+        if (event.isShiftDown ())
         {
-          notifyClickListeners (selectedBlockNo, blockNo);
-          selectedBlockNo = blockNo;
-          ensureVisible (blockNo);
+          // extend current selection
+          System.out.println ("key-shift");
+        }
+
+        if (selectedBlockNo != newBlockNo && newBlockNo >= 0
+            && newBlockNo < fileSystem.getTotalBlocks ())
+        {
+          notifyClickListeners (selectedBlockNo, newBlockNo);
+          selectedBlockNo = newBlockNo;
+          ensureVisible (newBlockNo);
           drawGrid ();
         }
       }
@@ -430,6 +442,12 @@ public class DiskLayoutGroup extends Group implements SaveState
         int row = y / SIZE_H + (int) scrollBarV.getValue ();
         int col = x / blockWidth + (int) scrollBarH.getValue ();
         int blockNo = row * diskColumns + col;
+
+        if (event.isShiftDown ())
+        {
+          // extend selection
+          System.out.println ("click-shift");
+        }
 
         if (blockNo >= 0 && blockNo != selectedBlockNo)
         {

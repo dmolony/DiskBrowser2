@@ -10,6 +10,7 @@ import com.bytezone.appleformat.FormattedAppleFileFactory;
 import com.bytezone.appleformat.block.FormattedAppleBlock;
 import com.bytezone.appleformat.file.FormattedAppleFile;
 import com.bytezone.diskbrowser2.gui.AppleTreeView.TreeNodeListener;
+import com.bytezone.diskbrowser2.gui.EditMenu.RefreshNodeListener;
 import com.bytezone.diskbrowser2.gui.GridClickEvent.GridClickType;
 import com.bytezone.filesystem.AppleBlock;
 import com.bytezone.filesystem.AppleFile;
@@ -18,7 +19,8 @@ import com.bytezone.filesystem.AppleFileSystem;
 import javafx.scene.input.KeyCode;
 
 // -----------------------------------------------------------------------------------//
-class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickListener
+class OutputTabPane extends TabPaneBase
+    implements TreeNodeListener, GridClickListener, RefreshNodeListener
 // -----------------------------------------------------------------------------------//
 {
   final DataTab dataTab = new DataTab ("Data", KeyCode.D);
@@ -119,7 +121,7 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (AppleTreeNode treeNode)
+  public void treeNodeSelected (AppleTreeNode treeNode, AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
     if (this.treeNode == treeNode)
@@ -165,5 +167,16 @@ class OutputTabPane extends TabPaneBase implements TreeNodeListener, GridClickLi
         System.out.println ("MULTI grid click not written");
         break;
     }
+  }
+
+  // prepare for a new TreeNodeSelected event
+  // ---------------------------------------------------------------------------------//
+  @Override
+  public void refreshNode (AppleTreeItem appleTreeItem)
+  // ---------------------------------------------------------------------------------//
+  {
+    treeNode = null;
+    formattedAppleFile = null;
+    appleBlock = null;
   }
 }

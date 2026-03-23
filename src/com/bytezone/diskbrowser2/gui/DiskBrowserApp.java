@@ -99,11 +99,11 @@ public class DiskBrowserApp extends AppBase implements SaveState
 
     // treeview listeners
     treePane.addTreeNodeListener (fileMenu);
+    treePane.addTreeNodeListener (editMenu);
     treePane.addTreeNodeListener (outputTabPane);
     treePane.addTreeNodeListener (rightTabPane);
     treePane.addTreeNodeListener (outputHeaderBar);
     treePane.addTreeNodeListener (extrasHeaderBar);
-    //    treePane.addTreeNodeListener (extrasHeaderBar);
 
     // grid click listeners
     rightTabPane.diskLayoutTab.addClickListener (outputTabPane);
@@ -119,6 +119,9 @@ public class DiskBrowserApp extends AppBase implements SaveState
     rightTabPane.fileOptionsTab.addListener (outputTabPane.graphicsTab);
     rightTabPane.fileOptionsTab.addListener (outputTabPane.extrasTab);
     rightTabPane.includeFilesTab.addListener (treePane);
+
+    // refresh node listeners
+    editMenu.addListener (outputTabPane);
 
     // suffix totals listeners
     treePane.addSuffixTotalsListener (rightTabPane.includeFilesTab.optionsPaneFileFilter);

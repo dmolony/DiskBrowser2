@@ -24,7 +24,7 @@ class OutputHeaderBar extends HeaderBar implements TreeNodeListener, GridClickLi
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (AppleTreeNode appleTreeNode)
+  public void treeNodeSelected (AppleTreeNode appleTreeNode, AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
     treeNode = appleTreeNode;

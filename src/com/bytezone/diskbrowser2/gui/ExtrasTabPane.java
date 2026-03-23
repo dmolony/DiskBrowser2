@@ -35,7 +35,7 @@ class ExtrasTabPane extends TabPaneBase implements TreeNodeListener
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (AppleTreeNode appleTreeNode)
+  public void treeNodeSelected (AppleTreeNode appleTreeNode, AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
     includeFilesTab.setAppleTreeNode (appleTreeNode);

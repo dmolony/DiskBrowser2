@@ -120,7 +120,7 @@ class AppleTreeView extends TreeView<AppleTreeNode>
     treeNode.checkForFileSystem ();       // also called by AppleTreeItem.getChildren()
 
     for (TreeNodeListener listener : treeNodeListeners)
-      listener.treeNodeSelected (treeNode);
+      listener.treeNodeSelected (treeNode, appleTreeItem);
   }
 
   // ---------------------------------------------------------------------------------//
@@ -234,6 +234,6 @@ class AppleTreeView extends TreeView<AppleTreeNode>
   interface TreeNodeListener
   // ---------------------------------------------------------------------------------//
   {
-    public void treeNodeSelected (AppleTreeNode treeNode);
+    public void treeNodeSelected (AppleTreeNode treeNode, AppleTreeItem treeItem);
   }
 }

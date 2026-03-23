@@ -45,7 +45,7 @@ public class ExtrasHeaderBar extends HeaderBar
 
   // ---------------------------------------------------------------------------------//
   @Override
-  public void treeNodeSelected (AppleTreeNode appleTreeNode)
+  public void treeNodeSelected (AppleTreeNode appleTreeNode, AppleTreeItem appleTreeItem)
   // ---------------------------------------------------------------------------------//
   {
     appleBlock = null;

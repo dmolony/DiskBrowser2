@@ -277,7 +277,7 @@ public class AppleTreeNode
   }
 
   // ---------------------------------------------------------------------------------//
-  List<AppleTreeNode> listAppleFiles ()
+  List<AppleTreeNode> createNodes ()
   // ---------------------------------------------------------------------------------//
   {
     List<AppleTreeNode> children = new ArrayList<> ();
@@ -314,8 +314,8 @@ public class AppleTreeNode
             appleFile == null ? "None" : appleFile.getFileName ());
       }
 
-      for (AppleFileSystem afs : appleFile.getEmbeddedFileSystems ())
-        children.add (new AppleTreeNode (afs));
+      for (AppleFileSystem fs : appleFile.getEmbeddedFileSystems ())
+        children.add (new AppleTreeNode (fs));
 
       if (appleFile instanceof AppleContainer appleContainer)
       {
@@ -335,6 +335,7 @@ public class AppleTreeNode
     return children;
   }
 
+  // debugging
   // ---------------------------------------------------------------------------------//
   private void display ()
   // ---------------------------------------------------------------------------------//
@@ -418,6 +419,18 @@ public class AppleTreeNode
   }
 
   // ---------------------------------------------------------------------------------//
+  void refresh ()
+  // ---------------------------------------------------------------------------------//
+  {
+    System.out.printf ("%s%n", name);
+    //    System.out.println (toDetailedString ());
+    //    System.out.println (getText ());
+    //    System.out.println ();
+    //    appleFileSystem = null;
+    //    checkForFileSystem ();
+  }
+
+  // ---------------------------------------------------------------------------------//
   private String toDetailedString ()
   // ---------------------------------------------------------------------------------//
   {
@@ -464,7 +477,7 @@ public class AppleTreeNode
   String getText ()
   // ---------------------------------------------------------------------------------//
   {
-    StringBuilder text = new StringBuilder (super.toString ());
+    StringBuilder text = new StringBuilder ();
 
     formatText (text, "LocalFile", localFile.getName ());
 

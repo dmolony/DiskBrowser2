@@ -5,8 +5,10 @@ import com.bytezone.filesystem.AppleFilePath;
 import com.bytezone.filesystem.AppleFileSystem;
 import com.bytezone.filesystem.Folder;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.TreeItem;
 
 // -----------------------------------------------------------------------------------//
@@ -20,6 +22,72 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
   // ---------------------------------------------------------------------------------//
   {
     super (treeNode);
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void refresh2 ()
+  // ---------------------------------------------------------------------------------//
+  {
+    AppleTreeNode oldNode = this.getValue ();
+    if (!oldNode.isAppleFileSystem ())
+      return;
+
+    System.out.printf ("children 1: %d%n", super.getChildren ().size ());
+
+    firstTimeChildren = true;
+    super.getChildren ().clear ();
+    setValue (new AppleTreeNode (oldNode.getLocalFile ()));
+    getChildren ();
+
+    //    AppleTreeView tv = AppleTreeView.getTreeView ();
+    //    MultipleSelectionModel<TreeItem<AppleTreeNode>> model = tv.getSelectionModel ();
+
+    //    TreeItem<AppleTreeNode> currentSelectedItem = model.getSelectedItem ();
+    //    model.clearSelection ();
+    //    Platform.runLater ( () -> model.select (currentSelectedItem));
+
+    System.out.printf ("children 2: %d%n", super.getChildren ().size ());
+  }
+
+  // ---------------------------------------------------------------------------------//
+  void refresh ()
+  // ---------------------------------------------------------------------------------//
+  {
+    // OutputPane has stored the original TreeNode, so we need to create a new one.
+
+    // create new item with a new node
+    AppleTreeNode oldNode = this.getValue ();
+    if (!(oldNode.isAppleFileSystem () && oldNode.isLocalFile ()))
+      return;
+
+    AppleTreeNode newNode = new AppleTreeNode (oldNode.getLocalFile ());
+    AppleTreeItem ati = new AppleTreeItem (newNode);
+
+    TreeItem<AppleTreeNode> parent = this.getParent ();
+    ObservableList<TreeItem<AppleTreeNode>> children = parent.getChildren ();
+
+    // replace old item with new item
+    for (int i = 0; i < children.size (); i++)
+    {
+      TreeItem<AppleTreeNode> child = children.get (i);
+      //      System.out.println (child);
+      if (child == this)
+      {
+        children.set (i, ati);
+        ati.setExpanded (true);
+        break;
+      }
+    }
+
+    //    this.setValue (new AppleTreeNode (node.getLocalFile ()));
+
+    // how to force a selection of the node?
+    AppleTreeView tv = AppleTreeView.getTreeView ();
+    MultipleSelectionModel<TreeItem<AppleTreeNode>> model = tv.getSelectionModel ();
+
+    //    TreeItem<AppleTreeNode> currentSelectedItem = model.getSelectedItem ();
+    model.clearSelection ();
+    Platform.runLater ( () -> model.select (ati));
   }
 
   // ---------------------------------------------------------------------------------//
@@ -42,6 +110,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
 
     if (firstTimeChildren)
     {
+      //      System.out.println ("building " + this.toString ());
       firstTimeChildren = false;
       assert super.getChildren ().size () == 0;
 
@@ -63,7 +132,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
 
     assert parent.hasChildNodes ();
 
-    for (AppleTreeNode treeNode : parent.listAppleFiles ())
+    for (AppleTreeNode treeNode : parent.createNodes ())
     {
       if (treeNode.hasSubdirectories ())    // ApplePath with a separator in the name
       {

@@ -61,7 +61,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
       return;
 
     AppleTreeNode newNode = new AppleTreeNode (oldNode.getLocalFile ());
-    AppleTreeItem ati = new AppleTreeItem (newNode);
+    AppleTreeItem appleTreeItem = new AppleTreeItem (newNode);
 
     TreeItem<AppleTreeNode> parent = this.getParent ();
     ObservableList<TreeItem<AppleTreeNode>> children = parent.getChildren ();
@@ -70,11 +70,10 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
     for (int i = 0; i < children.size (); i++)
     {
       TreeItem<AppleTreeNode> child = children.get (i);
-      //      System.out.println (child);
       if (child == this)
       {
-        children.set (i, ati);
-        ati.setExpanded (true);
+        children.set (i, appleTreeItem);
+        appleTreeItem.setExpanded (true);
         break;
       }
     }
@@ -87,7 +86,7 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
 
     //    TreeItem<AppleTreeNode> currentSelectedItem = model.getSelectedItem ();
     model.clearSelection ();
-    Platform.runLater ( () -> model.select (ati));
+    Platform.runLater ( () -> model.select (appleTreeItem));
   }
 
   // ---------------------------------------------------------------------------------//

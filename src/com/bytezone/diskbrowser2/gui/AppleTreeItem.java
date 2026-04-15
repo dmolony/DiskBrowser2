@@ -81,8 +81,8 @@ public class AppleTreeItem extends TreeItem<AppleTreeNode>
     //    this.setValue (new AppleTreeNode (node.getLocalFile ()));
 
     // how to force a selection of the node?
-    AppleTreeView tv = AppleTreeView.getTreeView ();
-    MultipleSelectionModel<TreeItem<AppleTreeNode>> model = tv.getSelectionModel ();
+    AppleTreeView treeView = AppleTreeView.getTreeView ();
+    MultipleSelectionModel<TreeItem<AppleTreeNode>> model = treeView.getSelectionModel ();
 
     //    TreeItem<AppleTreeNode> currentSelectedItem = model.getSelectedItem ();
     model.clearSelection ();

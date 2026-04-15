@@ -1,7 +1,7 @@
 ## Example Screens
 This image shows the main interface change from DiskBrowser. Instead of separate tabs
  for each disk, the file tree expands each disk image in place.
-![DataScreen](Screen1.png?raw=true "Data screen")
+![DataScreen](screen1.png?raw=true "Data screen")
 File systems within file systems can be accessed. This screen shows the directory
 listing of a Pascal Area which is stored on a Prodos disk. All of the pascal files can
 be displayed as usual.
@@ -15,13 +15,15 @@ The screen above is the Data Tab, the screen below is the Graphics Tab.
 When a file is selected and the Options pane is active, the options for that file type can be altered. The first block of checkboxes apply when User Format is selected.
 ![Applesoft](applesoft.png?raw=true "Applesoft options")
 Extra file information has moved to the Extras tab. The second block of checkboxes apply to this screen.
-![Extras](extras.png?raw=true "Applesoft Extras Tab")
+![Extras](extras1.png?raw=true "Applesoft Extras Tab")
+If a Prodos image is selected then the Extras screen shows a complete file listing. This can be useful for copying the output to a text editor for printing (use Edit -> Copy to copy the contents of the middle pane to the clipboard).
+![Extras](extras2.png?raw=true "Complete Prodos file listing")
 The file tree can be filtered so that only the selected file types are shown.
-![Filter](teaser4.png?raw=true "File Filter")
+![Filter](filter.png?raw=true "File Filter")
 The Meta tab shows information about the file.
-![Meta](Meta.png?raw=true "Meta Tab")
+![Meta](meta.png?raw=true "Meta Tab")
 Individual blocks can be examined by clicking on the disk display. Once in block display mode, use the arrow keys to navigate to other blocks. Press TAB to return to the file display.
-![Block](Block.png?raw=true "Block Display")
+![Block](block.png?raw=true "Block Display")
 
 ## Key Shortcuts
 Any tab can be activated by pressing the key of the initial letter of the tab name. If the same key is pressed twice in succession then the second keypress causes the previously displayed tab to be reactivated.

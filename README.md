@@ -33,7 +33,7 @@ and that the following command will execute the app:
 ```
 java --module-path /usr/share/openjfx/lib/ --add-modules=javafx.controls -jar "path/to/DiskBrowserApp.jar"
 ``` 
-Thanks to xandark for that tip.
+Thanks to @xandark for that tip.
 
 #### Windows batch file
 ```

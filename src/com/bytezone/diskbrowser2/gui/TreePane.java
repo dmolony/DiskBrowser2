@@ -109,8 +109,8 @@ class TreePane extends BorderPane implements RootFolderChangeListener, FontChang
           rootItem.getChildren ().add (newItem);
           extensionTotals[extensionNo]++;
         }
-        else
-          System.out.println ("Unexpected file type - " + path);
+        //        else
+        //          System.out.println ("Unexpected file type - " + path);    // alias?
       }
     }
     catch (IOException ex)

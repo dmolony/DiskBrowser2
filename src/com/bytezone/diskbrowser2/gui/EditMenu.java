@@ -35,11 +35,11 @@ public class EditMenu extends Menu implements TabChangeListener, TreeNodeListene
 
     copyMenuItem.setAccelerator (
         new KeyCodeCombination (KeyCode.C, KeyCombination.SHORTCUT_DOWN));
-    copyMenuItem.setOnAction (e -> copyFile ());
+    copyMenuItem.setOnAction (_ -> copyFile ());
 
     refreshMenuItem.setAccelerator (
         new KeyCodeCombination (KeyCode.R, KeyCombination.SHORTCUT_DOWN));
-    refreshMenuItem.setOnAction (e -> refresh ());
+    refreshMenuItem.setOnAction (_ -> refresh ());
   }
 
   // ---------------------------------------------------------------------------------//

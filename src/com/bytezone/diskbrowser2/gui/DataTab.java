@@ -65,6 +65,7 @@ class DataTab extends DBTextTab
             String.format ("**** %,d lines omitted ****", lines.length - MAX_LINES));
         break;
       }
+
       newLines.add (line);
     }
 

@@ -25,7 +25,7 @@ On my Mac I have set up an Automator 'Run Shell Script' which looks like this:
 
 I save that file as DiskBrowserApp.app and then drop it in my dock. Now I can run the program with a single click. You can also change the icon using the Info command on the .app file and pasting something better over the existing icon.
 
-On linux I am told that the following will install the required dependencies:
+On Ubuntu/Debian I am told that the following will install the required dependencies:
 ```
 sudo apt install default-jre openjfx
 ```
@@ -33,7 +33,13 @@ and that the following command will execute the app:
 ```
 java --module-path /usr/share/openjfx/lib/ --add-modules=javafx.controls -jar "path/to/DiskBrowserApp.jar"
 ``` 
-Thanks to @xandark for that tip.
+For Arch-based linux:
+```
+sudo pacman -Sy jre java-openjfx   # install dependencies
+
+java -Djava.library.path="/usr/lib/java-openjfx/" --module-path "/usr/share/java/java-openjfx/" --add-modules=javafx.controls --enable-native-access=javafx.graphics  -jar DiskBrowserApp.jar
+```
+Thanks to @xandark for those tips.
 
 #### Windows batch file
 ```
